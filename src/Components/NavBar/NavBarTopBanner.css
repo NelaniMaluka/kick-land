@@ -1,0 +1,28 @@
+.options {
+  background-color: RGB(245, 245, 245);
+  text-align: right;
+}
+
+.options li {
+  text-decoration: none;
+  border-right: medium solid black;
+  line-height: 10px;
+  list-style: none;
+  padding: 0 15px 0 15px;
+  display: inline-block;
+  font-size: 15px;
+}
+
+.options li:last-child {
+  border: none;
+}
+
+.options li a:hover {
+  color: rgb(105, 105, 105);
+}
+
+@media screen and (max-width: 661px) {
+  .options {
+    display: none;
+  }
+}

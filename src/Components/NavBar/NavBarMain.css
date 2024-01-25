@@ -1,0 +1,106 @@
+nav {
+  height: 45px;
+  text-align: center;
+  padding: 10px 0 0 0;
+  margin: 0;
+}
+
+.name {
+  font-size: 30px;
+  float: left;
+  margin-top: -10px;
+  font-family: fantasy;
+}
+
+.name:hover {
+  color: rgb(103, 103, 103);
+}
+
+.sneakers {
+  height: fit-content;
+  width: fit-content;
+  display: inline-block;
+  padding: 0;
+}
+
+.sneakers li {
+  text-decoration: none;
+  padding: 0 15px 0 15px;
+  display: inline-block;
+}
+
+.sneakers li a {
+  font-size: 20px;
+}
+
+.sneakers li a:hover {
+  color: black;
+  text-decoration: line-through;
+}
+
+.cart {
+  float: right;
+}
+
+.cart a {
+  padding: 0 10px 0 10px;
+}
+
+.cart img {
+  width: 25px;
+}
+.hamburger {
+  display: none;
+}
+
+.hamburger-menu {
+  display: none;
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  margin-left: -97%;
+  margin-top: -10px;
+  position: absolute;
+}
+
+.hamburger-menu li {
+  list-style: none;
+}
+
+.hamburger-menu li:first-child {
+  margin-top: 60px;
+}
+
+.hamburger-menu img {
+  float: left;
+  margin: 30px 0 0 30px;
+}
+
+.hamburger-menu .b:first-child {
+  margin-top: 20px;
+}
+
+.hamburger-menu .b {
+  color: rgb(103, 103, 103);
+}
+
+.hamburger-menu .a {
+  font-size: 25px;
+}
+
+.hamburger-menu a:hover {
+  color: black;
+}
+
+@media screen and (max-width: 661px) {
+  nav {
+    padding-top: 10px;
+  }
+  .sneakers {
+    display: none;
+  }
+  .hamburger {
+    display: inline-block;
+  }
+}
