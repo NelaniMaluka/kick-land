@@ -1,0 +1,87 @@
+.hamburger {
+  display: none;
+}
+
+.hamburger-menu {
+  display: none;
+  background-color: white;
+  position: absolute;
+  width: 70%;
+  min-width: 200px;
+  text-align: left;
+  margin-top: -10px;
+  max-height: 100vh;
+  overflow: auto;
+  right: 0%;
+}
+
+.hamburger-menu li {
+  list-style: none;
+  width: 90%;
+  margin: auto;
+}
+
+.hamburger-menu li:first-child {
+  margin-top: 0px;
+}
+.hamburger-menu li:last-child {
+  margin-bottom: 0px;
+}
+
+.hamburger-menu img {
+  float: right;
+  margin: 13px 20px 0 0;
+  width: 20px;
+}
+
+.hamburger-menu .shop li {
+  padding: 20px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.hamburger-menu .details li {
+  padding: 10px;
+}
+
+.hamburger-menu .details a {
+  color: rgb(103, 103, 103);
+}
+
+.hamburger-menu .shop a {
+  font-size: 25px;
+}
+
+.hamburger-menu a:hover {
+  color: black;
+}
+
+.hamburger-header {
+  background-color: RGB(245, 245, 245);
+  height: 50px;
+}
+
+.hamburger-header h1 {
+  margin: 0 0 0 20px;
+  font-size: 30px;
+  display: inline-block;
+}
+hr {
+  border: 1px solid black;
+  width: 90%;
+  margin: auto;
+  padding: 10px;
+}
+
+@media screen and (max-width: 661px) {
+  .hamburger {
+    display: inline-block;
+  }
+  .hamburger-menu {
+    display: none;
+  }
+
+  /* Add a class to show the hamburger menu when it's open */
+  .hamburger-menu.open {
+    display: block;
+  }
+}
