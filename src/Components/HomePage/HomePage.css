@@ -1,0 +1,33 @@
+.banner-section {
+  width: 100%;
+  max-width: 1400px;
+  height: 500px;
+  width: auto;
+  height: auto;
+  position: relative;
+}
+
+section img {
+  width: 100%;
+  height: 100%;
+}
+
+.section div {
+  margin: auto;
+}
+
+.section {
+  margin: 40px 0 40px 0;
+}
+.section button {
+  background-color: white;
+  left: 100px;
+  margin-top: -9%;
+  position: absolute;
+  float: left;
+  width: 150px;
+  height: 50px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: none;
+}
