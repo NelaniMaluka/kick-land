@@ -1,10 +1,12 @@
 import HomePageView1 from "./HomePageView1";
+import FooterBanner from "../Footer/FooterBanner";
 
 function HomePage() {
   return (
-    <div className="container2">
+    <div>
       <HomePageView1 item="Dunk" />
-      <HomePageView1 item="airforce" />
+      <HomePageView1 item="Air-Force" />
+      <FooterBanner />
     </div>
   );
 }
