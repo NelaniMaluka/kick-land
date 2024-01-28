@@ -1,5 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
+
 import "./NavBarMain.css";
 
 function NavBarMain() {
@@ -12,39 +15,39 @@ function NavBarMain() {
   return (
     <nav>
       <div className="navC container2">
-        <a href="../home" className="name  ">
+        <Link to="/" className="name  ">
           Kick Land
-        </a>
+        </Link>
         <ul className="sneakers">
           <li>
-            <a href="../ ">Dunks</a>
+            <Link to="/Shop/Dunks ">Dunks</Link>
           </li>
           <li>
-            <a href="../ ">Air Force</a>
+            <Link to="/Shop/Air-Force">Air Force</Link>
           </li>
           <li>
-            <a href="../ ">Jordan</a>
+            <Link to="/Shop/Jordan">Jordan</Link>
           </li>
           <li>
-            <a href="../ ">Air Max</a>
+            <Link to="/Shop/Air-Max">Air Max</Link>
           </li>
         </ul>
 
         <div className="cart">
-          <a href="">
+          <Link to="">
             <img
               src="/Images/NavBarImages/heart.png"
               title="Favourites"
               alt="heart icons"
             />
-          </a>
-          <a href="">
+          </Link>
+          <Link to="">
             <img
               src="/Images/NavBarImages/shopping-bag.png"
               title="Bag Items"
               alt="shopping-bag icons"
             ></img>
-          </a>
+          </Link>
           <img
             id="open-hamburger"
             src="/Images/NavBarImages/o.png"

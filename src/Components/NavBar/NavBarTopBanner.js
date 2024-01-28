@@ -1,4 +1,5 @@
 import LogText from "../LoginLogout/LogText";
+import { Link } from "react-router-dom";
 
 import "./NavBarTopBanner.css";
 
@@ -8,10 +9,10 @@ function NavBarTopBanner() {
       <div className="container2">
         <ul>
           <li>
-            <a href="../home">Help</a>
+            <Link to="/Info/Help">Help</Link>
           </li>
           <li>
-            <a href="../home">About Us</a>
+            <Link to="/Info/About-Us">About Us</Link>
           </li>
           <li>
             <LogText />

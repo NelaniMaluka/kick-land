@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import LogText from "../../LoginLogout/LogText";
 
 import "../NavBarMain.css";
@@ -22,16 +23,16 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
           <div className="shop">
             <ul className="sneakers-hamburger">
               <li>
-                <a href="../ ">Dunks</a>
+                <Link to="/shop/Dunk ">Dunks</Link>
               </li>
               <li>
-                <a href="../ ">Air Force</a>
+                <Link to="/shop/Air-Force ">Air Force</Link>
               </li>
               <li>
-                <a href="../ ">Jordan</a>
+                <Link to="/shop/Jordan">Jordan</Link>
               </li>
               <li>
-                <a href="../ ">Air Max</a>
+                <Link to="/shop/Air-Max">Air Max</Link>
               </li>
             </ul>
           </div>
@@ -42,16 +43,16 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
                 <LogText />
               </li>
               <li>
-                <a href="../home">Help</a>
+                <Link to="/Info/Help">Help</Link>
               </li>
               <li>
-                <a href="../home">About Us</a>
+                <Link to="/Info/About-Us">About Us</Link>
               </li>
               <li>
-                <a href="../home">Terms of Service</a>
+                <Link to="/Info/Terms-of-Service">Terms of Service</Link>
               </li>
               <li>
-                <a href="../home">Refund Policy</a>
+                <Link to="/Info/Refund-Policy">Refund Policy</Link>
               </li>
             </ul>
           </div>
