@@ -34,18 +34,18 @@ function NavBarMain() {
         </ul>
 
         <div className="cart">
-          <Link to="">
+          <Link to="/Favourites">
             <img
               src="/Images/NavBarImages/heart.png"
               title="Favourites"
-              alt="heart icons"
+              alt="favourites icon"
             />
           </Link>
-          <Link to="">
+          <Link to="/Cart">
             <img
               src="/Images/NavBarImages/shopping-bag.png"
               title="Bag Items"
-              alt="shopping-bag icons"
+              alt="shopping-bag icon"
             ></img>
           </Link>
           <img
