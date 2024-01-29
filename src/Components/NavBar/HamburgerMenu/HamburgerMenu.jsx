@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import LogText from "../../LoginLogout/LogText";
+import { useAuth } from "../../../Security/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 import "../NavBarMain.css";
 import "./HamburgerMenu.css";
 
 function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
+  const authContext = useAuth();
+  const isAuthenticated = authContext.isAuthenticated;
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    authContext.logout();
+    navigate("/");
+  }
+
   return (
     <>
       {isHamburgerOpen && (
@@ -39,9 +49,16 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
           <hr />
           <div className="details">
             <ul>
-              <li>
-                <LogText />
-              </li>
+              {!isAuthenticated && (
+                <li>
+                  <Link to="/Login">Log In</Link>
+                </li>
+              )}
+              {isAuthenticated && (
+                <li>
+                  <Link onClick={handleLogout}>Log Out</Link>
+                </li>
+              )}
               <li>
                 <Link to="/Info/Help">Help</Link>
               </li>
