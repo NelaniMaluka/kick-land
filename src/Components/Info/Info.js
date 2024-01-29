@@ -1,5 +1,9 @@
+import { useParams } from "react-router-dom";
+
 function Info() {
-  return <div>"Info"</div>;
+  const { page } = useParams();
+
+  return <div>{page}</div>;
 }
 
 export default Info;

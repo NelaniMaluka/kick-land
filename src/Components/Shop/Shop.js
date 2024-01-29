@@ -1,9 +1,12 @@
 import FooterBanner from "../Footer/FooterBanner";
+import { useParams } from "react-router-dom";
 
 function Shop() {
+  const { item } = useParams();
+
   return (
     <div>
-      shop
+      {item}
       <FooterBanner />
     </div>
   );
