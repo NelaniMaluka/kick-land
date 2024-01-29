@@ -44,15 +44,15 @@ function FooterMain() {
             <button>Send</button>
           </li>
           <li>
-            <Link to="https://www.instagram.com/">
+            <a href="https://www.instagram.com/">
               <img alt="Instagram" src="/Images/FooterImages/instagram.png" />
-            </Link>
-            <Link to="https://www.facebook.com/?_rdr">
+            </a>
+            <a href="https://www.facebook.com/?_rdr">
               <img alt="Facebook" src="/Images/FooterImages/facebook.png" />
-            </Link>
-            <Link to="https://www.youtube.com/">
+            </a>
+            <a href="https://www.youtube.com/">
               <img alt="Youtube" src="/Images/FooterImages/youtube.png" />
-            </Link>
+            </a>
           </li>
         </ul>
       </div>
