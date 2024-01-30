@@ -1,21 +1,22 @@
 import "./HomePage.css";
 import { Link } from "react-router-dom";
-
+import ProductsView from "./ProductsView";
 function HomePageView1({ item }) {
   return (
     <section>
-      <Link to={`./shop/${item}`}>
-        <div className="section">
+      <div className="section">
+        <Link to={`./shop/${item}`}>
           <div className="banner-section">
             <div>
               <img src={`/Images/HomeImages/back-Banner-${item}.jpg`}></img>
             </div>
-
             <button>Shop {item}</button>
           </div>
-          <div className="items-section">item</div>
+        </Link>
+        <div className="items-section">
+          <ProductsView item={item} />
         </div>
-      </Link>
+      </div>
     </section>
   );
 }
