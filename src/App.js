@@ -4,12 +4,14 @@ import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import HomePage from "./Components/HomePage/HomePage";
 import Shop from "./Components/Shop/Shop";
-import Info from "./Components/Info/Info";
 import AuthProvider from "./Security/AuthContext";
 import LoginForm from "./Components/LoginLogout/LogInForm";
 import Cart from "./Components/Cart/Cart";
 import Favourites from "./Components/Favourites/Favourites";
 import { useAuth } from "./Security/AuthContext";
+import AboutUs from "./Components/Info/About-Us";
+import TermsOfService from "./Components/Info/TermsOfService";
+import RefundPolicy from "./Components/Info/RefundPolicy";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
@@ -27,9 +29,11 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/Shop/:item" element={<Shop />} />
-            <Route path="/Info/:page" element={<Info />} />
             <Route path="/Login" element={<LoginForm />} />
+            <Route path="/Shop/:item" element={<Shop />} />
+            <Route path="/Info/About-Us" element={<AboutUs />} />
+            <Route path="/Info/Terms-of-Service" element={<TermsOfService />} />
+            <Route path="/Info/Refund-Policy" element={<RefundPolicy />} />
             <Route
               path="/Cart"
               element={
