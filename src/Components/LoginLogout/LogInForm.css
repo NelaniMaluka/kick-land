@@ -4,26 +4,26 @@
   padding: 50px 0 80px 0;
   text-align: center;
 }
-.login-container {
+.form-container {
   height: fit-content;
   width: 500px;
   margin: auto;
   border-radius: 10px;
   padding: 10px;
 }
-.login-container h2 {
+.form-container h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 40px;
 }
-.login-container button {
+.form-container button {
   text-align: center;
   margin: auto;
 }
 .field {
   margin: 10px 0 10px 0;
 }
-.login-container input {
+.form-container input {
   height: 30px;
   font-size: 15px;
   background-color: RGB(245, 245, 245);
@@ -33,7 +33,7 @@
   padding: 25px;
   margin-bottom: 15px;
 }
-.login-container button {
+.form-container button {
   width: 200px;
   height: 38px;
   margin: 22px 0 10px 0;
@@ -42,28 +42,28 @@
   color: white;
   background-color: black;
 }
-.login-container button:hover {
+.form-container button:hover {
   background-color: rgb(75, 74, 74);
 }
 .error {
   color: red;
   margin-top: -25px;
 }
-.login-container li {
+.form-container li {
   margin: 10px;
 }
-.login-container a:hover {
+.form-containerr a:hover {
   color: rgb(75, 74, 74);
 }
 
 @media screen and (max-width: 661px) {
-  .login-container {
+  .form-container {
     width: 100%;
   }
-  .login-container h2 {
+  .form-container h2 {
     font-size: 30px;
   }
-  .login-container input {
+  .form-container input {
     padding: 15px;
     margin-bottom: 10px;
   }

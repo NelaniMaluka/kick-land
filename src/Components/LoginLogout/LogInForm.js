@@ -6,15 +6,15 @@ import { Link } from "react-router-dom";
 import "./LogInForm.css";
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
   const navigate = useNavigate();
   const authContext = useAuth();
 
-  function handleUsernameChange(event) {
-    setUsername(event.target.value);
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
   }
 
   function handlePasswordChange(event) {
@@ -22,20 +22,24 @@ function LoginForm() {
   }
 
   function handleSubmit() {
-    if (authContext.Login(username, password)) {
-      console.log(username);
-      console.log(password);
-      navigate("/");
-    } else {
-      console.log(username);
-      console.log(password);
-      setShowErrormessage(true);
-    }
+    authContext
+      .Login(email, password)
+      .then(function (result) {
+        if (result === true) {
+          navigate("/");
+        } else {
+          setShowErrormessage(true);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error during login:", error);
+        setShowErrormessage(true);
+      });
   }
 
   return (
     <form className="login-form container2">
-      <div className="login-container">
+      <div className="form-container">
         <div>
           <h2> Login </h2>
         </div>
@@ -47,16 +51,16 @@ function LoginForm() {
         <div className="field">
           <input
             placeholder="Email"
-            type="text"
-            name="username"
-            value={username}
-            onChange={handleUsernameChange}
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleEmailChange}
           />
         </div>
         <div className="field">
           <input
             placeholder="Password"
-            type="text"
+            type="password"
             name="password"
             value={password}
             onChange={handlePasswordChange}
