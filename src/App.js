@@ -12,6 +12,8 @@ import { useAuth } from "./Security/AuthContext";
 import AboutUs from "./Components/Info/About-Us";
 import TermsOfService from "./Components/Info/TermsOfService";
 import RefundPolicy from "./Components/Info/RefundPolicy";
+import CreateAccount from "./Components/LoginLogout/CreateAccount";
+import ForgotPassword from "./Components/LoginLogout/ForgotPassword";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
@@ -30,6 +32,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/Login" element={<LoginForm />} />
+            <Route path="/Create-Account" element={<CreateAccount />} />
+            <Route path="/Forgot-Password" element={<ForgotPassword />} />
             <Route path="/Shop/:item" element={<Shop />} />
             <Route path="/Info/About-Us" element={<AboutUs />} />
             <Route path="/Info/Terms-of-Service" element={<TermsOfService />} />
