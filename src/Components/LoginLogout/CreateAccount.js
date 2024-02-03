@@ -31,13 +31,9 @@ function CreateAccount() {
   }
 
   function handleSubmit() {
-    if (authContext.CreateAccount(username, password, email, surname)) {
-      console.log(username);
-      console.log(password);
+    if (authContext.CreateAccount(username, surname, email, password)) {
       navigate("/");
     } else {
-      console.log(username);
-      console.log(password);
       setShowErrormessage(true);
     }
   }

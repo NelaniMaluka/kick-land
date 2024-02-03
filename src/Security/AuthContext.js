@@ -13,7 +13,25 @@ function AuthProvider({ children }) {
       .post("http://localhost:8080/Backend/Login", { email, password })
       .then(function (response) {
         // Assuming the response contains authentication information
-        console.log(response.data);
+        setAuthenticated(response.data);
+        return response.data;
+      })
+      .catch(function (error) {
+        setAuthenticated(false);
+        return error;
+      });
+  }
+
+  function CreateAccount(username, surname, email, password) {
+    return axios
+      .post("http://localhost:8080/Backend/Create-Account", {
+        username,
+        surname,
+        email,
+        password,
+      })
+      .then(function (response) {
+        // Assuming the response contains authentication information
         setAuthenticated(response.data);
         return response.data;
       })
@@ -23,22 +41,31 @@ function AuthProvider({ children }) {
       });
   }
 
-  function CreateAccount(username, password, email, surname) {
-    if (username === "username" && password === "password") {
-      setAuthenticated(true);
-      return true;
-    } else {
-      setAuthenticated(false);
-      return false;
-    }
-  }
-
   function Logout() {
     setAuthenticated(false);
   }
 
+  function SignForNewsletter(email) {
+    return axios
+      .post("http://localhost:8080/Backend/Newsletter", { email })
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        return error.response.data;
+      });
+  }
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, Login, Logout }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        Login,
+        Logout,
+        CreateAccount,
+        SignForNewsletter,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

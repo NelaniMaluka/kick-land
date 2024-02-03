@@ -32,7 +32,6 @@ function LoginForm() {
         }
       })
       .catch(function (error) {
-        console.error("Error during login:", error);
         setShowErrormessage(true);
       });
   }

@@ -1,7 +1,28 @@
 import "./FooterMain.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../../Security/AuthContext";
 
 function FooterMain() {
+  const [email, setEmail] = useState("");
+
+  const authContext = useAuth();
+
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
+
+  function handleSubmit() {
+    authContext
+      .SignForNewsletter(email)
+      .then(function (result) {
+        console.log(result);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   let getYear = () => {
     const currentYear = new Date().getFullYear();
     return currentYear;
@@ -40,8 +61,14 @@ function FooterMain() {
             <h2>Subscribe To Our Newsletter</h2>
           </li>
           <li>
-            <input title="submit" placeholder="Your Email" />
-            <button>Send</button>
+            <input
+              type="email"
+              placeholder="Your Email"
+              name="email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+            <button onClick={handleSubmit}>Send</button>
           </li>
           <li>
             <a href="https://www.instagram.com/">
