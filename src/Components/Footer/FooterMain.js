@@ -2,6 +2,7 @@ import "./FooterMain.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../Security/AuthContext";
+import Swal from "sweetalert2";
 
 function FooterMain() {
   const [email, setEmail] = useState("");
@@ -16,11 +17,28 @@ function FooterMain() {
     authContext
       .SignForNewsletter(email)
       .then(function (result) {
-        console.log(result);
+        showSuccessMessage(result);
       })
       .catch(function (error) {
-        console.log(error);
+        showErrorMessage(error);
       });
+    setEmail("");
+  }
+
+  function showSuccessMessage(result) {
+    Swal.fire({
+      icon: "success",
+      title: "Sent",
+      text: result.data,
+    });
+  }
+
+  function showErrorMessage(error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: error.response.data,
+    });
   }
 
   let getYear = () => {
@@ -72,13 +90,25 @@ function FooterMain() {
           </li>
           <li>
             <a href="https://www.instagram.com/">
-              <img alt="Instagram" src="/Images/FooterImages/instagram.png" />
+              <img
+                alt="Instagram"
+                title="Instagram"
+                src="/Images/FooterImages/instagram.png"
+              />
             </a>
             <a href="https://www.facebook.com/?_rdr">
-              <img alt="Facebook" src="/Images/FooterImages/facebook.png" />
+              <img
+                alt="Facebook"
+                title="Facebook"
+                src="/Images/FooterImages/facebook.png"
+              />
             </a>
             <a href="https://www.youtube.com/">
-              <img alt="Youtube" src="/Images/FooterImages/youtube.png" />
+              <img
+                alt="Youtube"
+                title="Youtube"
+                src="/Images/FooterImages/youtube.png"
+              />
             </a>
           </li>
         </ul>
