@@ -14,6 +14,7 @@ import TermsOfService from "./Components/Info/TermsOfService";
 import RefundPolicy from "./Components/Info/RefundPolicy";
 import CreateAccount from "./Components/LoginLogout/CreateAccount";
 import ForgotPassword from "./Components/LoginLogout/ForgotPassword";
+import Help from "./Components/LoginLogout/Help";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
@@ -38,6 +39,7 @@ function App() {
             <Route path="/Info/About-Us" element={<AboutUs />} />
             <Route path="/Info/Terms-of-Service" element={<TermsOfService />} />
             <Route path="/Info/Refund-Policy" element={<RefundPolicy />} />
+            <Route path="/Info/Help" element={<Help />} />
             <Route
               path="/Cart"
               element={
