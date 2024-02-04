@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Security/AuthContext";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-import "./LogInForm.css";
+import "./Form.css";
 
 function CreateAccount() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ function CreateAccount() {
   const [email, setEmail] = useState("");
   const [surname, setSurname] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
   const authContext = useAuth();
@@ -31,22 +33,37 @@ function CreateAccount() {
   }
 
   function handleSubmit() {
-    if (authContext.CreateAccount(username, surname, email, password)) {
-      navigate("/");
-    } else {
-      setShowErrormessage(true);
-    }
+    authContext
+      .CreateAccount(username, surname, email, password)
+      .then(function (result) {
+        showSuccessMessage(username);
+        navigate("/");
+      })
+      .catch(function (error) {
+        setMessage(error.response.data.message);
+        setShowErrormessage(true);
+      });
+  }
+
+  function showSuccessMessage(username) {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Welcome: " + username,
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 
   return (
-    <form className="login-form container2">
+    <form className="form container2">
       <div className="form-container">
         <div>
           <h2> Create Account </h2>
         </div>
         {ShowErrormessage && (
           <div className="error">
-            <p>Email and Password Can't be Blank</p>
+            <p>{message}</p>
           </div>
         )}
         <div className="field">
@@ -79,7 +96,7 @@ function CreateAccount() {
         <div className="field">
           <input
             placeholder="Password"
-            type="text"
+            type="password"
             name="password"
             value={password}
             onChange={handlePasswordChange}

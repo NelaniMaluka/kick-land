@@ -7,6 +7,7 @@ export const useAuth = () => useContext(AuthContext);
 
 function AuthProvider({ children }) {
   const [isAuthenticated, setAuthenticated] = useState(false);
+  const [isUsername, setUsername] = useState(false);
 
   function Login(email, password) {
     return axios
@@ -14,11 +15,7 @@ function AuthProvider({ children }) {
       .then(function (response) {
         // Assuming the response contains authentication information
         setAuthenticated(response.data);
-        return response.data;
-      })
-      .catch(function (error) {
-        setAuthenticated(false);
-        return error;
+        return response;
       });
   }
 
@@ -32,13 +29,10 @@ function AuthProvider({ children }) {
       })
       .then(function (response) {
         // Assuming the response contains authentication information
-        setAuthenticated(response.data);
-        return response.data;
-      })
-      .catch(function (error) {
-        setAuthenticated(false);
-        return error.response.data;
+        setAuthenticated(response);
+        return response;
       });
+    // No catch block here, let errors propagate
   }
 
   function Logout() {
@@ -49,10 +43,21 @@ function AuthProvider({ children }) {
     return axios
       .post("http://localhost:8080/Backend/Newsletter", { email })
       .then(function (response) {
-        return response.data;
+        console.log(response);
+        return response;
+      });
+  }
+
+  function ContactUs(name, email, phoneNumber, message) {
+    return axios
+      .post("http://localhost:8080/Backend/ContactUs", {
+        name,
+        email,
+        phoneNumber,
+        message,
       })
-      .catch(function (error) {
-        return error.response.data;
+      .then(function (response) {
+        return response;
       });
   }
 
@@ -64,6 +69,7 @@ function AuthProvider({ children }) {
         Logout,
         CreateAccount,
         SignForNewsletter,
+        ContactUs,
       }}
     >
       {children}
