@@ -2,13 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Security/AuthContext";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-import "./LogInForm.css";
+import "./Form.css";
 
 function LoginForm() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
   const authContext = useAuth();
@@ -25,19 +27,27 @@ function LoginForm() {
     authContext
       .Login(email, password)
       .then(function (result) {
-        if (result === true) {
-          navigate("/");
-        } else {
-          setShowErrormessage(true);
-        }
+        showSuccessMessage();
+        navigate("/");
       })
       .catch(function (error) {
+        setMessage(error.response.data.message);
         setShowErrormessage(true);
       });
   }
 
+  function showSuccessMessage() {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Welcome Back",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+
   return (
-    <form className="login-form container2">
+    <form className="form container2">
       <div className="form-container">
         <div>
           <h2> Login </h2>

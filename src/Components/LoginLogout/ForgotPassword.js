@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Security/AuthContext";
 import { Link } from "react-router-dom";
 
-import "./LogInForm.css";
+import "./Form.css";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState(null);
+  const [email, setEmail] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function ForgotPassword() {
   function handleSubmit() {}
 
   return (
-    <form className="login-form container2">
+    <form className="form container2">
       <div className="form-container">
         <div>
           <h2> Reset Password </h2>

@@ -1,4 +1,4 @@
-.login-form {
+.form {
   width: 100%;
   height: fit-content;
   padding: 50px 0 80px 0;
@@ -24,7 +24,6 @@
   margin: 10px 0 10px 0;
 }
 .form-container input {
-  height: 30px;
   font-size: 15px;
   background-color: RGB(245, 245, 245);
   border: none;
@@ -32,6 +31,16 @@
   width: 80%;
   padding: 25px;
   margin-bottom: 15px;
+}
+
+.form-container textarea {
+  font-size: 15px;
+  background-color: RGB(245, 245, 245);
+  border: none;
+  width: 80%;
+  padding: 25px;
+  margin-bottom: 15px;
+  height: 200px;
 }
 .form-container button {
   width: 200px;
@@ -55,6 +64,21 @@
 .form-containerr a:hover {
   color: rgb(75, 74, 74);
 }
+.message {
+  width: 60%;
+  max-width: 1100px;
+}
+.messagebox {
+  vertical-align: text-top;
+}
+
+.message .messageField {
+  width: 39%;
+  margin: 0 10px 0 10px;
+}
+.messageField {
+  display: inline-block;
+}
 
 @media screen and (max-width: 661px) {
   .form-container {
@@ -66,5 +90,20 @@
   .form-container input {
     padding: 15px;
     margin-bottom: 10px;
+  }
+  .form-container textarea {
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 1061px) {
+  .message .messageField {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+  .messageField {
+    display: block;
   }
 }
