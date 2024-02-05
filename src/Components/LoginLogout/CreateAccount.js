@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Security/AuthContext";
+import Api from "../Api/Api";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -12,10 +12,10 @@ function CreateAccount() {
   const [email, setEmail] = useState("");
   const [surname, setSurname] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-  const authContext = useAuth();
+  const api = Api();
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -33,14 +33,21 @@ function CreateAccount() {
   }
 
   function handleSubmit() {
-    authContext
+    api
       .CreateAccount(username, surname, email, password)
       .then(function (result) {
-        showSuccessMessage(username);
-        navigate("/");
+        if (result.success) {
+          showSuccessMessage(username);
+          navigate("/");
+        } else {
+          setErrorMessage("Please enter all the fields");
+          setShowErrormessage(true);
+        }
       })
       .catch(function (error) {
-        setMessage(error.response.data.message);
+        setErrorMessage(
+          "We are encountering some problems Sorry for the inconvinience"
+        );
         setShowErrormessage(true);
       });
   }
@@ -63,7 +70,7 @@ function CreateAccount() {
         </div>
         {ShowErrormessage && (
           <div className="error">
-            <p>{message}</p>
+            <p>{errorMessage}</p>
           </div>
         )}
         <div className="field">

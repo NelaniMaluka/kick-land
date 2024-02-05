@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Security/AuthContext";
+import Api from "../Api/Api";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -13,7 +13,7 @@ function LoginForm() {
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
-  const authContext = useAuth();
+  const api = Api();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -24,14 +24,19 @@ function LoginForm() {
   }
 
   function handleSubmit() {
-    authContext
+    api
       .Login(email, password)
       .then(function (result) {
-        showSuccessMessage();
-        navigate("/");
+        if (result.success) {
+          showSuccessMessage();
+          navigate("/");
+        } else {
+          setMessage("Invalid Credentials");
+          setShowErrormessage(true);
+        }
       })
       .catch(function (error) {
-        setMessage(error.response.data.message);
+        setMessage("We are incountering problems Sorry for the inconvinience ");
         setShowErrormessage(true);
       });
   }

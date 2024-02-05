@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Security/AuthContext";
+import Api from "../Api/Api";
 import { Link } from "react-router-dom";
 
 import "./Form.css";
@@ -10,7 +10,7 @@ function ForgotPassword() {
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
   const navigate = useNavigate();
-  const authContext = useAuth();
+  const api = Api();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);

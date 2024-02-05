@@ -1,35 +1,41 @@
 import "./FooterMain.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../../Security/AuthContext";
+import Api from "../Api/Api";
 import Swal from "sweetalert2";
 
 function FooterMain() {
   const [email, setEmail] = useState("");
 
-  const authContext = useAuth();
+  const api = Api();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
   }
 
   function handleSubmit() {
-    authContext
+    api
       .SignForNewsletter(email)
       .then(function (result) {
-        showSuccessMessage(result);
+        if (result.success) {
+          showSuccessMessage();
+        } else {
+          showErrorMessage(
+            "Invalid format or we,ve already recived your subscibtion"
+          );
+        }
       })
       .catch(function (error) {
-        showErrorMessage(error);
+        showErrorMessage("Could sign");
       });
     setEmail("");
   }
 
-  function showSuccessMessage(result) {
+  function showSuccessMessage() {
     Swal.fire({
       icon: "success",
       title: "Sent",
-      text: result.data,
+      text: "We recievd your Email",
     });
   }
 
@@ -37,7 +43,7 @@ function FooterMain() {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: error.response.data,
+      text: error,
     });
   }
 

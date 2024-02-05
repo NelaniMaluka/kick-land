@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Security/AuthContext";
+import Api from "../Api/Api";
 import Swal from "sweetalert2";
 
 import "./Form.css";
@@ -10,10 +10,11 @@ function Help() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
+  const [errormessage, setErrormessage] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
   const navigate = useNavigate();
-  const authContext = useAuth();
+  const api = Api();
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -32,19 +33,32 @@ function Help() {
   }
 
   function handleSubmit() {
-    authContext
+    api
       .ContactUs(name, email, phoneNumber, message)
       .then(function (result) {
-        showSuccessMessage(result);
-        setShowErrormessage(false);
-        setName("");
-        setPhoneNumber("");
-        setMessage("");
+        if (result.success) {
+          // API call was successful, handle the success
+          showSuccessMessage(true);
+          setShowErrormessage(false);
+          setName("");
+          setEmail("");
+          setPhoneNumber("");
+          setMessage("");
+        } else {
+          // API call failed, handle the error
+          setShowErrormessage(true);
+          console.error("ContactUs failed:", result.error);
+          setErrormessage(
+            "Please fill out all the fields in the correct format"
+          );
+        }
       })
       .catch(function (error) {
+        // Handle other unexpected errors
         setShowErrormessage(true);
+        console.error("Unexpected error in ContactUs:", error);
+        setErrormessage("Unexpected error please ContactUs");
       });
-    setEmail("");
   }
 
   function showSuccessMessage(result) {
@@ -61,9 +75,7 @@ function Help() {
         <div>
           <h2> Contact </h2>
         </div>
-        {ShowErrormessage && (
-          <div className="error">Please fill out all fields</div>
-        )}
+        {ShowErrormessage && <div className="error">{errormessage}</div>}
         <div className="field">
           <input
             className="messageField"
