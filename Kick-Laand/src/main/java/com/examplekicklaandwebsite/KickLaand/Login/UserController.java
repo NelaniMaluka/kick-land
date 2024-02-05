@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.examplekicklaandwebsite.KickLaand.Newsletter.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.Newsletter.NewsletterRepository;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.naming.Binding;
@@ -33,14 +34,19 @@ public class UserController {
 
     @PostMapping(path="/Backend/Login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
-    	
-    	try {
-    		userAccountRepository.findByUsernameAndEmail(userAccount.username,userAccount.password);
-    		return ResponseEntity.ok( true);
-    	} catch (Exception e) {
-    		return ResponseEntity.badRequest().body("Invalid Credentials");
-    	}
+        try {
+            userAccountRepository.findByUsernameAndEmail(userAccount.username, userAccount.password);
+            return ResponseEntity.ok(Map.of(
+                "id", userAccount.getId(),
+                "username", userAccount.getUsername(),
+                "email", userAccount.getEmail()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid Credentials");
+        }
     }
+
+
     
     @PostMapping(path="/Backend/Create-Account")
     public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount, BindingResult result) {
@@ -62,7 +68,14 @@ public class UserController {
                 newsletterRepository.save(newsletter);
             }
 
-            return ResponseEntity.ok("Account created successfully");
+            //return ResponseEntity.ok("Account created successfully");
+            return ResponseEntity.ok(Map.of(
+            	    "id", userAccount.getId(),
+            	    "username", userAccount.getUsername(),
+            	    "email", userAccount.getEmail()
+            	));
+
+            
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create account");
         }
