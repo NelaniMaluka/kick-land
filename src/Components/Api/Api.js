@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useAuth } from "../Security/AuthContext";
+import { useEffect } from "react";
 
 function Api() {
   const authContext = useAuth();
@@ -65,6 +66,21 @@ function Api() {
       })
       .catch(function (error) {
         return { success: false, error };
+      });
+  }
+
+  useEffect(() => {
+    retrieveProducts();
+  }, []);
+
+  function retrieveProducts() {
+    apiClient
+      .get("/Backend/Products")
+      .then(function (response) {
+        authContext.Products(response.data);
+      })
+      .catch(function (error) {
+        authContext.Products("");
       });
   }
 
