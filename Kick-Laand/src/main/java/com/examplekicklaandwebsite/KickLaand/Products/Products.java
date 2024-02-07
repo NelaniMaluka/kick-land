@@ -19,7 +19,7 @@ public class Products {
     @NotNull
     private String name;
     
-    //@Pattern(regexp = "^[A-Z]{3}$", message = "Currency must be in uppercase and have three characters")
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Currency must be in uppercase and have three characters")
     private BigDecimal price;
     
     
