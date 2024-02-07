@@ -52,7 +52,7 @@ function LoginForm() {
   }
 
   return (
-    <form className="form container2">
+    <form className="form container2" onSubmit={handleSubmit}>
       <div className="form-container">
         <div>
           <h2> Login </h2>
@@ -81,7 +81,7 @@ function LoginForm() {
           />
         </div>
         <div>
-          <button type="button" name="login" onClick={handleSubmit}>
+          <button type="submit" name="login">
             LogIn
           </button>
         </div>

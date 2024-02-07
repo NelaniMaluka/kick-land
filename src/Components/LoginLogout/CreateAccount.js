@@ -63,7 +63,7 @@ function CreateAccount() {
   }
 
   return (
-    <form className="form container2">
+    <form className="form container2" onSubmit={handleSubmit}>
       <div className="form-container">
         <div>
           <h2> Create Account </h2>
@@ -110,7 +110,7 @@ function CreateAccount() {
           />
         </div>
         <div>
-          <button type="button" name="login" onClick={handleSubmit}>
+          <button type="submit" name="login">
             Create
           </button>
         </div>
