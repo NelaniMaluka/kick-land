@@ -1,0 +1,16 @@
+.shopAll {
+  background-color: aqua;
+  height: max-content;
+  padding: 5px;
+}
+.shopAll nav {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+}
+.shopAll p {
+  font-size: 25px;
+}
+.shopAll div {
+  display: inline-block;
+}

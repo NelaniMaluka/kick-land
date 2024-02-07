@@ -7,7 +7,7 @@ export const useAuth = () => useContext(AuthContext);
 function AuthProvider({ children }) {
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [isUser, setUser] = useState("me");
-  const [isproducts, setProducts] = useState("products");
+  const [isProducts, setProducts] = useState("products");
 
   function Login(user) {
     setUser(user.data);
@@ -31,7 +31,7 @@ function AuthProvider({ children }) {
         isUser,
         Login,
         Logout,
-        isproducts,
+        isProducts,
         Products,
       }}
     >
