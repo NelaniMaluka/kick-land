@@ -9,25 +9,25 @@ CREATE TABLE IF NOT EXISTS PRODUCTS (
 INSERT INTO PRODUCTS (CATEGORY, IMAGE_URL, NAME, PRICE)
 VALUES
   -- Dunk
-  ('Dunk', '/Images/ProductImages/Nike Dunk Low Retro Sneakers.png', 'Nike Dunk Low Retro Sneakers', 1999),
-  ('Dunk', '/Images/ProductImages/Nike Dunk Low SE 85 Double Swoosh Sail Orange.png', 'Nike Dunk Low SE 85 Double Swoosh Sail Orange', 5400),
-  ('Dunk', '/Images/ProductImages/Nike Travis Scott X SB Dunk Low PRM QS ''Cactus Jack''.png', 'Nike Travis Scott X SB Dunk Low PRM QS ''Cactus Jack''', 2500),
-  ('Dunk', '/Images/ProductImages/Nike Dunk Low Clear Aura.png', 'Nike Dunk Low Clear Aura', 4000),
+  ('Dunk', '/Images/ProductImages/Nike Dunk Low.png', 'Nike Dunk Low', 2099.95),
+  ('Dunk', '/Images/ProductImages/Nike Dunk Low Retro.png', 'Nike Dunk Low Retro', 2099.95),
+  ('Dunk', '/Images/ProductImages/Nike SB Dunk Low AA.png', 'Nike SB Dunk Low AA', 299.95),
+  ('Dunk', '/Images/ProductImages/Nike Dunk High Retro.png', 'Nike Dunk High Retro', 2399.95),
 
   -- Jordan
-  ('Jordan', '/Images/ProductImages/Nike Paris Saint-Germain X Air Jordan 4 Retro ''Bordeaux''.png', 'Nike Paris Saint-Germain X Air Jordan 4 Retro ''Bordeaux''', 1000),
-  ('Jordan', '/Images/ProductImages/Nike Air Jordan X Zion Willamson Low OG ''Voodoo'' Sneakers.png', 'Nike Air Jordan X Zion Willamson Low OG ''Voodoo'' Sneakers', 2000),
-  ('Jordan', '/Images/ProductImages/Nike Air Jordan 4 SB ''Pine Green'' Sneakers.png', 'Nike Air Jordan 4 SB ''Pine Green'' Sneakers', 3000),
-  ('Jordan', '/Images/ProductImages/Nike Air Jordan 1 ''Travis Scott'' Low.png', 'Nike Air Jordan 1 ''Travis Scott'' Low', 4000),
+  ('Jordan', '/Images/ProductImages/Air Jordan 1 Low.png', 'Air Jordan 1 Low', 1000),
+  ('Jordan', '/Images/ProductImages/Air Jordan 3 Retro.png', 'Air Jordan 3 Retro', 2000),
+  ('Jordan', '/Images/ProductImages/Air Jordan 1 Mid SE.png', 'Air Jordan 1 Mid SE', 3000),
+  ('Jordan', '/Images/ProductImages/Air Jordan Retro 13.png', 'Air Jordan Retro 13', 4000),
 
   -- AirForce
-  ('AirForce', '/Images/ProductImages/Nike Air Force ''07 Low-Top'' Sneakers.png', 'Nike Air Force ''07 Low-Top'' Sneakers', 1899),
-  ('AirForce', '/Images/ProductImages/Nike Air Force 1 Low ''Panda'' Sneakers.png', 'Nike Air Force 1 Low ''Panda'' Sneakers', 2299),
-  ('AirForce', '/Images/ProductImages/Nike Air Force 1 ''07 Low VD Sneakers.png', 'Nike Air Force 1 ''07 Low VD Sneakers', 4989),
-  ('AirForce', '/Images/ProductImages/Nike Air Force 1 Low ''ST PATRICK''S DAY'' Sneakers.png', 'Nike Air Force 1 Low ''ST PATRICK''S DAY'' Sneakers', 4000),
+  ('AirForce', '/Images/ProductImages/Nike Air Force 1 07.png', 'Nike Air Force 1 07', 1899.95),
+  ('AirForce', '/Images/ProductImages/Nike Air Force 1 LV8.png', 'Nike Air Force 1 LV8', 1899.95),
+  ('AirForce', '/Images/ProductImages/Nike Air Max 1 07 LX.png', 'Nike Air Max 1 07 LX', 2599.95),
+  ('AirForce', '/Images/ProductImages/Nike Air Max 1 07 WB.png', 'Nike Air Max 1 07 WB', 4000),
 
   -- AirMax
-  ('AirMax', '/Images/ProductImages/Nike Air Max Plus.png', 'Nike Air Max Plus', 3599),
-  ('AirMax', '/Images/ProductImages/Nike Air Max Pulse.png', 'Nike Air Max Pulse', 3199),
-  ('AirMax', '/Images/ProductImages/Nike Air Max 97.png', 'Nike Air Max 97', 3599),
-  ('AirMax', '/Images/ProductImages/Nike Air Max 1.png', 'Nike Air Max 1', 4000);
+  ('AirMax', '/Images/ProductImages/Nike Air Max Plus.png', 'Nike Air Max Plus', 3599.99),
+  ('AirMax', '/Images/ProductImages/Nike Air Max Pulse.png', 'Nike Air Max Pulse', 3599.95),
+  ('AirMax', '/Images/ProductImages/Nike Air Max 97.png', 'Nike Air Max 97', 2599.97),
+  ('AirMax', '/Images/ProductImages/Nike Air Max 1.png', 'Nike Air Max 1', 2799.95);

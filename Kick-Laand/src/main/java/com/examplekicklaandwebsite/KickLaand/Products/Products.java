@@ -21,8 +21,6 @@ public class Products {
     
     @Pattern(regexp = "^[A-Z]{3}$", message = "Currency must be in uppercase and have three characters")
     private BigDecimal price;
-    
-    
 
 	@NotNull
     private String category;
