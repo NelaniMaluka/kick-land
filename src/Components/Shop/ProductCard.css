@@ -1,0 +1,31 @@
+.product {
+  height: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px;
+  padding: 0;
+}
+.products-card {
+  width: 31%;
+  height: max-content;
+  margin: 10px;
+  padding-bottom: 20px;
+}
+.products-card img {
+  width: 100%;
+  height: auto;
+}
+.products-card h5 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+@media screen and (max-width: 661px) {
+  .product {
+    width: 100%;
+  }
+  .products-card {
+    width: 48%;
+    margin: 3px;
+    padding-bottom: 10px;
+  }
+}
