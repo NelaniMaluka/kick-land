@@ -20,16 +20,16 @@ function NavBarMain() {
         </Link>
         <ul className="sneakers">
           <li>
-            <Link to="/Shop/Dunks ">Dunks</Link>
+            <Link to="/Shop/Dunk ">Dunks</Link>
           </li>
           <li>
-            <Link to="/Shop/Air-Force">Air Force</Link>
+            <Link to="/Shop/AirForce">Air Force</Link>
           </li>
           <li>
             <Link to="/Shop/Jordan">Jordan</Link>
           </li>
           <li>
-            <Link to="/Shop/Air-Max">Air Max</Link>
+            <Link to="/Shop/AirMax">Air Max</Link>
           </li>
         </ul>
 
