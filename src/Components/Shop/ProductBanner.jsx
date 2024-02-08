@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 
-// ... (previous imports)
+import "./ProductBanner.css";
 
-import "./ShopAllTopBanner.css";
-
-function ShopAllTopBanner({ products }) {
+function ProductBanner({ products }) {
   const [shoeCount, setShoeCount] = useState(null);
 
   useEffect(() => {
@@ -47,4 +44,4 @@ function ShopAllTopBanner({ products }) {
   );
 }
 
-export default ShopAllTopBanner;
+export default ProductBanner;
