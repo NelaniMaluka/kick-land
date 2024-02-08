@@ -1,5 +1,6 @@
 import { useAuth } from "../../Security/AuthContext";
-import ShopAllTopBanner from "./ShopAllTopBanner";
+import ProductBanner from "../ProductBanner";
+import ProductCard from "../ProductCard";
 
 function ShopAll() {
   const useContext = useAuth();
@@ -7,7 +8,8 @@ function ShopAll() {
 
   return (
     <>
-      <ShopAllTopBanner products={products} />
+      <ProductBanner products={products} />
+      <ProductCard products={products} />
     </>
   );
 }
