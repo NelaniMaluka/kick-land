@@ -73,7 +73,7 @@ function Help() {
     <form className="form container2">
       <div className="form-container message">
         <div>
-          <h2> Contact </h2>
+          <h2> Contact Us</h2>
         </div>
         {ShowErrormessage && <div className="error">{errormessage}</div>}
         <div className="field">
