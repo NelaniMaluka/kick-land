@@ -2,9 +2,6 @@ import React from "react";
 import { Carousel } from "primereact/carousel";
 
 function HomeCarousel({ products, category }) {
-  console.log(products);
-  console.log(category);
-
   const filteredProducts = products.filter(
     (product) => product.category === category
   );
@@ -28,7 +25,6 @@ function HomeCarousel({ products, category }) {
   ];
 
   const productTemplate = (product) => {
-    console.log(products);
     return (
       <div className="products-card couresel">
         <img src={product.imageUrl} alt="" />
