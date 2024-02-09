@@ -16,8 +16,11 @@
   height: auto;
 }
 .products-card h5 {
-  margin-bottom: 20px;
+  margin: 10px 0 20px 0;
   font-weight: 600;
+}
+.couresel {
+  width: 95%;
 }
 @media screen and (max-width: 661px) {
   .product {
@@ -27,5 +30,8 @@
     width: 48%;
     margin: 3px;
     padding-bottom: 10px;
+  }
+  .couresel {
+    width: 100%;
   }
 }
