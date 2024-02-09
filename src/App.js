@@ -16,6 +16,7 @@ import ForgotPassword from "./Components/LoginLogout/ForgotPassword";
 import Help from "./Components/LoginLogout/Help";
 import ShopAll from "./Components/Shop/ShopAll/ShopAll";
 import ShopByCategory from "./Components/Shop/ShopByCategory/ShopByCategory";
+import { PrimeReactProvider } from "primereact/api";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
@@ -28,42 +29,47 @@ function AuthenticatedRoute({ children }) {
 function App() {
   return (
     <div className="App">
-      <AuthProvider>
-        <BrowserRouter>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/Login" element={<LoginForm />} />
-            <Route path="/Create-Account" element={<CreateAccount />} />
-            <Route path="/Forgot-Password" element={<ForgotPassword />} />
-            <Route path="/Shop/:item" element={<ShopByCategory />} />
-            <Route path="/Shop/Shop-All" element={<ShopAll />} />
-            <Route path="/Info/About-Us" element={<AboutUs />} />
-            <Route path="/Info/Terms-of-Service" element={<TermsOfService />} />
-            <Route path="/Info/Refund-Policy" element={<RefundPolicy />} />
-            <Route path="/Info/Help" element={<Help />} />
-            <Route
-              path="/Cart"
-              element={
-                <AuthenticatedRoute>
-                  {" "}
-                  <Cart />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route
-              path="/Favourites"
-              element={
-                <AuthenticatedRoute>
-                  {" "}
-                  <Favourites />
-                </AuthenticatedRoute>
-              }
-            />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </AuthProvider>
+      <PrimeReactProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/Login" element={<LoginForm />} />
+              <Route path="/Create-Account" element={<CreateAccount />} />
+              <Route path="/Forgot-Password" element={<ForgotPassword />} />
+              <Route path="/Shop/:item" element={<ShopByCategory />} />
+              <Route path="/Shop/Shop-All" element={<ShopAll />} />
+              <Route path="/Info/About-Us" element={<AboutUs />} />
+              <Route
+                path="/Info/Terms-of-Service"
+                element={<TermsOfService />}
+              />
+              <Route path="/Info/Refund-Policy" element={<RefundPolicy />} />
+              <Route path="/Info/Help" element={<Help />} />
+              <Route
+                path="/Cart"
+                element={
+                  <AuthenticatedRoute>
+                    {" "}
+                    <Cart />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/Favourites"
+                element={
+                  <AuthenticatedRoute>
+                    {" "}
+                    <Favourites />
+                  </AuthenticatedRoute>
+                }
+              />
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        </AuthProvider>
+      </PrimeReactProvider>
     </div>
   );
 }
