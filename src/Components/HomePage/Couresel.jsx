@@ -1,8 +1,35 @@
-import React from "react";
+// HomeCarousel.jsx
+import React, { useEffect, useState } from "react";
 import { Carousel } from "primereact/carousel";
+import { useAuth } from "../Security/AuthContext";
+import ShopProductModal from "../Shop/ShopProduct/ShopProductModal";
 
-function HomeCarousel({ products, category }) {
-  const filteredProducts = products.filter(
+function HomeCarousel({ category }) {
+  const { isProducts, setProducts } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("your_backend_api/products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [setProducts]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const filteredProducts = isProducts.filter(
     (product) => product.category === category
   );
 
@@ -26,23 +53,39 @@ function HomeCarousel({ products, category }) {
 
   const productTemplate = (product) => {
     return (
-      <div className="products-card couresel">
-        <img src={product.imageUrl} alt="" />
+      <div
+        onClick={() => HandleOnClick(product)}
+        className="products-card couresel"
+        style={{ margin: "40px 0" }}
+        key={product.id}
+      >
+        <img src={product.image1} alt="" />
         <h5>{product.name}</h5>
         <span>R {product.price}</span>
       </div>
     );
   };
 
+  function HandleOnClick(product) {
+    setSelectedProduct(product);
+  }
+
   return (
     <div className="container2">
       <Carousel
-        value={filteredProducts} // You might want to change this based on the category you want to display initially
+        value={filteredProducts}
         numVisible={3}
         numScroll={3}
         responsiveOptions={responsiveOptions}
         itemTemplate={productTemplate}
       />
+      {selectedProduct && (
+        <ShopProductModal
+          modalState={true}
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </div>
   );
 }
