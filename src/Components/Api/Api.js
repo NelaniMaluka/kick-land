@@ -1,5 +1,3 @@
-// Api.js
-
 import axios from "axios";
 import { useAuth } from "../Security/AuthContext";
 import { useEffect } from "react";
@@ -11,77 +9,82 @@ function Api() {
     baseURL: "http://localhost:8080",
   });
 
-  function Login(email, password) {
-    return apiClient
-      .post("/Backend/Login", { email, password })
-      .then(function (response) {
-        authContext.Login(response);
-        return { success: true, response };
-      })
-      .catch(function (error) {
-        authContext.Logout();
-        return { success: false, error };
+  async function Login(email, password) {
+    try {
+      const response = await apiClient.post("/Backend/Login", {
+        email,
+        password,
       });
+      authContext.Login(response); // Assuming user details are in response.data
+      return { success: true, response };
+    } catch (error) {
+      authContext.Logout();
+      return { success: false, error };
+    }
   }
 
-  function CreateAccount(username, surname, email, password) {
-    return apiClient
-      .post("/Backend/Create-Account", {
+  async function CreateAccount(username, surname, email, password) {
+    try {
+      const response = await apiClient.post("/Backend/Create-Account", {
         username,
         surname,
         email,
         password,
-      })
-      .then(function (response) {
-        authContext.Login(response);
-        return { success: true, response };
-      })
-      .catch(function (error) {
-        authContext.Logout();
-        return { success: false, error };
       });
+      authContext.Login(response);
+      console.log("success:" + true, response);
+      return { success: true, response };
+    } catch (error) {
+      authContext.Logout();
+      console.log("success:" + true, error);
+      return { success: false, error };
+    }
   }
 
-  function SignForNewsletter(email) {
-    return apiClient
-      .post("/Backend/Newsletter", { email })
-      .then(function (response) {
-        return { success: true, response };
-      })
-      .catch(function (error) {
-        return { success: false, error };
-      });
+  async function SignForNewsletter(email) {
+    try {
+      const response = await apiClient.post("/Backend/Newsletter", { email });
+      return { success: true, response };
+    } catch (error) {
+      return { success: false, error };
+    }
   }
 
-  function ContactUs(name, email, phoneNumber, message) {
-    return apiClient
-      .post("/Backend/ContactUs", {
+  async function ContactUs(name, email, phoneNumber, message) {
+    try {
+      const response = await apiClient.post("/Backend/ContactUs", {
         name,
         email,
         phoneNumber,
         message,
-      })
-      .then(function (response) {
-        return { success: true, response };
-      })
-      .catch(function (error) {
-        return { success: false, error };
       });
+      return { success: true, response };
+    } catch (error) {
+      return { success: false, error };
+    }
   }
 
   useEffect(() => {
     retrieveProducts();
   }, []);
 
-  function retrieveProducts() {
-    apiClient
-      .get("/Backend/Products")
-      .then(function (response) {
-        authContext.Products(response.data);
-      })
-      .catch(function (error) {
-        authContext.Products("");
-      });
+  async function retrieveProducts() {
+    try {
+      const response = await apiClient.get("/Backend/Products");
+      authContext.Products(response.data);
+    } catch (error) {
+      authContext.Products("");
+    }
+  }
+
+  async function addToCart(productWithUserId) {
+    console.log(productWithUserId);
+    try {
+      const response = await apiClient.post("/Backend/Cart", productWithUserId);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // Return the API functions
@@ -90,6 +93,7 @@ function Api() {
     CreateAccount,
     SignForNewsletter,
     ContactUs,
+    addToCart,
   };
 }
 
