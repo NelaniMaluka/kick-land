@@ -1,42 +1,53 @@
-package com.examplekicklaandwebsite.KickLaand.Login;
+package com.examplekicklaandwebsite.KickLaand.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
 public class UserAccount {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int id;
-	
+	public Integer id;
+
 	public String username;
-	
+
 	public String surname;
-	
+
 	@Valid
 	@Email(message = "Please provide a valid email")
 	public String email;
-	
+
 	@Valid
-	@Size(min = 8, max=50, message = "Password must be at least 8 characters long")
+	@Size(min = 8, max = 50, message = "Password must be at least 8 characters long")
 	public String password;
+
+	@OneToMany(mappedBy = "user")
+	public List<Cart> cart;
+	
+	public UserAccount() {
+        // You can initialize any default values here if needed
+    }
 
 	public String getEmail() {
 		return email;
-    }
+	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -67,7 +78,13 @@ public class UserAccount {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	
+
+	public List<Cart> getFavourites() {
+		return cart;
+	}
+
+	public void setFavourites(List<Cart> cart) {
+		this.cart = cart;
+	}
+
 }

@@ -1,4 +1,4 @@
-package com.examplekicklaandwebsite.KickLaand.Login;
+package com.examplekicklaandwebsite.KickLaand.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.examplekicklaandwebsite.KickLaand.Newsletter.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.Newsletter.NewsletterRepository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 
@@ -35,14 +35,15 @@ public class UserController {
     @PostMapping(path="/Backend/Login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
         try {
-            userAccountRepository.findByUsernameAndEmail(userAccount.username, userAccount.password);
+            UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.email, userAccount.password);
+           
             return ResponseEntity.ok(Map.of(
-                "id", userAccount.getId(),
-                "username", userAccount.getUsername(),
-                "email", userAccount.getEmail()
-            ));
+            	    "id", user.getId(),
+            	    "username", user.getUsername(),
+            	    "email", user.getEmail()
+            	));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Invalid Credentials");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
