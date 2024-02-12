@@ -23,7 +23,8 @@ function LoginForm() {
     setPassword(event.target.value);
   }
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
     api
       .Login(email, password)
       .then(function (result) {

@@ -32,7 +32,8 @@ function CreateAccount() {
     setSurname(event.target.value);
   }
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
     api
       .CreateAccount(username, surname, email, password)
       .then(function (result) {
