@@ -1,11 +1,14 @@
-// ShopProductModal.jsx
 import { Modal, Box } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import ImageCouresel from "./ImageCouresel";
+import { useAuth } from "../../Security/AuthContext";
+import Api from "../../Api/Api";
 
 function ShopProductModal({ modalState, product, onClose }) {
   const [open, setOpen] = useState(false);
+  const useContext = useAuth();
+  const api = Api();
 
   useEffect(() => {
     setOpen(modalState);
@@ -16,12 +19,18 @@ function ShopProductModal({ modalState, product, onClose }) {
     onClose();
   };
 
+  function Cart() {
+    const userId = useContext.isUser.id;
+    const productWithUserId = { ...product, userId };
+    api.addToCart(productWithUserId);
+  }
+
   function ChildModal() {
-    // Your ChildModal component logic here
     return (
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle}>Add to Favourites</button>
-        <button style={buttonStyle}>Add to cart</button>
+        <button onClick={Cart} style={buttonStyle}>
+          Add to cart
+        </button>
       </div>
     );
   }
@@ -48,13 +57,6 @@ function ShopProductModal({ modalState, product, onClose }) {
     transform: "translate(-50%, -50%)", // Center the modal both vertically and horizontally
     position: "absolute",
   };
-
-  const imageStyle = {
-    width: "100%",
-    height: "auto",
-    marginBottom: "10px",
-  };
-
   const nameStyle = {
     margin: "0 0 10px 15px",
     fontSize: "30px",
@@ -73,7 +75,8 @@ function ShopProductModal({ modalState, product, onClose }) {
       aria-describedby="parent-modal-description"
     >
       <Box sx={{ ...customStyle }}>
-        <ImageCouresel product={product} style={imageStyle} />
+        {/* ... */}
+        <ImageCouresel product={product} />
         <h2 id="parent-modal-title" style={nameStyle}>
           {product.name}
         </h2>
