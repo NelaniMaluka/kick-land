@@ -24,7 +24,6 @@ const Item = ({ imageUrl, children }) => {
 };
 
 function BannerCard() {
-  console.log("BannerCard");
   return (
     <div className="container2">
       <Grid container spacing={2}>
