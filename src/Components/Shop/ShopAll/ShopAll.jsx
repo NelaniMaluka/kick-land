@@ -1,15 +1,16 @@
 import { useAuth } from "../../Security/AuthContext";
 import ProductBanner from "../ProductBanner";
 import ProductCard from "../ProductCard";
+import { useState } from "react";
 
 function ShopAll() {
   const useContext = useAuth();
-  const products = useContext.isProducts;
+  const [isProducts, setProducts] = useState(useContext.isProducts || []);
 
   return (
     <>
-      <ProductBanner products={products} />
-      <ProductCard products={products} />
+      <ProductBanner products={isProducts} setProducts={setProducts} />
+      <ProductCard products={isProducts} />
     </>
   );
 }
