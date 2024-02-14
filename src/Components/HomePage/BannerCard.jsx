@@ -28,16 +28,24 @@ function BannerCard() {
     <div className="container2">
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
-          <Item imageUrl={"/Images/HomeImages/BannerCardimage1.png"}> </Item>
+          <Link to="/Shop/Dunk">
+            <Item imageUrl={"/Images/HomeImages/BannerCardimage1.png"}> </Item>
+          </Link>
         </Grid>
         <Grid item xs={12} md={4}>
-          <Item imageUrl={"/Images/HomeImages/BannerCardimage2.png"}> </Item>
+          <Link to="/Shop/AirForce">
+            <Item imageUrl={"/Images/HomeImages/BannerCardimage2.png"}> </Item>
+          </Link>
         </Grid>
         <Grid item xs={12} md={4}>
-          <Item imageUrl={"/Images/HomeImages/BannerCardimage3.png"}> </Item>
+          <Link to="/Shop/AirMax">
+            <Item imageUrl={"/Images/HomeImages/BannerCardimage3.png"}> </Item>
+          </Link>
         </Grid>
         <Grid item xs={12} md={8}>
-          <Item imageUrl={"/Images/HomeImages/BannerCardimage4.png"}> </Item>
+          <Link to="/Shop/Jordan">
+            <Item imageUrl={"/Images/HomeImages/BannerCardimage4.png"}> </Item>
+          </Link>
         </Grid>
       </Grid>
     </div>
