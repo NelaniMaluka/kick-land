@@ -18,10 +18,11 @@ import ShopAll from "./Components/Shop/ShopAll/ShopAll";
 import ShopByCategory from "./Components/Shop/ShopByCategory/ShopByCategory";
 import { PrimeReactProvider } from "primereact/api";
 import LogInAlert from "./Components/LoginLogout/LogInAlert";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
-  if (authContext.isLoggedIn) {
+  if (authContext.isAuthenticated) {
     return children;
   }
   LogInAlert();
@@ -50,20 +51,11 @@ function App() {
               <Route path="/Info/Refund-Policy" element={<RefundPolicy />} />
               <Route path="/Info/Help" element={<Help />} />
               <Route
-                path="/Cart"
+                path="/Dashboard"
                 element={
                   <AuthenticatedRoute>
                     {" "}
-                    <Cart />
-                  </AuthenticatedRoute>
-                }
-              />
-              <Route
-                path="/Favourites"
-                element={
-                  <AuthenticatedRoute>
-                    {" "}
-                    <Favourites />
+                    <Dashboard />
                   </AuthenticatedRoute>
                 }
               />

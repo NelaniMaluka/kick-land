@@ -35,8 +35,13 @@ function NavBarMain() {
         </ul>
 
         <div className="cart">
-          <Profile />
-          <Cart />
+          <Link to="/Dashboard">
+            <Profile />
+          </Link>
+          <Link to="/Dashboard">
+            <Cart />
+          </Link>
+
           <img
             id="open-hamburger"
             src="/Images/NavBarImages/o.png"
