@@ -78,10 +78,9 @@ function Api() {
   }
 
   async function addToCart(productWithUserId) {
-    console.log(productWithUserId);
     try {
       const response = await apiClient.post("/Backend/Cart", productWithUserId);
-      console.log(response);
+      authContext.CartItems(response.data);
     } catch (error) {
       console.log(error);
     }

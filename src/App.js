@@ -17,13 +17,15 @@ import Help from "./Components/LoginLogout/Help";
 import ShopAll from "./Components/Shop/ShopAll/ShopAll";
 import ShopByCategory from "./Components/Shop/ShopByCategory/ShopByCategory";
 import { PrimeReactProvider } from "primereact/api";
+import LogInAlert from "./Components/LoginLogout/LogInAlert";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
   if (authContext.isLoggedIn) {
     return children;
   }
-  return <Navigate to="/Login" />;
+  LogInAlert();
+  //return <Navigate to="/Login" />;
 }
 
 function App() {

@@ -6,8 +6,9 @@ export const useAuth = () => useContext(AuthContext);
 
 function AuthProvider({ children }) {
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [isUser, setUser] = useState("me");
-  const [isProducts, setProducts] = useState("products");
+  const [isUser, setUser] = useState(null);
+  const [isProducts, setProducts] = useState(null);
+  const [isCartItems, setCartItems] = useState(0);
 
   function Login(user) {
     setUser(user.data);
@@ -24,6 +25,10 @@ function AuthProvider({ children }) {
     setProducts(products);
   }
 
+  function CartItems(items) {
+    setCartItems(items.length);
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -33,6 +38,8 @@ function AuthProvider({ children }) {
         Logout,
         isProducts,
         Products,
+        CartItems,
+        isCartItems,
       }}
     >
       {children}
