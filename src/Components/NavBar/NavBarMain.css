@@ -1,7 +1,6 @@
 nav {
   height: 45px;
   text-align: center;
-  padding: 10px 0 0 0;
   margin: 0;
 }
 
@@ -40,8 +39,12 @@ nav {
 
 .cart {
   float: right;
+  margin-top: -10px;
 }
 
+.cart * {
+  display: inline-block;
+}
 .cart a {
   padding: 0 10px 0 10px;
 }
@@ -56,5 +59,8 @@ nav {
   }
   .sneakers {
     display: none;
+  }
+  .cart {
+    margin-top: -10px;
   }
 }
