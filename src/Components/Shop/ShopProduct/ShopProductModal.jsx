@@ -1,12 +1,14 @@
 import { Modal, Box } from "@mui/material";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import ImageCouresel from "./ImageCouresel";
 import { useAuth } from "../../Security/AuthContext";
 import Api from "../../Api/Api";
+import LogInAlert from "../../LoginLogout/LogInAlert";
+import TransitionsSnackbar from "./TransitionSnackBar";
 
 function ShopProductModal({ modalState, product, onClose }) {
   const [open, setOpen] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false); // New state to control Snackbar visibility
   const useContext = useAuth();
   const api = Api();
 
@@ -20,9 +22,15 @@ function ShopProductModal({ modalState, product, onClose }) {
   };
 
   function Cart() {
-    const userId = useContext.isUser.id;
-    const productWithUserId = { ...product, userId };
-    api.addToCart(productWithUserId);
+    if (useContext.isAuthenticated) {
+      const userId = useContext.isUser.id;
+      const productWithUserId = { ...product, userId };
+      api.addToCart(productWithUserId);
+      setShowSnackbar(true); // Set state to show Snackbar
+    } else {
+      handleClose();
+      LogInAlert();
+    }
   }
 
   function ChildModal() {
@@ -31,9 +39,11 @@ function ShopProductModal({ modalState, product, onClose }) {
         <button onClick={Cart} style={buttonStyle}>
           Add to cart
         </button>
+        {showSnackbar && <TransitionsSnackbar />}{" "}
       </div>
     );
   }
+
   const buttonContainerStyle = {
     margin: "auto",
     width: "max-Content",
@@ -56,7 +66,9 @@ function ShopProductModal({ modalState, product, onClose }) {
     left: "50%", // Center horizontally
     transform: "translate(-50%, -50%)", // Center the modal both vertically and horizontally
     position: "absolute",
+    zIndex: 10000,
   };
+
   const nameStyle = {
     margin: "0 0 10px 15px",
     fontSize: "30px",
@@ -75,7 +87,6 @@ function ShopProductModal({ modalState, product, onClose }) {
       aria-describedby="parent-modal-description"
     >
       <Box sx={{ ...customStyle }}>
-        {/* ... */}
         <ImageCouresel product={product} />
         <h2 id="parent-modal-title" style={nameStyle}>
           {product.name}
