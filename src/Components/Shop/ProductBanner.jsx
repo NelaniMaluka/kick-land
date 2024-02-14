@@ -18,7 +18,7 @@ function ProductBanner({ products, setProducts }) {
     setShoeCount("(" + count + ")");
   }
 
-  function filterProducts(value) {
+  function sortProducts(value) {
     let sortedProducts;
 
     switch (value) {
@@ -58,25 +58,25 @@ function ProductBanner({ products, setProducts }) {
               <Dropdown.Menu>
                 <Dropdown.Item
                   href="#/action-1"
-                  onClick={() => filterProducts("high-price")}
+                  onClick={() => sortProducts("high-price")}
                 >
                   Price: High-Low
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-2"
-                  onClick={() => filterProducts("low-price")}
+                  onClick={() => sortProducts("low-price")}
                 >
                   Price: Low-High
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-2"
-                  onClick={() => filterProducts("ascending")}
+                  onClick={() => sortProducts("ascending")}
                 >
                   Alphabetically: A-Z
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="#/action-2"
-                  onClick={() => filterProducts("descending")}
+                  onClick={() => sortProducts("descending")}
                 >
                   Alphabetically: Z-A
                 </Dropdown.Item>
