@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import Cart from "./Cart";
 import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
+import Profile from "./Profile";
 
 import "./NavBarMain.css";
 
@@ -34,20 +35,8 @@ function NavBarMain() {
         </ul>
 
         <div className="cart">
-          <Link to="/Favourites">
-            <img
-              src="/Images/NavBarImages/heart.png"
-              title="Favourites"
-              alt="favourites icon"
-            />
-          </Link>
-          <Link to="/Cart">
-            <img
-              src="/Images/NavBarImages/shopping-bag.png"
-              title="Bag Items"
-              alt="shopping-bag icon"
-            ></img>
-          </Link>
+          <Profile />
+          <Cart />
           <img
             id="open-hamburger"
             src="/Images/NavBarImages/o.png"
