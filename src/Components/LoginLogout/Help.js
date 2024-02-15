@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Api from "../Api/Api";
 import Swal from "sweetalert2";
 
@@ -13,7 +12,6 @@ function Help() {
   const [errormessage, setErrormessage] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
-  const navigate = useNavigate();
   const api = Api();
 
   function handleNameChange(event) {
