@@ -1,12 +1,10 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import HomePage from "./Components/HomePage/HomePage";
 import AuthProvider from "./Components/Security/AuthContext";
 import LoginForm from "./Components/LoginLogout/LogInForm";
-import Cart from "./Components/Cart/Cart";
-import Favourites from "./Components/Favourites/Favourites";
 import { useAuth } from "./Components/Security/AuthContext";
 import AboutUs from "./Components/Info/About-Us";
 import TermsOfService from "./Components/Info/TermsOfService";
