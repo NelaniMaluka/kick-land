@@ -8,7 +8,10 @@ function Cart() {
 
   return (
     <IconButton aria-label="cart">
-      <StyledBadge badgeContent={authContext.isCartItems} color="secondary">
+      <StyledBadge
+        badgeContent={authContext.isCartItems.length}
+        color="secondary"
+      >
         <ShoppingCartIcon onclick="" />
       </StyledBadge>
     </IconButton>

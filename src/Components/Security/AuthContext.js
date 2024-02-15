@@ -26,7 +26,7 @@ function AuthProvider({ children }) {
   }
 
   function CartItems(items) {
-    setCartItems(items.length);
+    setCartItems(items);
   }
 
   return (
