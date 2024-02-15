@@ -1,0 +1,78 @@
+.profile {
+  background-color: aqua;
+  width: 100%;
+}
+.profile h2 {
+  text-align: left;
+  margin-bottom: 30px;
+  font-size: 40px;
+}
+.profile button {
+  text-align: center;
+  margin: auto;
+}
+.field-1 {
+  margin: 10px 0 10px 0;
+}
+.field-1 input {
+  font-size: 15px;
+  background-color: RGB(245, 245, 245);
+  border: none;
+  height: 45px;
+  width: 45%;
+  padding: 25px;
+  margin: 0 5% 15px 0;
+  border-radius: 5px;
+}
+.profile button {
+  width: 200px;
+  height: 38px;
+  margin: 22px 0 10px 0;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  background-color: black;
+}
+.profile button:hover {
+  background-color: rgb(75, 74, 74);
+}
+.error {
+  color: red;
+  margin-top: -25px;
+}
+.profile li {
+  margin: 10px;
+}
+.profile a:hover {
+  color: rgb(75, 74, 74);
+}
+
+@media screen and (max-width: 661px) {
+  .profile {
+    width: 100%;
+  }
+  .profile h2 {
+    font-size: 30px;
+  }
+  .profile input {
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+  .profile textarea {
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 1061px) {
+  .profile .messageField {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+  .profile .messageField {
+    display: block;
+  }
+  .field input {
+  }
+}
