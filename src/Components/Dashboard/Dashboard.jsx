@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import UserProfile from "./Profile/UserProfile";
+import CartView from "./Cart/CartView";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,7 +53,8 @@ export default function Dashboard() {
         flexGrow: 1,
         bgcolor: "background.paper",
         display: "flex",
-        height: 624,
+        height: "maxContent",
+        minHeight: 629,
       }}
     >
       <Tabs
@@ -71,7 +73,7 @@ export default function Dashboard() {
         <UserProfile />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <CartView />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
