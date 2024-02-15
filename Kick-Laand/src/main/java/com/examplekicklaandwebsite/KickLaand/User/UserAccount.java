@@ -1,9 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,10 +32,10 @@ public class UserAccount {
 
 	@OneToMany(mappedBy = "user")
 	public List<Cart> cart;
-	
+
 	public UserAccount() {
-        // You can initialize any default values here if needed
-    }
+		// You can initialize any default values here if needed
+	}
 
 	public String getEmail() {
 		return email;
