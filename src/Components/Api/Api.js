@@ -66,14 +66,14 @@ function Api() {
 
   useEffect(() => {
     retrieveProducts();
-  }, []);
+  });
 
   async function retrieveProducts() {
     try {
       const response = await apiClient.get("/Backend/Products");
       authContext.Products(response.data);
     } catch (error) {
-      authContext.Products("");
+      authContext.Products([]);
     }
   }
 

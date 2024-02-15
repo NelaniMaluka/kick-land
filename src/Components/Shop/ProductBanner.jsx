@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
 import "./ProductBanner.css";
@@ -6,17 +6,17 @@ import "./ProductBanner.css";
 function ProductBanner({ products, setProducts }) {
   const [shoeCount, setShoeCount] = useState(null);
 
-  useEffect(() => {
-    getShoeCount();
-  }, []);
-
-  function getShoeCount() {
+  const getShoeCount = useCallback(() => {
     let count = 0;
     for (let i = 0; i < products.length; i++) {
       count++;
     }
     setShoeCount("(" + count + ")");
-  }
+  }, [products]);
+
+  useEffect(() => {
+    getShoeCount();
+  }, [getShoeCount]);
 
   function sortProducts(value) {
     let sortedProducts;
