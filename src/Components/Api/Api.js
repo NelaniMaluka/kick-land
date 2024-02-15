@@ -65,8 +65,14 @@ function Api() {
   }
 
   useEffect(() => {
+    // Fetch products only when the component mounts
     retrieveProducts();
-  });
+
+    // Cleanup function
+    return () => {
+      // Any cleanup code if needed
+    };
+  }, []);
 
   async function retrieveProducts() {
     try {
