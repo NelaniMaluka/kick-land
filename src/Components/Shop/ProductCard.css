@@ -34,4 +34,7 @@
   .couresel {
     width: 100%;
   }
+  .products-card h5 {
+    font-size: 17px;
+  }
 }

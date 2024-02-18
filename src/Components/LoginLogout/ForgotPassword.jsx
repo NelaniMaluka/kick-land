@@ -38,8 +38,8 @@ function ForgotPassword() {
           />
         </div>
         <div>
-          <button type="button" name="login" onClick={handleSubmit}>
-            LogIn
+          <button type="button" name="send" onClick={handleSubmit}>
+            Send
           </button>
         </div>
         <ul>

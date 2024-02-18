@@ -3,6 +3,7 @@ import ProductBanner from "../ProductBanner";
 import ProductCard from "../ProductCard";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import FooterBanner from "../../Footer/FooterBanner";
 
 function ShopByCategory() {
   const useContext = useAuth();
@@ -17,6 +18,7 @@ function ShopByCategory() {
     <>
       <ProductBanner products={filteredProducts} setProducts={setProducts} />
       <ProductCard products={filteredProducts} />
+      <FooterBanner />
     </>
   );
 }

@@ -18,7 +18,7 @@ function ImageCarousel({ product }) {
   const imageStyle = {
     width: "100%",
     height: "auto",
-    marginBottom: "10px",
+    margin: "10px 0 10px 0",
   };
 
   const ImageTemplate = (productImage) => {
