@@ -2,8 +2,46 @@
   border: 1px solid black;
   width: 100%;
   margin: 15px;
+  display: flex;
 }
+
 .cart-card img {
-  width: 30%;
+  width: 100%;
   height: auto;
+}
+
+.divider {
+  border-left: 1px solid black;
+  height: 100%;
+  margin: 0 10px;
+}
+.cart-img {
+  width: 30%;
+}
+.cart-text {
+  width: 70%;
+  padding: 10px;
+}
+.cart-text span {
+  width: 100%;
+  display: block;
+}
+.category {
+  font-size: 20px;
+}
+.price {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+.cart-footer {
+  font-size: 17px;
+}
+.cart-footer span {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  justify-content: space-between;
+}
+.cart-footer span input {
+  width: 50px;
 }
