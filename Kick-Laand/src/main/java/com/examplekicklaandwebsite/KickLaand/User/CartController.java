@@ -97,7 +97,7 @@ public class CartController {
             // Save the Cart object
             cartRepository.save(cartItem);
 
-            List<Map<String, Object>> filteredCartList = cartRepository.findAll().stream()
+            List<Map<String, Object>> filteredCartList = cartRepository.findByUser(user).stream()
                     .map(cart -> {
                         Map<String, Object> filteredCartItem = new HashMap<>();
                         filteredCartItem.put("id", cart.getId());
