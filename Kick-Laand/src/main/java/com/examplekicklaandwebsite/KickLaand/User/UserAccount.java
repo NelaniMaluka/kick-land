@@ -2,6 +2,7 @@ package com.examplekicklaandwebsite.KickLaand.User;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class UserAccount {
 	@Size(min = 8, max = 50, message = "Password must be at least 8 characters long")
 	public String password;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	public List<Cart> cart;
 
 	public UserAccount() {
