@@ -8,7 +8,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Cart {
 
 	@Id
@@ -25,6 +28,7 @@ public class Cart {
 	private double price;
 	@NotNull
 	private String category;
+	private Integer quantity;
 	private String image1;
 	private String image2;
 	private String image3;
@@ -74,6 +78,14 @@ public class Cart {
 		this.category = category;
 	}
 
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	
 	public String getImage1() {
 		return image1;
 	}
