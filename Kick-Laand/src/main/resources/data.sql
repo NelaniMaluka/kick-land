@@ -14,7 +14,7 @@ INSERT INTO PRODUCTS (CATEGORY, NAME, PRICE, IMAGE1, IMAGE2, IMAGE3, IMAGE4)
 VALUES
   ('Dunk', 'Nike Dunk Low', 2099.95, '/Images/ProductImages/Nike Dunk Low.png', '/Images/ProductImages/Nike Dunk Low2.png', '/Images/ProductImages/Nike Dunk Low3.png', '/Images/ProductImages/Nike Dunk Low4.png'),
   ('Dunk', 'Nike Dunk Low Retro', 2099.95, '/Images/ProductImages/Nike Dunk Low Retro.png', '/Images/ProductImages/Nike Dunk Low Retro2.png', '/Images/ProductImages/Nike Dunk Low Retro3.png', '/Images/ProductImages/Nike Dunk Low Retro4.png'),
-  ('Dunk', 'Nike SB Dunk Low AA', 299.95, '/Images/ProductImages/Nike SB Dunk Low AA.png', '/Images/ProductImages/Nike SB Dunk Low AA2.png', '/Images/ProductImages/Nike SB Dunk Low AA3.png', '/Images/ProductImages/Nike SB Dunk Low AA4.png'),
+  ('Dunk', 'Nike SB Dunk Low AA', 2099.95, '/Images/ProductImages/Nike SB Dunk Low AA.png', '/Images/ProductImages/Nike SB Dunk Low AA2.png', '/Images/ProductImages/Nike SB Dunk Low AA3.png', '/Images/ProductImages/Nike SB Dunk Low AA4.png'),
   ('Dunk', 'Nike Dunk High Retro', 2399.95, '/Images/ProductImages/Nike Dunk High Retro.png', '/Images/ProductImages/Nike Dunk High Retro2.png', '/Images/ProductImages/Nike Dunk High Retro3.png', '/Images/ProductImages/Nike Dunk High Retro4.png');
 
 -- Jordan
