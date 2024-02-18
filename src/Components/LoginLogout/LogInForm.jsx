@@ -26,7 +26,7 @@ function LoginForm() {
   function handleSubmit(event) {
     event.preventDefault();
     useContext
-      .Login(email, password)
+      .login(email, password)
       .then(function (result) {
         if (result.success) {
           showSuccessMessage();
