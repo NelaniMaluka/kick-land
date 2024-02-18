@@ -20,7 +20,7 @@ function AuthProvider({ children }) {
   const [isProducts, setProducts] = useState([]);
   const [isCartItems, setCartItems] = useState([]);
 
-  async function Login(email, password) {
+  async function login(email, password) {
     try {
       const response = await LogIn(email, password);
       if (response.status === 200) {
@@ -29,18 +29,19 @@ function AuthProvider({ children }) {
         getUserCart(response.data.email);
         return { success: true, response };
       } else {
-        Logout();
+        logout();
         return { success: false, response };
       }
     } catch (e) {
-      Logout();
+      logout();
       return { success: false, response: e.response };
     }
   }
 
-  function Logout() {
+  function logout() {
     setAuthenticated(false);
     setUser(null);
+    setCartItems([]);
   }
 
   async function createAccount(username, surname, email, password) {
@@ -51,11 +52,11 @@ function AuthProvider({ children }) {
         setAuthenticated(true);
         return { success: true, response };
       } else {
-        Logout();
+        logout();
         return { success: false, response };
       }
     } catch (e) {
-      Logout();
+      logout();
       return { success: false, response: e.response };
     }
   }
@@ -135,8 +136,8 @@ function AuthProvider({ children }) {
       value={{
         isAuthenticated,
         isUser,
-        Login,
-        Logout,
+        login,
+        logout,
         isProducts,
         isCartItems,
         updateCartItem,

@@ -55,7 +55,7 @@ export default function Profile() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>
-          <Link to="/profile" style={{ fontFamily: "arial" }}>
+          <Link to="/Dashboard" style={{ fontFamily: "arial" }}>
             Profile
           </Link>
         </MenuItem>

@@ -35,9 +35,7 @@ function NavBarMain() {
         </ul>
 
         <div className="cart">
-          <Link to="/Dashboard">
-            <Profile />
-          </Link>
+          <Profile />
           <Link to="/Dashboard">
             <Cart />
           </Link>
