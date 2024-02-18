@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import HomePage from "./Components/HomePage/HomePage";
@@ -24,7 +24,7 @@ function AuthenticatedRoute({ children }) {
     return children;
   }
   LogInAlert();
-  //return <Navigate to="/Login" />;
+  return <Navigate to="/Login" />;
 }
 
 function App() {

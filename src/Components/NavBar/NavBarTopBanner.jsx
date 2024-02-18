@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../Security/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 import "./NavBarTopBanner.css";
 
@@ -8,11 +7,8 @@ function NavBarTopBanner() {
   const authContext = useAuth();
   const isAuthenticated = authContext.isAuthenticated;
 
-  const navigate = useNavigate();
-
   function handleLogout() {
     authContext.logout();
-    navigate("/");
   }
 
   return (
