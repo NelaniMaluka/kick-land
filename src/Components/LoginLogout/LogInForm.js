@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Api from "../Api/Api";
+import { useAuth } from "../Security/AuthContext";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -11,9 +11,9 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
   const [message, setMessage] = useState("");
+  const useContext = useAuth();
 
   const navigate = useNavigate();
-  const api = Api();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -25,7 +25,7 @@ function LoginForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    api
+    useContext
       .Login(email, password)
       .then(function (result) {
         if (result.success) {

@@ -1,4 +1,14 @@
 import { createContext, useState, useContext } from "react";
+import {
+  LogIn,
+  CreateAccount,
+  SignForNewsletter,
+  ContactUs,
+  RetrieveProducts,
+  AddToCart,
+  GetUserCart,
+} from "../Api/Api";
+import { useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -7,26 +17,117 @@ export const useAuth = () => useContext(AuthContext);
 function AuthProvider({ children }) {
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [isUser, setUser] = useState(null);
-  const [isProducts, setProducts] = useState(null);
-  const [isCartItems, setCartItems] = useState(0);
+  const [isProducts, setProducts] = useState([]);
+  const [isCartItems, setCartItems] = useState([]);
 
-  function Login(user) {
-    setUser(user.data);
-    console.log(user.data);
-    setAuthenticated(true);
+  async function Login(email, password) {
+    try {
+      const response = await LogIn(email, password);
+      if (response.status === 200) {
+        setUser(response.data);
+        setAuthenticated(true);
+        getUserCart(response.data.email);
+        return { success: true, response };
+      } else {
+        Logout();
+        return { success: false, response };
+      }
+    } catch (e) {
+      Logout();
+      return { success: false, response: e.response };
+    }
   }
 
   function Logout() {
     setAuthenticated(false);
-    setUser("");
+    setUser(null);
   }
 
-  function Products(products) {
-    setProducts(products);
+  async function createAccount(username, surname, email, password) {
+    try {
+      const response = await CreateAccount(username, surname, email, password);
+      if (response.status === 200) {
+        setUser(response.data);
+        setAuthenticated(true);
+        return { success: true, response };
+      } else {
+        Logout();
+        return { success: false, response };
+      }
+    } catch (e) {
+      Logout();
+      return { success: false, response: e.response };
+    }
   }
 
-  function CartItems(items) {
-    setCartItems(items);
+  async function signUpForNewsletter(email) {
+    try {
+      const response = await SignForNewsletter(email);
+      return { success: response.status === 200, response };
+    } catch (e) {
+      return { success: false, response: e.response };
+    }
+  }
+
+  async function contactUs(name, email, phoneNumber, message) {
+    try {
+      const response = await ContactUs(name, email, phoneNumber, message);
+      return { success: response.status === 200, response };
+    } catch (e) {
+      return { success: false, response: e.response };
+    }
+  }
+
+  useEffect(() => {
+    // Fetch products only when the component mounts
+    retrieveProducts();
+  }, []);
+
+  async function retrieveProducts() {
+    try {
+      const response = await RetrieveProducts();
+      if (response.status === 200) {
+        setProducts(response.data);
+      } else {
+      }
+    } catch (e) {}
+  }
+
+  async function getUserCart(email) {
+    try {
+      const response = await GetUserCart(email);
+      if (response.status === 200) {
+        setCartItems(response.data);
+      } else {
+        setCartItems(null);
+      }
+    } catch (e) {
+      setCartItems(null);
+    }
+  }
+
+  async function addToCart(productWithUserId) {
+    try {
+      const response = await AddToCart(productWithUserId);
+      if (response.status === 200) {
+        setCartItems(response.data);
+      } else {
+        setCartItems([]);
+      }
+    } catch (e) {
+      setCartItems([]);
+    }
+  }
+
+  function updateCartItem(updatedCartItems) {
+    setCartItems(updatedCartItems);
+  }
+
+  function deleteCartItem(productId) {
+    const updatedCartItems = isCartItems.filter(
+      (item) => item.id !== productId
+    );
+    setCartItems(updatedCartItems);
   }
 
   return (
@@ -37,9 +138,13 @@ function AuthProvider({ children }) {
         Login,
         Logout,
         isProducts,
-        Products,
-        CartItems,
         isCartItems,
+        updateCartItem,
+        deleteCartItem,
+        createAccount,
+        signUpForNewsletter,
+        contactUs,
+        addToCart,
       }}
     >
       {children}

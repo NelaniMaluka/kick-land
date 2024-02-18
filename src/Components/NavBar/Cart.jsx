@@ -5,13 +5,13 @@ import { useAuth } from "../Security/AuthContext";
 
 function Cart() {
   const authContext = useAuth();
+  const numberOfCartItems = authContext.isCartItems
+    ? authContext.isCartItems.length
+    : 0;
 
   return (
     <IconButton aria-label="cart">
-      <StyledBadge
-        badgeContent={authContext.isCartItems.length}
-        color="secondary"
-      >
+      <StyledBadge badgeContent={numberOfCartItems} color="secondary">
         <ShoppingCartIcon onclick="" />
       </StyledBadge>
     </IconButton>

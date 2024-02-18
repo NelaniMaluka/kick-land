@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Api from "../Api/Api";
+import { useAuth } from "../Security/AuthContext";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -15,7 +15,7 @@ function CreateAccount() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-  const api = Api();
+  const useContext = useAuth();
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -32,10 +32,10 @@ function CreateAccount() {
     setSurname(event.target.value);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    api
-      .CreateAccount(username, surname, email, password)
+    useContext
+      .createAccount(username, surname, email, password)
       .then(function (result) {
         if (result.success) {
           showSuccessMessage(username);

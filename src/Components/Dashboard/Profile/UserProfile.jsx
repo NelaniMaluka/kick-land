@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Api from "../../Api/Api";
+import { useAuth } from "../../Security/AuthContext.js";
 import Swal from "sweetalert2";
 import LocationInput from "./LocationInput.tsx";
 
@@ -13,7 +13,7 @@ function UserProfile() {
   const [errormessage, setErrormessage] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
-  const api = Api();
+  const AuthContext = useAuth();
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -32,8 +32,7 @@ function UserProfile() {
   }
 
   function handleSubmit() {
-    api
-      .ContactUs(name, email, phoneNumber, message)
+    AuthContext.ContactUs(name, email, phoneNumber, message)
       .then(function (result) {
         if (result.success) {
           // API call was successful, handle the success

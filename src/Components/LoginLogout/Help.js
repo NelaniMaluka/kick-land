@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Api from "../Api/Api";
+import { useAuth } from "../Security/AuthContext";
 import Swal from "sweetalert2";
 
 import "./Form.css";
@@ -12,7 +12,7 @@ function Help() {
   const [errormessage, setErrormessage] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
-  const api = Api();
+  const authContext = useAuth();
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -31,8 +31,8 @@ function Help() {
   }
 
   function handleSubmit() {
-    api
-      .ContactUs(name, email, phoneNumber, message)
+    authContext
+      .contactUs(name, email, phoneNumber, message)
       .then(function (result) {
         if (result.success) {
           // API call was successful, handle the success

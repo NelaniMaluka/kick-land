@@ -2,15 +2,13 @@ import { Modal, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import ImageCouresel from "./ImageCouresel";
 import { useAuth } from "../../Security/AuthContext";
-import Api from "../../Api/Api";
 import LogInAlert from "../../LoginLogout/LogInAlert";
 import TransitionsSnackbar from "./TransitionSnackBar";
 
 function ShopProductModal({ modalState, product, onClose }) {
   const [open, setOpen] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false); // New state to control Snackbar visibility
-  const useContext = useAuth();
-  const api = Api();
+  const authContext = useAuth();
 
   useEffect(() => {
     setOpen(modalState);
@@ -22,10 +20,11 @@ function ShopProductModal({ modalState, product, onClose }) {
   };
 
   function Cart() {
-    if (useContext.isAuthenticated) {
-      const userId = useContext.isUser.id;
-      const productWithUserId = { ...product, userId };
-      api.addToCart(productWithUserId);
+    const quantity = 1;
+    if (authContext.isAuthenticated) {
+      const userId = authContext.isUser.id;
+      const productWithUserId = { ...product, quantity, userId };
+      authContext.addToCart(productWithUserId);
       setShowSnackbar(true); // Set state to show Snackbar
     } else {
       handleClose();

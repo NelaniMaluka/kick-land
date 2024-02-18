@@ -1,21 +1,21 @@
 import "./FooterMain.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import Api from "../Api/Api";
+import { useAuth } from "../Security/AuthContext";
 import Swal from "sweetalert2";
 
 function FooterMain() {
   const [email, setEmail] = useState("");
 
-  const api = Api();
+  const authContext = useAuth();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
   }
 
   function handleSubmit() {
-    api
-      .SignForNewsletter(email)
+    authContext
+      .signUpForNewsletter(email)
       .then(function (result) {
         if (result.success) {
           showSuccessMessage();
