@@ -59,3 +59,18 @@ export function AddToCart(productWithUserId) {
     console.error(error);
   }
 }*/
+
+export function UpdateUserDetails(
+  userId,
+  username,
+  surname,
+  email,
+  phonenumber // Fix: Correct field name
+) {
+  return apiClient.put(`/Backend/Update-User/${userId}`, {
+    username,
+    surname,
+    email,
+    phonenumber, // Fix: Correct field name
+  });
+}

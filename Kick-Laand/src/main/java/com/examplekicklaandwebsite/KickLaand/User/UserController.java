@@ -1,10 +1,13 @@
 package com.examplekicklaandwebsite.KickLaand.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,16 +37,23 @@ public class UserController {
     @PostMapping(path = "/Backend/Login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
         try {
-            UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.email, userAccount.password);
+            UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), userAccount.getPassword());
 
-            return ResponseEntity.ok(Map.of(
-                    "id", user.getId(),
-                    "username", user.getUsername(),
-                    "email", user.getEmail()));
+            if (user != null) {
+                return ResponseEntity.ok(Map.of(
+                        "id", user.getId(),
+                        "username", user.getUsername(),
+                        "email", user.getEmail(),
+                        "surname", user.getSurname(),
+                        "phoneNumber", user.getPhonenumber()));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
         }
     }
+
 
     @PostMapping(path = "/Backend/Create-Account")
     public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount, BindingResult result) {
@@ -70,10 +80,55 @@ public class UserController {
             return ResponseEntity.ok(Map.of(
                     "id", userAccount.getId(),
                     "username", userAccount.getUsername(),
-                    "email", userAccount.getEmail()));
+                    "email", userAccount.getEmail(),
+                    "surname", userAccount.getSurname()));
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create account");
+        }
+    }
+    
+    @PutMapping("/Backend/Update-User/{userId}")
+    public ResponseEntity<?> updateUserFields(@PathVariable Integer userId, @Valid @RequestBody Map<String, String> updates) {
+
+        try {
+            Optional<UserAccount> optionalUser = userAccountRepository.findById(userId);
+
+            if (optionalUser.isPresent()) {
+                UserAccount user = optionalUser.get();
+
+                for (Map.Entry<String, String> entry : updates.entrySet()) {
+                    String field = entry.getKey();
+                    String value = entry.getValue();
+
+                    switch (field.toLowerCase()) {
+                        case "username":
+                            user.setUsername(value);
+                            break;
+                        case "email":
+                            // You can add email validation if needed
+                            user.setEmail(value);
+                            break;
+                        case "surname":
+                            user.setSurname(value);
+                            break;
+                        case "phonenumber":
+                            user.setPhonenumber(value);
+                            break;
+                        // Add cases for other fields as needed
+
+                        default:
+                            return ResponseEntity.badRequest().body("Invalid field specified");
+                    }
+                }
+
+                userAccountRepository.save(user);
+                return ResponseEntity.ok("User fields updated successfully");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to update user fields");
         }
     }
 

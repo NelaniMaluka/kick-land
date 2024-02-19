@@ -7,6 +7,7 @@ import {
   RetrieveProducts,
   AddToCart,
   GetUserCart,
+  UpdateUserDetails,
 } from "../Api/Api";
 import { useEffect } from "react";
 
@@ -97,6 +98,7 @@ function AuthProvider({ children }) {
   async function getUserCart(email) {
     try {
       const response = await GetUserCart(email);
+      console.log(response);
       if (response.status === 200) {
         setCartItems(response.data);
       } else {
@@ -131,6 +133,36 @@ function AuthProvider({ children }) {
     setCartItems(updatedCartItems);
   }
 
+  async function updateUserDetails(
+    userId,
+    username,
+    surname,
+    email,
+    phonenumber
+  ) {
+    try {
+      const response = await UpdateUserDetails(
+        userId,
+        username,
+        surname,
+        email,
+        phonenumber
+      );
+      if (response.status === 200) {
+        setUser(response.data);
+        setAuthenticated(true);
+        getUserCart(response.data.email);
+        return { success: true, response };
+      } else {
+        logout();
+        return { success: false, response };
+      }
+    } catch (e) {
+      logout();
+      return { success: false, response: e.response };
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -146,6 +178,7 @@ function AuthProvider({ children }) {
         signUpForNewsletter,
         contactUs,
         addToCart,
+        updateUserDetails,
       }}
     >
       {children}
