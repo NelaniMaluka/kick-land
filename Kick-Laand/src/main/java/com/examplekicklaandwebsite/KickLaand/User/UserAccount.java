@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -33,10 +34,19 @@ public class UserAccount {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	public List<Cart> cart;
+	
+	 @Pattern(
+		        regexp = "^\\+?[0-9\\-\\s]*$", 
+		        message = "Please provide a valid phone number"
+		    )
+	public String phonenumber;
+
+
 
 	public UserAccount() {
 		// You can initialize any default values here if needed
 	}
+	
 
 	public String getEmail() {
 		return email;
@@ -84,6 +94,22 @@ public class UserAccount {
 
 	public void setFavourites(List<Cart> cart) {
 		this.cart = cart;
+	}
+	
+	public List<Cart> getCart() {
+		return cart;
+	}
+
+	public void setCart(List<Cart> cart) {
+		this.cart = cart;
+	}
+
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
 	}
 
 }

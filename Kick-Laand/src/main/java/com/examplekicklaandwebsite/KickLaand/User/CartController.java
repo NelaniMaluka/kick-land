@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +40,10 @@ public class CartController {
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             } else {
-                List<Cart> userCart = cartRepository.findByUser(user);
+                List<Cart> userCart = user.getCart();
 
                 if (userCart.isEmpty()) {
-                    return ResponseEntity.ok("User has no cart items");
+                    return ResponseEntity.ok(null);
                 } else {
                     List<Map<String, Object>> filteredCartList = userCart.stream()
                             .map(cart -> {
