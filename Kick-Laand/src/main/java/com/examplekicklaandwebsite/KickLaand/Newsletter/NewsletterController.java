@@ -2,6 +2,8 @@ package com.examplekicklaandwebsite.KickLaand.Newsletter;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,18 +20,16 @@ public class NewsletterController {
         this.newsletterRepository = newsletterRepository;
     }
 
-    @PostMapping(path="/Backend/Newsletter")
-    public ResponseEntity<?> addNewsletter(@RequestBody Newsletter newsletter ) {
- 
-
+    @PostMapping(path = "/Backend/Newsletter")
+    public ResponseEntity<?> addNewsletter(@Valid @RequestBody Newsletter newsletter) {
         try {
-        	Optional<Newsletter> existingNewsletter = Optional.ofNullable(newsletterRepository.findByEmail(newsletter.getEmail()));
-            
+            Optional<Newsletter> existingNewsletter = Optional.ofNullable(newsletterRepository.findByEmail(newsletter.getEmail()));
+
             if (!existingNewsletter.isPresent()) {
                 newsletterRepository.save(newsletter);
                 return ResponseEntity.ok("We Received Your Email");
             }
-        	
+
             return ResponseEntity.badRequest().body("Email Already Subscribed");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid Email");
