@@ -23,16 +23,28 @@ public class NewsletterController {
     @PostMapping(path = "/Backend/Newsletter")
     public ResponseEntity<?> addNewsletter(@Valid @RequestBody Newsletter newsletter) {
         try {
-            Optional<Newsletter> existingNewsletter = Optional.ofNullable(newsletterRepository.findByEmail(newsletter.getEmail()));
+        	
+            if (newsletter.getEmail() == null) {
+                return ResponseEntity.badRequest().body("Please Enter a Valid Email");
+            }
+        	
+            String trimmedEmail = newsletter.getEmail().trim();
 
-            if (!existingNewsletter.isPresent()) {
-                newsletterRepository.save(newsletter);
-                return ResponseEntity.ok("We Received Your Email");
+            Optional<Newsletter> existingNewsletter = Optional.ofNullable(newsletterRepository.findByEmail(trimmedEmail));
+
+            if (existingNewsletter.isPresent()) {
+                return ResponseEntity.badRequest().body("Email Already Subscribed");
             }
 
-            return ResponseEntity.badRequest().body("Email Already Subscribed");
+            // Update the email in the original newsletter object after trimming
+            newsletter.setEmail(trimmedEmail);
+            
+            // Save the newsletter
+            newsletterRepository.save(newsletter);
+
+            return ResponseEntity.ok("We Received Your Email");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Invalid Email");
+            return ResponseEntity.badRequest().body("Invalid Email Format");
         }
     }
 }
