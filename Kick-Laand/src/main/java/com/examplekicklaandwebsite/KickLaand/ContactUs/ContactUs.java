@@ -18,6 +18,7 @@ public class ContactUs {
 	public String name;
 	
 	@Email
+	@NotNull
 	public String email;
 	
 	@Pattern(regexp = "(\\+27|0)[0-9]{9}")
@@ -25,6 +26,16 @@ public class ContactUs {
 	
 	@NotNull
 	public String message;
+	
+	public ContactUs(int id, String name, @Email @NotNull String email,
+			@Pattern(regexp = "(\\+27|0)[0-9]{9}") String phoneNumber, @NotNull String message) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.message = message;
+	}
 
 	public int getId() {
 		return id;
