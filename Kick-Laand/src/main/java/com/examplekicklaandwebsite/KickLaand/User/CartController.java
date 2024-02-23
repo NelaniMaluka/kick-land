@@ -2,20 +2,18 @@ package com.examplekicklaandwebsite.KickLaand.User;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -45,25 +43,8 @@ public class CartController {
                 if (userCart.isEmpty()) {
                     return ResponseEntity.ok(null);
                 } else {
-                    List<Map<String, Object>> filteredCartList = userCart.stream()
-                            .map(cart -> {
-                                Map<String, Object> filteredCartItem = new HashMap<>();
-                                filteredCartItem.put("id", cart.getId());
-                                filteredCartItem.put("name", cart.getName());
-                                filteredCartItem.put("price", cart.getPrice());
-                                filteredCartItem.put("category", cart.getCategory());
-                                filteredCartItem.put("quantity", cart.getQuantity());
-                                filteredCartItem.put("image1", cart.getImage1());
-                                filteredCartItem.put("image2", cart.getImage2());
-                                filteredCartItem.put("image3", cart.getImage3());
-                                filteredCartItem.put("image4", cart.getImage4());
-                                // Exclude user information
-                                // filteredCartItem.put("userId", cart.getUser().getId()); // Optionally, you can include user ID if needed
-                                return filteredCartItem;
-                            })
-                            .collect(Collectors.toList());
-
-                    return ResponseEntity.ok(filteredCartList);
+                	Object filteredCartList = getFilteredCartList(userCart);
+					return ResponseEntity.ok(filteredCartList );
                 }
             }
         } catch (EntityNotFoundException e) {
@@ -75,7 +56,7 @@ public class CartController {
 
     
     @PostMapping("/Backend/Cart")
-    public ResponseEntity<?> addToCartWithUser(@Valid @RequestBody CartWithUserRequest request) {
+    public ResponseEntity<?> addToCart(@Valid @RequestBody CartWithUserRequest request) {
         try {
             // Retrieve the user or handle user creation logic
             UserAccount user = userAccountRepository.findById(request.getUserId())
@@ -98,50 +79,63 @@ public class CartController {
             // Save the Cart object
             cartRepository.save(cartItem);
 
-            List<Map<String, Object>> filteredCartList = cartRepository.findByUser(user).stream()
-                    .map(cart -> {
-                        Map<String, Object> filteredCartItem = new HashMap<>();
-                        filteredCartItem.put("id", cart.getId());
-                        filteredCartItem.put("name", cart.getName());
-                        filteredCartItem.put("price", cart.getPrice());
-                        filteredCartItem.put("category", cart.getCategory());
-                        filteredCartItem.put("quantity", cart.getQuantity());
-                        filteredCartItem.put("image1", cart.getImage1());
-                        filteredCartItem.put("image2", cart.getImage2());
-                        filteredCartItem.put("image3", cart.getImage3());
-                        filteredCartItem.put("image4", cart.getImage4());
-                        // Exclude user information
-                        // filteredCartItem.put("userId", cart.getUser().getId()); // Optionally, you can include user ID if needed
-                        return filteredCartItem;
-                    })
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.ok(filteredCartList);
+            Object filteredCartList = getFilteredCartList(user.getCart());
+			return ResponseEntity.ok(filteredCartList );
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
     
     
-//    @DeleteMapping("/Backend/Cart")
-//    public ResponseEntity<?> deleteCartItem(@RequestParam Integer userId, @RequestParam Long productId) {
-//        try {
-//            UserAccount user = userAccountRepository.findById(userId)
-//                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-//
-//            Cart cartItem = cartRepository.findByProductidandUser(productId);
-//            if (cartItem != null) {
-//                cartRepository.delete(cartItem);
-//                return ResponseEntity.ok("OK");
-//            } else {
-//                return ResponseEntity.notFound().build();
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-//        }
-//    }
+    @Transactional
+    @DeleteMapping("/Backend/Cart")
+    public ResponseEntity<?> deleteCartItem(@RequestParam @NonNull Integer userId, @RequestParam @NonNull Integer productId) {
+        try {
+            UserAccount user = userAccountRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
+            List<Cart> userCartItems = user.getCart();
+            if (userCartItems.isEmpty()) {
+            	return ResponseEntity.notFound().build();
+            } else {
+                // Find the cart item with the specified productId that belongs to the user
+                Optional<Cart> cartItemToDelete = userCartItems.stream()
+                        .filter(cart -> cart.getId().equals(productId))
+                        .findFirst();
+
+                if (cartItemToDelete.isPresent()) {
+                    // Remove the cart item from the user's cart
+                    userCartItems.remove(cartItemToDelete.get());
+                    cartRepository.deleteById(productId);
+
+                    // Return the updated cart list
+                    Object filteredCartList = getFilteredCartList(user.getCart());
+                    return ResponseEntity.ok(filteredCartList);
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+        }
+    }
     
-    
+    private List<Map<String, Object>> getFilteredCartList(List<Cart> userCart) {
+        return userCart.stream()
+                .map(cart -> {
+                    Map<String, Object> filteredCartItem = new HashMap<>();
+                    filteredCartItem.put("id", cart.getId());
+                    filteredCartItem.put("name", cart.getName());
+                    filteredCartItem.put("price", cart.getPrice());
+                    filteredCartItem.put("category", cart.getCategory());
+                    filteredCartItem.put("quantity", cart.getQuantity());
+                    filteredCartItem.put("image1", cart.getImage1());
+                    filteredCartItem.put("image2", cart.getImage2());
+                    filteredCartItem.put("image3", cart.getImage3());
+                    filteredCartItem.put("image4", cart.getImage4());
+                    return filteredCartItem;
+                })
+                .collect(Collectors.toList());
+    }
     
 }
