@@ -8,7 +8,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.data.annotation.PersistenceConstructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ContactUs {
 	
 	@Id
@@ -17,24 +22,26 @@ public class ContactUs {
 	
 	public String name;
 	
-	@Email
-	@NotNull
+	@Email(message = "Enter a valid email")
+	@NotNull(message = "Enter a valid email")
 	public String email;
-	
-	@Pattern(regexp = "(\\+27|0)[0-9]{9}")
+
+	@Pattern(regexp = "(\\+27|0)[0-9]{9}", message = "Enter a valid phone number")
 	public String phoneNumber;
-	
-	@NotNull
+
+	@NotNull(message = "Please Enter a message")
 	public String message;
-	
-	public ContactUs(int id, String name, @Email @NotNull String email,
-			@Pattern(regexp = "(\\+27|0)[0-9]{9}") String phoneNumber, @NotNull String message) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.message = message;
+
+	@PersistenceConstructor
+	public ContactUs(
+	            @NotNull String name,
+	            @Email @NotNull String email,
+	            @Pattern(regexp = "(\\+27|0)[0-9]{9}") String phoneNumber,
+	            @NotNull String message) {
+	        this.name = name;
+	        this.email = email;
+	        this.phoneNumber = phoneNumber;
+	        this.message = message;
 	}
 
 	public int getId() {

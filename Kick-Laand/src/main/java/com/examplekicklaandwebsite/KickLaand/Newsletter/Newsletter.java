@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 
 @Entity
@@ -14,7 +13,6 @@ public class Newsletter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
 
-    @Valid
     @Email(message = "Please provide a valid email")
     public String email;
 
