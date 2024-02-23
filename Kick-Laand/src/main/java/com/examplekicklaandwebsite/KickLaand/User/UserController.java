@@ -40,12 +40,14 @@ public class UserController {
             UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), userAccount.getPassword());
 
             if (user != null) {
-                return ResponseEntity.ok(Map.of(
-                        "id", user.getId(),
-                        "username", user.getUsername(),
-                        "email", user.getEmail(),
-                        "surname", user.getSurname(),
-                        "phoneNumber", user.getPhonenumber()));
+            	return ResponseEntity.ok(Map.of(
+            		    "id", user.getId(),
+            		    "username", user.getUsername(),
+            		    "email", user.getEmail(),
+            		    "surname", user.getSurname(),
+            		    "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : ""
+                		));
+
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
             }
@@ -56,14 +58,9 @@ public class UserController {
 
 
     @PostMapping(path = "/Backend/Create-Account")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body("Invalid Email Format");
-        }
-
+    public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount ) {
+     
         try {
-            userAccountRepository.save(userAccount);
-
             // Create a Newsletter instance and set the email
             Newsletter newsletter = new Newsletter();
             newsletter.setEmail(userAccount.getEmail());
@@ -77,11 +74,16 @@ public class UserController {
             }
 
             // return ResponseEntity.ok("Account created successfully");
-            return ResponseEntity.ok(Map.of(
-                    "id", userAccount.getId(),
-                    "username", userAccount.getUsername(),
-                    "email", userAccount.getEmail(),
-                    "surname", userAccount.getSurname()));
+            if (userAccountRepository.findByEmail(userAccount.getEmail()) == null) {
+        		userAccountRepository.save(userAccount);
+        		return ResponseEntity.ok(Map.of(
+                        "id", userAccount.getId(),
+                        "username", userAccount.getUsername(),
+                        "email", userAccount.getEmail(),
+                        "surname", userAccount.getSurname()));
+        	} else {
+        		return ResponseEntity.badRequest().body("User with this email already exists");
+        	}
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create account");
@@ -123,7 +125,13 @@ public class UserController {
                 }
 
                 userAccountRepository.save(user);
-                return ResponseEntity.ok("User fields updated successfully");
+                return ResponseEntity.ok(Map.of(
+                        "id", user.getId(),
+                        "username", user.getUsername(),
+                        "email", user.getEmail(),
+                        "surname", user.getSurname(),
+                        "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : ""
+                		));
             } else {
                 return ResponseEntity.notFound().build();
             }
