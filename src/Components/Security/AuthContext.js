@@ -8,6 +8,7 @@ import {
   AddToCart,
   GetUserCart,
   UpdateUserDetails,
+  DeleteCartItem,
 } from "../Api/Api";
 import { useEffect } from "react";
 
@@ -126,11 +127,19 @@ function AuthProvider({ children }) {
     setCartItems(updatedCartItems);
   }
 
-  function deleteCartItem(productId) {
-    const updatedCartItems = isCartItems.filter(
-      (item) => item.id !== productId
-    );
-    setCartItems(updatedCartItems);
+  async function deleteCartItem(userId, productId) {
+    try {
+      const response = await DeleteCartItem(userId, productId);
+      if (response.status === 200) {
+        setCartItems(response.data);
+        console.log(response.data);
+        return { success: true, response: response };
+      } else {
+        setCartItems([]);
+      }
+    } catch (e) {
+      setCartItems([]);
+    }
   }
 
   async function updateUserDetails(
@@ -154,11 +163,9 @@ function AuthProvider({ children }) {
         getUserCart(response.data.email);
         return { success: true, response };
       } else {
-        logout();
         return { success: false, response };
       }
     } catch (e) {
-      logout();
       return { success: false, response: e.response };
     }
   }
