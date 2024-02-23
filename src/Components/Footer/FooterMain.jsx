@@ -20,9 +20,7 @@ function FooterMain() {
         if (result.success) {
           showSuccessMessage();
         } else {
-          showErrorMessage(
-            "Invalid format or we,ve already recived your subscibtion"
-          );
+          showErrorMessage("Invalid email format, Email already recieved");
         }
       })
       .catch(function (error) {

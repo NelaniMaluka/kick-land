@@ -9,7 +9,7 @@ function Help() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
-  const [errormessage, setErrormessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
 
   const authContext = useAuth();
@@ -42,20 +42,17 @@ function Help() {
           setEmail("");
           setPhoneNumber("");
           setMessage("");
+          console.log(result);
         } else {
           // API call failed, handle the error
           setShowErrormessage(true);
-          console.error("ContactUs failed:", result.error);
-          setErrormessage(
-            "Please fill out all the fields in the correct format"
-          );
+          setErrorMessage("Invalid Credentials");
         }
       })
       .catch(function (error) {
         // Handle other unexpected errors
         setShowErrormessage(true);
-        console.error("Unexpected error in ContactUs:", error);
-        setErrormessage("Unexpected error please ContactUs");
+        setErrorMessage("Unexpected error please ContactUs");
       });
   }
 
@@ -73,7 +70,7 @@ function Help() {
         <div>
           <h2> Contact Us</h2>
         </div>
-        {ShowErrormessage && <div className="error">{errormessage}</div>}
+        {ShowErrormessage && <div className="error"> {errorMessage}</div>}
         <div className="field">
           <input
             className="messageField"
