@@ -1,10 +1,13 @@
 package com.examplekicklaandwebsite.KickLaand.User;
 
+import javax.validation.constraints.NotNull;
+
 public class CartWithUserRequest {
 
 	 
 	private Integer id;
 	
+	@NotNull
 	private Integer userId;
 	
  
