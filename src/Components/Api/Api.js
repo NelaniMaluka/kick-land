@@ -45,20 +45,14 @@ export function AddToCart(productWithUserId) {
   return apiClient.post("/Backend/Cart", productWithUserId);
 }
 
-/*async function deleteCartItem(userId, productId) {
-  try {
-    // Convert userId and productId to integers if needed
-    const parsedUserId = parseInt(userId, 10);
-    const parsedProductId = parseInt(productId, 10);
+export function DeleteCartItem(userId, productId) {
+  const parsedUserId = parseInt(userId, 10);
+  const parsedProductId = parseInt(productId, 10);
 
-    const response = await apiClient.delete(
-      `/Backend/Cart?userId=${parsedUserId}&productId=${parsedProductId}`
-    );
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-}*/
+  return apiClient.delete(
+    `/Backend/Cart?userId=${parsedUserId}&productId=${parsedProductId}`
+  );
+}
 
 export function UpdateUserDetails(
   userId,

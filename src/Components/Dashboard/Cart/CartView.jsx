@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../Security/AuthContext";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,7 +7,7 @@ import "./CartView.css";
 
 function CartView() {
   const authContext = useAuth();
-  const cartItems = authContext.isCartItems || [];
+  const [cartItems, setCartItems] = useState(authContext.isCartItems || []);
 
   // Function to handle quantity change
   function handleQuantityChange(productId, updatedQuantity) {
@@ -29,10 +29,19 @@ function CartView() {
   }
 
   // Function to handle delete button click
-  function handleDeleteClick(productId) {
-    // Assuming you have a function to delete the cart item
-    authContext.deleteCartItem(productId);
-    authContext.deleteCartItem(productId, authContext.isUser.id);
+  async function handleDeleteClick(productId) {
+    authContext
+      .deleteCartItem(authContext.isUser.id, productId)
+      .then(function (result) {
+        if (result.success) {
+          setCartItems(result.response.data);
+        } else {
+          setCartItems([]);
+        }
+      })
+      .catch(function (error) {
+        setCartItems([]);
+      });
   }
 
   return (
