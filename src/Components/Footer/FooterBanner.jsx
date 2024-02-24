@@ -5,7 +5,7 @@ function FooterBanner() {
     <div className="footer-banner">
       <div className="container2">
         <div>
-          <img src="/Images/FooterImages/trophy.png" />
+          <img src="/Images/FooterImages/trophy.png" alt="Gurantee" />
           <h2>30 Days Guarantee</h2>
           <p>
             We have a 14 day return and refund (R&R) policy that absolutely
@@ -15,7 +15,7 @@ function FooterBanner() {
           </p>
         </div>
         <div>
-          <img src="/Images/FooterImages/smile.png" />
+          <img src="/Images/FooterImages/smile.png" alt="Authenticity" />
           <h2 className="authenticity-heading">AUTHENTICITY GUARANTEE</h2>
           <p>
             We only house 100% authentic sneakers with a quality service
@@ -23,7 +23,7 @@ function FooterBanner() {
           </p>
         </div>
         <div>
-          <img src="/Images/FooterImages/delivery.png" />
+          <img src="/Images/FooterImages/delivery.png" alt="Fast Shipping" />
           <h2>Fast Shipping</h2>
           <p>
             We offer free and fast shipping nationwide, making it easy for you

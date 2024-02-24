@@ -36,7 +36,7 @@ function NavBarMain() {
 
         <div className="cart">
           <Profile />
-          <Link to="/Dashboard">
+          <Link to="/Dashboard" title="Cart">
             <Cart />
           </Link>
 
@@ -45,6 +45,7 @@ function NavBarMain() {
             src="/Images/NavBarImages/o.png"
             className="hamburger"
             onClick={toggleHamburger}
+            alt="Menu Icon"
           ></img>
         </div>
       </div>

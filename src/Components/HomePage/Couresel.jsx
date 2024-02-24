@@ -59,9 +59,14 @@ function HomeCarousel({ category }) {
         style={{ margin: "40px 0" }}
         key={product.id}
       >
-        <img src={product.image1} alt="" />
+        <img src={product.image1} alt="Product" />
         <h5>{product.name}</h5>
-        <span>R {product.price}</span>
+        <span>
+          {new Intl.NumberFormat("en-ZA", {
+            style: "currency",
+            currency: "ZAR",
+          }).format(product.price)}
+        </span>
       </div>
     );
   };

@@ -91,7 +91,10 @@ function ShopProductModal({ modalState, product, onClose }) {
           {product.name}
         </h2>
         <span id="parent-modal-description" style={priceStyle}>
-          R {product.price}
+          {new Intl.NumberFormat("en-ZA", {
+            style: "currency",
+            currency: "ZAR",
+          }).format(product.price)}
         </span>
         <ChildModal />
       </Box>
