@@ -22,7 +22,6 @@ public class KickLaandApplication {
 				.allowedOrigins("http://localhost:3000");
 			}
 		};
-		
 	} 
 
 }

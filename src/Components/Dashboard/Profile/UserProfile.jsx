@@ -11,7 +11,6 @@ function UserProfile() {
 
   const AuthContext = useAuth();
   const user = AuthContext.isUser;
-  console.log(user);
 
   useEffect(() => {
     // No need to set initial form values using useEffect
@@ -31,7 +30,6 @@ function UserProfile() {
           setShowErrormessage(false);
         } else {
           setShowErrormessage(true);
-          console.error("ContactUs failed:", result.error);
           setErrormessage(
             "Please fill out all the fields in the correct format"
           );
@@ -39,7 +37,6 @@ function UserProfile() {
       })
       .catch(function (error) {
         setShowErrormessage(true);
-        console.error("Unexpected error in ContactUs:", error);
         setErrormessage("Unexpected error please ContactUs");
       });
   }
