@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,6 +87,44 @@ public class CartController {
         }
     }
     
+    @PutMapping("/Backend/Cart")
+    public ResponseEntity<?> updateCart(
+            @RequestParam("userId") Integer userId,
+            @RequestParam("productId") Integer productId,
+            @RequestParam("productQuantity") Integer productQuantity) {
+
+        UserAccount user = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+        List<Cart> userCartItems = user.getCart();
+
+        if (userCartItems.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            // Find the cart item with the specified productId that belongs to the user
+            Optional<Cart> cartItemToUpdate = userCartItems.stream()
+                    .filter(cart -> cart.getId().equals(productId))
+                    .findFirst();
+
+            if (cartItemToUpdate.isPresent()) {
+                // Update the quantity of the existing cart item
+                Cart existingCartItem = cartItemToUpdate.get();
+                existingCartItem.setQuantity(productQuantity);
+
+                // Save the updated cart item
+                cartRepository.save(existingCartItem);
+
+                // Return the updated cart list
+                Object filteredCartList = getFilteredCartList(user.getCart());
+                return ResponseEntity.ok(filteredCartList);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+    }
+
+
+    
     
     @Transactional
     @DeleteMapping("/Backend/Cart")
@@ -139,3 +178,4 @@ public class CartController {
     }
     
 }
+

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../Security/AuthContext";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
 
 import "./CartView.css";
 
@@ -9,23 +10,20 @@ function CartView() {
   const authContext = useAuth();
   const [cartItems, setCartItems] = useState(authContext.isCartItems || []);
 
-  // Function to handle quantity change
-  function handleQuantityChange(productId, updatedQuantity) {
-    // Parse the updatedQuantity as an integer
-    const parsedQuantity = parseInt(updatedQuantity, 10);
-
-    // Assuming you have a function to update the cart item quantity
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === productId) {
-        // Calculate the total price based on the unit price and updated quantity
-        const totalPrice = item.price * parsedQuantity;
-        return { ...item, quantity: parsedQuantity, totalPrice };
-      }
-      return item;
-    });
-
-    // Update the cart items in the context
-    authContext.updateCartItem(updatedCartItems);
+  // Function to handle quantity changes
+  async function handleQuantityChange(productId, updatedQuantity) {
+    authContext
+      .updateCartItem(authContext.isUser.id, productId, updatedQuantity)
+      .then(function (result) {
+        if (result.success) {
+          setCartItems(result.response.data);
+        } else {
+          showErrorMessage("Could not update product");
+        }
+      })
+      .catch(function (error) {
+        showErrorMessage("Internal Server Error");
+      });
   }
 
   // Function to handle delete button click
@@ -36,12 +34,20 @@ function CartView() {
         if (result.success) {
           setCartItems(result.response.data);
         } else {
-          setCartItems([]);
+          showErrorMessage("Could not remove product");
         }
       })
       .catch(function (error) {
-        setCartItems([]);
+        showErrorMessage("Internal Server Error");
       });
+  }
+
+  function showErrorMessage(error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: error,
+    });
   }
 
   return (
@@ -49,16 +55,19 @@ function CartView() {
       {cartItems.map((product) => (
         <div className="cart-card" key={product.id}>
           <div className="cart-img">
-            <img src={product.image1} alt="Product Image" />
+            <img src={product.image1} alt="Product" />
           </div>
           <div className="divider" />
           <div className="cart-text">
             <span className="category">{product.category}</span>
             <span className="name">{product.name}</span>
             <span className="price">
-              R{product.totalPrice || product.price}
-            </span>{" "}
-            {/* Show initial total price or normal price */}
+              {new Intl.NumberFormat("en-ZA", {
+                style: "currency",
+                currency: "ZAR",
+              }).format(product.price * product.quantity)}
+            </span>
+
             <div className="cart-footer">
               <span>
                 quantity:

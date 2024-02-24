@@ -9,6 +9,7 @@ import {
   GetUserCart,
   UpdateUserDetails,
   DeleteCartItem,
+  UpdateCartItem,
 } from "../Api/Api";
 import { useEffect } from "react";
 
@@ -123,8 +124,18 @@ function AuthProvider({ children }) {
     }
   }
 
-  function updateCartItem(updatedCartItems) {
-    setCartItems(updatedCartItems);
+  async function updateCartItem(userId, productId, productQuantity) {
+    try {
+      const response = await UpdateCartItem(userId, productId, productQuantity);
+      if (response.status === 200) {
+        setCartItems(response.data);
+        return { success: true, response: response };
+      } else {
+        return response;
+      }
+    } catch (e) {
+      return e;
+    }
   }
 
   async function deleteCartItem(userId, productId) {
@@ -132,13 +143,12 @@ function AuthProvider({ children }) {
       const response = await DeleteCartItem(userId, productId);
       if (response.status === 200) {
         setCartItems(response.data);
-        console.log(response.data);
         return { success: true, response: response };
       } else {
-        setCartItems([]);
+        return response;
       }
     } catch (e) {
-      setCartItems([]);
+      return e;
     }
   }
 

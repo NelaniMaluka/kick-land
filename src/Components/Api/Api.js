@@ -54,6 +54,16 @@ export function DeleteCartItem(userId, productId) {
   );
 }
 
+export function UpdateCartItem(userId, productId, productQuantity) {
+  const parsedUserId = parseInt(userId, 10);
+  const parsedProductId = parseInt(productId, 10);
+  const parsedproductQuantity = parseInt(productQuantity, 10);
+
+  return apiClient.put(
+    `/Backend/Cart?userId=${parsedUserId}&productId=${parsedProductId}&productQuantity=${parsedproductQuantity}`
+  );
+}
+
 export function UpdateUserDetails(
   userId,
   username,
