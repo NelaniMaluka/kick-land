@@ -14,7 +14,6 @@ function HomePage() {
       <HomeCarousel products={products} category="Dunk" />
       <BannerCard />
       <HomeCarousel products={products} category="AirMax" />
-
       <FooterBanner />
     </div>
   );

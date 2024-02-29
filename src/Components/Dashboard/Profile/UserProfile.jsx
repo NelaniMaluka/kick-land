@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../Security/AuthContext.js";
 import Swal from "sweetalert2";
 import { Formik } from "formik";
-import LocationInput from "./LocationInput.tsx";
+import LocationSearchInput from "./LocationSearchInput.jsx";
 import "./Profile.css";
 
 function UserProfile() {
@@ -104,8 +104,9 @@ function UserProfile() {
           <div>
             <h2> Address Information:</h2>
           </div>
-          <div>
-            <LocationInput />
+          <div className="field-1">
+            <LocationSearchInput locationType={"cities"} />
+            <LocationSearchInput locationType={"geocode"} />
           </div>
           <div>
             <button type="button" name="login" onClick={handleSubmit}>
