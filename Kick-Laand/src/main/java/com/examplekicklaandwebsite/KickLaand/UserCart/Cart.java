@@ -1,4 +1,4 @@
-package com.examplekicklaandwebsite.KickLaand.User;
+package com.examplekicklaandwebsite.KickLaand.UserCart;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.examplekicklaandwebsite.KickLaand.User.UserAccount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
