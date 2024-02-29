@@ -139,5 +139,10 @@ public class UserController {
             return ResponseEntity.badRequest().body("Failed to update user fields");
         }
     }
+    
+//    public BCryptPasswordEncoder passwordEncoder (string password) {
+//    	return new BCryptPasswordEncoder(password);
+//    }
+//    
 
 }

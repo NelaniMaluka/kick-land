@@ -1,4 +1,4 @@
-package com.examplekicklaandwebsite.KickLaand.User;
+package com.examplekicklaandwebsite.KickLaand.UserCart;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
