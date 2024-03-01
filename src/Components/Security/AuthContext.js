@@ -157,7 +157,8 @@ function AuthProvider({ children }) {
     username,
     surname,
     email,
-    phonenumber
+    phonenumber,
+    address
   ) {
     try {
       const response = await UpdateUserDetails(
@@ -165,7 +166,8 @@ function AuthProvider({ children }) {
         username,
         surname,
         email,
-        phonenumber
+        phonenumber,
+        address
       );
       if (response.status === 200) {
         setUser(response.data);

@@ -8,6 +8,7 @@ import "./Profile.css";
 function UserProfile() {
   const [errormessage, setErrormessage] = useState("");
   const [ShowErrormessage, setShowErrormessage] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   const AuthContext = useAuth();
   const user = AuthContext.isUser;
@@ -22,7 +23,8 @@ function UserProfile() {
       values.name,
       values.surname,
       values.email,
-      values.phoneNumber
+      values.phoneNumber,
+      selectedAddress // Use the selected address
     )
       .then(function (result) {
         if (result.success) {
@@ -56,6 +58,7 @@ function UserProfile() {
         surname: user.surname || "",
         phoneNumber: user.phoneNumber || "",
         email: user.email || "",
+        address: user.address || "",
       }}
       onSubmit={handleSubmit}
     >
@@ -105,8 +108,10 @@ function UserProfile() {
             <h2> Address Information:</h2>
           </div>
           <div className="field-1">
-            <LocationSearchInput locationType={"cities"} />
-            <LocationSearchInput locationType={"geocode"} />
+            <LocationSearchInput
+              initialAddress={values.address}
+              onAddressSelect={(address) => setSelectedAddress(address)}
+            />
           </div>
           <div>
             <button type="button" name="login" onClick={handleSubmit}>

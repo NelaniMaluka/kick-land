@@ -45,8 +45,9 @@ public class UserController {
             		    "username", user.getUsername(),
             		    "email", user.getEmail(),
             		    "surname", user.getSurname(),
-            		    "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : ""
-                		));
+            		    "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : "",
+                		"address", user.getAddress() != null ? user.getAddress() : ""
+            			));
 
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
@@ -108,7 +109,7 @@ public class UserController {
                             user.setUsername(value);
                             break;
                         case "email":
-                            // You can add email validation if needed
+                            
                             user.setEmail(value);
                             break;
                         case "surname":
@@ -117,7 +118,9 @@ public class UserController {
                         case "phonenumber":
                             user.setPhonenumber(value);
                             break;
-                        // Add cases for other fields as needed
+                        case "address":
+                            user.setAddress(value);
+                            break;
 
                         default:
                             return ResponseEntity.badRequest().body("Invalid field specified");
@@ -130,8 +133,9 @@ public class UserController {
                         "username", user.getUsername(),
                         "email", user.getEmail(),
                         "surname", user.getSurname(),
-                        "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : ""
-                		));
+                        "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : "",
+                        "address", user.getAddress() != null ? user.getAddress() : ""
+                    	));
             } else {
                 return ResponseEntity.notFound().build();
             }

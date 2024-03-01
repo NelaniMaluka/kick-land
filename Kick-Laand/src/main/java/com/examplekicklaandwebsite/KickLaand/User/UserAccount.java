@@ -43,7 +43,7 @@ public class UserAccount {
 		    )
 	public String phonenumber;
 
-
+	public String address;
 
 	public UserAccount() {
 		// You can initialize any default values here if needed
@@ -112,6 +112,14 @@ public class UserAccount {
 
 	public void setPhonenumber(String phonenumber) {
 		this.phonenumber = phonenumber;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

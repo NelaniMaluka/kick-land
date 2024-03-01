@@ -1,27 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import { useState } from "react";
+import "./Profile.css";
 
-function LocationSearchInput({ locationType }) {
-  const [address, setAddress] = useState("");
+function LocationSearchInput({ onAddressSelect, initialAddress }) {
+  const [address, setAddress] = useState(initialAddress);
+  const [isValidAddress, setIsValidAddress] = useState(true);
 
   const handleSelect = async (value) => {
-    const result = await geocodeByAddress(value);
-    setAddress(result[0].formatted_address);
+    try {
+      const result = await geocodeByAddress(value);
+
+      if (result.length > 0) {
+        const addressComponents = result[0].address_components;
+        const isStreetAddress = addressComponents.some((component) =>
+          component.types.includes("route")
+        );
+
+        if (isStreetAddress) {
+          const formattedAddress = result[0].formatted_address;
+          setAddress(formattedAddress);
+          setIsValidAddress(true);
+
+          // You can also get the latitude and longitude if needed
+          const { lat, lng } = await getLatLng(result[0]);
+          console.log("Latitude and Longitude:", lat, lng);
+
+          // Pass the selected address back to the parent component
+          onAddressSelect(formattedAddress);
+        } else {
+          setIsValidAddress(false);
+        }
+      } else {
+        setIsValidAddress(false);
+      }
+    } catch (error) {
+      console.error("Error validating address:", error);
+      setIsValidAddress(false);
+    }
   };
 
-  // Custom function to filter suggestions to cities in South Africa
   const searchOptions = {
-    types: [`(${locationType})`],
-    componentRestrictions: { country: "ZA" }, // Country code for South Africa
+    componentRestrictions: { country: "ZA" },
   };
 
   return (
     <div>
       <PlacesAutocomplete
+        placeholder={onAddressSelect}
         value={address}
         onChange={setAddress}
         onSelect={handleSelect}
@@ -31,8 +59,8 @@ function LocationSearchInput({ locationType }) {
           <div>
             <input
               {...getInputProps({
-                placeholder: "Search Places ...",
-                className: "location-search-input",
+                placeholder: "e.g 41 bieker road",
+                className: "messageField",
               })}
             />
             <div className="autocomplete-dropdown-container">
@@ -59,6 +87,11 @@ function LocationSearchInput({ locationType }) {
           </div>
         )}
       </PlacesAutocomplete>
+      {!isValidAddress && (
+        <div style={{ color: "red" }}>
+          Invalid address. Please enter a valid street address.
+        </div>
+      )}
     </div>
   );
 }

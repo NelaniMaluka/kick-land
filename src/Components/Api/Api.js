@@ -69,12 +69,14 @@ export function UpdateUserDetails(
   username,
   surname,
   email,
-  phonenumber // Fix: Correct field name
+  phonenumber,
+  address
 ) {
   return apiClient.put(`/Backend/Update-User/${userId}`, {
     username,
     surname,
     email,
-    phonenumber, // Fix: Correct field name
+    phonenumber,
+    address,
   });
 }
