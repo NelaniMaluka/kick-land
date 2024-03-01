@@ -77,6 +77,12 @@ function ShopProductModal({ modalState, product, onClose }) {
     margin: "0 0 10px 15px",
     fontSize: "20px",
   };
+  const categoryStyle = {
+    margin: "0 0 10px 15px",
+    fontSize: "20px",
+    display: "block",
+    color: "rgb(105, 105, 105)",
+  };
 
   return (
     <Modal
@@ -90,6 +96,7 @@ function ShopProductModal({ modalState, product, onClose }) {
         <h2 id="parent-modal-title" style={nameStyle}>
           {product.name}
         </h2>
+        <span style={categoryStyle}>{product.category}</span>
         <span id="parent-modal-description" style={priceStyle}>
           {new Intl.NumberFormat("en-ZA", {
             style: "currency",

@@ -16,12 +16,20 @@
   height: auto;
 }
 .products-card h5 {
-  margin: 10px 0 20px 0;
+  margin: 8px 0 8px 0;
   font-weight: 600;
 }
 .couresel {
   width: 95%;
 }
+.products-card span {
+  display: block;
+  margin: 8px 0 8px 0;
+}
+.category {
+  color: rgb(105, 105, 105);
+}
+
 @media screen and (max-width: 661px) {
   .product {
     width: 100%;

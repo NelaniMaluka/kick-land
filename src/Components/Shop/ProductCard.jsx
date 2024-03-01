@@ -21,6 +21,7 @@ function ProductCard({ products }) {
           >
             <img src={product.image1} alt="Product" />
             <h5>{product.name}</h5>
+            <span className="category">{product.category}</span>
             <span>
               {new Intl.NumberFormat("en-ZA", {
                 style: "currency",
