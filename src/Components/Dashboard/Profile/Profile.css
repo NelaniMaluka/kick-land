@@ -1,6 +1,7 @@
 .profile {
-  background-color: aqua;
   width: 100%;
+  max-width: 1300px;
+  margin: auto;
 }
 .profile h2 {
   text-align: left;

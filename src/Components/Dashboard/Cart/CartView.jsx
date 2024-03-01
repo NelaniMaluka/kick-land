@@ -51,7 +51,7 @@ function CartView() {
   }
 
   return (
-    <div>
+    <div className="cart-container">
       {cartItems.map((product) => (
         <div className="cart-card" key={product.id}>
           <div className="cart-img">

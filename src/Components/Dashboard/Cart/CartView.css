@@ -1,7 +1,11 @@
+.cart-container {
+  background-color: aqua;
+  width: 70%;
+}
 .cart-card {
   border: 1px solid black;
   width: 100%;
-  margin: 15px;
+  margin: 15px 0 15px 0;
   display: flex;
 }
 
@@ -44,4 +48,38 @@
 }
 .cart-footer span input {
   width: 50px;
+}
+
+/* Add the following styles for mobile view */
+@media screen and (max-width: 661px) {
+  .cart-container {
+    width: 90%;
+    margin: auto;
+  }
+  .cart-card {
+    flex-direction: column; /* Stack items vertically on small screens */
+    height: fit-content;
+  }
+
+  .divider {
+    border-left: none; /* Remove the left border for small screens */
+    height: auto;
+    margin: 5px 0;
+  }
+
+  .cart-img {
+    width: 100%; /* Make the image take full width in mobile view */
+  }
+
+  .cart-text {
+    width: 100%; /* Make the text take full width in mobile view */
+    padding: 10px;
+  }
+  .category {
+    margin: 0 0 10px 0;
+  }
+  .price {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
 }
