@@ -1,14 +1,15 @@
-import * as React from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import UserProfile from "./Profile/UserProfile";
 import CartView from "./Cart/CartView";
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, tabsVisible, ...other } = props;
 
   return (
     <div
@@ -17,9 +18,19 @@ function TabPanel(props) {
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       {value === index && (
-        <Box sx={{ p: 3, width: "100%" }}>
+        <Box
+          sx={{
+            p: 3,
+            flexGrow: 1,
+          }}
+        >
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -27,57 +38,77 @@ function TabPanel(props) {
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
+function Dashboard() {
+  const [value, setValue] = useState(0);
+  const [tabsVisible, setTabsVisible] = useState(true);
 
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    "aria-controls": `vertical-tabpanel-${index}`,
+  const toggleTabsVisibility = () => {
+    setTabsVisible(!tabsVisible);
   };
-}
-
-export default function Dashboard() {
-  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        bgcolor: "background.paper",
-        display: "flex",
-        height: "maxContent",
-        minHeight: 629,
-      }}
-    >
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: "divider" }}
+    <div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {tabsVisible ? (
+          <RemoveIcon
+            onClick={toggleTabsVisibility}
+            style={{ cursor: "pointer" }}
+          />
+        ) : (
+          <AddIcon
+            onClick={toggleTabsVisibility}
+            style={{ cursor: "pointer" }}
+          />
+        )}
+        <Typography>{tabsVisible ? "Hide Tabs" : "Show Tabs"}</Typography>
+      </div>
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          bgcolor: "background.paper",
+          display: "flex",
+          height: "maxContent",
+          minHeight: 629,
+          width: "100%",
+        }}
       >
-        <Tab label="Profile" {...a11yProps(0)} />
-        <Tab label="Cart" {...a11yProps(1)} />
-        <Tab label="Shipping Details" {...a11yProps(2)} />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        <UserProfile />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <CartView />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-    </Box>
+        {tabsVisible && (
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
+            sx={{ borderRight: 1, borderColor: "divider", width: "150px" }}
+          >
+            <Tab label="Profile" />
+            <Tab label="Cart" />
+            <Tab label="Orders" />
+            <Tab label="Cards" />
+          </Tabs>
+        )}
+
+        <TabPanel value={value} index={0} tabsVisible={tabsVisible}>
+          <UserProfile />
+        </TabPanel>
+
+        <TabPanel value={value} index={1} tabsVisible={tabsVisible}>
+          <CartView />
+        </TabPanel>
+        <TabPanel value={value} index={2} tabsVisible={tabsVisible}>
+          Item Three
+        </TabPanel>
+        <TabPanel value={value} index={3} tabsVisible={tabsVisible}>
+          cards
+        </TabPanel>
+      </Box>
+    </div>
   );
 }
+
+export default Dashboard;
