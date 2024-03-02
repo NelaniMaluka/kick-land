@@ -56,6 +56,12 @@ export default function Profile() {
       >
         <MenuItem onClick={handleClose}>
           <Link to="/Dashboard" style={{ fontFamily: "arial" }}>
+            <span
+              style={{ float: "left", marginRight: "5px" }}
+              class="material-symbols-outlined"
+            >
+              manage_accounts
+            </span>
             Profile
           </Link>
         </MenuItem>
@@ -63,6 +69,12 @@ export default function Profile() {
           {!isAuthenticated && (
             <li>
               <Link to="/Login" style={{ fontFamily: "arial" }}>
+                <span
+                  style={{ float: "left", marginRight: "5px" }}
+                  class="material-symbols-outlined"
+                >
+                  login
+                </span>
                 Log In
               </Link>
             </li>
@@ -70,6 +82,12 @@ export default function Profile() {
           {isAuthenticated && (
             <li>
               <Link onClick={handleLogout} style={{ fontFamily: "arial" }}>
+                <span
+                  style={{ float: "left", marginRight: "5px" }}
+                  class="material-symbols-outlined"
+                >
+                  logout
+                </span>
                 Log Out
               </Link>
             </li>

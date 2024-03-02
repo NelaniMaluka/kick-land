@@ -95,7 +95,7 @@ function CreateAccount() {
         <div className="field">
           <input
             placeholder="Email"
-            type="text"
+            type="email"
             name="email"
             value={email}
             onChange={handleEmailChange}

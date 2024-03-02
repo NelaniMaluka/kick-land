@@ -36,6 +36,12 @@ function ShopProductModal({ modalState, product, onClose }) {
     return (
       <div style={buttonContainerStyle}>
         <button onClick={Cart} style={buttonStyle}>
+          <span
+            style={{ float: "left", width: "0" }}
+            class="material-symbols-outlined"
+          >
+            add_shopping_cart
+          </span>
           Add to cart
         </button>
         {showSnackbar && <TransitionsSnackbar />}{" "}
@@ -69,8 +75,8 @@ function ShopProductModal({ modalState, product, onClose }) {
   };
 
   const nameStyle = {
-    margin: "0 0 10px 15px",
-    fontSize: "30px",
+    margin: "0 0 2px 15px",
+    fontSize: "28px",
   };
 
   const priceStyle = {
@@ -78,7 +84,7 @@ function ShopProductModal({ modalState, product, onClose }) {
     fontSize: "20px",
   };
   const categoryStyle = {
-    margin: "0 0 10px 15px",
+    margin: "0 0 8px 15px",
     fontSize: "20px",
     display: "block",
     color: "rgb(105, 105, 105)",

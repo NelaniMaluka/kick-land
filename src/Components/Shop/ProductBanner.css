@@ -13,3 +13,12 @@
 .shopAll div {
   display: inline-block;
 }
+
+@media screen and (max-width: 661px) {
+  .shopAll {
+    padding: 3px;
+  }
+  .shopAll p {
+    font-size: 20px;
+  }
+}

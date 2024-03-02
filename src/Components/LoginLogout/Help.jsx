@@ -75,14 +75,14 @@ function Help() {
           <input
             className="messageField"
             placeholder="Name"
-            type="name"
+            type="text"
             name="name"
             value={name}
             onChange={handleNameChange}
           />
           <input
             className="messageField"
-            placeholder="Email"
+            placeholder="Email*"
             type="email"
             name="email"
             value={email}
@@ -91,8 +91,8 @@ function Help() {
         </div>
         <div className="field">
           <input
-            placeholder="Phone Number"
-            type="phone"
+            placeholder="Phone Number*"
+            type="tel"
             name="phoneNumber"
             value={phoneNumber}
             onChange={handlePhoneNumberChange}
@@ -101,8 +101,8 @@ function Help() {
         <div className="field messagebox">
           <textarea
             className="message"
-            placeholder="Message"
-            type="message"
+            placeholder="Message*"
+            type="text"
             name="message"
             value={message}
             onChange={handleMessageChange}

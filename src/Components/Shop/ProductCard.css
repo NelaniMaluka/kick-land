@@ -45,4 +45,10 @@
   .products-card h5 {
     font-size: 17px;
   }
+  .products-card span {
+    font-size: 15px;
+  }
+  .category {
+    font-size: 10px;
+  }
 }

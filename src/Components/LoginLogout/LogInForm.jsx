@@ -65,7 +65,7 @@ function LoginForm() {
         )}
         <div className="field">
           <input
-            placeholder="Email"
+            placeholder="Email*"
             type="email"
             name="email"
             value={email}
@@ -74,7 +74,7 @@ function LoginForm() {
         </div>
         <div className="field">
           <input
-            placeholder="Password"
+            placeholder="Password*"
             type="password"
             name="password"
             value={password}
@@ -91,7 +91,7 @@ function LoginForm() {
             <Link to="/Create-Account">Create an Account</Link>
           </li>
           <li>
-            <Link to="/Forgot-Password">Forgot your password?</Link>
+            <Link to="/Forgot-Password">Forgot your password ?</Link>
           </li>
         </ul>
       </div>

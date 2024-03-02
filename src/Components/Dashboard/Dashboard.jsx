@@ -86,10 +86,28 @@ function Dashboard() {
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: "divider", width: "150px" }}
           >
-            <Tab label="Profile" />
-            <Tab label="Cart" />
-            <Tab label="Orders" />
-            <Tab label="Cards" />
+            <Tab
+              label="Profile"
+              icon={<span className="material-symbols-outlined">person</span>}
+            />
+            <Tab
+              label="Cart"
+              icon={
+                <span className="material-symbols-outlined">shopping_cart</span>
+              }
+            />
+            <Tab
+              label="Orders"
+              icon={
+                <span className="material-symbols-outlined">shopping_bag</span>
+              }
+            />
+            <Tab
+              label="Cards"
+              icon={
+                <span className="material-symbols-outlined">credit_card</span>
+              }
+            />
           </Tabs>
         )}
 

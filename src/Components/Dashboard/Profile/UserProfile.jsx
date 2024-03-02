@@ -71,16 +71,16 @@ function UserProfile() {
           <div className="field-1">
             <input
               className="messageField"
-              placeholder="Name"
-              type="name"
+              placeholder="Name*"
+              type="text"
               name="name"
               value={values.name}
               onChange={handleChange}
             />
             <input
               className="messageField"
-              placeholder="Surname"
-              type="Surname"
+              placeholder="Surname*"
+              type="text"
               name="surname"
               value={values.surname}
               onChange={handleChange}
@@ -90,14 +90,14 @@ function UserProfile() {
             <input
               className="messageField"
               placeholder="Phone Number"
-              type="phone"
+              type="tel"
               name="phoneNumber"
               value={values.phoneNumber}
               onChange={handleChange}
             />
             <input
               className="messageField"
-              placeholder="Email"
+              placeholder="Email*"
               type="email"
               name="email"
               value={values.email}
