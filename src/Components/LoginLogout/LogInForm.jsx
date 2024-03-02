@@ -23,23 +23,21 @@ function LoginForm() {
     setPassword(event.target.value);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    useContext
-      .login(email, password)
-      .then(function (result) {
-        if (result.success) {
-          showSuccessMessage();
-          navigate("/");
-        } else {
-          setMessage("Invalid Credentials");
-          setShowErrormessage(true);
-        }
-      })
-      .catch(function (error) {
-        setMessage("We are incountering problems Sorry for the inconvinience ");
+    try {
+      const result = await useContext.login(email, password);
+      if (result.success) {
+        showSuccessMessage();
+        navigate("/");
+      } else {
+        setMessage("Invalid Credentials");
         setShowErrormessage(true);
-      });
+      }
+    } catch (error) {
+      setMessage("We are incountering problems Sorry for the inconvinience ");
+      setShowErrormessage(true);
+    }
   }
 
   function showSuccessMessage() {

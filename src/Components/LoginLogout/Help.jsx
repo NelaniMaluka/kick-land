@@ -30,30 +30,33 @@ function Help() {
     setMessage(event.target.value);
   }
 
-  function handleSubmit() {
-    authContext
-      .contactUs(name, email, phoneNumber, message)
-      .then(function (result) {
-        if (result.success) {
-          // API call was successful, handle the success
-          showSuccessMessage(true);
-          setShowErrormessage(false);
-          setName("");
-          setEmail("");
-          setPhoneNumber("");
-          setMessage("");
-          console.log(result);
-        } else {
-          // API call failed, handle the error
-          setShowErrormessage(true);
-          setErrorMessage("Invalid Credentials");
-        }
-      })
-      .catch(function (error) {
-        // Handle other unexpected errors
+  async function handleSubmit() {
+    try {
+      const result = await authContext.contactUs(
+        name,
+        email,
+        phoneNumber,
+        message
+      );
+      if (result.success) {
+        // API call was successful, handle the success
+        showSuccessMessage(true);
+        setShowErrormessage(false);
+        setName("");
+        setEmail("");
+        setPhoneNumber("");
+        setMessage("");
+        console.log(result);
+      } else {
+        // API call failed, handle the error
         setShowErrormessage(true);
-        setErrorMessage("Unexpected error please ContactUs");
-      });
+        setErrorMessage("Invalid Credentials");
+      }
+    } catch (error) {
+      // Handle other unexpected errors
+      setShowErrormessage(true);
+      setErrorMessage("Unexpected error please ContactUs");
+    }
   }
 
   function showSuccessMessage(result) {

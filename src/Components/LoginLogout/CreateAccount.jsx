@@ -34,23 +34,26 @@ function CreateAccount() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    useContext
-      .createAccount(username, surname, email, password)
-      .then(function (result) {
-        if (result.success) {
-          showSuccessMessage(username);
-          navigate("/");
-        } else {
-          setErrorMessage("Please enter all the fields");
-          setShowErrormessage(true);
-        }
-      })
-      .catch(function (error) {
-        setErrorMessage(
-          "We are encountering some problems Sorry for the inconvinience"
-        );
+    try {
+      const result = await useContext.createAccount(
+        username,
+        surname,
+        email,
+        password
+      );
+      if (result.success) {
+        showSuccessMessage(username);
+        navigate("/");
+      } else {
+        setErrorMessage("Please enter all the fields");
         setShowErrormessage(true);
-      });
+      }
+    } catch (error) {
+      setErrorMessage(
+        "We are encountering some problems Sorry for the inconvinience"
+      );
+      setShowErrormessage(true);
+    }
   }
 
   function showSuccessMessage(username) {

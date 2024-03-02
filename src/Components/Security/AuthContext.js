@@ -116,8 +116,10 @@ function AuthProvider({ children }) {
       const response = await AddToCart(productWithUserId);
       if (response.status === 200) {
         setCartItems(response.data);
+        return true;
       } else {
         setCartItems([]);
+        return false;
       }
     } catch (e) {
       setCartItems([]);

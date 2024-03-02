@@ -16,7 +16,7 @@ function ForgotPassword() {
     setEmail(event.target.value);
   }
 
-  function handleSubmit() {}
+  async function handleSubmit() {}
 
   return (
     <form className="form container2">

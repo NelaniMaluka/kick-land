@@ -12,34 +12,37 @@ function CartView() {
 
   // Function to handle quantity changes
   async function handleQuantityChange(productId, updatedQuantity) {
-    authContext
-      .updateCartItem(authContext.isUser.id, productId, updatedQuantity)
-      .then(function (result) {
-        if (result.success) {
-          setCartItems(result.response.data);
-        } else {
-          showErrorMessage("Could not update product");
-        }
-      })
-      .catch(function (error) {
-        showErrorMessage("Internal Server Error");
-      });
+    try {
+      const result = await authContext.updateCartItem(
+        authContext.isUser.id,
+        productId,
+        updatedQuantity
+      );
+      if (result.success) {
+        setCartItems(result.response.data);
+      } else {
+        showErrorMessage("Could not update product");
+      }
+    } catch (error) {
+      showErrorMessage("Internal Server Error");
+    }
   }
 
   // Function to handle delete button click
   async function handleDeleteClick(productId) {
-    authContext
-      .deleteCartItem(authContext.isUser.id, productId)
-      .then(function (result) {
-        if (result.success) {
-          setCartItems(result.response.data);
-        } else {
-          showErrorMessage("Could not remove product");
-        }
-      })
-      .catch(function (error) {
-        showErrorMessage("Internal Server Error");
-      });
+    try {
+      const result = await authContext.deleteCartItem(
+        authContext.isUser.id,
+        productId
+      );
+      if (result.success) {
+        setCartItems(result.response.data);
+      } else {
+        showErrorMessage("Could not remove product");
+      }
+    } catch (error) {
+      showErrorMessage("Internal Server Error");
+    }
   }
 
   function showErrorMessage(error) {

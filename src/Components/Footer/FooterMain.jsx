@@ -13,19 +13,17 @@ function FooterMain() {
     setEmail(event.target.value);
   }
 
-  function handleSubmit() {
-    authContext
-      .signUpForNewsletter(email)
-      .then(function (result) {
-        if (result.success) {
-          showSuccessMessage();
-        } else {
-          showErrorMessage("Invalid email format, Email already recieved");
-        }
-      })
-      .catch(function (error) {
-        showErrorMessage("Could sign");
-      });
+  async function handleSubmit() {
+    try {
+      const result = await authContext.signUpForNewsletter(email);
+      if (result.success) {
+        showSuccessMessage();
+      } else {
+        showErrorMessage("Invalid email format, Email already recieved");
+      }
+    } catch (error) {
+      showErrorMessage("Could sign");
+    }
     setEmail("");
   }
 

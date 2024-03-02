@@ -17,30 +17,27 @@ function UserProfile() {
     // No need to set initial form values using useEffect
   }, [user]);
 
-  function handleSubmit(values) {
-    AuthContext.updateUserDetails(
-      user.id,
-      values.name,
-      values.surname,
-      values.email,
-      values.phoneNumber,
-      selectedAddress // Use the selected address
-    )
-      .then(function (result) {
-        if (result.success) {
-          showSuccessMessage(result);
-          setShowErrormessage(false);
-        } else {
-          setShowErrormessage(true);
-          setErrormessage(
-            "Please fill out all the fields in the correct format"
-          );
-        }
-      })
-      .catch(function (error) {
+  async function handleSubmit(values) {
+    try {
+      const result = await AuthContext.updateUserDetails(
+        user.id,
+        values.name,
+        values.surname,
+        values.email,
+        values.phoneNumber,
+        selectedAddress // Use the selected address
+      );
+      if (result.success) {
+        showSuccessMessage(result);
+        setShowErrormessage(false);
+      } else {
         setShowErrormessage(true);
-        setErrormessage("Unexpected error please ContactUs");
-      });
+        setErrormessage("Please fill out all the fields in the correct format");
+      }
+    } catch (error) {
+      setShowErrormessage(true);
+      setErrormessage("Unexpected error please ContactUs");
+    }
   }
 
   function showSuccessMessage(result) {
