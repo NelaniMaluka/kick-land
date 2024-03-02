@@ -49,6 +49,18 @@
 .cart-footer span input {
   width: 50px;
 }
+.no-cart-items {
+  text-align: center;
+  height: 400px;
+  display: flex;
+  align-items: center; /* Vertically center the content */
+  justify-content: center; /* Horizontally center the content */
+}
+
+.no-cart-items span {
+  width: fit-content;
+  font-size: 20px;
+}
 
 /* Add the following styles for mobile view */
 @media screen and (max-width: 661px) {

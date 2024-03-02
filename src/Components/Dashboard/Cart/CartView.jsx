@@ -50,6 +50,17 @@ function CartView() {
     });
   }
 
+  if (cartItems.length === 0) {
+    return (
+      <div className="no-cart-items">
+        <span>
+          <span class="material-symbols-outlined">playlist_add</span> No cart
+          items available.
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="cart-container">
       {cartItems.map((product) => (
