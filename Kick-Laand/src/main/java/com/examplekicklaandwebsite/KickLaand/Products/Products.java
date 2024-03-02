@@ -11,13 +11,15 @@ import javax.validation.constraints.NotNull;
 public class Products {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	@NotNull
 	private String name;
-
+	@NotNull
 	private BigDecimal price;
 	@NotNull
 	private String category;
+	@NotNull
+	private Integer stock;
 	private String image1;
 	private String image2;
 	private String image3;
@@ -26,11 +28,11 @@ public class Products {
 	public Products() {
     }
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -56,6 +58,14 @@ public class Products {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
 	}
 
 	public String getImage1() {

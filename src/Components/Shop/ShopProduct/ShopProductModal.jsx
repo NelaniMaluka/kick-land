@@ -19,13 +19,18 @@ function ShopProductModal({ modalState, product, onClose }) {
     onClose();
   };
 
-  function Cart() {
+  async function Cart() {
     const quantity = 1;
     if (authContext.isAuthenticated) {
       const userId = authContext.isUser.id;
       const productWithUserId = { ...product, quantity, userId };
-      authContext.addToCart(productWithUserId);
-      setShowSnackbar(true); // Set state to show Snackbar
+      try {
+        const result = await authContext.addToCart(productWithUserId);
+        if (result) {
+          setShowSnackbar(true); // Set state to show Snackbar
+        } else {
+        }
+      } catch (err) {}
     } else {
       handleClose();
       LogInAlert();
@@ -75,7 +80,7 @@ function ShopProductModal({ modalState, product, onClose }) {
   };
 
   const nameStyle = {
-    margin: "0 0 2px 15px",
+    margin: "5px 0 2px 15px",
     fontSize: "28px",
   };
 
@@ -84,8 +89,8 @@ function ShopProductModal({ modalState, product, onClose }) {
     fontSize: "20px",
   };
   const categoryStyle = {
-    margin: "0 0 8px 15px",
-    fontSize: "20px",
+    margin: "0 0 8px 14px",
+    fontSize: "18px",
     display: "block",
     color: "rgb(105, 105, 105)",
   };
@@ -99,6 +104,14 @@ function ShopProductModal({ modalState, product, onClose }) {
     >
       <Box sx={{ ...customStyle }}>
         <ImageCouresel product={product} />
+        {product.stock === 0 && (
+          <span
+            className="out-of-stock"
+            style={{ color: "red", fontSize: "14px", marginLeft: "15px" }}
+          >
+            Out Of Stock
+          </span>
+        )}
         <h2 id="parent-modal-title" style={nameStyle}>
           {product.name}
         </h2>
