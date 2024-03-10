@@ -1,0 +1,26 @@
+.shop-product-container {
+  height: 400px;
+  background-color: aquamarine;
+  display: flex;
+}
+
+.shop-product-container div {
+  width: 49%;
+  height: 95%;
+  background-color: aqua;
+  margin: 5px;
+  padding: 5px;
+}
+span {
+  display: block;
+}
+@media screen and (max-width: 661px) {
+  .shop-product-container {
+    height: max-content;
+    display: block;
+  }
+  .shop-product-container div {
+    width: 99%;
+    height: max-content;
+  }
+}
