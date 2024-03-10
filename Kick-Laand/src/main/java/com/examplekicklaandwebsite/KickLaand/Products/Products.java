@@ -97,6 +97,6 @@ public class Products {
 	}
 
 	public void setImage4(String image4) {
-		this.image3 = image4;
+		this.image4 = image4;
 	}
 }

@@ -20,7 +20,7 @@ public class NewsletterController {
         this.newsletterRepository = newsletterRepository;
     }
 
-    @PostMapping(path = "/Backend/Newsletter")
+    @PostMapping(path = "/api/public/newsletter")
     public ResponseEntity<?> addNewsletter(@Valid @RequestBody Newsletter newsletter) {
         try {
         	

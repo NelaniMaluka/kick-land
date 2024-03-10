@@ -15,7 +15,7 @@ public class ProductsController {
         this.productsRepository = productsRepository;
     }
 
-    @GetMapping(path = "/Backend/Products")
+    @GetMapping(path = "/api/public/products")
     public ResponseEntity<?> retrieveProducts() {
         try {
             List<Products> productList = productsRepository.findAll();

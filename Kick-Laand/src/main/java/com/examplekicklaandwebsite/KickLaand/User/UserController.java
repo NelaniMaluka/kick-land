@@ -34,7 +34,7 @@ public class UserController {
         this.newsletterRepository = newsletterRepository;
     }
 
-    @PostMapping(path = "/Backend/Login")
+    @PostMapping(path = "/api/user/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
         try {
             UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), userAccount.getPassword());
@@ -58,7 +58,7 @@ public class UserController {
     }
 
 
-    @PostMapping(path = "/Backend/Create-Account")
+    @PostMapping(path = "/api/user/create-account")
     public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount ) {
      
         try {
@@ -91,7 +91,7 @@ public class UserController {
         }
     }
     
-    @PutMapping("/Backend/Update-User/{userId}")
+    @PutMapping("/api/user/update-user/{userId}")
     public ResponseEntity<?> updateUserFields(@PathVariable Integer userId, @Valid @RequestBody Map<String, String> updates) {
 
         try {

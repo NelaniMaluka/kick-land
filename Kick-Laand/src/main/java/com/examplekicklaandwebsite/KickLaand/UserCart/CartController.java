@@ -34,7 +34,7 @@ public class CartController {
         this.userAccountRepository = userAccountRepository;
     }
 
-    @GetMapping("/Backend/Cart")
+    @GetMapping("/api/user/cart")
     @Transactional
     public ResponseEntity<?> getUserCartItems(@RequestParam String email) {
         try {
@@ -60,7 +60,7 @@ public class CartController {
     }
 
     
-    @PostMapping("/Backend/Cart")
+    @PostMapping("/api/user/cart")
     public ResponseEntity<?> addToCart(@Valid @RequestBody CartWithUserRequest request) {
         try {
             // Retrieve the user or handle user creation logic
@@ -91,7 +91,7 @@ public class CartController {
         }
     }
     
-    @PutMapping("/Backend/Cart")
+    @PutMapping("/api/user/cart")
     public ResponseEntity<?> updateCart(
             @RequestParam("userId") Integer userId,
             @RequestParam("productId") Integer productId,
@@ -127,11 +127,8 @@ public class CartController {
         }
     }
 
-
-    
-    
     @Transactional
-    @DeleteMapping("/Backend/Cart")
+    @DeleteMapping("/api/user/cart")
     public ResponseEntity<?> deleteCartItem(@RequestParam @NonNull Integer userId, @RequestParam @NonNull Integer productId) {
         try {
             UserAccount user = userAccountRepository.findById(userId)

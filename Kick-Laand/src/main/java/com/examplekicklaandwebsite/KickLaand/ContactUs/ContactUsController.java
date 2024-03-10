@@ -26,7 +26,7 @@ public class ContactUsController {
 		this.newsletterRepository = newsletterRepository;
 	}
 
-	@PostMapping(path = "/Backend/ContactUs")
+	@PostMapping(path = "/api/public/contactUs")
 	public ResponseEntity<?> sendInfo(@Valid @RequestBody ContactUs contactUs) {
 		try {
 			// Check if email is not null before creating a Newsletter instance
