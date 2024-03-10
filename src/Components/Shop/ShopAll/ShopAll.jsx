@@ -10,7 +10,7 @@ function ShopAll() {
 
   return (
     <>
-      <ProductBanner products={isProducts} setProducts={setProducts} />
+      <ProductBanner products={isProducts} setFilteredProducts={setProducts} />
       <ProductCard products={isProducts} />
       <FooterBanner />
     </>

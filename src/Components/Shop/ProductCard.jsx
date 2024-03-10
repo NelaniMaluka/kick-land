@@ -1,13 +1,18 @@
-// ProductCard.jsx
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ProductCard.css";
-import ShopProductModal from "../Shop/ShopProduct/ShopProductModal";
-import { useState } from "react";
 
 function ProductCard({ products }) {
+  const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   function handleOnClick(product) {
+    console.log(product);
     setSelectedProduct(product);
+    // Delay navigation to ensure state is updated
+    setTimeout(() => {
+      navigate(`/Shop/${product.category}/${product.name}`);
+    }, 0);
   }
 
   return (
@@ -38,13 +43,6 @@ function ProductCard({ products }) {
             </span>
           </div>
         ))}
-        {selectedProduct && (
-          <ShopProductModal
-            modalState={true} // or pass a state variable for modalState
-            product={selectedProduct}
-            onClose={() => setSelectedProduct(null)}
-          />
-        )}
       </div>
     </div>
   );

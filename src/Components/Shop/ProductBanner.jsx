@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import "./ProductBanner.css";
 
-function ProductBanner({ products, setProducts }) {
+function ProductBanner({ products, setFilteredProducts }) {
   const [shoeCount, setShoeCount] = useState(null);
 
   const getShoeCount = useCallback(() => {
@@ -39,7 +39,7 @@ function ProductBanner({ products, setProducts }) {
         sortedProducts = products;
     }
 
-    setProducts([...sortedProducts]); // Update state with the new sorted list
+    setFilteredProducts([...sortedProducts]); // Update state with the new sorted list
   }
 
   return (

@@ -100,7 +100,6 @@ function AuthProvider({ children }) {
   async function getUserCart(email) {
     try {
       const response = await GetUserCart(email);
-      console.log(response);
       if (response.status === 200) {
         setCartItems(response.data);
       } else {
@@ -200,6 +199,7 @@ function AuthProvider({ children }) {
         contactUs,
         addToCart,
         updateUserDetails,
+        retrieveProducts,
       }}
     >
       {children}
