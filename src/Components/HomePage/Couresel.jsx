@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { Carousel } from "primereact/carousel";
 import { useAuth } from "../Security/AuthContext";
-import ShopProductModal from "../Shop/ShopProduct/ShopProductModal";
+import { useNavigate } from "react-router-dom";
 
 function HomeCarousel({ category }) {
   const { isProducts, setProducts } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +81,7 @@ function HomeCarousel({ category }) {
   };
 
   function HandleOnClick(product) {
-    setSelectedProduct(product);
+    navigate(`/Shop/Sneakers/${product.name}`);
   }
 
   return (
@@ -93,13 +93,6 @@ function HomeCarousel({ category }) {
         responsiveOptions={responsiveOptions}
         itemTemplate={productTemplate}
       />
-      {selectedProduct && (
-        <ShopProductModal
-          modalState={true}
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
-      )}
     </div>
   );
 }
