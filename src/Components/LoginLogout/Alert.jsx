@@ -1,13 +1,13 @@
 import Swal from "sweetalert2";
 import "./Form.css";
 
-const LogInAlert = () => {
+const Alert = ({ message }) => {
   const customClass = "custom-popup-class";
 
   Swal.fire({
     icon: "error",
     title: "Oops...",
-    text: "LogIn first",
+    text: message,
     customClass: {
       container: customClass,
     },
@@ -20,4 +20,4 @@ const LogInAlert = () => {
   });
 };
 
-export default LogInAlert;
+export default Alert;

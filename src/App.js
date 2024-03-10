@@ -15,15 +15,16 @@ import Help from "./Components/LoginLogout/Help";
 import ShopAll from "./Components/Shop/ShopAll/ShopAll";
 import ShopByCategory from "./Components/Shop/ShopByCategory/ShopByCategory";
 import { PrimeReactProvider } from "primereact/api";
-import LogInAlert from "./Components/LoginLogout/LogInAlert";
+import Alert from "./Components/LoginLogout/Alert";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import ProductDetails from "./Components/Shop/ShopProduct/ProductDetails";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
   if (authContext.isAuthenticated) {
     return children;
   }
-  LogInAlert();
+  Alert({ message: "LogIn First" });
   return <Navigate to="/Login" />;
 }
 
@@ -40,6 +41,10 @@ function App() {
               <Route path="/Create-Account" element={<CreateAccount />} />
               <Route path="/Forgot-Password" element={<ForgotPassword />} />
               <Route path="/Shop/:item" element={<ShopByCategory />} />
+              <Route
+                path="/Shop/:category/:productName"
+                element={<ProductDetails />}
+              />
               <Route path="/Shop/Shop-All" element={<ShopAll />} />
               <Route path="/Info/About-Us" element={<AboutUs />} />
               <Route
