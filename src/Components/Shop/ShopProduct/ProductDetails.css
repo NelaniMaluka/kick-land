@@ -1,19 +1,66 @@
 .shop-product-container {
-  height: 400px;
-  background-color: aquamarine;
+  height: max-content;
   display: flex;
 }
 
 .shop-product-container div {
-  width: 49%;
-  height: 95%;
-  background-color: aqua;
   margin: 5px;
   padding: 5px;
+}
+.shop-product-container .images {
+  width: 40%;
+  padding: -200px 0 0 0;
+  margin-left: 10%;
+}
+.shop-product-container .info {
+  width: 40%;
+  padding-top: 120px;
 }
 span {
   display: block;
 }
+.sizeButton {
+  border: none;
+  margin: 10px;
+  height: 40px;
+  width: 80px;
+  border-radius: 10px;
+}
+.selectedSize {
+  border: 1px solid black;
+}
+.disabledSize {
+  text-decoration: line-through;
+}
+.shop-product-container .sneakerName {
+  font-size: 40px;
+  margin-bottom: 20px;
+  margin-left: 15px;
+}
+.shop-product-container .quantity label {
+  font-size: 20px;
+  margin: 15px;
+}
+.shop-product-container .inStock {
+  font-size: 20px;
+  margin: 15px;
+}
+.shop-product-container .outStock {
+  font-size: 20px;
+  margin: 15px;
+}
+.shop-product-container .price {
+  font-size: 22px;
+  margin: 15px;
+}
+.shop-product-container .addToCart {
+  background-color: black;
+  color: white;
+  border-radius: 15px;
+  width: 200px;
+  height: 50px;
+}
+
 @media screen and (max-width: 661px) {
   .shop-product-container {
     height: max-content;
@@ -22,5 +69,40 @@ span {
   .shop-product-container div {
     width: 99%;
     height: max-content;
+  }
+  .sizeButton {
+    margin: 5px;
+  }
+  .shop-product-container .sneakerName {
+    font-size: 30px;
+    margin: 15px 0 10px 5px;
+  }
+  .shop-product-container .images {
+    width: 100%;
+    padding: 0;
+    margin-left: -15px;
+  }
+  .shop-product-container .info {
+    width: 100%;
+    margin-top: -100px;
+  }
+  .shop-product-container .addToCart {
+    width: 99%;
+  }
+  .shop-product-container .quantity label {
+    font-size: 20px;
+    margin: 15px 0 0 5px;
+  }
+  .shop-product-container .inStock {
+    font-size: 20px;
+    margin: 15px 0 0 5px;
+  }
+  .shop-product-container .outStock {
+    font-size: 20px;
+    margin: 15px 0 0 5px;
+  }
+  .shop-product-container .price {
+    font-size: 22px;
+    margin: 15px 0 0 5px;
   }
 }
