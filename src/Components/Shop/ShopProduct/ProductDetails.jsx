@@ -11,11 +11,11 @@ function ProductDetails() {
   const { isProducts, retrieveProducts, addToCart, isAuthenticated, isUser } =
     useAuth();
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState("size3"); // Initialize selectedSize to null
   const [showSnackbar, setShowSnackbar] = useState(false);
 
-  useEffect(() => {
-    retrieveProducts();
-  }, [retrieveProducts]);
+  // Fetch products when component mounts
+  //
 
   const selectedProduct = isProducts.find(
     (product) => product.category === category && product.name === productName
@@ -49,43 +49,77 @@ function ProductDetails() {
     return <div>Loading...</div>;
   }
 
+  const selectSize = (key) => {
+    setSelectedSize(key);
+  };
+
   return (
     <div className="shop-product-container">
-      <div>
+      <div className="images">
         <ImageCouresel product={selectedProduct} />
       </div>
-      <div>
-        <h2>{selectedProduct.name}</h2>
+      <div className="info">
+        <h2 className="sneakerName">{selectedProduct.name}</h2>
         <span>
-          {selectedProduct.stock > 0 ? (
-            <p>Availability: In Stock</p>
-          ) : (
-            <p>Availability: Out of Stock</p>
-          )}
+          {Object.keys(selectedProduct.sizes[0])
+            .filter((key) => key !== "id")
+            .sort(
+              (a, b) =>
+                parseInt(a.replace("size", "")) -
+                parseInt(b.replace("size", ""))
+            )
+            .map((key) => {
+              const sizeCount = selectedProduct.sizes[0][key];
+              const buttonClass = `sizeButton${
+                selectedSize === key ? " selectedSize" : ""
+              } ${sizeCount <= 0 ? "disabledSize" : ""}`;
+              return (
+                <button
+                  className={buttonClass}
+                  type="button"
+                  key={key}
+                  onClick={() => selectSize(key)}
+                >
+                  Size {key.replace("size", "")}
+                </button>
+              );
+            })}
         </span>
-        <span>
-          <label htmlFor="quantity">Quantity: </label>
+
+        <span className="quantity">
+          <label>Quantity: </label>
           <select
             id="quantity"
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
           >
-            {[...Array(Math.min(5, selectedProduct.stock)).keys()].map(
-              (number) => (
-                <option key={number + 1} value={number + 1}>
-                  {number + 1}
-                </option>
-              )
-            )}
+            {[
+              ...Array(
+                Math.min(5, selectedProduct.sizes[0][selectedSize])
+              ).keys(),
+            ].map((number) => (
+              <option key={number + 1} value={number + 1}>
+                {number + 1}
+              </option>
+            ))}
           </select>
         </span>
         <span>
+          {selectedProduct.sizes[0][selectedSize] > 0 ? (
+            <p className="inStock">Availability: In Stock</p>
+          ) : (
+            <p className="outStock">Availability: Out of Stock</p>
+          )}
+        </span>
+        <span className="price">
           {new Intl.NumberFormat("en-ZA", {
             style: "currency",
             currency: "ZAR",
           }).format(selectedProduct.price)}
         </span>
-        <button onClick={handleAddToCart}>Add to Cart</button>
+        <button className="addToCart" onClick={handleAddToCart}>
+          Add to Cart
+        </button>
       </div>
       {showSnackbar && <TransitionsSnackbar />}
     </div>
