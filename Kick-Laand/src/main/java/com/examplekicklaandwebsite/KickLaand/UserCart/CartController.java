@@ -75,6 +75,7 @@ public class CartController {
             cartItem.setPrice(request.getPrice());
             cartItem.setCategory(request.getCategory());
             cartItem.setQuantity(request.getQuantity());
+            cartItem.setSize(request.getSize());
             cartItem.setImage1(request.getImage1());
             cartItem.setImage2(request.getImage2());
             cartItem.setImage3(request.getImage3());
@@ -169,6 +170,7 @@ public class CartController {
                     filteredCartItem.put("price", cart.getPrice());
                     filteredCartItem.put("category", cart.getCategory());
                     filteredCartItem.put("quantity", cart.getQuantity());
+                    filteredCartItem.put("size", cart.getSize());
                     filteredCartItem.put("image1", cart.getImage1());
                     filteredCartItem.put("image2", cart.getImage2());
                     filteredCartItem.put("image3", cart.getImage3());

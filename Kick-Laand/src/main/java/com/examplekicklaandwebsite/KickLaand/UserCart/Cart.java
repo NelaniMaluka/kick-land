@@ -27,8 +27,11 @@ public class Cart {
 	private String name;
 
 	private double price;
+	
 	@NotNull
 	private String category;
+	
+	private String size;
 	private Integer quantity;
 	private String image1;
 	private String image2;
@@ -77,6 +80,14 @@ public class Cart {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	public Integer getQuantity() {

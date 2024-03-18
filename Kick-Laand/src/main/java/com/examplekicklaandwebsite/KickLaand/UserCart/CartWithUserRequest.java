@@ -18,6 +18,9 @@ public class CartWithUserRequest {
 	private String category;
 	
 	private Integer quantity;
+	
+	private String size;
+	
 	private String image1;
 	private String image2;
 	private String image3;
@@ -73,6 +76,14 @@ public class CartWithUserRequest {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	public String getImage1() {
