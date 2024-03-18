@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
 import com.examplekicklaandwebsite.KickLaand.User.UserAccount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -18,29 +17,35 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserAccount user;
-	
-	@NotNull
+
+	@NotNull(message = "Product name cannot be null")
 	private String name;
 
+	@NotNull(message = "Product price cannot be null")
 	private double price;
-	
-	@NotNull
+
+	@NotNull(message = "Product category cannot be null")
 	private String category;
-	
+
+	@NotNull(message = "Product size cannot be null")
 	private String size;
+
+	@NotNull(message = "Product quantity cannot be null")
 	private Integer quantity;
+
+	@NotNull(message = "Product image1 cannot be null")
 	private String image1;
 	private String image2;
 	private String image3;
 	private String image4;
-	
+
 	public Cart() {
-        // You can initialize any default values here if needed
-    }
+		// You can initialize any default values here if needed
+	}
 
 	public Integer getId() {
 		return id;
@@ -97,7 +102,7 @@ public class Cart {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	
+
 	public String getImage1() {
 		return image1;
 	}
@@ -129,5 +134,5 @@ public class Cart {
 	public void setImage4(String image4) {
 		this.image4 = image4;
 	}
-	
+
 }

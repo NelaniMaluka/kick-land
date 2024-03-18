@@ -17,24 +17,30 @@ public class Products {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
+    @NotNull ( message = "Product name cannot be null")
     private String name;
 
-    @NotNull
+    @NotNull ( message = "Product price cannot be null")
     private BigDecimal price;
 
-    @NotNull
+    @NotNull ( message = "Product category cannot be null")
     private String category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     public List<ProductSizes> sizes;
 
+    @NotNull ( message = "Product image1 cannot be null")
     private String image1;
     private String image2;
     private String image3;
     private String image4;
 
-    public Integer getId() {
+	public Products() {
+	    // default constructor body
+	}
+
+
+	public Integer getId() {
         return id;
     }
 

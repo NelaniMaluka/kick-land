@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,7 +23,40 @@ public class ProductSizes {
 	@JoinColumn(name = "product_id")
 	private Products product;
 	
+	@NotNull( message = "Size3 must have a value")
+	@Min(value = 0, message = "Size3 cannot go below 0")
 	private Integer Size3;
+	@NotNull( message = "Size4 must have a value")
+	@Min(value = 0, message = "Size4 cannot go below 0")
+	private Integer Size4;
+	@NotNull( message = "Size5 must have a value")
+	@Min(value = 0, message = "Size5 cannot go below 0")
+	private Integer Size5;
+	@NotNull( message = "Size6 must have a value")
+	@Min(value = 0, message = "Size6 cannot go below 0")
+	private Integer Size6;
+	@NotNull( message = "Size7 must have a value")
+	@Min(value = 0, message = "Size7 cannot go below 0")
+	private Integer Size7;
+	@NotNull( message = "Size8 must have a value")
+	@Min(value = 0, message = "Size8 cannot go below 0")
+	private Integer Size8;
+	@NotNull( message = "Size9 must have a value")
+	@Min(value = 0, message = "Size9 cannot go below 0")
+	private Integer Size9;
+	@NotNull( message = "Size10 must have a value")
+	@Min(value = 0, message = "Size10 cannot go below 0")
+	private Integer Size10;
+	@NotNull( message = "Size11 must have a value")
+	@Min(value = 0, message = "Size11 cannot go below 0")
+	private Integer Size11;
+	@NotNull( message = "Size12 must have a value")
+	@Min(value = 0, message = "Size12 cannot go below 0")
+	private Integer Size12;
+	
+	public ProductSizes() {
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -94,14 +129,4 @@ public class ProductSizes {
 	public void setSize12(Integer size12) {
 		Size12 = size12;
 	}
-	private Integer Size4;
-	private Integer Size5;
-	private Integer Size6;
-	private Integer Size7;
-	private Integer Size8;
-	private Integer Size9;
-	private Integer Size10;
-	private Integer Size11;
-	private Integer Size12;
-	
 }

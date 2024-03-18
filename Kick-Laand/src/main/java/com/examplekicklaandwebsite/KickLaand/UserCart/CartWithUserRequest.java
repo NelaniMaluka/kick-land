@@ -4,31 +4,36 @@ import javax.validation.constraints.NotNull;
 
 public class CartWithUserRequest {
 
-	 
+	@NotNull(message = "ProductId cannot be null")
 	private Integer id;
-	
-	@NotNull
+
+	@NotNull(message = "UserId cannot be null")
 	private Integer userId;
-	
- 
+
+	@NotNull(message = "Product name cannot be null")
 	private String name;
 
+	@NotNull(message = "Product price cannot be null")
 	private double price;
- 
+
+	@NotNull(message = "Product category cannot be null")
 	private String category;
-	
+
+	@NotNull(message = "Product quantity cannot be null")
 	private Integer quantity;
-	
+
+	@NotNull(message = "Product size cannot be null")
 	private String size;
-	
+
+	@NotNull(message = "Product image1 cannot be null")
 	private String image1;
 	private String image2;
 	private String image3;
 	private String image4;
-	
+
 	public CartWithUserRequest() {
-        // You can initialize any default values here if needed
-    }
+		// You can initialize any default values here if needed
+	}
 
 	public Integer getId() {
 		return id;
@@ -69,7 +74,7 @@ public class CartWithUserRequest {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
+
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -117,5 +122,5 @@ public class CartWithUserRequest {
 	public void setImage4(String image4) {
 		this.image4 = image4;
 	}
-	
+
 }

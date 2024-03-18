@@ -27,7 +27,7 @@ import javax.validation.Valid;
 public class CartController {
 
     private final CartRepository cartRepository;
-    private final UserAccountRepository userAccountRepository;  // Assuming you have a UserRepository
+    private final UserAccountRepository userAccountRepository; // Assuming you have a UserRepository
 
     public CartController(CartRepository cartRepository, UserAccountRepository userAccountRepository) {
         this.cartRepository = cartRepository;
@@ -48,8 +48,8 @@ public class CartController {
                 if (userCart.isEmpty()) {
                     return ResponseEntity.ok(null);
                 } else {
-                	Object filteredCartList = getFilteredCartList(userCart);
-					return ResponseEntity.ok(filteredCartList );
+                    Object filteredCartList = getFilteredCartList(userCart);
+                    return ResponseEntity.ok(filteredCartList);
                 }
             }
         } catch (EntityNotFoundException e) {
@@ -59,7 +59,6 @@ public class CartController {
         }
     }
 
-    
     @PostMapping("/api/user/cart")
     public ResponseEntity<?> addToCart(@Valid @RequestBody CartWithUserRequest request) {
         try {
@@ -86,12 +85,12 @@ public class CartController {
             cartRepository.save(cartItem);
 
             Object filteredCartList = getFilteredCartList(user.getCart());
-			return ResponseEntity.ok(filteredCartList );
+            return ResponseEntity.ok(filteredCartList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
-    
+
     @PutMapping("/api/user/cart")
     public ResponseEntity<?> updateCart(
             @RequestParam("userId") Integer userId,
@@ -130,14 +129,15 @@ public class CartController {
 
     @Transactional
     @DeleteMapping("/api/user/cart")
-    public ResponseEntity<?> deleteCartItem(@RequestParam @NonNull Integer userId, @RequestParam @NonNull Integer productId) {
+    public ResponseEntity<?> deleteCartItem(@RequestParam @NonNull Integer userId,
+            @RequestParam @NonNull Integer productId) {
         try {
             UserAccount user = userAccountRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
             List<Cart> userCartItems = user.getCart();
             if (userCartItems.isEmpty()) {
-            	return ResponseEntity.notFound().build();
+                return ResponseEntity.notFound().build();
             } else {
                 // Find the cart item with the specified productId that belongs to the user
                 Optional<Cart> cartItemToDelete = userCartItems.stream()
@@ -160,7 +160,7 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
         }
     }
-    
+
     private List<Map<String, Object>> getFilteredCartList(List<Cart> userCart) {
         return userCart.stream()
                 .map(cart -> {
@@ -179,6 +179,5 @@ public class CartController {
                 })
                 .collect(Collectors.toList());
     }
-    
-}
 
+}
