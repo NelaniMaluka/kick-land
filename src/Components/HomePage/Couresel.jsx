@@ -54,7 +54,7 @@ function HomeCarousel({ category }) {
   const productTemplate = (product) => {
     return (
       <div
-        onClick={() => HandleOnClick(product)}
+        onClick={() => handleOnClick(product)}
         className="products-card couresel"
         style={{ margin: "40px 0" }}
         key={product.id}
@@ -80,8 +80,10 @@ function HomeCarousel({ category }) {
     );
   };
 
-  function HandleOnClick(product) {
-    navigate(`/Shop/Sneakers/${product.name}`);
+  function handleOnClick(product) {
+    setTimeout(() => {
+      navigate(`/Shop/${product.category}/${product.name}`);
+    }, 0);
   }
 
   return (
