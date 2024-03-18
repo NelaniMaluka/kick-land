@@ -26,12 +26,17 @@ span {
   height: 40px;
   width: 80px;
   border-radius: 10px;
+  background-color: white;
+  border: 1px solid rgb(109, 109, 109);
 }
 .selectedSize {
   border: 1px solid black;
+  background-color: rgb(224, 224, 224);
 }
 .disabledSize {
   text-decoration: line-through;
+  border: 1px solid rgb(201, 201, 201);
+  color: rgb(201, 201, 201);
 }
 .shop-product-container .sneakerName {
   font-size: 40px;

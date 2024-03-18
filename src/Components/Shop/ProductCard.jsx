@@ -7,7 +7,6 @@ function ProductCard({ products }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   function handleOnClick(product) {
-    console.log(product);
     setSelectedProduct(product);
     // Delay navigation to ensure state is updated
     setTimeout(() => {

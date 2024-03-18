@@ -111,6 +111,7 @@ function AuthProvider({ children }) {
   }
 
   async function addToCart(productWithUserId) {
+    console.log(productWithUserId);
     try {
       const response = await AddToCart(productWithUserId);
       if (response.status === 200) {

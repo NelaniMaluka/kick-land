@@ -23,11 +23,12 @@ function ProductDetails() {
     if (isAuthenticated) {
       if (!selectedProduct.sizes[0][selectedSize] <= 0) {
         const userId = isUser.id;
+        const size = selectedSize;
         const productWithUserId = {
           ...selectedProduct,
           quantity,
           userId,
-          selectedSize,
+          size,
         };
         addToCart(productWithUserId)
           .then((result) => {
