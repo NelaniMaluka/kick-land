@@ -115,7 +115,7 @@ function FooterMain() {
           </li>
         </ul>
       </div>
-      <div class="copywright container2">
+      <div className="copywright container2">
         Copyright &copy; {getYear()} Kick Land
       </div>
     </div>

@@ -58,7 +58,7 @@ export default function Profile() {
           <Link to="/Dashboard" style={{ fontFamily: "arial" }}>
             <span
               style={{ float: "left", marginRight: "5px" }}
-              class="material-symbols-outlined"
+              className="material-symbols-outlined"
             >
               manage_accounts
             </span>
@@ -71,7 +71,7 @@ export default function Profile() {
               <Link to="/Login" style={{ fontFamily: "arial" }}>
                 <span
                   style={{ float: "left", marginRight: "5px" }}
-                  class="material-symbols-outlined"
+                  className="material-symbols-outlined"
                 >
                   login
                 </span>
@@ -84,7 +84,7 @@ export default function Profile() {
               <Link onClick={handleLogout} style={{ fontFamily: "arial" }}>
                 <span
                   style={{ float: "left", marginRight: "5px" }}
-                  class="material-symbols-outlined"
+                  className="material-symbols-outlined"
                 >
                   logout
                 </span>

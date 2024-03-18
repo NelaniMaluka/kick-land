@@ -13,10 +13,6 @@ function UserProfile() {
   const AuthContext = useAuth();
   const user = AuthContext.isUser;
 
-  useEffect(() => {
-    // No need to set initial form values using useEffect
-  }, [user]);
-
   async function handleSubmit(values) {
     try {
       const result = await AuthContext.updateUserDetails(

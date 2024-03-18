@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function NavBarBottomBanner() {
   return (
-    <div class="banner">
+    <div className="banner">
       <p>
         SHOP ALL SNEAKERS <Link to="/shop/Shop-All">Shop</Link>
       </p>
