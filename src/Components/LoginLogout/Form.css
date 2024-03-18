@@ -80,6 +80,17 @@
   display: inline-block;
 }
 
+@media screen and (max-width: 1061px) {
+  .message .messageField {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+  .messageField {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 661px) {
   .form-container {
     width: 100%;
@@ -94,16 +105,5 @@
   .form-container textarea {
     padding: 15px;
     margin-bottom: 10px;
-  }
-}
-
-@media screen and (max-width: 1061px) {
-  .message .messageField {
-    width: 80%;
-    margin: auto;
-    margin-bottom: 10px;
-  }
-  .messageField {
-    display: block;
   }
 }

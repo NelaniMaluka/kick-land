@@ -10,7 +10,8 @@
 .shop-product-container .images {
   width: 40%;
   padding: -200px 0 0 0;
-  margin-left: 10%;
+  margin-left: 2%;
+  min-width: 500px;
 }
 .shop-product-container .info {
   width: 40%;
@@ -61,13 +62,13 @@ span {
   height: 50px;
 }
 
-@media screen and (max-width: 661px) {
+@media screen and (max-width: 861px) {
   .shop-product-container {
     height: max-content;
     display: block;
+    margin-bottom: 80px;
   }
   .shop-product-container div {
-    width: 99%;
     height: max-content;
   }
   .sizeButton {
@@ -78,12 +79,14 @@ span {
     margin: 15px 0 10px 5px;
   }
   .shop-product-container .images {
-    width: 100%;
+    width: 70%;
     padding: 0;
-    margin-left: -15px;
+    margin: auto;
+    min-width: 0;
   }
   .shop-product-container .info {
-    width: 100%;
+    width: 70%;
+    margin: auto;
     margin-top: -100px;
   }
   .shop-product-container .addToCart {
@@ -104,5 +107,19 @@ span {
   .shop-product-container .price {
     font-size: 22px;
     margin: 15px 0 0 5px;
+  }
+}
+
+@media screen and (max-width: 661px) {
+  .shop-product-container {
+    width: 100%;
+    margin-bottom: 40px !important;
+  }
+  .shop-product-container .images {
+    width: 100% !important;
+  }
+  .shop-product-container .info {
+    width: 90% !important;
+    margin-top: -150px !important;
   }
 }
