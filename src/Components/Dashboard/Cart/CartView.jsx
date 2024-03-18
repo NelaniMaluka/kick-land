@@ -3,6 +3,7 @@ import { useAuth } from "../../Security/AuthContext";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
+import Checkout from "./Checkout";
 
 import "./CartView.css";
 
@@ -65,48 +66,54 @@ function CartView() {
   }
 
   return (
-    <div className="cart-container">
-      {cartItems.map((product) => (
-        <div className="cart-card" key={product.id}>
-          <div className="cart-img">
-            <img src={product.image1} alt="Product" />
-          </div>
-          <div className="divider" />
-          <div className="cart-text">
-            <span className="category">{product.category}</span>
-            <span className="name">{product.name}</span>
-            <span className="price">
-              {new Intl.NumberFormat("en-ZA", {
-                style: "currency",
-                currency: "ZAR",
-              }).format(product.price * product.quantity)}
-            </span>
+    <div className="parent-container ">
+      <div className="cart-container">
+        {cartItems.map((product) => (
+          <div className="cart-card" key={product.id}>
+            <div className="cart-img">
+              <img src={product.image1} alt="Product" />
+            </div>
+            <div className="divider" />
+            <div className="cart-text">
+              <span className="category">{product.category}</span>
+              <span className="name">{product.name}</span>
+              <span className="price">
+                {new Intl.NumberFormat("en-ZA", {
+                  style: "currency",
+                  currency: "ZAR",
+                }).format(product.price * product.quantity)}
+              </span>
+              <span className="size">{product.size}</span>
 
-            <div className="cart-footer">
-              <span>
-                quantity:
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    handleQuantityChange(product.id, e.target.value)
-                  }
-                  min={1}
-                  placeholder={product.quantity}
-                />
-              </span>
-              <span>
-                <IconButton
-                  aria-label="delete"
-                  size="large"
-                  onClick={() => handleDeleteClick(product.id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </span>
+              <div className="cart-footer">
+                <span>
+                  quantity:
+                  <input
+                    type="number"
+                    onChange={(e) =>
+                      handleQuantityChange(product.id, e.target.value)
+                    }
+                    min={1}
+                    placeholder={product.quantity}
+                  />
+                </span>
+                <span>
+                  <IconButton
+                    aria-label="delete"
+                    size="large"
+                    onClick={() => handleDeleteClick(product.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <div className="checkout-container">
+        <Checkout />
+      </div>
     </div>
   );
 }

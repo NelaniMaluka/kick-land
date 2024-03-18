@@ -1,7 +1,23 @@
-.cart-container {
-  background-color: aqua;
-  width: 70%;
+.parent-container {
+  height: max-content;
+  position: relative;
 }
+.cart-container {
+  width: 70%;
+  background-color: aqua;
+  display: inline-block;
+}
+.checkout-container {
+  width: 25%;
+  margin-left: 20px;
+  background-color: antiquewhite;
+  height: 400px;
+  max-height: calc(100vh - 100px);
+  position: fixed;
+  display: inline-block;
+  overflow: auto;
+}
+
 .cart-card {
   border: 1px solid black;
   width: 100%;
@@ -35,7 +51,6 @@
 }
 .price {
   font-size: 25px;
-  margin-bottom: 20px;
 }
 .cart-footer {
   font-size: 17px;
@@ -60,6 +75,11 @@
 .no-cart-items span {
   width: fit-content;
   font-size: 20px;
+}
+.size {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: rgb(105, 105, 105);
 }
 
 /* Add the following styles for mobile view */
