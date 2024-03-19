@@ -33,12 +33,11 @@ public class ContactUs {
 	public String message;
 
 	@PersistenceConstructor
-	public ContactUs(int id, String name,
+	public ContactUs( String name,
 			@Email(message = "Enter a valid email") @NotNull(message = "Enter a valid email") String email,
 			@Pattern(regexp = "(\\+27|0)[0-9]{9}", message = "Enter a valid phone number") String phoneNumber,
 			@NotNull(message = "Please Enter a message") String message) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
