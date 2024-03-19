@@ -60,11 +60,13 @@ public class CartController {
     }
 
     @PostMapping("/api/user/cart")
-    public ResponseEntity<?> addToCart(@Valid @RequestBody CartWithUserRequest request) {
+    public ResponseEntity<?> addToCart(@Valid @RequestBody UserCartDTO request) {
         try {
             // Retrieve the user or handle user creation logic
-            UserAccount user = userAccountRepository.findById(request.getUserId())
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + request.getUserId()));
+            Integer userId = request.getUserId();
+			@SuppressWarnings("null")
+			UserAccount user = userAccountRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
             // Create a Cart object
             Cart cartItem = new Cart();
@@ -93,7 +95,7 @@ public class CartController {
 
     @PutMapping("/api/user/cart")
     public ResponseEntity<?> updateCart(
-            @RequestParam("userId") Integer userId,
+            @RequestParam("userId") @NonNull Integer userId,
             @RequestParam("productId") Integer productId,
             @RequestParam("productQuantity") Integer productQuantity) {
 

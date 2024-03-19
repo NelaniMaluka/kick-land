@@ -2,7 +2,7 @@ package com.examplekicklaandwebsite.KickLaand.UserCart;
 
 import javax.validation.constraints.NotNull;
 
-public class CartWithUserRequest {
+public class UserCartDTO {
 
 	@NotNull(message = "ProductId cannot be null")
 	private Integer id;
@@ -31,7 +31,7 @@ public class CartWithUserRequest {
 	private String image3;
 	private String image4;
 
-	public CartWithUserRequest() {
+	public UserCartDTO() {
 		// You can initialize any default values here if needed
 	}
 

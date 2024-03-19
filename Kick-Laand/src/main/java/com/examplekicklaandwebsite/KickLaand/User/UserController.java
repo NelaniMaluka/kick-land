@@ -3,7 +3,7 @@ package com.examplekicklaandwebsite.KickLaand.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,14 +40,8 @@ public class UserController {
             UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), userAccount.getPassword());
 
             if (user != null) {
-            	return ResponseEntity.ok(Map.of(
-            		    "id", user.getId(),
-            		    "username", user.getUsername(),
-            		    "email", user.getEmail(),
-            		    "surname", user.getSurname(),
-            		    "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : "",
-                		"address", user.getAddress() != null ? user.getAddress() : ""
-            			));
+            	UserResponseDTO userResponseDTO = createUserResponseDTO(user);
+                return ResponseEntity.ok(userResponseDTO);
 
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
@@ -62,6 +56,11 @@ public class UserController {
     public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount ) {
      
         try {
+        	// Check if user already exists
+            if (userAccountRepository.findByEmail(userAccount.getEmail()) != null) {
+                return ResponseEntity.badRequest().body("User with this email already exists");
+            }
+        	
             // Create a Newsletter instance and set the email
             Newsletter newsletter = new Newsletter();
             newsletter.setEmail(userAccount.getEmail());
@@ -77,11 +76,8 @@ public class UserController {
             // return ResponseEntity.ok("Account created successfully");
             if (userAccountRepository.findByEmail(userAccount.getEmail()) == null) {
         		userAccountRepository.save(userAccount);
-        		return ResponseEntity.ok(Map.of(
-                        "id", userAccount.getId(),
-                        "username", userAccount.getUsername(),
-                        "email", userAccount.getEmail(),
-                        "surname", userAccount.getSurname()));
+        		UserResponseDTO userResponseDTO = createUserResponseDTO(userAccount);
+                return ResponseEntity.ok(userResponseDTO);
         	} else {
         		return ResponseEntity.badRequest().body("User with this email already exists");
         	}
@@ -92,14 +88,13 @@ public class UserController {
     }
     
     @PutMapping("/api/user/update-user/{userId}")
-    public ResponseEntity<?> updateUserFields(@PathVariable Integer userId, @Valid @RequestBody Map<String, String> updates) {
-
+    public ResponseEntity<?> updateUserFields(@PathVariable @NonNull Integer userId, @Valid @RequestBody Map<String, String> updates) {
         try {
-            Optional<UserAccount> optionalUser = userAccountRepository.findById(userId);
+            UserAccount user = userAccountRepository.findById(userId)
+                    .orElse(null);
 
-            if (optionalUser.isPresent()) {
-                UserAccount user = optionalUser.get();
-
+            if (user != null) {
+                // Update user fields
                 for (Map.Entry<String, String> entry : updates.entrySet()) {
                     String field = entry.getKey();
                     String value = entry.getValue();
@@ -109,7 +104,6 @@ public class UserController {
                             user.setUsername(value);
                             break;
                         case "email":
-                            
                             user.setEmail(value);
                             break;
                         case "surname":
@@ -121,27 +115,32 @@ public class UserController {
                         case "address":
                             user.setAddress(value);
                             break;
-
                         default:
                             return ResponseEntity.badRequest().body("Invalid field specified");
                     }
                 }
 
                 userAccountRepository.save(user);
-                return ResponseEntity.ok(Map.of(
-                        "id", user.getId(),
-                        "username", user.getUsername(),
-                        "email", user.getEmail(),
-                        "surname", user.getSurname(),
-                        "phoneNumber", user.getPhonenumber() != null ? user.getPhonenumber() : "",
-                        "address", user.getAddress() != null ? user.getAddress() : ""
-                    	));
+                UserResponseDTO userResponseDTO = createUserResponseDTO(user);
+                return ResponseEntity.ok(userResponseDTO);
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to update user fields");
         }
+    }
+
+    
+    private UserResponseDTO createUserResponseDTO(UserAccount user) {
+        return new UserResponseDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getSurname(),
+                user.getPhonenumber() != null ? user.getPhonenumber() : "",
+                user.getAddress() != null ? user.getAddress() : ""
+        );
     }
     
 //    public BCryptPasswordEncoder passwordEncoder (string password) {
