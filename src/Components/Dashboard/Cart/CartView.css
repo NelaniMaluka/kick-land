@@ -1,21 +1,18 @@
 .parent-container {
   height: max-content;
-  position: relative;
+  max-width: 1800px;
 }
 .cart-container {
   width: 70%;
-  background-color: aqua;
   display: inline-block;
 }
 .checkout-container {
   width: 25%;
-  margin-left: 20px;
-  background-color: antiquewhite;
-  height: 400px;
-  max-height: calc(100vh - 100px);
-  position: fixed;
+  margin-left: 15px;
+  border: 1px solid black;
+  height: 100%;
+  background-color: aqua;
   display: inline-block;
-  overflow: auto;
 }
 
 .cart-card {
@@ -37,6 +34,7 @@
 }
 .cart-img {
   width: 30%;
+  min-width: 300px;
 }
 .cart-text {
   width: 70%;
@@ -83,10 +81,18 @@
 }
 
 /* Add the following styles for mobile view */
-@media screen and (max-width: 661px) {
+@media screen and (max-width: 881px) {
   .cart-container {
-    width: 90%;
+    width: max-content;
     margin: auto;
+    display: block;
+  }
+  .checkout-container {
+    width: 90%;
+    display: block;
+    position: relative;
+    min-height: max-content;
+    margin-left: 10px;
   }
   .cart-card {
     flex-direction: column; /* Stack items vertically on small screens */
@@ -101,6 +107,7 @@
 
   .cart-img {
     width: 100%; /* Make the image take full width in mobile view */
+    max-width: 300px;
   }
 
   .cart-text {

@@ -1,0 +1,58 @@
+.cont {
+  background-color: antiquewhite;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: sticky; /* Make the container sticky */
+  top: 0; /* Stick it to the top of its containing block */
+}
+
+.checkoutContainer {
+  margin: 5%;
+  text-align: center;
+  min-height: 400px;
+  flex-grow: 1;
+}
+
+.checkoutContainer button {
+  width: 100%;
+  height: 50px;
+  border-radius: 20px;
+  background-color: rgb(25, 142, 238);
+  color: white;
+  border: none;
+  margin-top: 20px;
+}
+
+/* Adjustments to table styles */
+table {
+  width: 100%;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+table tr td {
+  padding-top: 10px;
+}
+
+table tr td:first-child {
+  width: 60%;
+}
+
+table tr td:last-child {
+  width: 35%;
+  padding-left: 10px;
+}
+
+/* HR style */
+hr {
+  width: 100%;
+  border: none;
+  border-bottom: 4px solid black;
+}
+
+/* Price style */
+.checkoutContainer .price {
+  font-size: 20px;
+}
