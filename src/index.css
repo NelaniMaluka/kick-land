@@ -14,6 +14,9 @@ a {
   text-decoration: none;
   color: black;
 }
+.error-message {
+  color: red;
+}
 
 body {
   margin: 0;

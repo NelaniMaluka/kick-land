@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../Security/AuthContext.js";
 import Swal from "sweetalert2";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import LocationSearchInput from "./LocationSearchInput.jsx";
+import Alert from "../../LoginLogout/Alert.jsx";
+
 import "./Profile.css";
 
 function UserProfile() {
-  const [errormessage, setErrormessage] = useState("");
-  const [ShowErrormessage, setShowErrormessage] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
 
   const AuthContext = useAuth();
   const user = AuthContext.isUser;
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    phoneNumber: Yup.string().matches(
+      /^(?:\+?27|0)[ -]?(\d{2})[ -]?(\d{3})[ -]?(\d{4})$/,
+      "Invalid phone number"
+    ),
+  });
 
   async function handleSubmit(values) {
     try {
@@ -25,14 +35,13 @@ function UserProfile() {
       );
       if (result.success) {
         showSuccessMessage(result);
-        setShowErrormessage(false);
       } else {
-        setShowErrormessage(true);
-        setErrormessage("Please fill out all the fields in the correct format");
+        Alert({
+          message: "Please fill out all the fields in the correct format",
+        });
       }
     } catch (error) {
-      setShowErrormessage(true);
-      setErrormessage("Unexpected error please ContactUs");
+      Alert({ message: "Unexpected error please ContactUs" });
     }
   }
 
@@ -54,13 +63,13 @@ function UserProfile() {
         address: user.address || "",
       }}
       onSubmit={handleSubmit}
+      validationSchema={validationSchema}
     >
-      {({ values, handleChange, handleSubmit }) => (
+      {({ values, handleChange, handleSubmit, errors, touched }) => (
         <form className="profile">
           <div>
             <h2> Personal Information:</h2>
           </div>
-          {ShowErrormessage && <div className="error">{errormessage}</div>}
           <div className="field-1">
             <input
               className="messageField"
@@ -70,6 +79,11 @@ function UserProfile() {
               value={values.name}
               onChange={handleChange}
             />
+            <ErrorMessage
+              name="name"
+              component="div"
+              className="error-message"
+            />
             <input
               className="messageField"
               placeholder="Surname*"
@@ -77,6 +91,11 @@ function UserProfile() {
               name="surname"
               value={values.surname}
               onChange={handleChange}
+            />
+            <ErrorMessage
+              name="surname"
+              component="div"
+              className="error-message"
             />
           </div>
           <div className="field-1">
@@ -95,6 +114,11 @@ function UserProfile() {
               name="email"
               value={values.email}
               onChange={handleChange}
+            />
+            <ErrorMessage
+              name="email"
+              component="div"
+              className="error-message"
             />
           </div>
           <div>

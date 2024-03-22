@@ -1,3 +1,5 @@
+// FooterMain.js
+
 import "./FooterMain.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -6,32 +8,53 @@ import Swal from "sweetalert2";
 
 function FooterMain() {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const authContext = useAuth();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
+    // Reset email error message
+    setEmailError("");
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Email validation
+    if (!email) {
+      setEmailError("Email is required.");
+      return;
+    } else if (!isValidEmail(email)) {
+      setEmailError("Invalid email format.");
+      return;
+    }
+
     try {
       const result = await authContext.signUpForNewsletter(email);
       if (result.success) {
         showSuccessMessage();
       } else {
-        showErrorMessage("Invalid email format, Email already recieved");
+        showErrorMessage("Email already received");
       }
     } catch (error) {
-      showErrorMessage("Could sign");
+      showErrorMessage("Could not sign up for newsletter");
     }
+
     setEmail("");
+  }
+
+  function isValidEmail(email) {
+    // Basic email format validation
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
   }
 
   function showSuccessMessage() {
     Swal.fire({
       icon: "success",
       title: "Sent",
-      text: "We recievd your Email",
+      text: "We received your Email",
     });
   }
 
@@ -81,14 +104,17 @@ function FooterMain() {
             <h2>Subscribe To Our Newsletter</h2>
           </li>
           <li>
-            <input
-              type="email"
-              placeholder="Your Email"
-              name="email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            <button onClick={handleSubmit}>Send</button>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="email"
+                placeholder="Your Email"
+                name="email"
+                value={email}
+                onChange={handleEmailChange}
+              />
+              <button type="submit">Send</button>
+              {emailError && <div className="error-message">{emailError}</div>}
+            </form>
           </li>
           <li>
             <a href="https://www.instagram.com/">
