@@ -102,27 +102,17 @@ function Dashboard() {
                 <span className="material-symbols-outlined">shopping_bag</span>
               }
             />
-            <Tab
-              label="Cards"
-              icon={
-                <span className="material-symbols-outlined">credit_card</span>
-              }
-            />
           </Tabs>
         )}
 
         <TabPanel value={value} index={0} tabsVisible={tabsVisible}>
           <UserProfile />
         </TabPanel>
-
         <TabPanel value={value} index={1} tabsVisible={tabsVisible}>
           <CartView />
         </TabPanel>
         <TabPanel value={value} index={2} tabsVisible={tabsVisible}>
           Item Three
-        </TabPanel>
-        <TabPanel value={value} index={3} tabsVisible={tabsVisible}>
-          cards
         </TabPanel>
       </Box>
     </div>
