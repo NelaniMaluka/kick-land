@@ -1,5 +1,11 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import HomePage from "./Components/HomePage/HomePage";
@@ -28,12 +34,23 @@ function AuthenticatedRoute({ children }) {
   return <Navigate to="/Login" />;
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <div className="App">
       <PrimeReactProvider>
         <AuthProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <NavBar />
             <Routes>
               <Route path="/" element={<HomePage />} />
@@ -57,7 +74,6 @@ function App() {
                 path="/Dashboard"
                 element={
                   <AuthenticatedRoute>
-                    {" "}
                     <Dashboard />
                   </AuthenticatedRoute>
                 }
