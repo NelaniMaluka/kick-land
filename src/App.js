@@ -1,3 +1,4 @@
+import "@stripe/stripe-js";
 import React, { useEffect } from "react";
 import {
   BrowserRouter,

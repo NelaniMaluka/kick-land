@@ -1,17 +1,13 @@
-.cont {
-  background-color: antiquewhite;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: sticky; /* Make the container sticky */
-  top: 0; /* Stick it to the top of its containing block */
-}
-
 .checkoutContainer {
-  margin: 5%;
   text-align: center;
-  min-height: 400px;
+  height: max-content;
   flex-grow: 1;
+  border: 1px solid black;
+  background-color: aliceblue;
+  padding: 10px;
+  width: 90%;
+  margin: auto;
+  position: static;
 }
 
 .checkoutContainer button {
