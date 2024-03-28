@@ -30,6 +30,9 @@ public class UserCartDTO {
 	private String image2;
 	private String image3;
 	private String image4;
+	
+	@NotNull
+    private String priceUrl;
 
 	public UserCartDTO() {
 		// You can initialize any default values here if needed
@@ -121,6 +124,14 @@ public class UserCartDTO {
 
 	public void setImage4(String image4) {
 		this.image4 = image4;
+	}
+
+	public String getPriceUrl() {
+		return priceUrl;
+	}
+
+	public void setPriceUrl(String priceUrl) {
+		this.priceUrl = priceUrl;
 	}
 
 }

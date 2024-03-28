@@ -33,6 +33,9 @@ public class Products {
     private String image2;
     private String image3;
     private String image4;
+    
+    @NotNull
+    private String priceUrl;
 
 	public Products() {
 	    // default constructor body
@@ -110,5 +113,14 @@ public class Products {
     public void setImage4(String image4) {
         this.image4 = image4;
     }
+    
+	public String getPriceUrl() {
+		return priceUrl;
+	}
+
+
+	public void setPriceUrl(String priceUrl) {
+		this.priceUrl = priceUrl;
+	}
 
 }

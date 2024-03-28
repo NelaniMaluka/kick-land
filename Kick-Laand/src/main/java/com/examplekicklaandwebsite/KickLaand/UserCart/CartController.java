@@ -81,6 +81,7 @@ public class CartController {
             cartItem.setImage2(request.getImage2());
             cartItem.setImage3(request.getImage3());
             cartItem.setImage4(request.getImage4());
+            cartItem.setPriceUrl(request.getPriceUrl());
             cartItem.setUser(user);
 
             // Save the Cart object
@@ -177,6 +178,8 @@ public class CartController {
                     filteredCartItem.put("image2", cart.getImage2());
                     filteredCartItem.put("image3", cart.getImage3());
                     filteredCartItem.put("image4", cart.getImage4());
+                    filteredCartItem.put("priceUrl", cart.getPriceUrl());
+                    
                     return filteredCartItem;
                 })
                 .collect(Collectors.toList());

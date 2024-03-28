@@ -42,6 +42,9 @@ public class Cart {
 	private String image2;
 	private String image3;
 	private String image4;
+	
+	@NotNull
+    private String priceUrl;
 
 	public Cart() {
 		// You can initialize any default values here if needed
@@ -135,4 +138,11 @@ public class Cart {
 		this.image4 = image4;
 	}
 
+	public String getPriceUrl() {
+		return priceUrl;
+	}
+
+	public void setPriceUrl(String priceUrl) {
+		this.priceUrl = priceUrl;
+	}
 }
