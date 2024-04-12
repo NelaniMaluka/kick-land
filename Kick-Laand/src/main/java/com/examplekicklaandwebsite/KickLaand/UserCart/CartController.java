@@ -27,7 +27,7 @@ import javax.validation.Valid;
 public class CartController {
 
     private final CartRepository cartRepository;
-    private final UserAccountRepository userAccountRepository; // Assuming you have a UserRepository
+    private final UserAccountRepository userAccountRepository; 
 
     public CartController(CartRepository cartRepository, UserAccountRepository userAccountRepository) {
         this.cartRepository = cartRepository;
