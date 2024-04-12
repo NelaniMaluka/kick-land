@@ -4,6 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.examplekicklaandwebsite.KickLaand.Newsletter.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.Newsletter.NewsletterRepository;
+import com.examplekicklaandwebsite.KickLaand.Roles.RoleRepository;
+import com.examplekicklaandwebsite.KickLaand.Roles.Roles;
+import com.examplekicklaandwebsite.KickLaand.Security.JWTGenerator;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,9 +34,13 @@ import javax.validation.constraints.Email;
 @Validated
 public class UserController {
 
+	private AuthenticationManager authenticationManager; 
     private final UserAccountRepository userAccountRepository;
     private final NewsletterRepository newsletterRepository;
     private @Email(message = "Please provide a valid email") String newsletter;
+	private RoleRepository roleRepository;
+	private PasswordEncoder passwordEncoder;
+	private JWTGenerator jwtGenerator;
 
     @Autowired
     public UserController(UserAccountRepository userAccountRepository, NewsletterRepository newsletterRepository) {
@@ -35,13 +49,20 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/user/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDTO userDTO ) {
         try {
-            UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), userAccount.getPassword());
+            UserAccount user = userAccountRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
 
             if (user != null) {
+            	
+            	Authentication  authentication = authenticationManager.authenticate(
+        				new UsernamePasswordAuthenticationToken(
+        						userDTO.getEmail(), userDTO.getPassword()));
+        		SecurityContextHolder.getContext().setAuthentication(authentication);
+        		String token = jwtGenerator.generateToken(authentication);
+            	
             	UserResponseDTO userResponseDTO = createUserResponseDTO(user);
-                return ResponseEntity.ok(userResponseDTO);
+                return ResponseEntity.ok(userResponseDTO + token);
 
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
@@ -53,37 +74,40 @@ public class UserController {
 
 
     @PostMapping(path = "/api/user/create-account")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount ) {
+    public ResponseEntity<?> createAccount(@Valid @RequestBody UserDTO userDTO ) {
      
         try {
         	// Check if user already exists
-            if (userAccountRepository.findByEmail(userAccount.getEmail()) != null) {
-                return ResponseEntity.badRequest().body("User with this email already exists");
+            if (userAccountRepository.findByEmail(userDTO.getEmail()) != null) {
+            	return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
             }
         	
             // Create a Newsletter instance and set the email
             Newsletter newsletter = new Newsletter();
-            newsletter.setEmail(userAccount.getEmail());
+            newsletter.setEmail(userDTO.getEmail());
 
             // Assuming FindByEmail returns a nullable result
             Optional<Newsletter> existingNewsletter = Optional
-                    .ofNullable(newsletterRepository.findByEmail(userAccount.getEmail()));
+                    .ofNullable(newsletterRepository.findByEmail(userDTO.getEmail()));
 
             if (!existingNewsletter.isPresent()) {
                 newsletterRepository.save(newsletter);
             }
 
-            // return ResponseEntity.ok("Account created successfully");
-            if (userAccountRepository.findByEmail(userAccount.getEmail()) == null) {
-        		userAccountRepository.save(userAccount);
-        		UserResponseDTO userResponseDTO = createUserResponseDTO(userAccount);
-                return ResponseEntity.ok(userResponseDTO);
-        	} else {
-        		return ResponseEntity.badRequest().body("User with this email already exists");
-        	}
-
+            UserAccount user = new UserAccount();
+            user.setUsername(userDTO.getUsername());
+            user.setSurname(userDTO.getSurname());
+            user.setEmail(userDTO.getEmail());
+       		user.setPassword(passwordEncoder.encode((userDTO.getPassword())));
+        		
+       		Roles roles = roleRepository.findByName("USER");
+       		user.setRoles(Collections.singletonList(roles));
+       		userAccountRepository.save(user);
+       		
+       		UserResponseDTO userResponseDTO = createUserResponseDTO(user);
+       		return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create account");
+        	return new ResponseEntity<>("Failed to create account", HttpStatus.BAD_REQUEST);
         }
     }
     
@@ -143,9 +167,4 @@ public class UserController {
         );
     }
     
-//    public BCryptPasswordEncoder passwordEncoder (string password) {
-//    	return new BCryptPasswordEncoder(password);
-//    }
-//    
-
 }
