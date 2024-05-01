@@ -10,6 +10,8 @@ import {
   UpdateUserDetails,
   DeleteCartItem,
   UpdateCartItem,
+  AddToOrders,
+  GetUserOrders,
 } from "../Api/Api";
 import { useEffect } from "react";
 
@@ -22,6 +24,7 @@ function AuthProvider({ children }) {
   const [isUser, setUser] = useState(null);
   const [isProducts, setProducts] = useState([]);
   const [isCartItems, setCartItems] = useState([]);
+  const [isUserOrders, setUserOrders] = useState([]);
 
   async function login(email, password) {
     try {
@@ -30,6 +33,7 @@ function AuthProvider({ children }) {
         setUser(response.data);
         setAuthenticated(true);
         getUserCart(response.data.email);
+        getUserOrders(response.data.email);
         return { success: true, response };
       } else {
         logout();
@@ -111,7 +115,6 @@ function AuthProvider({ children }) {
   }
 
   async function addToCart(productWithUserId) {
-    console.log(productWithUserId);
     try {
       const response = await AddToCart(productWithUserId);
       if (response.status === 200) {
@@ -129,6 +132,7 @@ function AuthProvider({ children }) {
   async function updateCartItem(userId, productId, productQuantity) {
     try {
       const response = await UpdateCartItem(userId, productId, productQuantity);
+      console.log(response);
       if (response.status === 200) {
         setCartItems(response.data);
         return { success: true, response: response };
@@ -152,6 +156,35 @@ function AuthProvider({ children }) {
     } catch (e) {
       return e;
     }
+  }
+
+  async function getUserOrders(email) {
+    try {
+      const response = await GetUserOrders(email);
+      if (response.status === 200) {
+        setUserOrders(response.data);
+      } else {
+        setUserOrders(null);
+      }
+    } catch (e) {
+      setUserOrders(null);
+    }
+  }
+
+  async function addToOrders(productWithUserId) {
+    console.log(productWithUserId);
+    /*    try {
+      const response = await AddToOrders(productWithUserId);
+      if (response.status === 200) {
+        setUserOrders(response.data);
+        return true;
+      } else {
+        setUserOrders([]);
+        return false;
+      }
+    } catch (e) {
+      setUserOrders([]);
+    }*/
   }
 
   async function updateUserDetails(
@@ -201,6 +234,8 @@ function AuthProvider({ children }) {
         addToCart,
         updateUserDetails,
         retrieveProducts,
+        isUserOrders,
+        addToOrders,
       }}
     >
       {children}

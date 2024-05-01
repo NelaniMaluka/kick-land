@@ -6,11 +6,15 @@ import "./Checkout.css";
 function Checkout() {
   const authContext = useAuth();
   const cartItems = authContext.isCartItems || [];
+  const isProducts = authContext.isProducts || [];
 
   function calculateTotal() {
     let total = 0;
     for (let i = 0; i < cartItems.length; i++) {
-      total += cartItems[i].price * cartItems[i].quantity;
+      const product = isProducts.find((p) => p.id === cartItems[i].productId);
+      if (product) {
+        total += product.price * cartItems[i].quantity;
+      }
     }
     return total;
   }
@@ -43,20 +47,24 @@ function Checkout() {
       <h1>Cart</h1>
       <hr />
       <table>
-        {cartItems.map((product) => (
-          <tr key={product.id}>
-            <td className="product-name">{product.name}</td>
-            <td>x{product.quantity}</td>
-            <td>
-              <span className="price">
-                {new Intl.NumberFormat("en-ZA", {
-                  style: "currency",
-                  currency: "ZAR",
-                }).format(product.price * product.quantity)}
-              </span>
-            </td>
-          </tr>
-        ))}
+        {cartItems.map((cartItem) => {
+          const product = isProducts.find((p) => p.id === cartItem.productId);
+
+          return (
+            <tr key={product.id}>
+              <td className="product-name">{product.name}</td>
+              <td>x{cartItem.quantity}</td>
+              <td>
+                <span className="price">
+                  {new Intl.NumberFormat("en-ZA", {
+                    style: "currency",
+                    currency: "ZAR",
+                  }).format(product.price * cartItem.quantity)}
+                </span>
+              </td>
+            </tr>
+          );
+        })}
       </table>
       <hr />
       <table>

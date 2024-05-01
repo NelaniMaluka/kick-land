@@ -10,6 +10,7 @@ import "./CartView.css";
 function CartView() {
   const authContext = useAuth();
   const [cartItems, setCartItems] = useState(authContext.isCartItems || []);
+  const isProducts = authContext.isProducts;
 
   // Function to handle quantity changes
   async function handleQuantityChange(productId, updatedQuantity) {
@@ -66,50 +67,59 @@ function CartView() {
   }
 
   return (
-    <div className="parent-container ">
+    <div className="parent-container">
       <div className="cart-container">
-        {cartItems.map((product) => (
-          <div className="cart-card" key={product.id}>
-            <div className="cart-img">
-              <img src={product.image1} alt="Product" />
-            </div>
-            <div className="divider" />
-            <div className="cart-text">
-              <span className="category">{product.category}</span>
-              <span className="name">{product.name}</span>
-              <span className="price">
-                {new Intl.NumberFormat("en-ZA", {
-                  style: "currency",
-                  currency: "ZAR",
-                }).format(product.price * product.quantity)}
-              </span>
-              <span className="size">{product.size}</span>
+        {cartItems.map((cartItem) => {
+          // Find the corresponding product in isProducts array
+          const product = isProducts.find((p) => p.id === cartItem.productId);
 
-              <div className="cart-footer">
-                <span>
-                  quantity:
-                  <input
-                    type="number"
-                    onChange={(e) =>
-                      handleQuantityChange(product.id, e.target.value)
-                    }
-                    min={1}
-                    placeholder={product.quantity}
-                  />
+          if (!product) {
+            return <span> Could not find product details.</span>;
+          }
+
+          return (
+            <div className="cart-card" key={cartItem.id}>
+              <div className="cart-img">
+                <img src={product.image1} alt="Product" />
+              </div>
+              <div className="divider" />
+              <div className="cart-text">
+                <span className="category">{product.category}</span>
+                <span className="name">{product.name}</span>
+                <span className="price">
+                  {new Intl.NumberFormat("en-ZA", {
+                    style: "currency",
+                    currency: "ZAR",
+                  }).format(product.price * cartItem.quantity)}
                 </span>
-                <span>
-                  <IconButton
-                    aria-label="delete"
-                    size="large"
-                    onClick={() => handleDeleteClick(product.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </span>
+                <span className="size">{cartItem.size}</span>
+
+                <div className="cart-footer">
+                  <span>
+                    Quantity:
+                    <input
+                      type="number"
+                      onChange={(e) =>
+                        handleQuantityChange(cartItem.productId, e.target.value)
+                      }
+                      min={1}
+                      placeholder={cartItem.quantity}
+                    />
+                  </span>
+                  <span>
+                    <IconButton
+                      aria-label="delete"
+                      size="large"
+                      onClick={() => handleDeleteClick(cartItem.productId)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className="checkout-container">
         <Checkout />

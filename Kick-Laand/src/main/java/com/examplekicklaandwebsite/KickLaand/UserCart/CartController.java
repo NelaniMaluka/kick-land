@@ -71,17 +71,9 @@ public class CartController {
             // Create a Cart object
             Cart cartItem = new Cart();
             // Set properties for the Cart object based on your provided data
-            cartItem.setId(request.getId());
-            cartItem.setName(request.getName());
-            cartItem.setPrice(request.getPrice());
-            cartItem.setCategory(request.getCategory());
+            cartItem.setProductId(request.getProductId());
             cartItem.setQuantity(request.getQuantity());
             cartItem.setSize(request.getSize());
-            cartItem.setImage1(request.getImage1());
-            cartItem.setImage2(request.getImage2());
-            cartItem.setImage3(request.getImage3());
-            cartItem.setImage4(request.getImage4());
-            cartItem.setPriceUrl(request.getPriceUrl());
             cartItem.setUser(user);
 
             // Save the Cart object
@@ -110,7 +102,7 @@ public class CartController {
         } else {
             // Find the cart item with the specified productId that belongs to the user
             Optional<Cart> cartItemToUpdate = userCartItems.stream()
-                    .filter(cart -> cart.getId().equals(productId))
+                    .filter(cart -> cart.getProductId().equals(productId))
                     .findFirst();
 
             if (cartItemToUpdate.isPresent()) {
@@ -169,16 +161,9 @@ public class CartController {
                 .map(cart -> {
                     Map<String, Object> filteredCartItem = new HashMap<>();
                     filteredCartItem.put("id", cart.getId());
-                    filteredCartItem.put("name", cart.getName());
-                    filteredCartItem.put("price", cart.getPrice());
-                    filteredCartItem.put("category", cart.getCategory());
+                    filteredCartItem.put("productId", cart.getProductId());
                     filteredCartItem.put("quantity", cart.getQuantity());
                     filteredCartItem.put("size", cart.getSize());
-                    filteredCartItem.put("image1", cart.getImage1());
-                    filteredCartItem.put("image2", cart.getImage2());
-                    filteredCartItem.put("image3", cart.getImage3());
-                    filteredCartItem.put("image4", cart.getImage4());
-                    filteredCartItem.put("priceUrl", cart.getPriceUrl());
                     
                     return filteredCartItem;
                 })

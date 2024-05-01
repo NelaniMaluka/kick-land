@@ -24,13 +24,13 @@ function ProductDetails() {
       if (!selectedProduct.sizes[0][selectedSize] <= 0) {
         const userId = isUser.id;
         const size = selectedSize;
-        const productWithUserId = {
-          ...selectedProduct,
+        const cartProduct = {
           quantity,
           userId,
           size,
+          productId: selectedProduct.id, // Include productId directly
         };
-        addToCart(productWithUserId)
+        addToCart(cartProduct)
           .then((result) => {
             if (result) {
               setShowSnackbar(true);

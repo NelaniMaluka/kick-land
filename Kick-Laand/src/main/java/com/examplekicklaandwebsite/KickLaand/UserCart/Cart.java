@@ -21,30 +21,15 @@ public class Cart {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserAccount user;
-
-	@NotNull(message = "Product name cannot be null")
-	private String name;
-
-	@NotNull(message = "Product price cannot be null")
-	private double price;
-
-	@NotNull(message = "Product category cannot be null")
-	private String category;
+	
+    @NotNull(message = "Product ID cannot be null")
+    private Integer productId;
 
 	@NotNull(message = "Product size cannot be null")
 	private String size;
 
 	@NotNull(message = "Product quantity cannot be null")
 	private Integer quantity;
-
-	@NotNull(message = "Product image1 cannot be null")
-	private String image1;
-	private String image2;
-	private String image3;
-	private String image4;
-	
-	@NotNull
-    private String priceUrl;
 
 	public Cart() {
 		// You can initialize any default values here if needed
@@ -65,29 +50,13 @@ public class Cart {
 	public void setUser(UserAccount user) {
 		this.user = user;
 	}
-
-	public String getName() {
-		return name;
+	
+	public Integer getProductId() {
+		return productId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double d) {
-		this.price = d;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
 	public String getSize() {
@@ -106,43 +75,4 @@ public class Cart {
 		this.quantity = quantity;
 	}
 
-	public String getImage1() {
-		return image1;
-	}
-
-	public void setImage1(String image1) {
-		this.image1 = image1;
-	}
-
-	public String getImage2() {
-		return image2;
-	}
-
-	public void setImage2(String image2) {
-		this.image2 = image2;
-	}
-
-	public String getImage3() {
-		return image3;
-	}
-
-	public void setImage3(String image3) {
-		this.image3 = image3;
-	}
-
-	public String getImage4() {
-		return image4;
-	}
-
-	public void setImage4(String image4) {
-		this.image4 = image4;
-	}
-
-	public String getPriceUrl() {
-		return priceUrl;
-	}
-
-	public void setPriceUrl(String priceUrl) {
-		this.priceUrl = priceUrl;
-	}
 }
