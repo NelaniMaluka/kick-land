@@ -54,90 +54,94 @@ function UserProfile() {
   }
 
   return (
-    <Formik
-      initialValues={{
-        name: user.username || "",
-        surname: user.surname || "",
-        phoneNumber: user.phoneNumber || "",
-        email: user.email || "",
-        address: user.address || "",
-      }}
-      onSubmit={handleSubmit}
-      validationSchema={validationSchema}
-    >
-      {({ values, handleChange, handleSubmit, errors, touched }) => (
-        <form className="profile">
-          <div>
-            <h2> Personal Information:</h2>
-          </div>
-          <div className="field-1">
-            <input
-              className="messageField"
-              placeholder="Name*"
-              type="text"
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-            />
-            <ErrorMessage
-              name="name"
-              component="div"
-              className="error-message"
-            />
-            <input
-              className="messageField"
-              placeholder="Surname*"
-              type="text"
-              name="surname"
-              value={values.surname}
-              onChange={handleChange}
-            />
-            <ErrorMessage
-              name="surname"
-              component="div"
-              className="error-message"
-            />
-          </div>
-          <div className="field-1">
-            <input
-              className="messageField"
-              placeholder="Phone Number"
-              type="tel"
-              name="phoneNumber"
-              value={values.phoneNumber}
-              onChange={handleChange}
-            />
-            <input
-              className="messageField"
-              placeholder="Email*"
-              type="email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-            />
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="error-message"
-            />
-          </div>
-          <div>
-            <h2> Address Information:</h2>
-          </div>
-          <div className="field-1">
-            <LocationSearchInput
-              initialAddress={values.address}
-              onAddressSelect={(address) => setSelectedAddress(address)}
-            />
-          </div>
-          <div>
-            <button type="button" name="login" onClick={handleSubmit}>
-              Save Changes
-            </button>
-          </div>
-        </form>
-      )}
-    </Formik>
+    <div>
+      <Formik
+        initialValues={{
+          name: user.username || "",
+          surname: user.surname || "",
+          phoneNumber: user.phoneNumber || "",
+          email: user.email || "",
+          address: user.address || "",
+        }}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+      >
+        {({ values, handleChange, handleSubmit, errors, touched }) => (
+          <form className="profile">
+            <div>
+              <h2> Personal Information:</h2>
+            </div>
+            <div className="field-1">
+              <input
+                className="messageField"
+                placeholder="Name*"
+                type="text"
+                name="name"
+                value={values.name}
+                autoComplete="given-name"
+                onChange={handleChange}
+              />
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="error-message"
+              />
+              <input
+                className="messageField"
+                placeholder="Surname*"
+                type="text"
+                name="surname"
+                value={values.surname}
+                autoComplete="family-name"
+                onChange={handleChange}
+              />
+              <ErrorMessage
+                name="surname"
+                component="div"
+                className="error-message"
+              />
+            </div>
+            <div className="field-1">
+              <input
+                className="messageField"
+                placeholder="Phone Number"
+                type="tel"
+                name="phoneNumber"
+                value={values.phoneNumber}
+                onChange={handleChange}
+              />
+              <input
+                className="messageField"
+                placeholder="Email*"
+                type="email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="error-message"
+              />
+            </div>
+            <div>
+              <h2> Address Information:</h2>
+            </div>
+            <div className="field-1">
+              <LocationSearchInput
+                initialAddress={values.address}
+                onAddressSelect={(address) => setSelectedAddress(address)}
+              />
+            </div>
+            <div>
+              <button type="button" name="login" onClick={handleSubmit}>
+                Save Changes
+              </button>
+            </div>
+          </form>
+        )}
+      </Formik>
+    </div>
   );
 }
 

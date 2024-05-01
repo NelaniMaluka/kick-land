@@ -9,8 +9,7 @@ import FooterBanner from "../../Footer/FooterBanner";
 
 function ProductDetails() {
   const { category, productName } = useParams();
-  const { isProducts, retrieveProducts, addToCart, isAuthenticated, isUser } =
-    useAuth();
+  const { isProducts, addToCart, isAuthenticated, isUser } = useAuth();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("size3"); // Initialize selectedSize to null
   const [showSnackbar, setShowSnackbar] = useState(false);

@@ -31,7 +31,7 @@ function TabPanel(props) {
             flexGrow: 1,
           }}
         >
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>

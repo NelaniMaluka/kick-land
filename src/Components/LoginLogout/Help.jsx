@@ -111,6 +111,7 @@ function Help() {
             type="text"
             name="name"
             value={name}
+            autoComplete="given-name"
             onChange={handleNameChange}
           />
 
@@ -120,6 +121,7 @@ function Help() {
             type="email"
             name="email"
             value={email}
+            autoComplete="email"
             onChange={handleEmailChange}
           />
           {emailError && <div className="error-message">{emailError}</div>}

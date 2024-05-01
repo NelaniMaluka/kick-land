@@ -89,6 +89,7 @@ function LoginForm() {
             type="email"
             name="email"
             value={email}
+            autoComplete="email"
             onChange={handleEmailChange}
           />
           {emailError && <div className="error-message">{emailError}</div>}
@@ -99,6 +100,7 @@ function LoginForm() {
             type="password"
             name="password"
             value={password}
+            autoComplete="current-password"
             onChange={handlePasswordChange}
           />
           {passwordError && (

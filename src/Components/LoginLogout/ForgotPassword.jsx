@@ -34,6 +34,7 @@ function ForgotPassword() {
             type="email"
             name="email"
             value={email}
+            autoComplete="email"
             onChange={handleEmailChange}
           />
         </div>

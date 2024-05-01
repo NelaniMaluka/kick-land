@@ -74,6 +74,7 @@ function LocationSearchInput({ onAddressSelect, initialAddress }) {
                   : { backgroundColor: "#ffffff", cursor: "pointer" };
                 return (
                   <div
+                    key={suggestion.placeId} // Unique key for each suggestion
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style,

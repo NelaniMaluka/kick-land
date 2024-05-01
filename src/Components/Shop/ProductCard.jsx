@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductCard.css";
 
 function ProductCard({ products }) {
   const navigate = useNavigate();
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
   function handleOnClick(product) {
-    setSelectedProduct(product);
     // Delay navigation to ensure state is updated
     setTimeout(() => {
       navigate(`/Shop/${product.category}/${product.name}`);

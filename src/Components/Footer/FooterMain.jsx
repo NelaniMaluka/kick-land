@@ -110,6 +110,7 @@ function FooterMain() {
                 placeholder="Your Email"
                 name="email"
                 value={email}
+                autoComplete="email"
                 onChange={handleEmailChange}
               />
               <button type="submit">Send</button>

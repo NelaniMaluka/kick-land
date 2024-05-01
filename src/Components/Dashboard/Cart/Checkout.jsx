@@ -1,5 +1,6 @@
 import { useAuth } from "../../Security/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
+import { useNavigate } from "react-router-dom";
 
 import "./Checkout.css";
 
@@ -7,6 +8,7 @@ function Checkout() {
   const authContext = useAuth();
   const cartItems = authContext.isCartItems || [];
   const isProducts = authContext.isProducts || [];
+  const navigate = useNavigate();
 
   function calculateTotal() {
     let total = 0;
@@ -24,16 +26,29 @@ function Checkout() {
       "pk_test_51Oxki7EU0z74hURXI0dJKR7bjVKOGepQejluncbzq6249lEZmrjYoOMLiCU0muGEH9gkpg20l68aKEm65r50nKFQ000AmUrm1Z"
     );
 
-    const lineItems = cartItems.map((item) => ({
-      price: item.priceUrl,
-      quantity: item.quantity,
-    }));
+    const lineItems = cartItems.map((cartItem) => {
+      const product = isProducts.find(
+        (product) => product.id === cartItem.productId
+      );
+
+      if (product) {
+        return {
+          price: product.priceUrl,
+          quantity: cartItem.quantity,
+        };
+      } else {
+        console.warn(
+          `Product not found for cart item with productId: ${cartItem.productId}`
+        );
+        return null;
+      }
+    });
 
     const checkoutOptions = {
       lineItems: lineItems,
       mode: "payment",
-      successUrl: "http://localhost:3000/Dashboard",
-      cancelUrl: "http://localhost:3000/Dashboard",
+      successUrl: navigate("/Dashboard"), // Navigate to the Dashboard page on success
+      cancelUrl: "/Dashboard", // Navigate to the Dashboard page on cancellation
     };
 
     const { error } = await stripe.redirectToCheckout(checkoutOptions);
@@ -49,7 +64,6 @@ function Checkout() {
       <table>
         {cartItems.map((cartItem) => {
           const product = isProducts.find((p) => p.id === cartItem.productId);
-
           return (
             <tr key={product.id}>
               <td className="product-name">{product.name}</td>

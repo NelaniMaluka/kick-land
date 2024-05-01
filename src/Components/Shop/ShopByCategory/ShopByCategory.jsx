@@ -24,7 +24,7 @@ function ShopByCategory() {
     };
 
     fetchData();
-  }, [authContext]);
+  }, [authContext, isProducts.length]);
 
   useEffect(() => {
     // Move setFilteredProducts inside the useEffect block

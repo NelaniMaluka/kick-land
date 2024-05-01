@@ -124,6 +124,7 @@ function CreateAccount() {
             type="text"
             name="username"
             value={username}
+            autoComplete="given-name"
             onChange={handleUsernameChange}
           />
           {nameError && <div className="error-message">{nameError}</div>}
@@ -134,6 +135,7 @@ function CreateAccount() {
             type="text"
             name="surname"
             value={surname}
+            autoComplete="family-name"
             onChange={handleSurnameChange}
           />
         </div>
@@ -143,6 +145,7 @@ function CreateAccount() {
             type="email"
             name="email"
             value={email}
+            autoComplete="email"
             onChange={handleEmailChange}
           />
           {emailError && <div className="error-message">{emailError}</div>}
@@ -153,6 +156,7 @@ function CreateAccount() {
             type="password"
             name="password"
             value={password}
+            autoComplete="current-password"
             onChange={handlePasswordChange}
           />
           {passwordError && (

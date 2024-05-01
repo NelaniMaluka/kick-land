@@ -1,33 +1,12 @@
 // HomeCarousel.jsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Carousel } from "primereact/carousel";
 import { useAuth } from "../Security/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function HomeCarousel({ category }) {
-  const { isProducts, setProducts } = useAuth();
-  const [loading, setLoading] = useState(true);
+  const { isProducts } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("your_backend_api/products");
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [setProducts]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   const filteredProducts = isProducts.filter(
     (product) => product.category === category

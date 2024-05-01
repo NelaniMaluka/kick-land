@@ -11,8 +11,10 @@ const Alert = ({ message }) => {
     customClass: {
       container: customClass,
     },
-    onBeforeOpen: () => {
-      const popupElement = document.querySelector(`.${customClass}`);
+    didOpen: () => {
+      const popupElement = document.querySelector(
+        `.${customClass} .swal2-popup`
+      );
       if (popupElement) {
         popupElement.style.zIndex = "9999"; // Adjust the z-index as needed
       }
