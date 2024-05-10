@@ -17,6 +17,7 @@ import com.examplekicklaandwebsite.KickLaand.Newsletter.NewsletterRepository;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 
@@ -26,12 +27,15 @@ public class UserController {
 
     private final UserAccountRepository userAccountRepository;
     private final NewsletterRepository newsletterRepository;
-    private @Email(message = "Please provide a valid email") String newsletter;
+    private final PasswordResetService passwordResetService;
 
     @Autowired
-    public UserController(UserAccountRepository userAccountRepository, NewsletterRepository newsletterRepository) {
+    public UserController(UserAccountRepository userAccountRepository, 
+                          NewsletterRepository newsletterRepository,
+                          PasswordResetService passwordResetService) {
         this.userAccountRepository = userAccountRepository;
         this.newsletterRepository = newsletterRepository;
+        this.passwordResetService = passwordResetService;
     }
 
     @PostMapping(path = "/api/user/login")
@@ -50,7 +54,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
         }
     }
-
 
     @PostMapping(path = "/api/user/create-account")
     public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount ) {
@@ -128,6 +131,32 @@ public class UserController {
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to update user fields");
+        }
+    }
+    
+    @PostMapping("/api/user/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody UserAccount userAccount) {
+        try {
+            passwordResetService.createPasswordResetRequest(userAccount.getEmail());
+            return ResponseEntity.ok("Password reset email sent successfully");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
+    }
+
+    @PostMapping("/api/user/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> requestBody) {
+        try {
+            String email = requestBody.get("email");
+            String newPassword = requestBody.get("newPassword");
+            passwordResetService.resetPassword(email, newPassword);
+            return ResponseEntity.ok("Password reset successfully");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
         }
     }
 
