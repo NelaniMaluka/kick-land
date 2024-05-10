@@ -79,6 +79,22 @@ function App() {
                   </AuthenticatedRoute>
                 }
               />
+              <Route
+                path="/Dashboard/success"
+                element={
+                  <AuthenticatedRoute>
+                    <Dashboard />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route
+                path="/Dashboard/cancel"
+                element={
+                  <AuthenticatedRoute>
+                    <Dashboard />
+                  </AuthenticatedRoute>
+                }
+              />
             </Routes>
             <Footer />
           </BrowserRouter>

@@ -1,6 +1,8 @@
 import { useAuth } from "../../Security/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import "./Checkout.css";
 
@@ -9,6 +11,9 @@ function Checkout() {
   const cartItems = authContext.isCartItems || [];
   const isProducts = authContext.isProducts || [];
   const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+  const currentUrl = window.location.origin + pathname;
 
   function calculateTotal() {
     let total = 0;
@@ -44,11 +49,14 @@ function Checkout() {
       }
     });
 
+    const successUrl = `${currentUrl}/success`; // Construct absolute URL for success
+    const cancelUrl = `${currentUrl}/cancel`; // Construct absolute URL for cancel
+
     const checkoutOptions = {
       lineItems: lineItems,
       mode: "payment",
-      successUrl: navigate("/Dashboard"), // Navigate to the Dashboard page on success
-      cancelUrl: "/Dashboard", // Navigate to the Dashboard page on cancellation
+      successUrl: successUrl,
+      cancelUrl: cancelUrl,
     };
 
     const { error } = await stripe.redirectToCheckout(checkoutOptions);
@@ -56,6 +64,30 @@ function Checkout() {
       console.error("Error redirecting to checkout:", error);
     }
   };
+
+  // useEffect to handle actions on success or cancel URLs
+  useEffect(() => {
+    const handleSuccess = () => {
+      // Your function to run on successful payment
+      console.log("Payment was successful!");
+      // For example, update order status, send confirmation email, etc.
+      navigate("/Dashboard"); // Navigate to Dashboard page while preserving state
+    };
+
+    const handleCancel = () => {
+      // Your function to run on payment cancellation
+      console.log("Payment was cancelled.");
+      // For example, show a message to the user
+      navigate("/Dashboard"); // Navigate to Dashboard page while preserving state
+    };
+
+    const path = window.location.pathname;
+    if (path === "/success") {
+      handleSuccess();
+    } else if (path === "/cancel") {
+      handleCancel();
+    }
+  }, [navigate]);
 
   return (
     <div className="checkoutContainer">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Security/AuthContext";
 import { Link } from "react-router-dom";
+import Alert from "./Alert";
 
 import "./Form.css";
 
@@ -16,7 +17,19 @@ function ForgotPassword() {
     setEmail(event.target.value);
   }
 
-  async function handleSubmit() {}
+  async function handleSubmit(event) {
+    const result = await useContext.forgotPassword(email);
+    if (result) {
+      console.log(result);
+    } else {
+      Alert({ message: "Invalid Credentials" });
+    }
+    /*    } catch (error) {
+      Alert({
+        message: "We are encountering problems. Sorry for the inconvenience.",
+      });
+    }*/
+  }
 
   return (
     <form className="form container2">

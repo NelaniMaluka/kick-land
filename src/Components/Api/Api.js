@@ -41,8 +41,8 @@ export function GetUserCart(email) {
   return apiClient.get(`/api/user/cart?email=${email}`);
 }
 
-export function AddToCart(productWithUserId) {
-  return apiClient.post("/api/user/cart", productWithUserId);
+export function AddToCart(cartProduct) {
+  return apiClient.post("/api/user/cart", cartProduct);
 }
 
 export function DeleteCartItem(userId, productId) {
@@ -62,6 +62,18 @@ export function UpdateCartItem(userId, productId, productQuantity) {
   return apiClient.put(
     `/api/user/cart?userId=${parsedUserId}&productId=${parsedProductId}&productQuantity=${parsedproductQuantity}`
   );
+}
+
+export function GetUserOrders(email) {
+  return apiClient.get(`/api/user/orders?email=${email}`);
+}
+
+export function AddToOrders(productWithUserId) {
+  return apiClient.post("/api/user/orders", productWithUserId);
+}
+
+export function ForgotPassword(email) {
+  return apiClient.post("/api/user/forgot-password", email);
 }
 
 export function UpdateUserDetails(

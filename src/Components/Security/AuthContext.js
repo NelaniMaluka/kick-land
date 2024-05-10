@@ -12,6 +12,7 @@ import {
   UpdateCartItem,
   AddToOrders,
   GetUserOrders,
+  ForgotPassword,
 } from "../Api/Api";
 import { useEffect } from "react";
 
@@ -171,10 +172,10 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function addToOrders(productWithUserId) {
-    console.log(productWithUserId);
-    /*    try {
-      const response = await AddToOrders(productWithUserId);
+  async function addToOrders(orders) {
+    console.log(orders);
+    try {
+      const response = await AddToOrders(orders);
       if (response.status === 200) {
         setUserOrders(response.data);
         return true;
@@ -184,7 +185,7 @@ function AuthProvider({ children }) {
       }
     } catch (e) {
       setUserOrders([]);
-    }*/
+    }
   }
 
   async function updateUserDetails(
@@ -217,6 +218,21 @@ function AuthProvider({ children }) {
     }
   }
 
+  async function forgotPassword(email) {
+    try {
+      console.log(email);
+      const response = await ForgotPassword(email);
+
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -236,6 +252,7 @@ function AuthProvider({ children }) {
         retrieveProducts,
         isUserOrders,
         addToOrders,
+        forgotPassword,
       }}
     >
       {children}
