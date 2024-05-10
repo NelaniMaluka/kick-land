@@ -33,9 +33,9 @@ function FooterMain() {
     try {
       const result = await authContext.signUpForNewsletter(email);
       if (result.success) {
-        showSuccessMessage();
+        showSuccessMessage(result.response.data);
       } else {
-        showErrorMessage("Email already received");
+        showErrorMessage(result.response.data);
       }
     } catch (error) {
       showErrorMessage("Could not sign up for newsletter");
@@ -50,11 +50,11 @@ function FooterMain() {
     return emailRegex.test(email);
   }
 
-  function showSuccessMessage() {
+  function showSuccessMessage(errorMsg) {
     Swal.fire({
       icon: "success",
       title: "Sent",
-      text: "We received your Email",
+      text: errorMsg,
     });
   }
 

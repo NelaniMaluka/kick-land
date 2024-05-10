@@ -1,173 +1,41 @@
 package com.examplekicklaandwebsite.KickLaand.UserCart;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.examplekicklaandwebsite.KickLaand.User.UserAccount;
-import com.examplekicklaandwebsite.KickLaand.User.UserAccountRepository;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CartController {
 
-    private final CartRepository cartRepository;
-    private final UserAccountRepository userAccountRepository; 
+    private final CartService cartService;
 
-    public CartController(CartRepository cartRepository, UserAccountRepository userAccountRepository) {
-        this.cartRepository = cartRepository;
-        this.userAccountRepository = userAccountRepository;
+    @Autowired
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
     }
 
     @GetMapping("/api/user/cart")
-    @Transactional
     public ResponseEntity<?> getUserCartItems(@RequestParam String email) {
-        try {
-            UserAccount user = userAccountRepository.findByEmail(email);
-
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-            } else {
-                List<Cart> userCart = user.getCart();
-
-                if (userCart.isEmpty()) {
-                    return ResponseEntity.ok(null);
-                } else {
-                    Object filteredCartList = getFilteredCartList(userCart);
-                    return ResponseEntity.ok(filteredCartList);
-                }
-            }
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        return cartService.getUserCartItems(email);
     }
 
     @PostMapping("/api/user/cart")
-    public ResponseEntity<?> addToCart(@Valid @RequestBody UserCartDTO request) {
-        try {
-            // Retrieve the user or handle user creation logic
-            Integer userId = request.getUserId();
-			@SuppressWarnings("null")
-			UserAccount user = userAccountRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-
-            // Create a Cart object
-            Cart cartItem = new Cart();
-            // Set properties for the Cart object based on your provided data
-            cartItem.setProductId(request.getProductId());
-            cartItem.setQuantity(request.getQuantity());
-            cartItem.setSize(request.getSize());
-            cartItem.setUser(user);
-
-            // Save the Cart object
-            cartRepository.save(cartItem);
-
-            Object filteredCartList = getFilteredCartList(user.getCart());
-            return ResponseEntity.ok(filteredCartList);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e);
-        }
+    public ResponseEntity<?> addToCart(@RequestBody UserCartDTO request) {
+        return cartService.addToCart(request);
     }
 
     @PutMapping("/api/user/cart")
     public ResponseEntity<?> updateCart(
-            @RequestParam("userId") @NonNull Integer userId,
+            @RequestParam("userId") Integer userId,
             @RequestParam("productId") Integer productId,
             @RequestParam("productQuantity") Integer productQuantity) {
-
-        UserAccount user = userAccountRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-
-        List<Cart> userCartItems = user.getCart();
-
-        if (userCartItems.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            // Find the cart item with the specified productId that belongs to the user
-            Optional<Cart> cartItemToUpdate = userCartItems.stream()
-                    .filter(cart -> cart.getProductId().equals(productId))
-                    .findFirst();
-
-            if (cartItemToUpdate.isPresent()) {
-                // Update the quantity of the existing cart item
-                Cart existingCartItem = cartItemToUpdate.get();
-                existingCartItem.setQuantity(productQuantity);
-
-                // Save the updated cart item
-                cartRepository.save(existingCartItem);
-
-                // Return the updated cart list
-                Object filteredCartList = getFilteredCartList(user.getCart());
-                return ResponseEntity.ok(filteredCartList);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        }
+        return cartService.updateCart(userId, productId, productQuantity);
     }
 
-    @Transactional
     @DeleteMapping("/api/user/cart")
-    public ResponseEntity<?> deleteCartItem(@RequestParam @NonNull Integer userId,
-            @RequestParam @NonNull Integer productId) {
-        try {
-            UserAccount user = userAccountRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-
-            List<Cart> userCartItems = user.getCart();
-            if (userCartItems.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            } else {
-                // Find the cart item with the specified productId that belongs to the user
-                Optional<Cart> cartItemToDelete = userCartItems.stream()
-                        .filter(cart -> cart.getId().equals(productId))
-                        .findFirst();
-
-                if (cartItemToDelete.isPresent()) {
-                    // Remove the cart item from the user's cart
-                    userCartItems.remove(cartItemToDelete.get());
-                    cartRepository.deleteById(productId);
-
-                    // Return the updated cart list
-                    Object filteredCartList = getFilteredCartList(user.getCart());
-                    return ResponseEntity.ok(filteredCartList);
-                } else {
-                    return ResponseEntity.notFound().build();
-                }
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-        }
+    public ResponseEntity<?> deleteCartItem(
+            @RequestParam("userId") Integer userId,
+            @RequestParam("productId") Integer productId) {
+        return cartService.deleteCartItem(userId, productId);
     }
-
-    private List<Map<String, Object>> getFilteredCartList(List<Cart> userCart) {
-        return userCart.stream()
-                .map(cart -> {
-                    Map<String, Object> filteredCartItem = new HashMap<>();
-                    filteredCartItem.put("id", cart.getId());
-                    filteredCartItem.put("productId", cart.getProductId());
-                    filteredCartItem.put("quantity", cart.getQuantity());
-                    filteredCartItem.put("size", cart.getSize());
-                    
-                    return filteredCartItem;
-                })
-                .collect(Collectors.toList());
-    }
-
 }

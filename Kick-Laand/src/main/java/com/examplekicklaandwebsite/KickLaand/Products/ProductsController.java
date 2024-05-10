@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.Products;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,16 +9,18 @@ import java.util.List;
 
 @RestController
 public class ProductsController {
-    private final ProductsRepository productsRepository;
 
-    public ProductsController(ProductsRepository productsRepository) {
-        this.productsRepository = productsRepository;
+    private final ProductService productService;
+
+    @Autowired
+    public ProductsController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping(path = "/api/public/products")
     public ResponseEntity<?> retrieveProducts() {
         try {
-            List<Products> productList = productsRepository.findAll();
+            List<Products> productList = productService.getAllProducts();
 
             if (productList.isEmpty()) {
                 return ResponseEntity.noContent().build(); // Handle empty list
@@ -28,5 +31,5 @@ public class ProductsController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
-    
 }
+
