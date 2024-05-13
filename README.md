@@ -1,70 +1,135 @@
-# Getting Started with Create React App
+# Kick Land - Sneaker E-commerce Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Kick Land is a full-stack web application that provides a platform for selling sneakers. It is built using React.js for the frontend and Java with Spring Boot for the backend. The application includes features such as user authentication, product browsing, shopping cart management, and profile management.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Frontend**:
+  - **Home Page**: Showcase of featured products and promotions.
+  - **Login Page**: User authentication and login functionality.
+  - **About Us Page**: Information about the company and its mission.
+  - **Help Page**: FAQs and support information.
+  - **Terms of Service Page**: Legal terms and conditions.
+  - **Refund Policy Page**: Details about the refund policy.
+  - **Shop Product Page**: Detailed view of a single product with options to select size and quantity.
+  - **Shop Products Page**: Display of all available products with filtering options for price or alphabetical order.
+  - **Profile Page**: User profile management with details such as name, surname, email, phone number, and order history.
+  - **Cart Page**: Display of all items in the shopping cart with total prices.
 
-### `npm start`
+- **Backend**:
+  - Built with Java using Spring Boot framework.
+  - Uses Spring Data JPA for data access layer (no database included in this version).
+  - RESTful API endpoints for various functionalities:
+    - User authentication (login, register).
+    - Newsletter subscription.
+    - Contact Us form submissions.
+    - Update profile details.
+    - Update cart details.
+   
+## Payment Processing
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Kick Land uses Stripe to process payments securely. Customers can checkout and pay for their orders using credit or debit cards.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Location Services
 
-### `npm test`
+For location details within South Africa, Kick Land utilizes Google Maps API. This enables accurate address lookup and location-based services tailored for South African users.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
 
-### `npm run build`
+- **Frontend**:
+  - React.js
+  - React Router
+  - Axios (for API calls)
+  - HTML/CSS/JavaScript
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Backend**:
+  - Java
+  - Spring Boot
+  - Spring Data JPA
+  - RESTful APIs
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository:
+```bash
+git clone https://github.com/your-username/kick-land.git
+```
 
-### `npm run eject`
+2.Install dependencies for both frontend and backend:
+```bash
+cd kick-land/frontend
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+cd ../backend
+# Setup your Java environment and dependencies (e.g., Maven)
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3.Configure backend API endpoint in the frontend:
+```bash
+// frontend/src/api/config.js
+const API_BASE_URL = 'http://localhost:8080/api'; // Update with your backend API URL
+export default API_BASE_URL;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4.Start the frontend and backend servers:
+```bash
+# Start frontend server
+cd ../frontend
+npm start
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Start backend server (make sure your Java environment is set up)
+cd ../backend
+# Use your preferred method to start Spring Boot application (e.g., mvn spring-boot:run)
+```
 
-## Learn More
+## Access the Application
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Frontend:** [http://localhost:3000](http://localhost:3000)
+- **Backend (API):** [http://localhost:8080](http://localhost:8080)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## API Endpoints
 
-### Code Splitting
+The backend exposes the following API endpoints (example URLs):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Authentication:
 
-### Analyzing the Bundle Size
+- `POST /api/user/login`: User login.
+- `POST /api/user/create-account`: User registration.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Profile Management:
 
-### Making a Progressive Web App
+- `PUT /api/user/update-user/:userId`: Update user profile.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Cart Management:
 
-### Advanced Configuration
+- `GET /api/user/cart/:email`: Get cart items.
+- `POST /api/user/cart`: Add item to cart.
+- `PUT /api/user/cart/:UserId/:ProductId/:productQuantity`: Update item quantity in cart.
+- `DELETE /api/user/cart/:UserId/:ProductId`: Remove item from cart.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Product Catalog:
 
-### Deployment
+- `GET /api/public/products`: Get all products.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Contact Us:
 
-### `npm run build` fails to minify
+- `POST /api/public/contactUs`: Submit contact form.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Newsletter:
+
+- `POST /api/public/newsletter`: Submit email form.
+
+## Screenshots
+
+![Home Page](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(338).png)
+![Home Page](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(339).png)
+![Footer](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(340).png)
+![Shop All](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(341).png)
+![Help](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(342).png)
+![About Us](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(343).png)
+![Log In](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(344).png)
+![Create Account](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(345).png)
+![Shop Product](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(346).png)
+![Profile Dashboard](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(347).png)
+![Cart Dashboard](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(349).png)
+![Stripe Checkout](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(350).png)
