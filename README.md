@@ -113,7 +113,7 @@ cd ../backend
    npm install bootstrap
   ```
 
-4. **PrimeReact:** PrimeReact components can be installed via npm:
+5. **PrimeReact:** PrimeReact components can be installed via npm:
   ```bash
    npm install primereact primeicons
   ```
