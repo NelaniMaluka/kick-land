@@ -73,7 +73,7 @@ function Dashboard() {
           bgcolor: "background.paper",
           display: "flex",
           height: "maxContent",
-          minHeight: 629,
+          minHeight: "unset",
           width: "100%",
         }}
       >

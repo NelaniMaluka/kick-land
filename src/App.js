@@ -26,6 +26,8 @@ import Alert from "./Components/LoginLogout/Alert";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import ProductDetails from "./Components/Shop/ShopProduct/ProductDetails";
 
+import "./App.css";
+
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
   if (authContext.isAuthenticated) {
@@ -52,51 +54,53 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <ScrollToTop />
-            <NavBar />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/Login" element={<LoginForm />} />
-              <Route path="/Create-Account" element={<CreateAccount />} />
-              <Route path="/Forgot-Password" element={<ForgotPassword />} />
-              <Route path="/Shop/:item" element={<ShopByCategory />} />
-              <Route
-                path="/Shop/:category/:productName"
-                element={<ProductDetails />}
-              />
-              <Route path="/Shop/Shop-All" element={<ShopAll />} />
-              <Route path="/Info/About-Us" element={<AboutUs />} />
-              <Route
-                path="/Info/Terms-of-Service"
-                element={<TermsOfService />}
-              />
-              <Route path="/Info/Refund-Policy" element={<RefundPolicy />} />
-              <Route path="/Info/Help" element={<Help />} />
-              <Route
-                path="/Dashboard"
-                element={
-                  <AuthenticatedRoute>
-                    <Dashboard />
-                  </AuthenticatedRoute>
-                }
-              />
-              <Route
-                path="/Dashboard/success"
-                element={
-                  <AuthenticatedRoute>
-                    <Dashboard />
-                  </AuthenticatedRoute>
-                }
-              />
-              <Route
-                path="/Dashboard/cancel"
-                element={
-                  <AuthenticatedRoute>
-                    <Dashboard />
-                  </AuthenticatedRoute>
-                }
-              />
-            </Routes>
-            <Footer />
+            <NavBar className="navHieght" />
+            <div className="content">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/Login" element={<LoginForm />} />
+                <Route path="/Create-Account" element={<CreateAccount />} />
+                <Route path="/Forgot-Password" element={<ForgotPassword />} />
+                <Route path="/Shop/:item" element={<ShopByCategory />} />
+                <Route
+                  path="/Shop/:category/:productName"
+                  element={<ProductDetails />}
+                />
+                <Route path="/Shop/Shop-All" element={<ShopAll />} />
+                <Route path="/Info/About-Us" element={<AboutUs />} />
+                <Route
+                  path="/Info/Terms-of-Service"
+                  element={<TermsOfService />}
+                />
+                <Route path="/Info/Refund-Policy" element={<RefundPolicy />} />
+                <Route path="/Info/Help" element={<Help />} />
+                <Route
+                  path="/Dashboard"
+                  element={
+                    <AuthenticatedRoute>
+                      <Dashboard />
+                    </AuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/Dashboard/success"
+                  element={
+                    <AuthenticatedRoute>
+                      <Dashboard />
+                    </AuthenticatedRoute>
+                  }
+                />
+                <Route
+                  path="/Dashboard/cancel"
+                  element={
+                    <AuthenticatedRoute>
+                      <Dashboard />
+                    </AuthenticatedRoute>
+                  }
+                />
+              </Routes>
+              <Footer />
+            </div>
           </BrowserRouter>
         </AuthProvider>
       </PrimeReactProvider>

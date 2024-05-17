@@ -12,6 +12,12 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
     authContext.logout();
   }
 
+  function handleCloseMenu() {
+    if (isHamburgerOpen) {
+      toggleHamburger();
+    }
+  }
+
   return (
     <>
       {isHamburgerOpen && (
@@ -29,16 +35,24 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
           <div className="shop">
             <ul className="sneakers-hamburger">
               <li>
-                <Link to="/shop/Dunk ">Dunks</Link>
+                <Link to="/shop/Dunk " onClick={handleCloseMenu}>
+                  Dunks
+                </Link>
               </li>
               <li>
-                <Link to="/shop/Air-Force ">Air Force</Link>
+                <Link to="/shop/AirForce " onClick={handleCloseMenu}>
+                  Air Force
+                </Link>
               </li>
               <li>
-                <Link to="/shop/Jordan">Jordan</Link>
+                <Link to="/shop/Jordan" onClick={handleCloseMenu}>
+                  Jordan
+                </Link>
               </li>
               <li>
-                <Link to="/shop/Air-Max">Air Max</Link>
+                <Link to="/shop/AirMax" onClick={handleCloseMenu}>
+                  Air Max
+                </Link>
               </li>
             </ul>
           </div>
@@ -47,7 +61,9 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
             <ul>
               {!isAuthenticated && (
                 <li>
-                  <Link to="/Login">Log In</Link>
+                  <Link to="/Login" onClick={handleCloseMenu}>
+                    Log In
+                  </Link>
                 </li>
               )}
               {isAuthenticated && (
@@ -56,16 +72,24 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
                 </li>
               )}
               <li>
-                <Link to="/Info/Help">Help</Link>
+                <Link to="/Info/Help" onClick={handleCloseMenu}>
+                  Help
+                </Link>
               </li>
               <li>
-                <Link to="/Info/About-Us">About Us</Link>
+                <Link to="/Info/About-Us" onClick={handleCloseMenu}>
+                  About Us
+                </Link>
               </li>
               <li>
-                <Link to="/Info/Terms-of-Service">Terms of Service</Link>
+                <Link to="/Info/Terms-of-Service" onClick={handleCloseMenu}>
+                  Terms of Service
+                </Link>
               </li>
               <li>
-                <Link to="/Info/Refund-Policy">Refund Policy</Link>
+                <Link to="/Info/Refund-Policy" onClick={handleCloseMenu}>
+                  Refund Policy
+                </Link>
               </li>
             </ul>
           </div>

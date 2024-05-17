@@ -7,6 +7,16 @@
   pointer-events: none;
 }
 
+/* App.css */
+.content {
+  margin-top: 115px; /* Adjust this value to match the height of your navbar */
+}
+
+@media screen and (max-width: 661px) {
+  .content {
+    margin-top: 95px; /* Adjust this value to match the height of your navbar */
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
