@@ -17,7 +17,7 @@ function NavBarMain() {
     <nav>
       <div className="navC container2">
         <Link to="/" className="name  ">
-          Kick Land
+          Kicks Land
         </Link>
         <ul className="sneakers">
           <li>
