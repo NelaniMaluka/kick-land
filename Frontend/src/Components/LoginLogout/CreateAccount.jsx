@@ -15,6 +15,7 @@ function CreateAccount() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
+  const [subscribeToNewsletter, setSubscribeToNewsletter] = useState(false);
 
   const navigate = useNavigate();
   const useContext = useAuth();
@@ -74,7 +75,8 @@ function CreateAccount() {
         username,
         surname,
         email,
-        password
+        password,
+        subscribeToNewsletter
       );
       if (result.success) {
         showSuccessMessage(username);
@@ -111,6 +113,10 @@ function CreateAccount() {
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
     return passwordRegex.test(password);
   }
+
+  const handleCheckboxClick = () => {
+    setSubscribeToNewsletter(!subscribeToNewsletter);
+  };
 
   return (
     <form className="form container2" onSubmit={handleSubmit}>
@@ -162,6 +168,16 @@ function CreateAccount() {
           {passwordError && (
             <div className="error-message">{passwordError}</div>
           )}
+        </div>
+        <div>
+          <span className="checkbox-container">
+            <input
+              type="checkbox"
+              onClick={handleCheckboxClick}
+              className="checkbox"
+            />{" "}
+            Sign Up for Newsletter
+          </span>
         </div>
         <div>
           <button type="submit" name="login">

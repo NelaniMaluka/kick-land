@@ -20,7 +20,7 @@ public class KickLaandApplication {
 			 public void addCorsMappings(@NonNull CorsRegistry registry) {
 				registry.addMapping("/**")
 				.allowedMethods("*")
-				.allowedOrigins("http://localhost:3000");
+				.allowedOrigins("https://kick-land.web.app","kick-land.firebaseapp.com");
 			}
 		};
 	} 
