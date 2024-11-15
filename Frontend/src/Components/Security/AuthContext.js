@@ -52,9 +52,21 @@ function AuthProvider({ children }) {
     setCartItems([]);
   }
 
-  async function createAccount(username, surname, email, password) {
+  async function createAccount(
+    username,
+    surname,
+    email,
+    password,
+    subscribeToNewsletter
+  ) {
     try {
-      const response = await CreateAccount(username, surname, email, password);
+      const response = await CreateAccount(
+        username,
+        surname,
+        email,
+        password,
+        subscribeToNewsletter
+      );
       if (response.status === 200) {
         setUser(response.data);
         setAuthenticated(true);

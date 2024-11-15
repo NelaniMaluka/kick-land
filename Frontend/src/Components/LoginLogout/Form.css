@@ -79,6 +79,21 @@
 .messageField {
   display: inline-block;
 }
+.form .checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.5;
+  height: 24px;
+}
+
+.form .checkbox {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin-top: 14px;
+  accent-color: black;
+}
 
 @media screen and (max-width: 1061px) {
   .message .messageField {
@@ -88,6 +103,9 @@
   }
   .messageField {
     display: block;
+  }
+  .form .checkbox-container {
+    width: 80%;
   }
 }
 

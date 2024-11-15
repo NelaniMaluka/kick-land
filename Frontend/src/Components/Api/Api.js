@@ -11,12 +11,19 @@ export function LogIn(email, password) {
   });
 }
 
-export function CreateAccount(username, surname, email, password) {
+export function CreateAccount(
+  username,
+  surname,
+  email,
+  password,
+  subscribeToNewsletter
+) {
   return apiClient.post("/api/user/create-account", {
     username,
     surname,
     email,
     password,
+    subscribeToNewsletter,
   });
 }
 

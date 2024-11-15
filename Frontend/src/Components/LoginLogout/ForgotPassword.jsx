@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Security/AuthContext";
 import { Link } from "react-router-dom";
 import Alert from "./Alert";
@@ -8,17 +7,32 @@ import "./Form.css";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [ShowErrormessage, setShowErrormessage] = useState(false);
+  const [EmailError, setEmailError] = useState(false);
 
-  const navigate = useNavigate();
   const useContext = useAuth();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
   }
 
+  function isValidEmail(email) {
+    // Basic email format validation
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  }
+
   async function handleSubmit(event) {
+    // Email validation
+    if (!email) {
+      setEmailError("Email is required.");
+      return;
+    } else if (!isValidEmail(email)) {
+      setEmailError("Invalid email format.");
+      return;
+    }
+
     const result = await useContext.forgotPassword(email);
+
     if (result) {
       console.log(result);
     } else {
@@ -37,9 +51,7 @@ function ForgotPassword() {
         <div>
           <h2> Reset Password </h2>
         </div>
-        {ShowErrormessage && (
-          <div className="error">Email field can't be empty</div>
-        )}
+        {EmailError && <div className="error">Email field can't be empty</div>}
         <div>We will send you an email to reset your password.</div>
         <div className="field">
           <input
