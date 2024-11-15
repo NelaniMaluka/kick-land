@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KICK_LAND }}
-          projectId: kick-land
-          entryPoint: ./Frontend
+      - run: npm install # Optional: If dependencies need to be installed
+      - run: npm run build # Optional: If a build step is required
+      - run: |
+          npx firebase-tools hosting:channel:deploy preview-PR-${{ github.event.pull_request.number }} \
+          --project kick-land \
+          --token ${{ secrets.FIREBASE_TOKEN }}
