@@ -8,8 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm install # Optional: Adjust based on your project setup
-      - run: npm run build # Optional: Adjust based on your project setup
-      - run: |
-          npx firebase-tools deploy --only hosting \
-          --token ${{ secrets.FIREBASE_TOKEN }}
+
+      # Navigate to the Frontend directory before running npm commands
+      - name: Install dependencies and build
+        working-directory: ./Frontend
+        run: |
+          npm install
+          npm run build
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KICK_LAND }}
+          channelId: live
+          projectId: kick-land
+          entryPoint: ./Frontend
