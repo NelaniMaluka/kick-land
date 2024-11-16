@@ -16,8 +16,8 @@ export const registerUser = async (username, surname, email, password) => {
     console.log(userCredential.user);
     return userCredential.user; // User information
   } catch (error) {
-    throw error.message; // Handle error
     console.log(error.message);
+    throw error.message; // Handle error
   }
 };
 

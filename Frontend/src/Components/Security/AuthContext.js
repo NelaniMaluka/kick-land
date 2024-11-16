@@ -1,7 +1,5 @@
 import { createContext, useState, useContext } from "react";
 import {
-  LogIn,
-  CreateAccount,
   SignForNewsletter,
   ContactUs,
   RetrieveProducts,
@@ -18,7 +16,6 @@ import {
   registerUser,
   loginUser,
   logoutUser,
-  getCurrentUser,
 } from "../Firebase/UserManagement";
 import { useEffect } from "react";
 
