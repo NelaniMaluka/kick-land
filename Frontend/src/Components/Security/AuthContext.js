@@ -14,6 +14,12 @@ import {
   GetUserOrders,
   ForgotPassword,
 } from "../Api/Api";
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getCurrentUser,
+} from "../Firebase/UserManagement";
 import { useEffect } from "react";
 
 export const AuthContext = createContext();
@@ -29,7 +35,7 @@ function AuthProvider({ children }) {
 
   async function login(email, password) {
     try {
-      const response = await LogIn(email, password);
+      const response = await loginUser(email, password);
       if (response.status === 200) {
         setUser(response.data);
         setAuthenticated(true);
@@ -46,10 +52,17 @@ function AuthProvider({ children }) {
     }
   }
 
-  function logout() {
-    setAuthenticated(false);
-    setUser(null);
-    setCartItems([]);
+  async function logout() {
+    try {
+      const response = await logoutUser();
+      if (response.status === 200) {
+        setAuthenticated(false);
+        setUser(null);
+        setCartItems([]);
+      }
+    } catch (e) {
+      return { success: false, response: e.response };
+    }
   }
 
   async function createAccount(
@@ -60,7 +73,7 @@ function AuthProvider({ children }) {
     subscribeToNewsletter
   ) {
     try {
-      const response = await CreateAccount(
+      const response = await registerUser(
         username,
         surname,
         email,
