@@ -1,37 +1,76 @@
 package com.examplekicklaandwebsite.KickLaand.Products;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class ProductsTest {
 
-	@Mock
-	ProductsRepository productRepository;
+    // Mock the ProductService (which is used by the controller)
+    @Mock
+    private ProductService productService;
 
-	@InjectMocks
-	ProductsController productsController;
+    // Inject the mocked ProductService into the ProductsController
+    @InjectMocks
+    private ProductController productsController;
 
-	@Test
-	@Sql("/data.sql") // Specify the path to your SQL script
-	void getSuccessProduct_information() {
+ // Test case to verify that products are returned successfully
+    @Test
+    @Sql("/data.sql") // Specify the path to your SQL script (optional)
+    void getSuccessProduct_information() throws JsonProcessingException {
+        // Mock the service layer to return a list of products
+        List<Products> mockProducts = List.of(
+            new Products(1, "Product 1", new BigDecimal("100.00"), "Category1", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "http://price.url/1"),
+            new Products(2, "Product 2", new BigDecimal("150.00"), "Category2", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "http://price.url/2")
+        );
 
-		assertEquals(ResponseEntity.ok(), productsController.retrieveProducts());
-	}
+        // When productService.getAllProducts() is called, return the mock products list
+        when(productService.getAllProducts()).thenReturn(mockProducts);
 
-	@Test
-	@Sql("/data.sql") // Specify the path to your SQL script
-	void getEmptyProduct_information() {
-		assertEquals(ResponseEntity.noContent().build(), productsController.retrieveProducts());
-	}
+        // Call the controller method
+        ResponseEntity<?> responseEntity = productsController.retrieveProducts();
 
+        // Expected DTO List
+        List<ProductResponseDTO> expectedResponse = List.of(
+            new ProductResponseDTO(1, "Product 1", new BigDecimal("100.00"), "Category1", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg"),
+            new ProductResponseDTO(2, "Product 2", new BigDecimal("150.00"), "Category2", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg")
+        );
+
+        // Serialize the actual response body and expected response to JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String actualJson = objectMapper.writeValueAsString(responseEntity.getBody());
+        String expectedJson = objectMapper.writeValueAsString(expectedResponse);
+
+        // Assert that the serialized JSON strings are equal
+        assertEquals(expectedJson, actualJson);
+    }
+
+    // Test case to verify that an empty list of products returns a 204 No Content response
+    @Test
+    @Sql("/data.sql") // Specify the path to your SQL script (optional)
+    void getEmptyProduct_information() {
+        // Mock the behavior of the service layer to return an empty list of products
+        when(productService.getAllProducts()).thenReturn(Collections.emptyList());
+
+        // Call the controller method and capture the response
+        ResponseEntity<?> responseEntity = productsController.retrieveProducts();
+
+        // Assert the response is a 204 No Content response
+        assertEquals(ResponseEntity.noContent().build(), responseEntity);
+    }
 }
