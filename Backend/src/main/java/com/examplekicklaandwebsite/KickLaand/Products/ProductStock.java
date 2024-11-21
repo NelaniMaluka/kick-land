@@ -12,16 +12,16 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class ProductSizes {
+public class ProductStock {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer sizeId;
 	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Products product;
+	private Products products;
 	
 	@NotNull( message = "Size3 must have a value")
 	@Min(value = 0, message = "Size3 cannot go below 0")
@@ -54,20 +54,20 @@ public class ProductSizes {
 	@Min(value = 0, message = "Size12 cannot go below 0")
 	private Integer Size12;
 	
-	public ProductSizes() {
+	public ProductStock() {
 	}
 	
-	public Integer getId() {
-		return id;
+	public Integer getSizeId() {
+		return sizeId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setSizeId(Integer sizeId) {
+		this.sizeId = sizeId;
 	}
-	public Products getProduct() {
-		return product;
+	public Products getProducts() {
+		return products;
 	}
-	public void setProduct(Products product) {
-		this.product = product;
+	public void setProducts(Products products) {
+		this.products = products;
 	}
 	public Integer getSize3() {
 		return Size3;

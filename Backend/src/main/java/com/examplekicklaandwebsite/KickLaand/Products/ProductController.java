@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class ProductsController {
+public class ProductController {
 
     private final ProductService productService;
 
     @Autowired
-    public ProductsController(ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -25,11 +25,31 @@ public class ProductsController {
             if (productList.isEmpty()) {
                 return ResponseEntity.noContent().build(); // Handle empty list
             } else {
-                return ResponseEntity.ok(productList);
+            	
+            	List<ProductResponseDTO> responseDTOlist = productList.stream()
+            			.map(this::getProductsWithoutPriceUrl)
+            			.toList();
+                return ResponseEntity.ok(responseDTOlist);
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
+    }
+    
+    private ProductResponseDTO getProductsWithoutPriceUrl(Products product){
+    	return new ProductResponseDTO(
+    				product.getProductId(),
+    				product.getProductName(),
+    				product.getProductPrice(),
+    				product.getProductCategory(),
+    				product.getStock(),
+    				product.getImage1(),
+    				product.getImage2(),
+    				product.getImage3(),
+    				product.getImage4()
+    				
+    			);
+    			
     }
 }
 

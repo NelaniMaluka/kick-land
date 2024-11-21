@@ -14,19 +14,19 @@ import javax.validation.constraints.NotNull;
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer productId;
 
     @NotNull ( message = "Product name cannot be null")
-    private String name;
+    private String productName;
 
     @NotNull ( message = "Product price cannot be null")
-    private BigDecimal price;
+    private BigDecimal productPrice;
 
     @NotNull ( message = "Product category cannot be null")
-    private String category;
+    private String productCategory;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    public List<ProductSizes> sizes;
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    public List<ProductStock> stock;
 
     @NotNull ( message = "Product image1 cannot be null")
     private String image1;
@@ -37,49 +37,62 @@ public class Products {
     @NotNull
     private String priceUrl;
 
+    public Products(Integer productId, String productName, BigDecimal productPrice, String productCategory, List<ProductStock> stock, String image1, String image2, String image3, String image4, String priceUrl) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productCategory = productCategory;
+        this.stock = stock;
+        this.image1 = image1;
+        this.image2 = image2;
+        this.image3 = image3;
+        this.image4 = image4;
+        this.priceUrl = priceUrl;
+    }
+    
 	public Products() {
 	    // default constructor body
 	}
 
 
-	public Integer getId() {
-        return id;
+	public Integer getProductId() {
+        return productId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getProductPrice() {
+        return productPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public String getCategory() {
-        return category;
+    public String getProductCategory() {
+        return productCategory;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
     }
 
-    public List<ProductSizes> getSizes() {
-        return sizes;
+    public List<ProductStock> getStock() {
+        return stock;
     }
 
-    public void setSizes(List<ProductSizes> sizes) {
-        this.sizes = sizes;
+    public void setStock(List<ProductStock> stock) {
+        this.stock = stock;
     }
 
     public String getImage1() {
