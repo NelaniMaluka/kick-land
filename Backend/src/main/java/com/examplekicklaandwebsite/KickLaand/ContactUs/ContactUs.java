@@ -18,11 +18,11 @@ public class ContactUs {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int id;
+	public int contactId;
 	
 	public String name;
 	
-	@Email(message = "Enter a valid email")
+	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
 	@NotNull(message = "Enter a valid email")
 	public String email;
 
@@ -32,24 +32,27 @@ public class ContactUs {
 	@NotNull(message = "Please Enter a message")
 	public String message;
 
+	// Default constructor for JPA (although Spring JPA might create this automatically)
+	public ContactUs() {}
+
 	@PersistenceConstructor
-	public ContactUs( String name,
-			@Email(message = "Enter a valid email") @NotNull(message = "Enter a valid email") String email,
+	public ContactUs(String name,
+			@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") @NotNull(message = "Enter a valid email") String email,
 			@Pattern(regexp = "(\\+27|0)[0-9]{9}", message = "Enter a valid phone number") String phoneNumber,
 			@NotNull(message = "Please Enter a message") String message) {
-		super();
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.message = message;
 	}
 
-	public int getId() {
-		return id;
+	// Getters and setters
+	public int getContactId() {
+		return contactId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setContactId(int contactId) {
+		this.contactId = contactId;
 	}
 
 	public String getName() {
@@ -83,5 +86,4 @@ public class ContactUs {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
 }

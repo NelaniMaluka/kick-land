@@ -85,13 +85,13 @@ public class UserServiceImpl implements UserService {
 
                     switch (field.toLowerCase()) {
                         case "username":
-                            user.setUsername(value);
+                            user.setFirstname(value);
                             break;
                         case "email":
                             user.setEmail(value);
                             break;
                         case "surname":
-                            user.setSurname(value);
+                            user.setLastname(value);
                             break;
                         case "phonenumber":
                             user.setPhonenumber(value);
@@ -144,9 +144,9 @@ public class UserServiceImpl implements UserService {
     private UserResponseDTO createUserResponseDTO(UserAccount user) {
         return new UserResponseDTO(
                 user.getId(),
-                user.getUsername(),
+                user.getFirstname(),
                 user.getEmail(),
-                user.getSurname(),
+                user.getLastname(),
                 user.getPhonenumber() != null ? user.getPhonenumber() : "",
                 user.getAddress() != null ? user.getAddress() : ""
         );

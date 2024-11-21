@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.examplekicklaandwebsite.KickLaand.Orders.UserOrders;
-import com.examplekicklaandwebsite.KickLaand.UserCart.Cart;
+import com.examplekicklaandwebsite.KickLaand.UserCart.UserCarts;
 
 @Entity
 @Table(name = "users")
@@ -25,23 +25,23 @@ public class UserAccount {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer id;
 
-	public String username;
+	public String firstname;
 
-	public String surname;
+	public String lastname;
 
 	@Valid
-	@Email(message = "Please provide a valid email")
+	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
 	public String email;
 
 	@Valid
 	@Size(min = 8, max = 50, message = "Password must be at least 8 characters long")
 	public String password;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	public List<Cart> cart;
+	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+	public List<UserCarts> userCart;
 	
-	//@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	//public List<UserOrders> orders;
+	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+	public List<UserOrders> orders;
 
 	@Pattern(
 		        regexp = "^\\+?[0-9\\-\\s]*$", 
@@ -68,20 +68,20 @@ public class UserAccount {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getSurname() {
-		return surname;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getPassword() {
@@ -96,12 +96,12 @@ public class UserAccount {
 		this.email = email;
 	}
 	
-	public List<Cart> getCart() {
-		return cart;
+	public List<UserCarts> getUserCart() {
+		return userCart;
 	}
 
-	public void setCart(List<Cart> cart) {
-		this.cart = cart;
+	public void setUserCart(List<UserCarts> userCart) {
+		this.userCart = userCart;
 	}
 	
 	 //public List<UserOrders> getOrders() {

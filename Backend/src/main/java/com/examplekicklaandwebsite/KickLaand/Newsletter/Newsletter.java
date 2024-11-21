@@ -5,27 +5,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Newsletter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public int newsletterId;
 
-    @Email(message = "Please provide a valid email")
+    @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
     public String email;
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public int getId() {
-        return id;
+    public int getNewsletterId() {
+        return newsletterId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNewsletterId(int newsletterId) {
+        this.newsletterId = newsletterId;
     }
 
     public String getEmail() {

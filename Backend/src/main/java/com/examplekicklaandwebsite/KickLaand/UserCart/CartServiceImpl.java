@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             } else {
-                List<Cart> userCart = user.getCart();
+                List<UserCarts> userCart = user.getUserCart();
 
                 if (userCart.isEmpty()) {
                     return ResponseEntity.ok(null);
@@ -58,15 +58,15 @@ public class CartServiceImpl implements CartService {
             UserAccount user = userAccountRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-            Cart cartItem = new Cart();
+            UserCarts cartItem = new UserCarts();
             cartItem.setProductId(request.getProductId());
             cartItem.setQuantity(request.getQuantity());
-            cartItem.setSize(request.getSize());
-            cartItem.setUser(user);
+            cartItem.setProductSize(request.getSize());
+            cartItem.setUserId(user);
 
             cartRepository.save(cartItem);
 
-            Object filteredCartList = getFilteredCartList(user.getCart());
+            Object filteredCartList = getFilteredCartList(user.getUserCart());
             return ResponseEntity.ok(filteredCartList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -79,12 +79,12 @@ public class CartServiceImpl implements CartService {
             UserAccount user = userAccountRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-            List<Cart> userCartItems = user.getCart();
+            List<UserCarts> userCartItems = user.getUserCart();
 
             if (userCartItems.isEmpty()) {
                 return ResponseEntity.notFound().build();
             } else {
-                Cart cartItemToUpdate = userCartItems.stream()
+                UserCarts cartItemToUpdate = userCartItems.stream()
                         .filter(cart -> cart.getProductId().equals(productId))
                         .findFirst()
                         .orElseThrow(() -> new EntityNotFoundException("Cart item not found"));
@@ -93,7 +93,7 @@ public class CartServiceImpl implements CartService {
 
                 cartRepository.save(cartItemToUpdate);
 
-                Object filteredCartList = getFilteredCartList(user.getCart());
+                Object filteredCartList = getFilteredCartList(user.getUserCart());
                 return ResponseEntity.ok(filteredCartList);
             }
         } catch (Exception e) {
@@ -107,15 +107,15 @@ public class CartServiceImpl implements CartService {
             UserAccount user = userAccountRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-            List<Cart> userCartItems = user.getCart();
+            List<UserCarts> userCartItems = user.getUserCart();
 
             if (userCartItems.isEmpty()) {
                 return ResponseEntity.notFound().build();
             } else {
                 userCartItems.removeIf(cart -> cart.getProductId().equals(productId));
-                cartRepository.deleteByProductIdAndUser_Id(productId, userId);
+                cartRepository.deleteByProductIdAndUserId(productId, userId);
 
-                Object filteredCartList = getFilteredCartList(user.getCart());
+                Object filteredCartList = getFilteredCartList(user.getUserCart());
                 return ResponseEntity.ok(filteredCartList);
             }
         } catch (Exception e) {
@@ -123,14 +123,14 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-    private List<Map<String, Object>> getFilteredCartList(List<Cart> userCart) {
+    private List<Map<String, Object>> getFilteredCartList(List<UserCarts> userCart) {
         return userCart.stream()
                 .map(cart -> {
                     Map<String, Object> filteredCartItem = new HashMap<>();
-                    filteredCartItem.put("id", cart.getId());
+                    filteredCartItem.put("id", cart.getUserCartId());
                     filteredCartItem.put("productId", cart.getProductId());
                     filteredCartItem.put("quantity", cart.getQuantity());
-                    filteredCartItem.put("size", cart.getSize());
+                    filteredCartItem.put("size", cart.getProductSize());
                     return filteredCartItem;
                 })
                 .collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.UserCart;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,48 +8,54 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import com.examplekicklaandwebsite.KickLaand.Orders.UserOrders;
 import com.examplekicklaandwebsite.KickLaand.User.UserAccount;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Cart {
+public class UserCarts {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer userCartId;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private UserAccount user;
-	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "userId")
+	private UserAccount userId;
+
     @NotNull(message = "Product ID cannot be null")
     private Integer productId;
 
 	@NotNull(message = "Product size cannot be null")
-	private String size;
+	private String productSize;
 
 	@NotNull(message = "Product quantity cannot be null")
 	private Integer quantity;
+	
+	@ManyToOne
+	@JoinColumn(name = "orderId", insertable = false, updatable = false)
+	private UserOrders order;
 
-	public Cart() {
+	public UserCarts() {
 		// You can initialize any default values here if needed
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getUserCartId() {
+		return userCartId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUserCartId(Integer userCartId) {
+		this.userCartId = userCartId;
 	}
 
-	public UserAccount getUser() {
-		return user;
+	public UserAccount getUserId() {
+		return userId;
 	}
 
-	public void setUser(UserAccount user) {
-		this.user = user;
+	public void setUserId(UserAccount userId) {
+		this.userId = userId;
 	}
 	
 	public Integer getProductId() {
@@ -59,12 +66,12 @@ public class Cart {
 		this.productId = productId;
 	}
 
-	public String getSize() {
-		return size;
+	public String getProductSize() {
+		return  productSize;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setProductSize(String  productSize) {
+		this. productSize =  productSize;
 	}
 
 	public Integer getQuantity() {
@@ -73,6 +80,14 @@ public class Cart {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public UserOrders getOrder() {
+		return order;
+	}
+
+	public void setOrder(UserOrders order) {
+		this.order = order;
 	}
 
 }
