@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.examplekicklaandwebsite.KickLaand.Newsletter.Newsletter;
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserAccountRepository userAccountRepository;
     private final NewsletterRepository newsletterRepository;
     private final PasswordResetService passwordResetService;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public UserServiceImpl(UserAccountRepository userAccountRepository, 
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> login(UserAccount userAccount) {
         try {
-            UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), userAccount.getPassword());
+            UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), passwordEncoder.encode(userAccount.getPassword()));
 
             if (user != null) {
                 UserResponseDTO userResponseDTO = createUserResponseDTO(user);
@@ -62,6 +64,7 @@ public class UserServiceImpl implements UserService {
             }
 
             if (userAccountRepository.findByEmail(userAccount.getEmail()) == null) {
+            	userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
                 userAccountRepository.save(userAccount);
                 UserResponseDTO userResponseDTO = createUserResponseDTO(userAccount);
                 return ResponseEntity.ok(userResponseDTO);
