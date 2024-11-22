@@ -20,19 +20,30 @@ public class ContactUsServiceImpl implements ContactUsService {
     @Override
     @Transactional
     public String sendInfo(ContactUs contactUs) throws Exception {
-        if (contactUs.getEmail() == null || contactUs.getPhoneNumber() == null || contactUs.getMessage() == null) {
-            throw new Exception("Email, Phone Number, and Message are required.");
-        }
+        try {
+            if (contactUs.getName() == null || contactUs.getEmail() == null ||
+                contactUs.getPhoneNumber() == null || contactUs.getMessage() == null) {
+                throw new Exception("Email, Phone Number, and Message are required.");
+            }
 
-        Newsletter existingNewsletter = newsletterRepository.findByEmail(contactUs.getEmail());
-        if (existingNewsletter == null) {
-            Newsletter newsletter = new Newsletter();
-            newsletter.setEmail(contactUs.getEmail());
-            newsletterRepository.save(newsletter);
-        }
+            // Check if the email exists in the newsletter repository
+            Newsletter existingNewsletter = newsletterRepository.findByEmail(contactUs.getEmail());
+            if (existingNewsletter == null) {
+                // If not, create a new newsletter entry
+                Newsletter newsletter = new Newsletter();
+                newsletter.setEmail(contactUs.getEmail());
+                newsletterRepository.save(newsletter);
+            }
 
-        contactUsRepository.save(contactUs);
-        return "We Received your message";
+            // Save the contact message
+            contactUsRepository.save(contactUs);
+
+            return "We received your message";  // Return success message
+
+        } catch (Exception e) {
+            // Log the error and return a meaningful error message
+            System.err.println("Error: " + e.getMessage());
+            return "An error occurred while processing your message. Please try again later.";
+        }
     }
 }
-

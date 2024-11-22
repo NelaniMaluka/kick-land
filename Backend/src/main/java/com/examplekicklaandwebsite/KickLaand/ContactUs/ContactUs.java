@@ -8,82 +8,78 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.springframework.data.annotation.PersistenceConstructor;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContactUs {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int contactId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int contactId;
 	
-	public String name;
-	
-	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
-	@NotNull(message = "Enter a valid email")
-	public String email;
+    private String name;
 
-	@Pattern(regexp = "(\\+27|0)[0-9]{9}", message = "Enter a valid phone number")
-	public String phoneNumber;
+    @NotNull(message = "Email is required")
+    @Email(message = "Please provide a valid email address")
+    private String email;
 
-	@NotNull(message = "Please Enter a message")
-	public String message;
+    @NotNull(message = "Phone number is required")
+    @Pattern(regexp = "(\\+27|0)[0-9]{9}", message = "Please provide a valid South African phone number")
+    private String phoneNumber;
 
-	// Default constructor for JPA (although Spring JPA might create this automatically)
-	public ContactUs() {}
+    @NotNull(message = "Message is required")
+    private String message;
 
-	@PersistenceConstructor
-	public ContactUs(String name,
-			@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") @NotNull(message = "Enter a valid email") String email,
-			@Pattern(regexp = "(\\+27|0)[0-9]{9}", message = "Enter a valid phone number") String phoneNumber,
-			@NotNull(message = "Please Enter a message") String message) {
-		this.name = name;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.message = message;
-	}
+    // Default constructor for JPA
+    public ContactUs() {}
 
-	// Getters and setters
-	public int getContactId() {
-		return contactId;
-	}
+    // Constructor with parameters
+    public ContactUs(String name, String email, String phoneNumber, String message) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.message = message;
+    }
 
-	public void setContactId(int contactId) {
-		this.contactId = contactId;
-	}
+    // Getters and setters
+    public int getContactId() {
+        return contactId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
