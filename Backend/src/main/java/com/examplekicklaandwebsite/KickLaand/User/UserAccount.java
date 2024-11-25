@@ -56,6 +56,25 @@ public class UserAccount {
 	}
 	
 
+	public UserAccount(String firstname,String lastname ,
+			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email, 
+			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long")String password) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+	}
+
+	public UserAccount(@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email, 
+			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long")String password) {
+		this.email = email;
+		this.password = password;
+	}
+
+	public UserAccount(@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email) {
+		this.email = email;	
+	}
+	
 	public String getEmail() {
 		return email;
 	}
