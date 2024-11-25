@@ -2,17 +2,19 @@ package com.examplekicklaandwebsite.KickLaand.Newsletter;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.ArgumentMatchers.any;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
-class NewsletterTest {
+class NewsletterControllerTest {
 
     @Mock
     private NewsletterService newsletterServiceMock;
@@ -27,13 +29,15 @@ class NewsletterTest {
         Newsletter newsletter = new Newsletter();
         newsletter.setEmail(email);
 
-        when(newsletterServiceMock.addNewsletter(newsletter)).thenReturn("We Received Your Email");
+        // Using doReturn to mock the behavior of newsletterServiceMock.addNewsletter
+        doReturn("We Received Your Email").when(newsletterServiceMock).addNewsletter(any(Newsletter.class));
 
         // Act
         ResponseEntity<?> responseEntity = newsletterController.addNewsletter(newsletter);
 
         // Assert
-        assertEquals(ResponseEntity.ok("We Received Your Email"), responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("We Received Your Email", responseEntity.getBody());
     }
 
     @Test
@@ -42,14 +46,16 @@ class NewsletterTest {
         Newsletter newsletter = new Newsletter();
         newsletter.setEmail(null);
 
-        when(newsletterServiceMock.addNewsletter(newsletter))
-            .thenThrow(new IllegalArgumentException("Please Enter a Valid Email"));
+        // Use doThrow to simulate an exception for null email
+        doThrow(new IllegalArgumentException("Please Enter a Valid Email"))
+            .when(newsletterServiceMock).addNewsletter(any(Newsletter.class));
 
         // Act
         ResponseEntity<?> responseEntity = newsletterController.addNewsletter(newsletter);
 
         // Assert
-        assertEquals(ResponseEntity.badRequest().body("Please Enter a Valid Email"), responseEntity);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Please Enter a Valid Email", responseEntity.getBody());
     }
 
     @Test
@@ -59,30 +65,34 @@ class NewsletterTest {
         Newsletter newsletter = new Newsletter();
         newsletter.setEmail(email);
 
-        when(newsletterServiceMock.addNewsletter(newsletter))
-            .thenThrow(new IllegalArgumentException("Email Already Subscribed"));
+        // Use doThrow to simulate an exception for duplicate email
+        doThrow(new IllegalStateException("Email Already Subscribed"))
+            .when(newsletterServiceMock).addNewsletter(any(Newsletter.class));
 
         // Act
         ResponseEntity<?> responseEntity = newsletterController.addNewsletter(newsletter);
 
         // Assert
-        assertEquals(ResponseEntity.badRequest().body("Email Already Subscribed"), responseEntity);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Email Already Subscribed", responseEntity.getBody());
     }
 
     @Test
     void sendInvalidEmail_InvalidFormat() throws Exception {
         // Arrange
-        String email = "invalid_email";
+        String email = "invalid_email"; // Missing @ and domain
         Newsletter newsletter = new Newsletter();
         newsletter.setEmail(email);
 
-        when(newsletterServiceMock.addNewsletter(newsletter))
-            .thenThrow(new IllegalArgumentException("Invalid Email"));
+        // Use doThrow to simulate an exception for invalid format
+        doThrow(new IllegalArgumentException("Invalid Email Format"))
+            .when(newsletterServiceMock).addNewsletter(any(Newsletter.class));
 
         // Act
         ResponseEntity<?> responseEntity = newsletterController.addNewsletter(newsletter);
 
         // Assert
-        assertEquals(ResponseEntity.badRequest().body("Invalid Email"), responseEntity);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Invalid Email Format", responseEntity.getBody());
     }
 }

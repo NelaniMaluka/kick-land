@@ -1,7 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.Products;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(MockitoExtension.class)
-class ProductsTest {
+class ProductsControllerTest {
 
     // Mock the ProductService (which is used by the controller)
     @Mock
@@ -29,7 +29,7 @@ class ProductsTest {
     @InjectMocks
     private ProductController productsController;
 
- // Test case to verify that products are returned successfully
+    // Test case to verify that products are returned successfully
     @Test
     @Sql("/data.sql") // Specify the path to your SQL script (optional)
     void getSuccessProduct_information() throws JsonProcessingException {
@@ -39,8 +39,8 @@ class ProductsTest {
             new Products(2, "Product 2", new BigDecimal("150.00"), "Category2", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "http://price.url/2")
         );
 
-        // When productService.getAllProducts() is called, return the mock products list
-        when(productService.getAllProducts()).thenReturn(mockProducts);
+        // Use doReturn() to mock the return value of productService.getAllProducts()
+        doReturn(mockProducts).when(productService).getAllProducts();
 
         // Call the controller method
         ResponseEntity<?> responseEntity = productsController.retrieveProducts();
@@ -64,8 +64,8 @@ class ProductsTest {
     @Test
     @Sql("/data.sql") // Specify the path to your SQL script (optional)
     void getEmptyProduct_information() {
-        // Mock the behavior of the service layer to return an empty list of products
-        when(productService.getAllProducts()).thenReturn(Collections.emptyList());
+        // Mock the behavior of the service layer to return an empty list of products using doReturn()
+        doReturn(Collections.emptyList()).when(productService).getAllProducts();
 
         // Call the controller method and capture the response
         ResponseEntity<?> responseEntity = productsController.retrieveProducts();
