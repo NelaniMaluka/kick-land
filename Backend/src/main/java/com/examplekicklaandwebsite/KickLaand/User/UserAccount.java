@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -39,14 +38,11 @@ public class UserAccount {
 
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
 	public List<UserCarts> userCart;
-	
+
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
 	public List<UserOrders> orders;
 
-	@Pattern(
-		        regexp = "^\\+?[0-9\\-\\s]*$", 
-		        message = "Please provide a valid phone number"
-		    )
+	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
 	public String phonenumber;
 
 	public String address;
@@ -54,27 +50,28 @@ public class UserAccount {
 	public UserAccount() {
 		// You can initialize any default values here if needed
 	}
-	
 
-	public UserAccount(String firstname,String lastname ,
-			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email, 
-			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long")String password) {
+	public UserAccount(String firstname, String lastname,
+			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email,
+			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long") String password) {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
 	}
 
-	public UserAccount(@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email, 
-			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long")String password) {
+	public UserAccount(
+			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email,
+			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long") String password) {
 		this.email = email;
 		this.password = password;
 	}
 
-	public UserAccount(@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email) {
-		this.email = email;	
+	public UserAccount(
+			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email) {
+		this.email = email;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -114,7 +111,7 @@ public class UserAccount {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public List<UserCarts> getUserCart() {
 		return userCart;
 	}
@@ -122,15 +119,14 @@ public class UserAccount {
 	public void setUserCart(List<UserCarts> userCart) {
 		this.userCart = userCart;
 	}
-	
-	 //public List<UserOrders> getOrders() {
-	//	return orders;
-	//}
 
+	// public List<UserOrders> getOrders() {
+	// return orders;
+	// }
 
-	//public void setOrders(List<UserOrders> orders) {
-	//	this.orders = orders;
-	//}
+	// public void setOrders(List<UserOrders> orders) {
+	// this.orders = orders;
+	// }
 
 	public String getPhonenumber() {
 		return phonenumber;
@@ -139,7 +135,7 @@ public class UserAccount {
 	public void setPhonenumber(String phonenumber) {
 		this.phonenumber = phonenumber;
 	}
-	
+
 	public String getAddress() {
 		return address;
 	}
