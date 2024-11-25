@@ -22,14 +22,13 @@ public class ContactUsController {
     public ResponseEntity<String> sendContactUsMessage(@RequestBody ContactUs contactUs) {
         try {
             String response = contactUsService.sendInfo(contactUs);
-            // If the service method returns an error message about missing fields, send a bad request response
-            if (response.contains("required")) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-            }
             return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {  // Catch validation exceptions
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
         }
     }
+
 }
 
