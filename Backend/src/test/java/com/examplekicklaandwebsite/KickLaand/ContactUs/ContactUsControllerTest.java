@@ -3,7 +3,6 @@ package com.examplekicklaandwebsite.KickLaand.ContactUs;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,7 +25,8 @@ class ContactUsControllerTest {
     // 1. Valid input test case
     @Test
     void sendContactUsMessage_ValidInput_ShouldReturnSuccessMessage() throws Exception {
-        ContactUs contactUs = new ContactUs("John Doe", "john.doe@example.com", "+27876543209", "This is a test message");
+        ContactUs contactUs = new ContactUs("John Doe", "john.doe@example.com", "+27876543209",
+                "This is a test message");
 
         // Mock service response for valid input
         when(contactUsServiceMock.sendInfo(contactUs)).thenReturn("We Received your message");
@@ -40,17 +40,19 @@ class ContactUsControllerTest {
     // 2. Missing fields test
     @ParameterizedTest
     @CsvSource({
-        "'', john.doe@example.com, +27876543209, Test message",       // Missing name
-        "John Doe, '', +27876543209, Test message",                   // Missing email
-        "John Doe, john.doe@example.com, '', Test message",           // Missing phone number
-        "John Doe, john.doe@example.com, +27876543209, ''"            // Missing message
+            "'', john.doe@example.com, +27876543209, Test message", // Missing name
+            "John Doe, '', +27876543209, Test message", // Missing email
+            "John Doe, john.doe@example.com, '', Test message", // Missing phone number
+            "John Doe, john.doe@example.com, +27876543209, ''" // Missing message
     })
-    void sendContactUsMessage_MissingFields_ShouldReturnBadRequest(String name, String email, String phoneNumber, String message) throws Exception {
-        ContactUs contactUs = new ContactUs(toNullIfEmpty(name), toNullIfEmpty(email), toNullIfEmpty(phoneNumber), toNullIfEmpty(message));
+    void sendContactUsMessage_MissingFields_ShouldReturnBadRequest(String name, String email, String phoneNumber,
+            String message) throws Exception {
+        ContactUs contactUs = new ContactUs(toNullIfEmpty(name), toNullIfEmpty(email), toNullIfEmpty(phoneNumber),
+                toNullIfEmpty(message));
 
         // Simulate exception for missing fields
         doThrow(new IllegalArgumentException("All fields are required."))
-            .when(contactUsServiceMock).sendInfo(any(ContactUs.class));
+                .when(contactUsServiceMock).sendInfo(any(ContactUs.class));
 
         ResponseEntity<String> response = contactUsController.sendContactUsMessage(contactUs);
 
@@ -61,15 +63,16 @@ class ContactUsControllerTest {
     // 3. Invalid data format test
     @ParameterizedTest
     @CsvSource({
-        "John Doe, invalid-email, +27876543209, Test message",        // Invalid email format
-        "John Doe, john.doe@example.com, invalid-phone, Test message" // Invalid phone number format
+            "John Doe, invalid-email, +27876543209, Test message", // Invalid email format
+            "John Doe, john.doe@example.com, invalid-phone, Test message" // Invalid phone number format
     })
-    void sendContactUsMessage_InvalidFormat_ShouldReturnBadRequest(String name, String email, String phoneNumber, String message) throws Exception {
+    void sendContactUsMessage_InvalidFormat_ShouldReturnBadRequest(String name, String email, String phoneNumber,
+            String message) throws Exception {
         ContactUs contactUs = new ContactUs(name, email, phoneNumber, message);
 
         // Simulate exception for invalid format
         doThrow(new IllegalArgumentException("Invalid format."))
-            .when(contactUsServiceMock).sendInfo(any(ContactUs.class));
+                .when(contactUsServiceMock).sendInfo(any(ContactUs.class));
 
         ResponseEntity<String> response = contactUsController.sendContactUsMessage(contactUs);
 

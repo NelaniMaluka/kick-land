@@ -3,7 +3,6 @@ package com.examplekicklaandwebsite.KickLaand.ContactUs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +22,7 @@ public class ContactUsController {
         try {
             String response = contactUsService.sendInfo(contactUs);
             return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {  // Catch validation exceptions
+        } catch (IllegalArgumentException e) { // Catch validation exceptions
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
@@ -31,4 +30,3 @@ public class ContactUsController {
     }
 
 }
-
