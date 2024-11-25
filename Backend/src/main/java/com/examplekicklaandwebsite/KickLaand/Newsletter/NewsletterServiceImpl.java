@@ -2,6 +2,7 @@ package com.examplekicklaandwebsite.KickLaand.Newsletter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.regex.Pattern;
 
 @Service
 public class NewsletterServiceImpl implements NewsletterService {
@@ -12,31 +13,30 @@ public class NewsletterServiceImpl implements NewsletterService {
         this.newsletterRepository = newsletterRepository;
     }
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+    );
+
     @Override
     @Transactional
     public String addNewsletter(Newsletter newsletter) {
-        try {
-            if (newsletter.getEmail() == null) {
-                throw new IllegalArgumentException("Please Enter a Valid Email");
-            }
+        String email = (newsletter.getEmail() != null) ? newsletter.getEmail().trim() : null;
 
-            String trimmedEmail = newsletter.getEmail().trim();
-            Newsletter existingNewsletter = newsletterRepository.findByEmail(trimmedEmail);
-
-            if (existingNewsletter != null) {
-                throw new IllegalStateException("Email Already Subscribed");
-            }
-
-            newsletter.setEmail(trimmedEmail);
-            newsletterRepository.save(newsletter);
-
-            return "We Received Your Email";
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            throw e; // Re-throw the specific exceptions
-        } catch (Exception e) {
-            throw new RuntimeException("An error occurred"); // Convert other exceptions to a runtime exception
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Please Enter a Valid Email");
         }
+
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            throw new IllegalArgumentException("Invalid Email Format");
+        }
+
+        if (newsletterRepository.findByEmail(email) != null) {
+            throw new IllegalStateException("Email Already Subscribed");
+        }
+
+        newsletter.setEmail(email);
+        newsletterRepository.save(newsletter);
+
+        return "We Received Your Email";
     }
-
 }
-

@@ -34,11 +34,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> login(UserAccount userAccount) {
         try {
-            UserAccount user = userAccountRepository.findByEmailAndPassword(userAccount.getEmail(), passwordEncoder.encode(userAccount.getPassword()));
+            // Validate input
+            if (!isValidEmail(userAccount.getEmail())) {
+                return ResponseEntity.badRequest().body("Invalid email format");
+            }
+            if (!isValidPassword(userAccount.getPassword())) {
+                return ResponseEntity.badRequest().body("Invalid password format");
+            }
+
+            // Find user by email
+            UserAccount user = userAccountRepository.findByEmail(userAccount.getEmail());
 
             if (user != null) {
-                UserResponseDTO userResponseDTO = createUserResponseDTO(user);
-                return ResponseEntity.ok(userResponseDTO);
+                // Check if the provided password matches the stored encoded password
+                if (passwordEncoder.matches(userAccount.getPassword(), user.getPassword())) {
+                    UserResponseDTO userResponseDTO = createUserResponseDTO(user);
+                    return ResponseEntity.ok(userResponseDTO);
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+                }
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
             }
@@ -50,6 +64,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> createAccount(UserAccount userAccount) {
         try {
+            // Validate input
+            if (!isValidEmail(userAccount.getEmail())) {
+                return ResponseEntity.badRequest().body("Invalid email format");
+            }
+            if (!isValidPassword(userAccount.getPassword())) {
+                return ResponseEntity.badRequest().body("Password must be at least 8 characters long");
+            }
+
             if (userAccountRepository.findByEmail(userAccount.getEmail()) != null) {
                 return ResponseEntity.badRequest().body("User with this email already exists");
             }
@@ -64,7 +86,7 @@ public class UserServiceImpl implements UserService {
             }
 
             if (userAccountRepository.findByEmail(userAccount.getEmail()) == null) {
-            	userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+                userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
                 userAccountRepository.save(userAccount);
                 UserResponseDTO userResponseDTO = createUserResponseDTO(userAccount);
                 return ResponseEntity.ok(userResponseDTO);
@@ -79,6 +101,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> updateUserFields(Integer userId, Map<String, String> updates) {
         try {
+            // Validate updates
+            if (updates.isEmpty()) {
+                return ResponseEntity.badRequest().body("No fields provided to update");
+            }
+
             UserAccount user = userAccountRepository.findById(userId).orElse(null);
 
             if (user != null) {
@@ -88,12 +115,21 @@ public class UserServiceImpl implements UserService {
 
                     switch (field.toLowerCase()) {
                         case "username":
+                            if (value == null || value.trim().isEmpty()) {
+                                return ResponseEntity.badRequest().body("Username cannot be empty");
+                            }
                             user.setFirstname(value);
                             break;
                         case "email":
+                            if (!isValidEmail(value)) {
+                                return ResponseEntity.badRequest().body("Invalid email format");
+                            }
                             user.setEmail(value);
                             break;
                         case "surname":
+                            if (value == null || value.trim().isEmpty()) {
+                                return ResponseEntity.badRequest().body("Surname cannot be empty");
+                            }
                             user.setLastname(value);
                             break;
                         case "phonenumber":
@@ -108,7 +144,16 @@ public class UserServiceImpl implements UserService {
                 }
 
                 userAccountRepository.save(user);
-                UserResponseDTO userResponseDTO = createUserResponseDTO(user);
+
+                // Return a full response with all the fields
+                UserResponseDTO userResponseDTO = new UserResponseDTO(
+                    user.getId(),
+                    user.getFirstname(),
+                    user.getLastname(),
+                    user.getEmail(),
+                    user.getPhonenumber(),
+                    user.getAddress()
+                );
                 return ResponseEntity.ok(userResponseDTO);
             } else {
                 return ResponseEntity.notFound().build();
@@ -118,25 +163,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
     public ResponseEntity<String> forgotPassword(UserAccount userAccount) {
         try {
+            if (!isValidEmail(userAccount.getEmail())) {
+                return ResponseEntity.badRequest().body("Invalid email format");
+            }
             passwordResetService.createPasswordResetRequest(userAccount.getEmail());
             return ResponseEntity.ok("Password reset email sent successfully");
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-        }
-    }
-
-    @Override
-    public ResponseEntity<String> resetPassword(Map<String, String> requestBody) {
-        try {
-            String email = requestBody.get("email");
-            String newPassword = requestBody.get("newPassword");
-            passwordResetService.resetPassword(email, newPassword);
-            return ResponseEntity.ok("Password reset successfully");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         } catch (Exception e) {
@@ -154,5 +189,12 @@ public class UserServiceImpl implements UserService {
                 user.getAddress() != null ? user.getAddress() : ""
         );
     }
-}
 
+    private boolean isValidEmail(String email) {
+        return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+    }
+
+    private boolean isValidPassword(String password) {
+        return password != null && password.length() >= 8;
+    }
+}
