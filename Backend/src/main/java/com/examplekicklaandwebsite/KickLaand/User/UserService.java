@@ -8,6 +8,5 @@ public interface UserService {
     ResponseEntity<?> createAccount(UserAccount userAccount);
     ResponseEntity<?> updateUserFields(Integer userId, Map<String, String> updates);
     ResponseEntity<String> forgotPassword(UserAccount userAccount);
-    ResponseEntity<String> resetPassword(Map<String, String> requestBody);
 }
 
