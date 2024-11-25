@@ -11,12 +11,9 @@ import {
   AddToOrders,
   GetUserOrders,
   ForgotPassword,
+  LogIn,
+  CreateAccount,
 } from "../Api/Api";
-import {
-  registerUser,
-  loginUser,
-  logoutUser,
-} from "../Firebase/UserManagement";
 import { useEffect } from "react";
 
 export const AuthContext = createContext();
@@ -32,12 +29,12 @@ function AuthProvider({ children }) {
 
   async function login(email, password) {
     try {
-      const response = await loginUser(email, password);
+      const response = await LogIn(email, password);
       if (response.status === 200) {
-        setUser(response.data);
+        setUser(response);
         setAuthenticated(true);
-        getUserCart(response.data.email);
-        getUserOrders(response.data.email);
+        //getUserCart(response.data.email);
+        //getUserOrders(response.data.email);
         return { success: true, response };
       } else {
         logout();
@@ -50,33 +47,14 @@ function AuthProvider({ children }) {
   }
 
   async function logout() {
-    try {
-      const response = await logoutUser();
-      if (response.status === 200) {
-        setAuthenticated(false);
-        setUser(null);
-        setCartItems([]);
-      }
-    } catch (e) {
-      return { success: false, response: e.response };
-    }
+    setAuthenticated(false);
+    setUser(null);
+    setCartItems([]);
   }
 
-  async function createAccount(
-    username,
-    surname,
-    email,
-    password,
-    subscribeToNewsletter
-  ) {
+  async function createAccount(username, surname, email, password) {
     try {
-      const response = await registerUser(
-        username,
-        surname,
-        email,
-        password,
-        subscribeToNewsletter
-      );
+      const response = await CreateAccount(email, password);
       if (response.status === 200) {
         setUser(response.data);
         setAuthenticated(true);
