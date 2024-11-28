@@ -34,7 +34,7 @@ function AuthProvider({ children }) {
         setUser(response.data);
         setAuthenticated(true);
         getUserCart(response.data.email);
-        //getUserOrders(response.data.email);
+        getUserOrders(response.data.email);
         return { success: true, response };
       } else {
         logout();
