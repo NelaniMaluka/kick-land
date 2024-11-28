@@ -1,9 +1,8 @@
 package com.examplekicklaandwebsite.KickLaand.User;
 
 import java.util.Map;
-import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,31 +71,36 @@ public class UserServiceImpl implements UserService {
                 return ResponseEntity.badRequest().body("Password must be at least 8 characters long");
             }
 
+            // Check if user already exists by email
             if (userAccountRepository.findByEmail(userAccount.getEmail()) != null) {
                 return ResponseEntity.badRequest().body("User with this email already exists");
             }
 
-            Newsletter newsletter = new Newsletter();
-            newsletter.setEmail(userAccount.getEmail());
-
-            Optional<Newsletter> existingNewsletter = Optional.ofNullable(newsletterRepository.findByEmail(userAccount.getEmail()));
-
-            if (!existingNewsletter.isPresent()) {
+            // Handle Newsletter subscription
+            Newsletter existingNewsletter = newsletterRepository.findByEmail(userAccount.getEmail());
+            if (existingNewsletter == null) {
+                // Create a new Newsletter entry if it doesn't exist
+                Newsletter newsletter = new Newsletter();
+                newsletter.setEmail(userAccount.getEmail());
                 newsletterRepository.save(newsletter);
             }
 
-            if (userAccountRepository.findByEmail(userAccount.getEmail()) == null) {
-                userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
-                userAccountRepository.save(userAccount);
-                UserResponseDTO userResponseDTO = createUserResponseDTO(userAccount);
-                return ResponseEntity.ok(userResponseDTO);
-            } else {
-                return ResponseEntity.badRequest().body("User with this email already exists");
-            }
+            // Encode the password securely
+            userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+
+            // Save new user account
+            userAccountRepository.save(userAccount);
+
+            // Create and return the response DTO
+            UserResponseDTO userResponseDTO = createUserResponseDTO(userAccount);
+            return ResponseEntity.ok(userResponseDTO);
+
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create account");
+            return ResponseEntity.badRequest().body("Failed to create account: " + e.getMessage());
         }
     }
+
+
 
     @Override
     public ResponseEntity<?> updateUserFields(Integer userId, Map<String, String> updates) {
@@ -114,9 +118,9 @@ public class UserServiceImpl implements UserService {
                     String value = entry.getValue();
 
                     switch (field.toLowerCase()) {
-                        case "username":
+                        case "firstname":
                             if (value == null || value.trim().isEmpty()) {
-                                return ResponseEntity.badRequest().body("Username cannot be empty");
+                                return ResponseEntity.badRequest().body("Firstname cannot be empty");
                             }
                             user.setFirstname(value);
                             break;
@@ -126,9 +130,9 @@ public class UserServiceImpl implements UserService {
                             }
                             user.setEmail(value);
                             break;
-                        case "surname":
+                        case "lastname":
                             if (value == null || value.trim().isEmpty()) {
-                                return ResponseEntity.badRequest().body("Surname cannot be empty");
+                                return ResponseEntity.badRequest().body("Lastname cannot be empty");
                             }
                             user.setLastname(value);
                             break;
@@ -183,8 +187,8 @@ public class UserServiceImpl implements UserService {
         return new UserResponseDTO(
                 user.getId(),
                 user.getFirstname(),
-                user.getEmail(),
                 user.getLastname(),
+                user.getEmail(),
                 user.getPhonenumber() != null ? user.getPhonenumber() : "",
                 user.getAddress() != null ? user.getAddress() : ""
         );

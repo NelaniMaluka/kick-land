@@ -15,17 +15,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CartControllerTests {
 
     @Mock
-    private CartService cartServiceMock;  // Mocking CartService
+    private CartService cartServiceMock; // Mocking CartService
 
     @InjectMocks
-    private CartController cartController;  // Injecting the mock service into the controller
+    private CartController cartController; // Injecting the mock service into the controller
 
-    private String validEmail = "test@example.com";  // A valid email for testing
-    private UserCartDTO validCartDTO;  // A valid DTO for adding/updating the cart
+    private String validEmail = "test@example.com"; // A valid email for testing
+    private UserCartDTO validCartDTO; // A valid DTO for adding/updating the cart
 
     @BeforeEach
     public void setUp() {
-        validCartDTO = new UserCartDTO(1, 1, 2, "M");  // Setting up a mock DTO before each test
+        validCartDTO = new UserCartDTO(1, 1, 2, "M"); // Setting up a mock DTO before each test
     }
 
     @Test
@@ -37,7 +37,7 @@ public class CartControllerTests {
         ResponseEntity<?> response = cartController.getUserCartItems(validEmail);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Mocked Cart Items", response.getBody());
     }
 
@@ -50,7 +50,7 @@ public class CartControllerTests {
         ResponseEntity<?> response = cartController.getUserCartItems(validEmail);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(404, response.getStatusCode().value());
         assertEquals("User not found", response.getBody());
     }
 
@@ -63,7 +63,7 @@ public class CartControllerTests {
         ResponseEntity<?> response = cartController.addToCart(validCartDTO);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Cart updated successfully", response.getBody());
     }
 
@@ -76,7 +76,7 @@ public class CartControllerTests {
         ResponseEntity<?> response = cartController.addToCart(validCartDTO);
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCode().value());
         assertEquals("Invalid cart item", response.getBody());
     }
 
@@ -89,7 +89,7 @@ public class CartControllerTests {
         ResponseEntity<?> response = cartController.updateCart(1, 1, 3);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Cart item updated", response.getBody());
     }
 
@@ -102,7 +102,7 @@ public class CartControllerTests {
         ResponseEntity<?> response = cartController.deleteCartItem(1, 1);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Cart item deleted", response.getBody());
     }
 }

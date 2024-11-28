@@ -47,7 +47,7 @@ public class UserAccountTest_UpdateUserDetails {
         ResponseEntity<?> response = userAccountController.updateUserFields(userId, updates);
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         UserResponseDTO responseBody = (UserResponseDTO) response.getBody();
         assertEquals("NewName", responseBody.getFirstname());
         assertEquals("NewSurname", responseBody.getLastname());
@@ -72,7 +72,7 @@ public class UserAccountTest_UpdateUserDetails {
         ResponseEntity<?> response = userAccountController.updateUserFields(userId, updates);
 
         // Assert
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(404, response.getStatusCode().value());
         verify(userService, times(1)).updateUserFields(userId, updates);
     }
 
@@ -91,7 +91,7 @@ public class UserAccountTest_UpdateUserDetails {
         ResponseEntity<?> response = userAccountController.updateUserFields(userId, updates);
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCode().value());
         assertEquals("Invalid field specified", response.getBody());
         verify(userService, times(1)).updateUserFields(userId, updates);
     }
@@ -111,7 +111,7 @@ public class UserAccountTest_UpdateUserDetails {
         ResponseEntity<?> response = userAccountController.updateUserFields(userId, updates);
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCode().value());
         assertEquals("Failed to update user fields", response.getBody());
         verify(userService, times(1)).updateUserFields(userId, updates);
     }
