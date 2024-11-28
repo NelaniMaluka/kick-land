@@ -31,9 +31,9 @@ function AuthProvider({ children }) {
     try {
       const response = await LogIn(email, password);
       if (response.status === 200) {
-        setUser(response);
+        setUser(response.data);
         setAuthenticated(true);
-        //getUserCart(response.data.email);
+        getUserCart(response.data.email);
         //getUserOrders(response.data.email);
         return { success: true, response };
       } else {
@@ -52,9 +52,14 @@ function AuthProvider({ children }) {
     setCartItems([]);
   }
 
-  async function createAccount(username, surname, email, password) {
+  async function createAccount(firstname, lastname, email, password) {
     try {
-      const response = await CreateAccount(email, password);
+      const response = await CreateAccount(
+        firstname,
+        lastname,
+        email,
+        password
+      );
       if (response.status === 200) {
         setUser(response.data);
         setAuthenticated(true);
@@ -99,7 +104,9 @@ function AuthProvider({ children }) {
         setProducts(response.data);
       } else {
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async function getUserCart(email) {
@@ -190,8 +197,8 @@ function AuthProvider({ children }) {
 
   async function updateUserDetails(
     userId,
-    username,
-    surname,
+    firstname,
+    lastname,
     email,
     phonenumber,
     address
@@ -199,8 +206,8 @@ function AuthProvider({ children }) {
     try {
       const response = await UpdateUserDetails(
         userId,
-        username,
-        surname,
+        firstname,
+        lastname,
         email,
         phonenumber,
         address

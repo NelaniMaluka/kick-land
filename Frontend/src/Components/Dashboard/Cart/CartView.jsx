@@ -71,14 +71,16 @@ function CartView() {
       <div className="cart-container">
         {cartItems.map((cartItem) => {
           // Find the corresponding product in isProducts array
-          const product = isProducts.find((p) => p.id === cartItem.productId);
+          const product = isProducts.find(
+            (p) => p.productId === cartItem.productId
+          );
 
           if (!product) {
             return <span> Could not find product details.</span>;
           }
 
           return (
-            <div className="cart-card" key={cartItem.id}>
+            <div className="cart-card" key={cartItem.userCartId}>
               <div className="cart-img">
                 <img src={product.image1} alt="Product" />
               </div>

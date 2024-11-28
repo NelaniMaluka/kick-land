@@ -27,7 +27,7 @@ function ProductDetails() {
           quantity,
           userId,
           size,
-          productId: selectedProduct.id, // Include productId directly
+          productId: selectedProduct.productId, // Include productId directly
         };
         addToCart(cartProduct)
           .then((result) => {

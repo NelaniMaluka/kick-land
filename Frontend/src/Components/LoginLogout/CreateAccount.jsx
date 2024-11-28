@@ -8,20 +8,19 @@ import Alert from "./Alert";
 import "./Form.css";
 
 function CreateAccount() {
-  const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [surname, setSurname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
-  const [subscribeToNewsletter, setSubscribeToNewsletter] = useState(false);
 
   const navigate = useNavigate();
   const useContext = useAuth();
 
-  function handleUsernameChange(event) {
-    setUsername(event.target.value);
+  function handleFirstnameChange(event) {
+    setFirstname(event.target.value);
     // Reset name error message
     setNameError("");
   }
@@ -38,15 +37,15 @@ function CreateAccount() {
     setEmailError("");
   }
 
-  function handleSurnameChange(event) {
-    setSurname(event.target.value);
+  function handleLastnameChange(event) {
+    setLastname(event.target.value);
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     try {
       // Name validation
-      if (!username) {
+      if (!firstname) {
         setNameError("Name is required.");
         return;
       }
@@ -72,14 +71,13 @@ function CreateAccount() {
       }
 
       const result = await useContext.createAccount(
-        username,
-        surname,
+        firstname,
+        lastname,
         email,
-        password,
-        subscribeToNewsletter
+        password
       );
       if (result.success) {
-        showSuccessMessage(username);
+        showSuccessMessage(firstname);
         navigate("/");
       } else {
         Alert({ message: `user with this email ${email} already exists` });
@@ -92,11 +90,11 @@ function CreateAccount() {
     }
   }
 
-  function showSuccessMessage(username) {
+  function showSuccessMessage(firstname) {
     Swal.fire({
       position: "top-end",
       icon: "success",
-      title: "Welcome: " + username,
+      title: "Welcome: " + firstname,
       showConfirmButton: false,
       timer: 1500,
     });
@@ -114,10 +112,6 @@ function CreateAccount() {
     return passwordRegex.test(password);
   }
 
-  const handleCheckboxClick = () => {
-    setSubscribeToNewsletter(!subscribeToNewsletter);
-  };
-
   return (
     <form className="form container2" onSubmit={handleSubmit}>
       <div className="form-container">
@@ -129,9 +123,9 @@ function CreateAccount() {
             placeholder="Name"
             type="text"
             name="username"
-            value={username}
+            value={firstname}
             autoComplete="given-name"
-            onChange={handleUsernameChange}
+            onChange={handleFirstnameChange}
           />
           {nameError && <div className="error-message">{nameError}</div>}
         </div>
@@ -139,10 +133,10 @@ function CreateAccount() {
           <input
             placeholder="Surname"
             type="text"
-            name="surname"
-            value={surname}
+            name="lastname"
+            value={lastname}
             autoComplete="family-name"
-            onChange={handleSurnameChange}
+            onChange={handleLastnameChange}
           />
         </div>
         <div className="field">
@@ -168,16 +162,6 @@ function CreateAccount() {
           {passwordError && (
             <div className="error-message">{passwordError}</div>
           )}
-        </div>
-        <div>
-          <span className="checkbox-container">
-            <input
-              type="checkbox"
-              onClick={handleCheckboxClick}
-              className="checkbox"
-            />{" "}
-            Sign Up for Newsletter
-          </span>
         </div>
         <div>
           <button type="submit" name="login">

@@ -11,19 +11,12 @@ export function LogIn(email, password) {
   });
 }
 
-export function CreateAccount(
-  username,
-  surname,
-  email,
-  password,
-  subscribeToNewsletter
-) {
+export function CreateAccount(firstname, lastname, email, password) {
   return apiClient.post("/api/user/create-account", {
-    username,
-    surname,
+    firstname,
+    lastname,
     email,
     password,
-    subscribeToNewsletter,
   });
 }
 
@@ -85,15 +78,15 @@ export function ForgotPassword(email) {
 
 export function UpdateUserDetails(
   userId,
-  username,
-  surname,
+  firstname,
+  lastname,
   email,
   phonenumber,
   address
 ) {
   return apiClient.put(`/api/user/update-user/${userId}`, {
-    username,
-    surname,
+    firstname,
+    lastname,
     email,
     phonenumber,
     address,

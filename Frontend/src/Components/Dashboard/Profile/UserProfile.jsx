@@ -13,9 +13,12 @@ function UserProfile() {
 
   const AuthContext = useAuth();
   const user = AuthContext.isUser;
+  console.log(user);
 
+  // Validation schema
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    firstname: Yup.string().required("First name is required"),
+    lastname: Yup.string().required("Last name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     phoneNumber: Yup.string().matches(
       /^(?:\+?27|0)[ -]?(\d{2})[ -]?(\d{3})[ -]?(\d{4})$/,
@@ -23,12 +26,13 @@ function UserProfile() {
     ),
   });
 
+  // Handle form submission
   async function handleSubmit(values) {
     try {
       const result = await AuthContext.updateUserDetails(
         user.id,
-        values.name,
-        values.surname,
+        values.firstname,
+        values.lastname,
         values.email,
         values.phoneNumber,
         selectedAddress // Use the selected address
@@ -41,14 +45,15 @@ function UserProfile() {
         });
       }
     } catch (error) {
-      Alert({ message: "Unexpected error please ContactUs" });
+      Alert({ message: "Unexpected error, please contact support." });
     }
   }
 
+  // Success message function
   function showSuccessMessage(result) {
     Swal.fire({
       icon: "success",
-      title: "Sent",
+      title: "Success!",
       text: result.data,
     });
   }
@@ -57,8 +62,8 @@ function UserProfile() {
     <div>
       <Formik
         initialValues={{
-          name: user.username || "",
-          surname: user.surname || "",
+          firstname: user.firstname || "",
+          lastname: user.lastname || "",
           phoneNumber: user.phoneNumber || "",
           email: user.email || "",
           address: user.address || "",
@@ -67,40 +72,41 @@ function UserProfile() {
         validationSchema={validationSchema}
       >
         {({ values, handleChange, handleSubmit, errors, touched }) => (
-          <form className="profile">
+          <form className="profile" onSubmit={handleSubmit}>
             <div>
-              <h2> Personal Information:</h2>
+              <h2>Personal Information:</h2>
             </div>
             <div className="field-1">
               <input
                 className="messageField"
-                placeholder="Name*"
+                placeholder="First name*"
                 type="text"
-                name="name"
-                value={values.name}
+                name="firstname"
+                value={values.firstname}
                 autoComplete="given-name"
                 onChange={handleChange}
               />
               <ErrorMessage
-                name="name"
+                name="firstname"
                 component="div"
                 className="error-message"
               />
               <input
                 className="messageField"
-                placeholder="Surname*"
+                placeholder="Last name*"
                 type="text"
-                name="surname"
-                value={values.surname}
+                name="lastname"
+                value={values.lastname}
                 autoComplete="family-name"
                 onChange={handleChange}
               />
               <ErrorMessage
-                name="surname"
+                name="lastname"
                 component="div"
                 className="error-message"
               />
             </div>
+
             <div className="field-1">
               <input
                 className="messageField"
@@ -109,6 +115,11 @@ function UserProfile() {
                 name="phoneNumber"
                 value={values.phoneNumber}
                 onChange={handleChange}
+              />
+              <ErrorMessage
+                name="phoneNumber"
+                component="div"
+                className="error-message"
               />
               <input
                 className="messageField"
@@ -124,8 +135,9 @@ function UserProfile() {
                 className="error-message"
               />
             </div>
+
             <div>
-              <h2> Address Information:</h2>
+              <h2>Address Information:</h2>
             </div>
             <div className="field-1">
               <LocationSearchInput
@@ -133,8 +145,9 @@ function UserProfile() {
                 onAddressSelect={(address) => setSelectedAddress(address)}
               />
             </div>
+
             <div>
-              <button type="button" name="login" onClick={handleSubmit}>
+              <button type="submit" name="saveChanges">
                 Save Changes
               </button>
             </div>
