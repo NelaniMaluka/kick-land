@@ -16,102 +16,90 @@ import org.springframework.http.ResponseEntity;
 @ExtendWith(MockitoExtension.class)
 public class UserAccountTest {
 
-	@Mock
-	private UserService userServiceMock;
+    @Mock
+    private UserService userServiceMock;
 
-	@InjectMocks
-	private UserController userController;
+    @InjectMocks
+    private UserController userController;
 
-	@ParameterizedTest
-	@CsvSource({
-			"Testemail@gmail.com, P@ssw0rd", // Valid credentials
-			"invalidEmail, P@ssw0rd", // Invalid email
-			"Testemail@gmail.com, short", // Invalid password
-			"'', P@ssw0rd", // Missing email
-			"Testemail@gmail.com, ''" // Missing password
-	})
-	void sendUserDetails_Login_ForgotPassword(String email, String password) {
-		UserAccount userAccount = new UserAccount(toNullIfEmpty(email), toNullIfEmpty(password));
+    @ParameterizedTest
+    @CsvSource({
+            "Testemail@gmail.com, P@ssw0rd", // Valid credentials
+            "invalidEmail, P@ssw0rd", // Invalid email
+            "Testemail@gmail.com, short", // Invalid password
+            "'', P@ssw0rd", // Missing email
+            "Testemail@gmail.com, ''" // Missing password
+    })
+    void sendUserDetails_Login_ForgotPassword(String email, String password) {
+        UserAccount userAccount = new UserAccount(toNullIfEmpty(email), toNullIfEmpty(password));
 
-		// Define mock behavior for login validation
-		when(userServiceMock.login(any(UserAccount.class))).thenAnswer(invocation -> {
-			UserAccount acc = invocation.getArgument(0);
-			if (acc.getEmail() == null || !isValidEmail(acc.getEmail()) ||
-					acc.getPassword() == null || !isValidPassword(acc.getPassword())) {
-				return ResponseEntity.badRequest().body("Invalid credentials");
-			}
-			return ResponseEntity.ok("Login successful");
-		});
+        when(userServiceMock.login(any(UserAccount.class))).thenAnswer(invocation -> {
+            UserAccount acc = invocation.getArgument(0);
+            if (acc.getEmail() == null || !isValidEmail(acc.getEmail()) ||
+                    acc.getPassword() == null || !isValidPassword(acc.getPassword())) {
+                return ResponseEntity.badRequest().body("Invalid credentials");
+            }
+            return ResponseEntity.ok("Login successful");
+        });
 
-		// Act
-		ResponseEntity<?> response = userServiceMock.login(userAccount);
+        ResponseEntity<?> response = userServiceMock.login(userAccount);
 
-		// Assert
-		if (email == null || email.isEmpty() || !isValidEmail(email) ||
-				password == null || password.isEmpty() || !isValidPassword(password)) {
-			assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-			assertEquals("Invalid credentials", response.getBody());
-		} else {
-			assertEquals(HttpStatus.OK, response.getStatusCode());
-			assertEquals("Login successful", response.getBody());
-		}
-	}
+        if (email == null || email.isEmpty() || !isValidEmail(email) ||
+                password == null || password.isEmpty() || !isValidPassword(password)) {
+            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            assertEquals("Invalid credentials", response.getBody());
+        } else {
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertEquals("Login successful", response.getBody());
+        }
+    }
 
-	@ParameterizedTest
-	@CsvSource({
-			"Testemail@gmail.com", // Valid email
-			"nwe", // Invalid email
-			"'',", // Empty email
-			"null" // Null email
-	})
-	void sendUserDetails_ResetPassword(String email) {
-		// Arrange
-		// Handling null and empty cases for email
-		UserAccount userAccount = new UserAccount(toNullIfEmpty(email));
+    @ParameterizedTest
+    @CsvSource({
+            "Testemail@gmail.com", // Valid email
+            "nwe", // Invalid email
+            "'',", // Empty email
+            "null" // Null email
+    })
+    void sendUserDetails_ResetPassword(String email) {
+        UserAccount userAccount = new UserAccount(toNullIfEmpty(email));
 
-		when(userServiceMock.forgotPassword(any(UserAccount.class))).thenAnswer(invocation -> {
-			UserAccount userAcc = invocation.getArgument(0);
-			if (userAcc.getEmail() == null || !isValidEmail(userAcc.getEmail())) {
-				return ResponseEntity.badRequest().body("Email required");
-			}
-			return ResponseEntity.ok("Successfully sent reset password");
-		});
+        when(userServiceMock.forgotPassword(any(UserAccount.class))).thenAnswer(invocation -> {
+            UserAccount userAcc = invocation.getArgument(0);
+            if (userAcc.getEmail() == null || !isValidEmail(userAcc.getEmail())) {
+                return ResponseEntity.badRequest().body("Email required");
+            }
+            return ResponseEntity.ok("Successfully sent reset password");
+        });
 
-		// Act
-		ResponseEntity<?> response = userServiceMock.forgotPassword(userAccount);
+        ResponseEntity<?> response = userServiceMock.forgotPassword(userAccount);
 
-		// Assert
-		if (email == null || email.isEmpty() || !isValidEmail(email)) {
-			assertEquals("Email required", response.getBody());
-			assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		} else {
-			assertEquals("Successfully sent reset password", response.getBody());
-			assertEquals(HttpStatus.OK, response.getStatusCode());
-		}
-	}
+        if (email == null || email.isEmpty() || !isValidEmail(email)) {
+            assertEquals("Email required", response.getBody());
+            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        } else {
+            assertEquals("Successfully sent reset password", response.getBody());
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+        }
+    }
 
-	// Helper method to convert empty strings to null
-	private String toNullIfEmpty(String value) {
-		return (value == null || value.trim().isEmpty()) ? null : value;
-	}
+    private String toNullIfEmpty(String value) {
+        return (value == null || value.trim().isEmpty()) ? null : value;
+    }
 
-	private boolean isValidEmail(String email) {
-		if (email == null) {
-			return false;
-		}
-		String emailRegex = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
-		return email.matches(emailRegex);
-	}
+    private boolean isValidEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+        String emailRegex = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(emailRegex);
+    }
 
-	private boolean isValidPassword(String password) {
-		if (password == null) {
-			return false;
-		}
-		// Ensures at least 8 characters, one digit, one uppercase letter, and one
-		// special character.
-		String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$";
-
-		return password.matches(passwordRegex);
-	}
-
+    private boolean isValidPassword(String password) {
+        if (password == null) {
+            return false;
+        }
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$";
+        return password.matches(passwordRegex);
+    }
 }
