@@ -8,13 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
+
 import java.util.Map;
 
 @RestController
 @Validated
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -24,22 +27,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/api/user/login")
+    @PostMapping(path = "/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
         return userService.login(userAccount);
     }
 
-    @PostMapping(path = "/api/user/create-account")
+    @PostMapping(path = "/create-account")
     public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount) {
         return userService.createAccount(userAccount);
     }
 
-    @PutMapping("/api/user/update-user/{userId}")
+    @PutMapping("/update-user/{userId}")
     public ResponseEntity<?> updateUserFields(@PathVariable @NonNull Integer userId, @Valid @RequestBody Map<String, String> updates) {
         return userService.updateUserFields(userId, updates);
     }
 
-    @PostMapping("/api/user/forgot-password")
+    @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody UserAccount userAccount) {
         return userService.forgotPassword(userAccount);
     }

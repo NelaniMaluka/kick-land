@@ -3,11 +3,13 @@ package com.examplekicklaandwebsite.KickLaand.Products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/public")
 public class ProductController {
 
     private final ProductService productService;
@@ -17,7 +19,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping(path = "/api/public/products")
+    @GetMapping(path = "/products")
     public ResponseEntity<?> retrieveProducts() {
         try {
             List<Products> productList = productService.getAllProducts();
