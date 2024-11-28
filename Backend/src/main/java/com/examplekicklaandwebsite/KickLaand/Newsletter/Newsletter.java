@@ -1,10 +1,12 @@
 package com.examplekicklaandwebsite.KickLaand.Newsletter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Pattern;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Newsletter {
@@ -13,8 +15,10 @@ public class Newsletter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int newsletterId;
 
-    @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
-    public String email;
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be blank")
+    @Column(unique = true)
+    private String email;
 
     public void setEmail(String email) {
         this.email = email;

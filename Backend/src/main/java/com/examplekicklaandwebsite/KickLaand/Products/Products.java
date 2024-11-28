@@ -2,41 +2,47 @@ package com.examplekicklaandwebsite.KickLaand.Products;
 
 import java.math.BigDecimal;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 public class Products {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productId;
 
-    @NotNull ( message = "Product name cannot be null")
+    @NotNull(message = "Product name cannot be null")
     private String productName;
 
-    @NotNull ( message = "Product price cannot be null")
+    @NotNull(message = "Product price cannot be null")
     private BigDecimal productPrice;
 
-    @NotNull ( message = "Product category cannot be null")
+    @NotNull(message = "Product category cannot be null")
     private String productCategory;
 
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     public List<ProductStock> stock;
 
-    @NotNull ( message = "Product image1 cannot be null")
+    @NotNull(message = "Product image1 cannot be null")
     private String image1;
     private String image2;
     private String image3;
     private String image4;
-    
+
     @NotNull
     private String priceUrl;
 
+    public Products() {}
+
+    // Parameterized constructor
     public Products(Integer productId, String productName, BigDecimal productPrice, String productCategory, List<ProductStock> stock, String image1, String image2, String image3, String image4, String priceUrl) {
         this.productId = productId;
         this.productName = productName;
@@ -49,13 +55,9 @@ public class Products {
         this.image4 = image4;
         this.priceUrl = priceUrl;
     }
-    
-	public Products() {
-	    // default constructor body
-	}
 
-
-	public Integer getProductId() {
+    // Getters and Setters
+    public Integer getProductId() {
         return productId;
     }
 
@@ -126,14 +128,12 @@ public class Products {
     public void setImage4(String image4) {
         this.image4 = image4;
     }
-    
-	public String getPriceUrl() {
-		return priceUrl;
-	}
 
+    public String getPriceUrl() {
+        return priceUrl;
+    }
 
-	public void setPriceUrl(String priceUrl) {
-		this.priceUrl = priceUrl;
-	}
-
+    public void setPriceUrl(String priceUrl) {
+        this.priceUrl = priceUrl;
+    }
 }

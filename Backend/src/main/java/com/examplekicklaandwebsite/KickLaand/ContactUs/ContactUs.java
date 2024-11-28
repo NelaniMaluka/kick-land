@@ -1,23 +1,23 @@
 package com.examplekicklaandwebsite.KickLaand.ContactUs;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContactUs {
-	
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int contactId;
-	
+
     private String name;
 
     @NotNull(message = "Email is required")
@@ -32,7 +32,8 @@ public class ContactUs {
     private String message;
 
     // Default constructor for JPA
-    public ContactUs() {}
+    public ContactUs() {
+    }
 
     // Constructor with parameters
     public ContactUs(String name, String email, String phoneNumber, String message) {

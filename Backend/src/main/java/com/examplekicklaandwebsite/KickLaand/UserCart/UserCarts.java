@@ -1,17 +1,16 @@
 package com.examplekicklaandwebsite.KickLaand.UserCart;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-
 import com.examplekicklaandwebsite.KickLaand.Orders.UserOrders;
 import com.examplekicklaandwebsite.KickLaand.User.UserAccount;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -21,19 +20,19 @@ public class UserCarts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userCartId;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "userId")
 	private UserAccount userId;
 
-    @NotNull(message = "Product ID cannot be null")
-    private Integer productId;
+	@NotNull(message = "Product ID cannot be null")
+	private Integer productId;
 
 	@NotNull(message = "Product size cannot be null")
 	private String productSize;
 
 	@NotNull(message = "Product quantity cannot be null")
 	private Integer quantity;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "orderId", insertable = false, updatable = false)
 	private UserOrders order;
@@ -57,7 +56,7 @@ public class UserCarts {
 	public void setUserId(UserAccount userId) {
 		this.userId = userId;
 	}
-	
+
 	public Integer getProductId() {
 		return productId;
 	}
@@ -67,11 +66,11 @@ public class UserCarts {
 	}
 
 	public String getProductSize() {
-		return  productSize;
+		return productSize;
 	}
 
-	public void setProductSize(String  productSize) {
-		this. productSize =  productSize;
+	public void setProductSize(String productSize) {
+		this.productSize = productSize;
 	}
 
 	public Integer getQuantity() {

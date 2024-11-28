@@ -2,146 +2,140 @@ package com.examplekicklaandwebsite.KickLaand.User;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+
 
 import com.examplekicklaandwebsite.KickLaand.Orders.UserOrders;
 import com.examplekicklaandwebsite.KickLaand.UserCart.UserCarts;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
 public class UserAccount {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer id;
 
-	public String firstname;
+    public String firstname;
 
-	public String lastname;
+    public String lastname;
 
-	@Valid
-	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
-	public String email;
+    @Valid
+    @Column(unique = true)
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Please provide a valid email address")
+    public String email;
 
-	@Valid
-	@Size(min = 8, max = 50, message = "Password must be at least 8 characters long")
-	public String password;
+    @Valid
+    public String password;
 
-	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-	public List<UserCarts> userCart;
+    @OneToMany(mappedBy = "userId")
+    public List<UserCarts> userCart;
 
-	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-	public List<UserOrders> orders;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    public List<UserOrders> orders;
 
-	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
-	public String phonenumber;
+    @Pattern(regexp = "^\\+?[0-9]{1,15}$", message = "Please provide a valid phone number")
+    public String phonenumber;
 
-	public String address;
+    public String address;
 
-	public UserAccount() {
-		// You can initialize any default values here if needed
-	}
+    // Default constructor
+    public UserAccount() {}
 
-	public UserAccount(String firstname, String lastname,
-			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email,
-			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long") String password) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.password = password;
-	}
+    // Constructor for email and password
+    public UserAccount(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
-	public UserAccount(
-			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email,
-			@Valid @Size(min = 8, max = 50, message = "Password must be at least 8 characters long") String password) {
-		this.email = email;
-		this.password = password;
-	}
+    // Constructor for full name, email, and password
+    public UserAccount(String firstname, String lastname, String email, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+    }
 
-	public UserAccount(
-			@Valid @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String email) {
-		this.email = email;
-	}
+    // Getters and setters
+    public Integer getId() {
+        return id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public String getFirstname() {
+        return firstname;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-	public String getFirstname() {
-		return firstname;
-	}
+    public String getLastname() {
+        return lastname;
+    }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
-	public String getLastname() {
-		return lastname;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public List<UserCarts> getUserCart() {
+        return userCart;
+    }
 
-	public List<UserCarts> getUserCart() {
-		return userCart;
-	}
+    public void setUserCart(List<UserCarts> userCart) {
+        this.userCart = userCart;
+    }
 
-	public void setUserCart(List<UserCarts> userCart) {
-		this.userCart = userCart;
-	}
+    public List<UserOrders> getOrders() {
+        return orders;
+    }
 
-	// public List<UserOrders> getOrders() {
-	// return orders;
-	// }
+    public void setOrders(List<UserOrders> orders) {
+        this.orders = orders;
+    }
 
-	// public void setOrders(List<UserOrders> orders) {
-	// this.orders = orders;
-	// }
+    public String getPhonenumber() {
+        return phonenumber;
+    }
 
-	public String getPhonenumber() {
-		return phonenumber;
-	}
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
