@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 public class UserAccountTest_UpdateUserDetails {
 
     @InjectMocks
-    private UserController userAccountController; // Inject the controller 
+    private UserController userAccountController; // Inject the controller
 
     @Mock
     private UserServiceImpl userService; // Mocked service layer
@@ -24,6 +24,7 @@ public class UserAccountTest_UpdateUserDetails {
         MockitoAnnotations.openMocks(this);
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testUpdateUserDetails_ValidUpdates() {
         // Arrange
@@ -37,8 +38,7 @@ public class UserAccountTest_UpdateUserDetails {
 
         // Mock the updated user response after updates
         UserResponseDTO userResponseDTO = new UserResponseDTO(
-            userId, "NewName", "NewSurname", "newemail@example.com", "1234567890", "New Address"
-        );
+                userId, "NewName", "NewSurname", "newemail@example.com", "1234567890", "New Address");
 
         // Ensure the service method returns the mocked response
         doReturn(ResponseEntity.ok(userResponseDTO)).when(userService).updateUserFields(userId, updates);
@@ -51,13 +51,12 @@ public class UserAccountTest_UpdateUserDetails {
         UserResponseDTO responseBody = (UserResponseDTO) response.getBody();
         assertEquals("NewName", responseBody.getFirstname());
         assertEquals("NewSurname", responseBody.getLastname());
-        assertEquals("newemail@example.com", responseBody.getEmail());  // Ensure email matches
+        assertEquals("newemail@example.com", responseBody.getEmail()); // Ensure email matches
         assertEquals("1234567890", responseBody.getPhoneNumber());
         assertEquals("New Address", responseBody.getAddress());
 
         verify(userService, times(1)).updateUserFields(userId, updates);
     }
-
 
     @Test
     public void testUpdateUserDetails_UserNotFound() {
@@ -85,7 +84,8 @@ public class UserAccountTest_UpdateUserDetails {
         updates.put("invalidField", "value");
 
         // Using doReturn instead of when(...).thenReturn(...)
-        doReturn(ResponseEntity.status(400).body("Invalid field specified")).when(userService).updateUserFields(userId, updates);
+        doReturn(ResponseEntity.status(400).body("Invalid field specified")).when(userService).updateUserFields(userId,
+                updates);
 
         // Act
         ResponseEntity<?> response = userAccountController.updateUserFields(userId, updates);
@@ -104,7 +104,8 @@ public class UserAccountTest_UpdateUserDetails {
         updates.put("username", "NewName");
 
         // Using doReturn instead of when(...).thenReturn(...)
-        doReturn(ResponseEntity.status(400).body("Failed to update user fields")).when(userService).updateUserFields(userId, updates);
+        doReturn(ResponseEntity.status(400).body("Failed to update user fields")).when(userService)
+                .updateUserFields(userId, updates);
 
         // Act
         ResponseEntity<?> response = userAccountController.updateUserFields(userId, updates);

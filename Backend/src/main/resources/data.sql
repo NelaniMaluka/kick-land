@@ -41,7 +41,6 @@ VALUES
   ('Jordan', 'Air Jordan 3 Retro', 3000.00, '/Images/ProductImages/Air Jordan 3 Retro.png', '/Images/ProductImages/Air Jordan 3 Retro2.png', '/Images/ProductImages/Air Jordan 3 Retro3.png', '/Images/ProductImages/Air Jordan 3 Retro4.png','price_1OxtKwEU0z74hURX2cIaQKfF'),
   ('Jordan', 'Air Jordan 1 Mid SE', 2499.95, '/Images/ProductImages/Air Jordan 1 Mid SE.png', '/Images/ProductImages/Air Jordan 1 Mid SE2.png', '/Images/ProductImages/Air Jordan 1 Mid SE3.png', '/Images/ProductImages/Air Jordan 1 Mid SE4.png','price_1OxtMWEU0z74hURXD4zM526Z'),
   ('Jordan', 'Air Jordan Retro 13', 3499.95, '/Images/ProductImages/Air Jordan Retro 13.png', '/Images/ProductImages/Air Jordan Retro 132.png', '/Images/ProductImages/Air Jordan Retro 133.png', '/Images/ProductImages/Air Jordan Retro 134.png','price_1OxtOxEU0z74hURXoWnakVhK');
-
 -- AirForce
 INSERT INTO PRODUCTS (PRODUCT_CATEGORY, PRODUCT_NAME, PRODUCT_PRICE, IMAGE1, IMAGE2, IMAGE3, IMAGE4, PRICE_URL)
 VALUES
