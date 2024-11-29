@@ -169,17 +169,25 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public ResponseEntity<String> forgotPassword(UserAccount userAccount) {
+    public ResponseEntity<String> forgotPassword(String email) {
         try {
-            if (!isValidEmail(userAccount.getEmail())) {
+            if (!isValidEmail(email)) {
                 return ResponseEntity.badRequest().body("Invalid email format");
             }
-            passwordResetService.createPasswordResetRequest(userAccount.getEmail());
-            return ResponseEntity.ok("Password reset email sent successfully");
+
+            // Call the method (assume it throws an exception if the email doesn't exist)
+            passwordResetService.createPasswordResetRequest(email);
+
+            // Generic message to avoid email enumeration
+            return ResponseEntity.ok("A reset link has been sent to your email.");
+            
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            // Still return a generic response to avoid exposing user information
+            return ResponseEntity.ok("A reset link has been sent to your email.");
+            
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+            // Log the exception for debugging (avoid exposing details in the response)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An internal error occurred.");
         }
     }
 
@@ -195,8 +203,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isValidEmail(String email) {
-        return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(emailRegex);
     }
+
 
     private boolean isValidPassword(String password) {
         return password != null && password.length() >= 8;

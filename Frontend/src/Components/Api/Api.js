@@ -73,7 +73,7 @@ export function AddToOrders(productWithUserId) {
 }
 
 export function ForgotPassword(email) {
-  return apiClient.post("/api/user/forgot-password", email);
+  return apiClient.post("/api/user/forgot-password", { email });
 }
 
 export function UpdateUserDetails(

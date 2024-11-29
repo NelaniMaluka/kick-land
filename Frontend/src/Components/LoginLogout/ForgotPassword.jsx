@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../Security/AuthContext";
 import { Link } from "react-router-dom";
 import Alert from "./Alert";
+import Swal from "sweetalert2";
 
 import "./Form.css";
 
@@ -32,17 +33,25 @@ function ForgotPassword() {
     }
 
     const result = await useContext.forgotPassword(email);
-
-    if (result) {
-      console.log(result);
-    } else {
-      Alert({ message: "Invalid Credentials" });
-    }
-    /*    } catch (error) {
+    try {
+      if (result.success) {
+        showSuccessMessage(result);
+      } else {
+        Alert({ message: "Invalid Credentials" });
+      }
+    } catch (error) {
       Alert({
         message: "We are encountering problems. Sorry for the inconvenience.",
       });
-    }*/
+    }
+  }
+
+  function showSuccessMessage(result) {
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: result.response.data,
+    });
   }
 
   return (

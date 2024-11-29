@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @RestController
@@ -44,6 +46,8 @@ public class UserController {
 
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody UserAccount userAccount) {
-        return userService.forgotPassword(userAccount);
+    	// Decode the email if it has been URL-encoded
+        String decodedEmail = URLDecoder.decode(userAccount.getEmail(), StandardCharsets.UTF_8);
+        return userService.forgotPassword(decodedEmail);
     }
 }

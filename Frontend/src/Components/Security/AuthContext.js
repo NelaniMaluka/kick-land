@@ -227,16 +227,14 @@ function AuthProvider({ children }) {
 
   async function forgotPassword(email) {
     try {
-      console.log(email);
       const response = await ForgotPassword(email);
-
       if (response.status === 200) {
-        return true;
+        return { success: true, response };
       } else {
-        return false;
+        return { success: false, response };
       }
     } catch (e) {
-      return false;
+      return { success: false, e };
     }
   }
 

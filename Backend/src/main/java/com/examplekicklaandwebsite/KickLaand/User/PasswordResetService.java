@@ -21,12 +21,19 @@ public class PasswordResetService {
     //private PasswordEncoder passwordEncoder;
     
     public void createPasswordResetRequest(String email) {
-        UserAccount user = userAccountRepository.findByEmail(email);
-        if (user == null) {
-            throw new EntityNotFoundException("User not found");
+        try {
+            UserAccount user = userAccountRepository.findByEmail(email);
+            if (user == null) {
+                throw new EntityNotFoundException("User not found");
+            }
+            sendPasswordResetEmail(user.getEmail());
+        } catch (EntityNotFoundException e) {
+            // Handle the user not found case
+            throw e; // Or log and rethrow with appropriate response
+        } catch (Exception e) {
+            // Handle other exceptions (e.g., database issues, email failures)
+            throw new RuntimeException("Failed to process password reset request", e);
         }
-
-        sendPasswordResetEmail(user.getEmail());
     }
 
     public void resetPassword(String email, String newPassword) {
@@ -43,13 +50,17 @@ public class PasswordResetService {
         sendPasswordChangedEmail(user.getEmail());
     }
 
-    private void sendPasswordResetEmail(String recipientEmail) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(recipientEmail);
-        message.setSubject("Password Reset Request");
-        message.setText("Your password has been reset. If you did not request this change, please contact support.");
+    public void sendPasswordResetEmail(String recipientEmail) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(recipientEmail);
+            message.setSubject("Password Reset Request");
+            message.setText("Your password has been reset. If you did not request this change, please contact support.");
 
-        javaMailSender.send(message);
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send password reset email", e);
+        }
     }
 
     private void sendPasswordChangedEmail(String recipientEmail) {
