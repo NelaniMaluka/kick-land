@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { formatCurrency } from "../../../Utils/formatCurrency.js";
 import "./Checkout.css";
 
 function Checkout() {
@@ -118,10 +119,7 @@ function Checkout() {
                 <td>x{cartItem.quantity}</td>
                 <td>
                   <span className="price">
-                    {new Intl.NumberFormat("en-ZA", {
-                      style: "currency",
-                      currency: "ZAR",
-                    }).format(product.price * cartItem.quantity)}
+                    {formatCurrency(product.price * cartItem.quantity)}
                   </span>
                 </td>
               </tr>

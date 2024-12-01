@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useAuth } from "../../../Context/AuthContext";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Swal from "sweetalert2";
 import Checkout from "./Checkout";
+import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert.jsx";
+import { formatCurrency } from "../../../Utils/formatCurrency.js";
 
 import "./CartView.css";
 
@@ -23,10 +24,10 @@ function CartView() {
       if (result.success) {
         setCartItems(result.response.data);
       } else {
-        showErrorMessage("Could not update product");
+        ErrorMessageAlert("Could not update product");
       }
     } catch (error) {
-      showErrorMessage("Internal Server Error");
+      ErrorMessageAlert("Internal Server Error");
     }
   }
 
@@ -40,19 +41,11 @@ function CartView() {
       if (result.success) {
         setCartItems(result.response.data);
       } else {
-        showErrorMessage("Could not remove product");
+        ErrorMessageAlert("Could not remove product");
       }
     } catch (error) {
-      showErrorMessage("Internal Server Error");
+      ErrorMessageAlert("Internal Server Error");
     }
-  }
-
-  function showErrorMessage(error) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: error,
-    });
   }
 
   if (cartItems.length === 0) {
@@ -89,10 +82,7 @@ function CartView() {
                 <span className="category">{product.category}</span>
                 <span className="name">{product.name}</span>
                 <span className="price">
-                  {new Intl.NumberFormat("en-ZA", {
-                    style: "currency",
-                    currency: "ZAR",
-                  }).format(product.price * cartItem.quantity)}
+                  {formatCurrency(product.price * cartItem.quantity)}
                 </span>
                 <span className="size">{cartItem.size}</span>
 

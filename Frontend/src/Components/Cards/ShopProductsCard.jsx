@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ShopProductsCard.css";
+import { formatCurrency } from "../../Utils/formatCurrency.js";
 
 function ShopProductsCard({ products }) {
   const navigate = useNavigate();
@@ -32,12 +33,7 @@ function ShopProductsCard({ products }) {
             )}
             <h5>{product.name}</h5>
             <span className="category">{product.category}</span>
-            <span>
-              {new Intl.NumberFormat("en-ZA", {
-                style: "currency",
-                currency: "ZAR",
-              }).format(product.price)}
-            </span>
+            <span>{formatCurrency(product.price)}</span>
           </div>
         ))}
       </div>
