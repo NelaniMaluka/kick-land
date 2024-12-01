@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../Security/AuthContext";
+import { useAuth } from "../../../Context/AuthContext";
 
-import "../NavBarMain.css";
+import "../Layers/NavBarMainBanner.css";
 import "./HamburgerMenu.css";
 
 function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {

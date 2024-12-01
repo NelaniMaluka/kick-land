@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import NavBarTopBanner from "./NavBarTopBanner";
-import NavBarMain from "./NavBarMain";
-import NavBarBottomBanner from "./NavBarBottomBanner";
+import NavBarTopBanner from "./Layers/NavBarTopBanner";
+import NavBarMainBanner from "./Layers/NavBarMainBanner";
+import NavBarBottomBanner from "./Layers/NavBarBottomBanner";
 import "./NavBar.css"; // Import the CSS for transitions
 
 function NavBar() {
@@ -33,7 +33,7 @@ function NavBar() {
   return (
     <div className={`navbar ${visible ? "visible" : "hidden"}`}>
       <NavBarTopBanner />
-      <NavBarMain />
+      <NavBarMainBanner />
       <NavBarBottomBanner />
     </div>
   );
