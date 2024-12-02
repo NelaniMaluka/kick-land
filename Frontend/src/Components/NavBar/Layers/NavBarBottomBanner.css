@@ -5,19 +5,16 @@
   width: 100%;
   margin-bottom: -10px;
 }
-
 .banner p {
   vertical-align: middle;
   padding-top: 8px;
 }
-
 .banner a {
   text-decoration: underline;
   font-size: 13px;
   padding-left: 5px;
   vertical-align: middle;
 }
-
 .banner a:hover {
   color: black;
 }

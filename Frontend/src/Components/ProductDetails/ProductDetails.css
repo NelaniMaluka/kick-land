@@ -67,6 +67,9 @@ span {
   height: 50px;
 }
 
+/**********************
+*** Tablet - Desktop **
+**********************/
 @media screen and (max-width: 861px) {
   .shop-product-container {
     height: max-content;
@@ -115,6 +118,9 @@ span {
   }
 }
 
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media screen and (max-width: 661px) {
   .shop-product-container {
     width: 100%;

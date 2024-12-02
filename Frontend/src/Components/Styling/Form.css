@@ -95,6 +95,9 @@
   accent-color: black;
 }
 
+/**********************
+*** Tablet - Desktop **
+**********************/
 @media screen and (max-width: 1061px) {
   .message .messageField {
     width: 80%;
@@ -109,6 +112,9 @@
   }
 }
 
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media screen and (max-width: 661px) {
   .form-container {
     width: 100%;

@@ -48,10 +48,24 @@
   color: rgb(75, 74, 74);
 }
 
-@media screen and (max-width: 661px) {
-  .profile {
+/**********************
+*** Tablet - Desktop **
+**********************/
+@media screen and (max-width: 1061px) {
+  .profile .messageField {
     width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
   }
+  .profile .messageField {
+    display: block;
+  }
+}
+
+/**********************
+*** Mobile - Tablet ***
+**********************/
+@media screen and (max-width: 661px) {
   .profile h2 {
     font-size: 30px;
   }
@@ -62,18 +76,5 @@
   .profile textarea {
     padding: 15px;
     margin-bottom: 10px;
-  }
-}
-
-@media screen and (max-width: 1061px) {
-  .profile .messageField {
-    width: 100%;
-    margin: auto;
-    margin-bottom: 10px;
-  }
-  .profile .messageField {
-    display: block;
-  }
-  .field input {
   }
 }

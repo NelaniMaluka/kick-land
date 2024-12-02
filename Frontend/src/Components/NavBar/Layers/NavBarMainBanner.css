@@ -3,58 +3,60 @@ nav {
   text-align: center;
   margin: 0;
   width: 100%;
-  margin-bottom: -8px;
 }
-
 .name {
   font-size: 30px;
   float: left;
   margin-top: -10px;
   font-family: fantasy;
 }
-
 .name:hover {
   color: rgb(103, 103, 103);
 }
-
 .sneakers {
   height: fit-content;
   width: fit-content;
   display: inline-block;
   padding: 0;
 }
-
 .sneakers li {
   text-decoration: none;
   padding: 0 15px 0 15px;
   display: inline-block;
 }
-
 .sneakers li a {
   font-size: 20px;
 }
-
 .sneakers li a:hover {
   color: black;
   text-decoration: line-through;
 }
-
 .cart {
   float: right;
   margin-top: -10px;
 }
-
 .cart * {
   display: inline-block;
 }
 .cart a {
   padding: 0 10px 0 10px;
 }
-
 .cart img {
   width: 25px;
 }
 
+/**********************
+*** Tablet - Desktop **
+**********************/
+@media screen and (min-width: 661px) {
+  nav {
+    margin-bottom: -8px;
+  }
+}
+
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media screen and (max-width: 661px) {
   nav {
     padding-top: 10px;
@@ -62,8 +64,5 @@ nav {
   }
   .sneakers {
     display: none;
-  }
-  .cart {
-    margin-top: -10px;
   }
 }

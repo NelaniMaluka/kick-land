@@ -1,20 +1,14 @@
-.section {
-  margin: 40px 0 0 0;
-}
-
 .banner-section {
   position: relative;
   height: 600px;
   overflow: hidden;
 }
-
 .banner-section img {
   width: 100%;
   height: 100%;
   min-height: 600px;
-  object-fit: cover; /* Ensures the image covers the entire container */
+  object-fit: cover;
 }
-
 .button-div {
   position: absolute;
   top: 80%;
@@ -23,12 +17,8 @@
   padding: 15px 30px;
   text-align: center;
 }
-
 .section button {
-  background-color: #ffffff; /* Change to your preferred background color */
-  width: 150px;
-  height: 50px;
-  font-size: 18px; /* Adjust the font size as needed */
+  background-color: #ffffff;
   border: none;
   border-radius: 5px;
 }
@@ -38,7 +28,23 @@
   height: 55px;
 }
 
-/* Media Query for responsiveness */
+/**********************
+*** Tablet - Desktop **
+**********************/
+@media screen and (min-width: 661px) {
+  .section {
+    margin: 40px 0 0 0;
+  }
+  .section button {
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+  }
+}
+
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media (max-width: 661px) {
   .section {
     margin: 20px 0;
@@ -46,11 +52,9 @@
   .banner-section {
     height: auto;
   }
-
   section img {
     height: 200px;
   }
-
   .section button {
     display: block;
     margin: 20px auto;

@@ -3,15 +3,13 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 1000;
   transition: transform 0.3s ease-in-out;
   background-color: white;
 }
-
 .navbar.visible {
   transform: translateY(0);
 }
-
 .navbar.hidden {
-  transform: translateY(-100%); /* Hide the navbar by moving it up */
+  transform: translateY(-100%);
 }

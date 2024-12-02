@@ -3,40 +3,23 @@
   max-width: 1800px;
 }
 .cart-container {
-  width: 70%;
   display: inline-block;
   height: max-content;
 }
 .checkout-container {
-  width: 30%;
   height: 100%;
-  display: inline-block;
-  min-height: 400px;
 }
-
 .cart-card {
   border: 1px solid black;
-  width: 98%;
   margin: 15px 0 15px 0;
   display: flex;
   height: fit-content;
 }
-
 .cart-card img {
   width: 100%;
   height: auto;
 }
-
-.divider {
-  border-left: 1px solid black;
-  height: 100%;
-  margin: 0 10px;
-}
-.cart-img {
-  width: 25%;
-}
 .cart-text {
-  width: 70%;
   padding: 10px;
   text-align: left;
 }
@@ -47,9 +30,6 @@
 .category {
   font-size: 20px;
 }
-.price {
-  font-size: 25px;
-}
 .cart-footer {
   font-size: 17px;
 }
@@ -59,17 +39,13 @@
   text-align: center;
   justify-content: space-between;
 }
-.cart-footer span input {
-  width: 50px;
-}
 .no-cart-items {
   text-align: center;
   height: 400px;
   display: flex;
-  align-items: center; /* Vertically center the content */
-  justify-content: center; /* Horizontally center the content */
+  align-items: center;
+  justify-content: center;
 }
-
 .no-cart-items span {
   width: fit-content;
   font-size: 20px;
@@ -80,7 +56,43 @@
   color: rgb(105, 105, 105);
 }
 
-/* Add the following styles for mobile view */
+/**********************
+*** Tablet - Desktop **
+**********************/
+@media screen and (min-width: 881px) {
+  .cart-container {
+    width: 70%;
+  }
+  .checkout-container {
+    width: 30%;
+    display: inline-block;
+    min-height: 400px;
+  }
+  .cart-card {
+    width: 98%;
+  }
+  .divider {
+    border-left: 1px solid black;
+    height: 100%;
+    margin: 0 10px;
+  }
+  .cart-img {
+    width: 25%;
+  }
+  .cart-text {
+    width: 70%;
+  }
+  .price {
+    font-size: 25px;
+  }
+  .cart-footer span input {
+    width: 50px;
+  }
+}
+
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media screen and (max-width: 881px) {
   .cart-container {
     width: 100%;
@@ -94,25 +106,20 @@
     margin-left: 10px;
   }
   .cart-card {
-    flex-direction: column; /* Stack items vertically on small screens */
-    height: fit-content;
+    flex-direction: column;
     width: max-content;
   }
-
   .divider {
-    border-left: none; /* Remove the left border for small screens */
+    border-left: none;
     height: auto;
     margin: 5px 0;
   }
-
   .cart-img {
-    width: 100%; /* Make the image take full width in mobile view */
+    width: 100%;
     max-width: 400px;
   }
-
   .cart-text {
-    width: 100%; /* Make the text take full width in mobile view */
-    padding: 10px;
+    width: 100%;
   }
   .category {
     margin: 0 0 10px 0;

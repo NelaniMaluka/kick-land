@@ -6,10 +6,7 @@
   padding: 0;
 }
 .products-card {
-  width: 31%;
   height: max-content;
-  margin: 10px;
-  padding-bottom: 20px;
 }
 .products-card img {
   width: 100%;
@@ -19,9 +16,6 @@
   margin: 8px 0 8px 0;
   font-weight: 600;
 }
-.couresel {
-  width: 95%;
-}
 .products-card span {
   display: block;
   margin: 8px 0 8px 0;
@@ -29,7 +23,28 @@
 .category {
   color: rgb(105, 105, 105);
 }
+.out-of-stock {
+  color: "red";
+  font-size: "14px";
+}
 
+/**********************
+*** Tablet - Desktop **
+**********************/
+@media screen and (min-width: 661px) {
+  .couresel {
+    width: 95%;
+  }
+  .products-card {
+    width: 31%;
+    margin: 10px;
+    padding-bottom: 20px;
+  }
+}
+
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media screen and (max-width: 661px) {
   .product {
     width: 100%;

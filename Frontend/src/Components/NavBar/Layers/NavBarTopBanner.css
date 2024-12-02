@@ -6,7 +6,6 @@
   margin-bottom: 10px;
   margin-top: -10px;
 }
-
 .options li {
   text-decoration: none;
   border-right: medium solid black;
@@ -16,15 +15,16 @@
   display: inline-block;
   font-size: 15px;
 }
-
 .options li:last-child {
   border: none;
 }
-
 .options li a:hover {
   color: rgb(105, 105, 105);
 }
 
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media screen and (max-width: 661px) {
   .options {
     display: none;

@@ -1,19 +1,30 @@
 .shopAll {
   height: max-content;
-  padding: 5px;
 }
 .shopAll nav {
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
 }
-.shopAll p {
-  font-size: 25px;
-}
 .shopAll div {
   display: inline-block;
 }
 
+/**********************
+*** Tablet - Desktop **
+**********************/
+@media screen and (min-width: 661px) {
+  .shopAll {
+    padding: 5px;
+  }
+  .shopAll p {
+    font-size: 25px;
+  }
+}
+
+/**********************
+*** Mobile - Tablet ***
+**********************/
 @media screen and (max-width: 661px) {
   .shopAll {
     padding: 3px;
