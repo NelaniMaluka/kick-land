@@ -14,8 +14,8 @@ function ShopByCategory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await authContext.retrieveProducts();
         if (isProducts.length === 0) {
+          await authContext.retrieveProducts();
           setProducts(authContext.isProducts || []);
         }
       } catch (error) {
