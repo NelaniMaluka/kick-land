@@ -15,6 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.examplekicklaandwebsite.KickLaand.controller.ProductController;
+import com.examplekicklaandwebsite.KickLaand.dto.ProductResponseDTO;
+import com.examplekicklaandwebsite.KickLaand.model.Products;
+import com.examplekicklaandwebsite.KickLaand.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

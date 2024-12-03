@@ -13,6 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.examplekicklaandwebsite.KickLaand.controller.ContactUsController;
+import com.examplekicklaandwebsite.KickLaand.model.ContactUs;
+import com.examplekicklaandwebsite.KickLaand.service.ContactUsService;
+
 @ExtendWith(MockitoExtension.class)
 class ContactUsControllerTest {
 

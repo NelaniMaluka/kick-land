@@ -6,6 +6,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import com.examplekicklaandwebsite.KickLaand.controller.UserController;
+import com.examplekicklaandwebsite.KickLaand.dto.UserResponseDTO;
+import com.examplekicklaandwebsite.KickLaand.service.impl.UserServiceImpl;
+
 import java.util.HashMap;
 import java.util.Map;
 

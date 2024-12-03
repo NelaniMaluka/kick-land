@@ -1,4 +1,4 @@
-package com.examplekicklaandwebsite.KickLaand.Security;
+package com.examplekicklaandwebsite.KickLaand.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

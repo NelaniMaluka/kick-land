@@ -12,6 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.examplekicklaandwebsite.KickLaand.controller.UserController;
+import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
+import com.examplekicklaandwebsite.KickLaand.service.UserService;
+
 @ExtendWith(MockitoExtension.class)
 class UserAccountTest_RegisterUser {
 
