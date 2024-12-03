@@ -7,6 +7,7 @@
 }
 .products-card {
   height: max-content;
+  text-align: left;
 }
 .products-card img {
   width: 100%;
@@ -28,15 +29,43 @@
   font-size: "14px";
 }
 
+.products-card-couresel {
+  height: max-content;
+  text-align: left;
+}
+.products-card-couresel img {
+  width: 100%;
+  height: auto;
+}
+.products-card-couresel h5 {
+  margin: 8px 0 8px 0;
+  font-weight: 600;
+}
+.products-card-couresel span {
+  display: block;
+  margin: 8px 0 8px 0;
+}
+.products-card-couresel .category {
+  color: rgb(105, 105, 105);
+}
+.products-card-couresel .out-of-stock {
+  color: "red";
+  font-size: "14px";
+}
 /**********************
 *** Tablet - Desktop **
 **********************/
 @media screen and (min-width: 661px) {
+  .products-card {
+    width: 31%;
+    margin: 10px;
+    padding-bottom: 20px;
+  }
   .couresel {
     width: 95%;
   }
-  .products-card {
-    width: 31%;
+  .products-card-couresel {
+    width: 95%;
     margin: 10px;
     padding-bottom: 20px;
   }
@@ -54,7 +83,7 @@
     margin: 3px;
     padding-bottom: 10px;
   }
-  .couresel {
+  .products-card-couresel {
     width: 100%;
   }
   .products-card h5 {
@@ -64,6 +93,15 @@
     font-size: 15px;
   }
   .category {
+    font-size: 10px;
+  }
+  .products-card-couresel h5 {
+    font-size: 17px;
+  }
+  .products-card-couresel span {
+    font-size: 15px;
+  }
+  .products-card-couresel .category {
     font-size: 10px;
   }
 }

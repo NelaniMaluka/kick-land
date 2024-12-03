@@ -34,7 +34,7 @@ function ProductCategoryCarousel({ category }) {
     return (
       <div
         onClick={() => handleOnClick(product)}
-        className="products-card couresel"
+        className="products-card-couresel .couresel"
         style={{ margin: "40px 0" }}
         key={product.id}
       >
