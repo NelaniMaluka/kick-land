@@ -8,8 +8,6 @@ import com.examplekicklaandwebsite.KickLaand.repository.NewsletterRepository;
 import com.examplekicklaandwebsite.KickLaand.service.NewsletterService;
 import com.examplekicklaandwebsite.KickLaand.util.FormValidation;
 
-import java.util.regex.Pattern;
-
 @Service
 public class NewsletterServiceImpl implements NewsletterService {
 

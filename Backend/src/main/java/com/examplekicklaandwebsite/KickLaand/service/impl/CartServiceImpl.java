@@ -16,10 +16,7 @@ import com.examplekicklaandwebsite.KickLaand.util.FilterCartList;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -60,10 +57,10 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public ResponseEntity<?> addToCart(UserCartDTO request) {
-    	if (request.getProductId() == null || request.getQuantity() <= 0) {
+        if (request.getProductId() == null || request.getQuantity() <= 0) {
             return ResponseEntity.badRequest().body("Invalid product or quantity");
         }
-    	
+
         try {
             Integer userId = request.getUserId();
             UserAccount user = userAccountRepository.findById(userId)
@@ -127,7 +124,5 @@ public class CartServiceImpl implements CartService {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 
 }
