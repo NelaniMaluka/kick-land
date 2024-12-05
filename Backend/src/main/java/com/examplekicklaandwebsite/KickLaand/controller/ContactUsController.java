@@ -12,7 +12,7 @@ import com.examplekicklaandwebsite.KickLaand.model.ContactUs;
 import com.examplekicklaandwebsite.KickLaand.service.ContactUsService;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/api/contact-us")
 public class ContactUsController {
 
     private final ContactUsService contactUsService;
@@ -22,7 +22,7 @@ public class ContactUsController {
         this.contactUsService = contactUsService;
     }
 
-    @PostMapping("/contactUs")
+    @PostMapping()
     public ResponseEntity<String> sendContactUsMessage(@RequestBody ContactUs contactUs) {
         try {
             String response = contactUsService.sendInfo(contactUs);

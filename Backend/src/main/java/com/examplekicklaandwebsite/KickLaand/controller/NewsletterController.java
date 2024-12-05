@@ -11,7 +11,7 @@ import com.examplekicklaandwebsite.KickLaand.model.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.service.NewsletterService;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/api/newsletter")
 public class NewsletterController {
 
     private final NewsletterService newsletterService;
@@ -20,7 +20,7 @@ public class NewsletterController {
         this.newsletterService = newsletterService;
     }
 
-    @PostMapping(path = "/newsletter")
+    @PostMapping()
     public ResponseEntity<String> addNewsletter(@RequestBody Newsletter newsletter) {
         try {
             String response = newsletterService.addNewsletter(newsletter);

@@ -13,7 +13,7 @@ import com.examplekicklaandwebsite.KickLaand.service.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -23,7 +23,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping(path = "/products")
+    @GetMapping()
     public ResponseEntity<?> retrieveProducts() {
         try {
             List<Products> productList = productService.getAllProducts();

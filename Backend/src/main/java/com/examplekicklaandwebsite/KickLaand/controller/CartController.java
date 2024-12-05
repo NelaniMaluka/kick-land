@@ -8,6 +8,7 @@ import com.examplekicklaandwebsite.KickLaand.dto.UserCartDTO;
 import com.examplekicklaandwebsite.KickLaand.service.CartService;
 
 @RestController
+@RequestMapping("/api/cart")
 public class CartController {
 
     private final CartService cartService;
@@ -17,17 +18,17 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/api/user/cart")
+    @GetMapping()
     public ResponseEntity<?> getUserCartItems(@RequestParam String email) {
         return cartService.getUserCartItems(email);
     }
 
-    @PostMapping("/api/user/cart")
+    @PostMapping()
     public ResponseEntity<?> addToCart(@RequestBody UserCartDTO request) {
         return cartService.addToCart(request);
     }
 
-    @PutMapping("/api/user/cart")
+    @PutMapping()
     public ResponseEntity<?> updateCart(
             @RequestParam("userId") Integer userId,
             @RequestParam("productId") Integer productId,
@@ -35,7 +36,7 @@ public class CartController {
         return cartService.updateCart(userId, productId, productQuantity);
     }
 
-    @DeleteMapping("/api/user/cart")
+    @DeleteMapping()
     public ResponseEntity<?> deleteCartItem(
             @RequestParam("userId") Integer userId,
             @RequestParam("productId") Integer productId) {
