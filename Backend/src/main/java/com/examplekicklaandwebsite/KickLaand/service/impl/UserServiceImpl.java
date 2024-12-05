@@ -2,8 +2,6 @@ package com.examplekicklaandwebsite.KickLaand.service.impl;
 
 import java.util.Map;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +25,8 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    public UserServiceImpl(UserAccountRepository userAccountRepository, 
-                          NewsletterRepository newsletterRepository) {
+    public UserServiceImpl(UserAccountRepository userAccountRepository,
+            NewsletterRepository newsletterRepository) {
         this.userAccountRepository = userAccountRepository;
         this.newsletterRepository = newsletterRepository;
     }
@@ -103,8 +101,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-
     @Override
     public ResponseEntity<?> updateUserFields(Integer userId, Map<String, String> updates) {
         try {
@@ -154,13 +150,12 @@ public class UserServiceImpl implements UserService {
 
                 // Return a full response with all the fields
                 UserResponseDTO userResponseDTO = new UserResponseDTO(
-                    user.getId(),
-                    user.getFirstname(),
-                    user.getLastname(),
-                    user.getEmail(),
-                    user.getPhonenumber(),
-                    user.getAddress()
-                );
+                        user.getId(),
+                        user.getFirstname(),
+                        user.getLastname(),
+                        user.getEmail(),
+                        user.getPhonenumber(),
+                        user.getAddress());
                 return ResponseEntity.ok(userResponseDTO);
             } else {
                 return ResponseEntity.notFound().build();
@@ -169,6 +164,5 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.badRequest().body("Failed to update user fields");
         }
     }
-
 
 }
