@@ -16,8 +16,6 @@ import com.examplekicklaandwebsite.KickLaand.service.UserService;
 
 import jakarta.validation.Valid;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @RestController
@@ -43,14 +41,9 @@ public class UserController {
     }
 
     @PutMapping("/update-user/{userId}")
-    public ResponseEntity<?> updateUserFields(@PathVariable @NonNull Integer userId, @Valid @RequestBody Map<String, String> updates) {
+    public ResponseEntity<?> updateUserFields(@PathVariable @NonNull Integer userId,
+            @Valid @RequestBody Map<String, String> updates) {
         return userService.updateUserFields(userId, updates);
     }
 
-    @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody UserAccount userAccount) {
-    	// Decode the email if it has been URL-encoded
-        String decodedEmail = URLDecoder.decode(userAccount.getEmail(), StandardCharsets.UTF_8);
-        return userService.forgotPassword(decodedEmail);
-    }
 }

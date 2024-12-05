@@ -15,7 +15,6 @@ import com.examplekicklaandwebsite.KickLaand.model.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.repository.NewsletterRepository;
 import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
-import com.examplekicklaandwebsite.KickLaand.service.PasswordResetService;
 import com.examplekicklaandwebsite.KickLaand.service.UserService;
 import com.examplekicklaandwebsite.KickLaand.util.FormValidation;
 import com.examplekicklaandwebsite.KickLaand.util.UserResponse;
@@ -25,16 +24,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserAccountRepository userAccountRepository;
     private final NewsletterRepository newsletterRepository;
-    private final PasswordResetService passwordResetService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public UserServiceImpl(UserAccountRepository userAccountRepository, 
-                          NewsletterRepository newsletterRepository,
-                          PasswordResetService passwordResetService) {
+                          NewsletterRepository newsletterRepository) {
         this.userAccountRepository = userAccountRepository;
         this.newsletterRepository = newsletterRepository;
-        this.passwordResetService = passwordResetService;
     }
 
     @Override
@@ -60,7 +56,7 @@ public class UserServiceImpl implements UserService {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
                 }
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
@@ -174,28 +170,5 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-    @Override
-    public ResponseEntity<String> forgotPassword(String email) {
-        try {
-            if (!FormValidation.isValidEmail(email)) {
-                return ResponseEntity.badRequest().body("Invalid email format");
-            }
-
-            // Call the method (assume it throws an exception if the email doesn't exist)
-            passwordResetService.createPasswordResetRequest(email);
-
-            // Generic message to avoid email enumeration
-            return ResponseEntity.ok("A reset link has been sent to your email.");
-            
-        } catch (EntityNotFoundException e) {
-            // Still return a generic response to avoid exposing user information
-            return ResponseEntity.ok("A reset link has been sent to your email.");
-            
-        } catch (Exception e) {
-            // Log the exception for debugging (avoid exposing details in the response)
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An internal error occurred.");
-        }
-    }
 
 }
