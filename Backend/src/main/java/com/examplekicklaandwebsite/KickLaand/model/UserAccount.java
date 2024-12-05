@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -38,6 +39,9 @@ public class UserAccount {
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     public List<UserOrders> orders;
+    
+    @OneToOne(mappedBy= "user")
+    private ForgotPassword forgotPassword;
 
     @Pattern(regexp = "^\\+?[0-9]{1,15}$", message = "Please provide a valid phone number")
     public String phonenumber;
