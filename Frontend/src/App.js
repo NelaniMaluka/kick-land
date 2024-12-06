@@ -7,6 +7,7 @@ import AuthProvider from "./Context/AuthContext";
 import { PrimeReactProvider } from "primereact/api";
 import HomePage from "./Pages/Home/HomePage";
 import AuthRoutes from "./Routes/AuthRoutes";
+import ForgotPasswordRoutes from "./Routes/ForgotPasswordRoutes";
 import ShopRoutes from "./Routes/ShopRoutes";
 import InfoRoutes from "./Routes/InfoRoutes";
 import DashboardRoutes from "./Routes/DashboardRoutes";
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 {/* Spread individual routes */}
                 {AuthRoutes()}
+                {ForgotPasswordRoutes()}
                 {ShopRoutes()}
                 {InfoRoutes()}
                 {DashboardRoutes()}

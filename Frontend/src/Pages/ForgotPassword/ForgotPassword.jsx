@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert.jsx";
+import isValidEmail from "../../Utils/EmailValidation.js";
 
 import "../../Components/Styling/Form.css";
 
@@ -11,15 +13,10 @@ function ForgotPassword() {
   const [EmailError, setEmailError] = useState(false);
 
   const useContext = useAuth();
+  const navigate = useNavigate();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
-  }
-
-  function isValidEmail(email) {
-    // Basic email format validation
-    const emailRegex = /\S+@\S+\.\S+/;
-    return emailRegex.test(email);
   }
 
   async function handleSubmit(event) {
@@ -33,9 +30,11 @@ function ForgotPassword() {
     }
 
     const result = await useContext.forgotPassword(email);
+    console.log(result);
     try {
       if (result.success) {
         showSuccessMessage("Success!", result.response.data);
+        navigate("/Verify-Otp");
       } else {
         ErrorMessageAlert({ message: "Invalid Credentials" });
       }
