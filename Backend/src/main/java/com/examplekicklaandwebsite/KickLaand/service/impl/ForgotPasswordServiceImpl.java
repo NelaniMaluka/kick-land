@@ -15,12 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 
 @Service
+@Transactional
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
     private final UserAccountRepository userRepository;
@@ -103,9 +105,13 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
             String newPassword = passwordEncoder.encode(changePassword.password());
 
-            user.setPassword(newPassword);
+             user = user.toBuilder()
+                    .password(newPassword)
+                    .build();
 
             userRepository.save(user);
+
+            forgotPasswordRepository.deleteByUser(user);
 
             return ResponseEntity.ok("Password Successfully updated");
         } catch (Exception e){
