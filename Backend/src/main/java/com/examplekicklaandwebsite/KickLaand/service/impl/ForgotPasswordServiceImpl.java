@@ -30,7 +30,8 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     private final ForgotPasswordRepository forgotPasswordRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public ForgotPasswordServiceImpl(UserAccountRepository userRepository,EmailService emailService,ForgotPasswordRepository forgotPasswordRepository) {
+    public ForgotPasswordServiceImpl(UserAccountRepository userRepository, EmailService emailService,
+            ForgotPasswordRepository forgotPasswordRepository) {
         super();
         this.userRepository = userRepository;
         this.emailService = emailService;
@@ -38,7 +39,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     }
 
     @Override
-    public ResponseEntity<?> verifyEmail(UserAccount userAccount){
+    public ResponseEntity<?> verifyEmail(UserAccount userAccount) {
         try {
             UserAccount user = userRepository.findByEmail(userAccount.getEmail());
             if (user == null) {
@@ -55,7 +56,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
             ForgotPassword fp = ForgotPassword.builder()
                     .otp(otp)
-                    .expirationTime(new Date(System.currentTimeMillis() + 70 * 1000))
+                    .expirationTime(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
                     .user(user)
                     .build();
 
@@ -63,13 +64,13 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             forgotPasswordRepository.save(fp);
 
             return ResponseEntity.ok("Email sent for verification");
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
     @Override
-    public ResponseEntity<?> verifyOtp(OtpRequest otpRequest){
+    public ResponseEntity<?> verifyOtp(OtpRequest otpRequest) {
         try {
             UserAccount user = userRepository.findByEmail(otpRequest.email());
             if (user == null) {
@@ -80,21 +81,21 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
                     .findByOtpandUser(otpRequest.otp(), user)
                     .orElseThrow(() -> new RuntimeException("Invalid OTP for email: " + otpRequest.email()));
 
-            if (fp.getExpirationTime().before(Date.from(Instant.now()))){
+            if (fp.getExpirationTime().before(Date.from(Instant.now()))) {
                 forgotPasswordRepository.deleteById(fp.getFpid());
                 return new ResponseEntity<>("Otp has expired", HttpStatus.EXPECTATION_FAILED);
             }
 
             return ResponseEntity.ok("OTP Verified");
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
     @Override
-    public ResponseEntity<?> changePassword(ChangePassword changePassword){
+    public ResponseEntity<?> changePassword(ChangePassword changePassword) {
         try {
-            if(!Objects.equals(changePassword.password(), changePassword.repeatPassword())){
+            if (!Objects.equals(changePassword.password(), changePassword.repeatPassword())) {
                 return new ResponseEntity<>("Please enter the password again!", HttpStatus.EXPECTATION_FAILED);
             }
 
@@ -105,7 +106,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
             String newPassword = passwordEncoder.encode(changePassword.password());
 
-             user = user.toBuilder()
+            user = user.toBuilder()
                     .password(newPassword)
                     .build();
 
@@ -114,7 +115,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             forgotPasswordRepository.deleteByUser(user);
 
             return ResponseEntity.ok("Password Successfully updated");
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
