@@ -10,7 +10,12 @@ import jakarta.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Builder;
+import lombok.Getter;
+
 @Entity
+@Getter
+@Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContactUs {
 
@@ -31,56 +36,4 @@ public class ContactUs {
     @NotNull(message = "Message is required")
     private String message;
 
-    // Default constructor for JPA
-    public ContactUs() {
-    }
-
-    // Constructor with parameters
-    public ContactUs(String name, String email, String phoneNumber, String message) {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.message = message;
-    }
-
-    // Getters and setters
-    public int getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
