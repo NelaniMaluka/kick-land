@@ -34,7 +34,6 @@ public class NewsletterServiceImpl implements NewsletterService {
             throw new IllegalStateException("Email Already Subscribed");
         }
 
-        newsletter.setEmail(email);
         newsletterRepository.save(newsletter);
 
         return "We Received Your Email";

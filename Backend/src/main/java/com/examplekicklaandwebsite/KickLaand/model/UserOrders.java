@@ -16,8 +16,16 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserOrders {
 
@@ -45,57 +53,5 @@ public class UserOrders {
 		        message = "Please provide a valid phone number"
 		    )
 		private String userPhoneNumber;
-
-		public UserOrders() {
-			// You can initialize any default values here if needed
-		}
-
-		public Integer getOrderId() {
-			return orderId;
-		}
-
-		public void setOrderId(Integer orderId) {
-			this.orderId = orderId;
-		}
-
-		public UserAccount getUserId() {
-			return userId;
-		}
-
-		public void setUserId(UserAccount userId) {
-			this.userId = userId;
-		}
-
-		public List<UserCarts> getProducts() {
-			return products;
-		}
-
-		public void setProducts(List<UserCarts> products) {
-			this.products = products;
-		}
-
-		public String getUserEmail() {
-			return userEmail;
-		}
-
-		public void setUserEmail(String userEmail) {
-			this.userEmail = userEmail;
-		}
-
-		public String getUserAddress() {
-			return userAddress;
-		}
-
-		public void setUserAddress(String userAddress) {
-			this.userAddress = userAddress;
-		}
-
-		public String getUserPhoneNumber() {
-			return userPhoneNumber;
-		}
-
-		public void setUserPhoneNumber(String userPhoneNumber) {
-			this.userPhoneNumber = userPhoneNumber;
-		}
 
 }

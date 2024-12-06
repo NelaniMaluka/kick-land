@@ -36,4 +36,5 @@ public class ForgotPasswordController {
 	public ResponseEntity<?> changePasswordHandler(@Valid @RequestBody ChangePassword changePassword){
 		return forgotPasswordService.changePassword(changePassword);
 	}
+
 }

@@ -9,8 +9,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserCarts {
 
@@ -34,57 +42,5 @@ public class UserCarts {
 	@ManyToOne
 	@JoinColumn(name = "orderId", insertable = false, updatable = false)
 	private UserOrders order;
-
-	public UserCarts() {
-		// You can initialize any default values here if needed
-	}
-
-	public Integer getUserCartId() {
-		return userCartId;
-	}
-
-	public void setUserCartId(Integer userCartId) {
-		this.userCartId = userCartId;
-	}
-
-	public UserAccount getUserId() {
-		return userId;
-	}
-
-	public void setUserId(UserAccount userId) {
-		this.userId = userId;
-	}
-
-	public Integer getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Integer productId) {
-		this.productId = productId;
-	}
-
-	public String getProductSize() {
-		return productSize;
-	}
-
-	public void setProductSize(String productSize) {
-		this.productSize = productSize;
-	}
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public UserOrders getOrder() {
-		return order;
-	}
-
-	public void setOrder(UserOrders order) {
-		this.order = order;
-	}
 
 }

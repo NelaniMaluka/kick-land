@@ -66,11 +66,12 @@ public class CartServiceImpl implements CartService {
             UserAccount user = userAccountRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-            UserCarts cartItem = new UserCarts();
-            cartItem.setProductId(request.getProductId());
-            cartItem.setQuantity(request.getQuantity());
-            cartItem.setProductSize(request.getSize());
-            cartItem.setUserId(user);
+            UserCarts cartItem = UserCarts.builder()
+                    .productId(request.getProductId())
+                    .quantity(request.getQuantity())
+                    .productSize(request.getSize())
+                    .userId(user)
+                    .build();
 
             cartRepository.save(cartItem);
 
@@ -97,7 +98,9 @@ public class CartServiceImpl implements CartService {
                         .findFirst()
                         .orElseThrow(() -> new EntityNotFoundException("Cart item not found"));
 
-                cartItemToUpdate.setQuantity(productQuantity);
+                cartItemToUpdate = cartItemToUpdate.toBuilder()
+                        .quantity(productQuantity)
+                        .build();
 
                 cartRepository.save(cartItemToUpdate);
 

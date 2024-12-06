@@ -1,7 +1,11 @@
 package com.examplekicklaandwebsite.KickLaand.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.Getter;
 
+@Getter
+@Builder
 public class UserCartDTO {
 
 	@NotNull(message = "UserId cannot be null")
@@ -28,38 +32,6 @@ public class UserCartDTO {
 		this.userId = userId;
 		this.productId = productId;
 		this.quantity = quantity;
-		this.size = size;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public Integer getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Integer productId) {
-		this.productId = productId;
-	}
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
 		this.size = size;
 	}
 

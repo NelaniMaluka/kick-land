@@ -7,8 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
+import lombok.Getter;
 
 @Entity
+@Getter
+@Builder
 public class Newsletter {
 
     @Id
@@ -20,19 +24,4 @@ public class Newsletter {
     @Column(unique = true)
     private String email;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getNewsletterId() {
-        return newsletterId;
-    }
-
-    public void setNewsletterId(int newsletterId) {
-        this.newsletterId = newsletterId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }

@@ -11,8 +11,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor // For JPA
+@AllArgsConstructor // For Builder
+@Getter
+@Builder
 public class ProductStock {
 
     @Id
@@ -64,102 +72,4 @@ public class ProductStock {
     @Min(value = 0, message = "Size12 cannot go below 0")
     private Integer Size12;
 
-    public ProductStock() {}
-
-    // Getters and Setters
-    public Integer getStockId() {
-        return stockId;
-    }
-
-    public void setStockId(Integer stockId) {
-        this.stockId = stockId;
-    }
-
-    public Products getProducts() {
-        return products;
-    }
-
-    public void setProducts(Products products) {
-        this.products = products;
-    }
-
-    public Integer getSize3() {
-        return Size3;
-    }
-
-    public void setSize3(Integer size3) {
-        Size3 = size3;
-    }
-
-    public Integer getSize4() {
-        return Size4;
-    }
-
-    public void setSize4(Integer size4) {
-        Size4 = size4;
-    }
-
-    public Integer getSize5() {
-        return Size5;
-    }
-
-    public void setSize5(Integer size5) {
-        Size5 = size5;
-    }
-
-    public Integer getSize6() {
-        return Size6;
-    }
-
-    public void setSize6(Integer size6) {
-        Size6 = size6;
-    }
-
-    public Integer getSize7() {
-        return Size7;
-    }
-
-    public void setSize7(Integer size7) {
-        Size7 = size7;
-    }
-
-    public Integer getSize8() {
-        return Size8;
-    }
-
-    public void setSize8(Integer size8) {
-        Size8 = size8;
-    }
-
-    public Integer getSize9() {
-        return Size9;
-    }
-
-    public void setSize9(Integer size9) {
-        Size9 = size9;
-    }
-
-    public Integer getSize10() {
-        return Size10;
-    }
-
-    public void setSize10(Integer size10) {
-        Size10 = size10;
-    }
-
-    public Integer getSize11() {
-        return Size11;
-    }
-
-    public void setSize11(Integer size11) {
-        Size11 = size11;
-    }
-
-    public Integer getSize12() {
-        return Size12;
-    }
-
-    public void setSize12(Integer size12) {
-        Size12 = size12;
-    }
 }
