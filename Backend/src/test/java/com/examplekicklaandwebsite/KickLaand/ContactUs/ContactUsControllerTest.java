@@ -29,8 +29,12 @@ class ContactUsControllerTest {
     // 1. Valid input test case
     @Test
     void sendContactUsMessage_ValidInput_ShouldReturnSuccessMessage() throws Exception {
-        ContactUs contactUs = new ContactUs("John Doe", "john.doe@example.com", "+27876543209",
-                "This is a test message");
+        ContactUs contactUs = ContactUs.builder()
+                .name("John Doe")
+                .email("john.doe@example.com")
+                .phoneNumber("+27876543209")
+                .message("This is a test message")
+                .build();
 
         // Mock service response for valid input
         when(contactUsServiceMock.sendInfo(contactUs)).thenReturn("We Received your message");
@@ -51,8 +55,12 @@ class ContactUsControllerTest {
     })
     void sendContactUsMessage_MissingFields_ShouldReturnBadRequest(String name, String email, String phoneNumber,
             String message) throws Exception {
-        ContactUs contactUs = new ContactUs(toNullIfEmpty(name), toNullIfEmpty(email), toNullIfEmpty(phoneNumber),
-                toNullIfEmpty(message));
+        ContactUs contactUs = ContactUs.builder()
+                .name(toNullIfEmpty(name))
+                .email(toNullIfEmpty(email))
+                .phoneNumber(toNullIfEmpty(phoneNumber))
+                .message(toNullIfEmpty(message))
+                .build();
 
         // Simulate exception for missing fields
         doThrow(new IllegalArgumentException("All fields are required."))
@@ -72,7 +80,12 @@ class ContactUsControllerTest {
     })
     void sendContactUsMessage_InvalidFormat_ShouldReturnBadRequest(String name, String email, String phoneNumber,
             String message) throws Exception {
-        ContactUs contactUs = new ContactUs(name, email, phoneNumber, message);
+        ContactUs contactUs = ContactUs.builder()
+                .name(name)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .message(message)
+                .build();
 
         // Simulate exception for invalid format
         doThrow(new IllegalArgumentException("Invalid format."))
@@ -87,7 +100,12 @@ class ContactUsControllerTest {
     // 4. Service exception test
     @Test
     void sendContactUsMessage_ServiceException_ShouldReturnInternalServerError() throws Exception {
-        ContactUs contactUs = new ContactUs("John Doe", "john.doe@example.com", "+27876543209", "Test message");
+        ContactUs contactUs = ContactUs.builder()
+                .name("John Doe")
+                .email("john.doe@example.com")
+                .phoneNumber( "+27876543209")
+                .message("Test message")
+                .build();
 
         // Simulate service throwing an exception
         when(contactUsServiceMock.sendInfo(any(ContactUs.class))).thenThrow(new RuntimeException("Service error"));

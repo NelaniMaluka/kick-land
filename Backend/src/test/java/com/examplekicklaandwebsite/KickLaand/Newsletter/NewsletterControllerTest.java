@@ -30,8 +30,7 @@ class NewsletterControllerTest {
     void sendSuccessfulEmail() throws Exception {
         // Arrange
         String email = "testemail@gmail.com";
-        Newsletter newsletter = new Newsletter();
-        newsletter.setEmail(email);
+        Newsletter newsletter = Newsletter.builder().email(email).build();
 
         // Using doReturn to mock the behavior of newsletterServiceMock.addNewsletter
         doReturn("We Received Your Email").when(newsletterServiceMock).addNewsletter(any(Newsletter.class));
@@ -47,8 +46,7 @@ class NewsletterControllerTest {
     @Test
     void sendInvalidEmail_NullEmail() throws Exception {
         // Arrange
-        Newsletter newsletter = new Newsletter();
-        newsletter.setEmail(null);
+        Newsletter newsletter = Newsletter.builder().email(null).build();
 
         // Use doThrow to simulate an exception for null email
         doThrow(new IllegalArgumentException("Please Enter a Valid Email"))
@@ -66,8 +64,7 @@ class NewsletterControllerTest {
     void sendDuplicateEmail() throws Exception {
         // Arrange
         String email = "existing_email@gmail.com";
-        Newsletter newsletter = new Newsletter();
-        newsletter.setEmail(email);
+        Newsletter newsletter = Newsletter.builder().email(email).build();
 
         // Use doThrow to simulate an exception for duplicate email
         doThrow(new IllegalStateException("Email Already Subscribed"))
@@ -85,8 +82,7 @@ class NewsletterControllerTest {
     void sendInvalidEmail_InvalidFormat() throws Exception {
         // Arrange
         String email = "invalid_email"; // Missing @ and domain
-        Newsletter newsletter = new Newsletter();
-        newsletter.setEmail(email);
+        Newsletter newsletter = Newsletter.builder().email(email).build();
 
         // Use doThrow to simulate an exception for invalid format
         doThrow(new IllegalArgumentException("Invalid Email Format"))

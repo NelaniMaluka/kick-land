@@ -31,7 +31,12 @@ class UserAccountTest_RegisterUser {
         // Arrange
         String email = "validemail@gmail.com";
         String password = "ValidP@ssw0rd";
-        UserAccount userAccount = new UserAccount("John", "Doe", email, password);
+        UserAccount userAccount = UserAccount.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .email(email)
+                .password(password)
+                .build();
 
         // Mock the service layer to return a successful response
         doReturn(ResponseEntity.ok("Successfully registered user"))
@@ -50,7 +55,12 @@ class UserAccountTest_RegisterUser {
         // Arrange
         String email = "invalidEmail";
         String password = "ValidP@ssw0rd";
-        UserAccount userAccount = new UserAccount("John", "Doe", email, password);
+        UserAccount userAccount = UserAccount.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .email(email)
+                .password(password)
+                .build();
 
         // Mock the service layer to return a bad request for invalid email
         doReturn(ResponseEntity.badRequest().body("Invalid email and/or password"))
@@ -69,7 +79,12 @@ class UserAccountTest_RegisterUser {
         // Arrange
         String email = "validemail@gmail.com";
         String password = "short";
-        UserAccount userAccount = new UserAccount("John", "Doe", email, password);
+        UserAccount userAccount = UserAccount.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .email(email)
+                .password(password)
+                .build();
 
         // Mock the service layer to return a bad request for short password
         doReturn(ResponseEntity.badRequest().body("Invalid email and/or password"))
@@ -87,7 +102,12 @@ class UserAccountTest_RegisterUser {
     void testUserAlreadyExists() {
         // Arrange
         String email = "existing_email@gmail.com";
-        UserAccount userAccount = new UserAccount("John", "Doe", email, "ValidP@ssw0rd");
+        UserAccount userAccount = UserAccount.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .email(email)
+                .password("ValidP@ssw0rd")
+                .build();
 
         // Simulating the response for existing email
         doReturn(ResponseEntity.badRequest().body("User with this email already exists"))
@@ -104,7 +124,12 @@ class UserAccountTest_RegisterUser {
     @Test
     void testDatabaseError() {
         // Arrange
-        UserAccount userAccount = new UserAccount("John", "Doe", "testemail@gmail.com", "ValidP@ssw0rd");
+        UserAccount userAccount = UserAccount.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .email("testemail@gmail.com")
+                .password("ValidP@ssw0rd")
+                .build();
 
         // Simulate a database error
         doReturn(ResponseEntity.badRequest().body("An error occurred while creating the account"))
