@@ -25,7 +25,7 @@ public class CartControllerTests {
     @InjectMocks
     private CartController cartController; // Injecting the mock service into the controller
 
-    private String validEmail = "test@example.com"; // A valid email for testing
+    private final String validEmail = "test@example.com"; // A valid email for testing
     private UserCartDTO validCartDTO; // A valid DTO for adding/updating the cart
 
     @BeforeEach
