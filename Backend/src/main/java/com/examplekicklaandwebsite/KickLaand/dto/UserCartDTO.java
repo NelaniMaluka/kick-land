@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+
 @Builder
 public class UserCartDTO {
 
@@ -19,10 +20,6 @@ public class UserCartDTO {
 
 	@NotNull(message = "Product size cannot be null")
 	private String size;
-
-	public UserCartDTO() {
-		// You can initialize any default values here if needed
-	}
 
 	public UserCartDTO(@NotNull(message = "UserId cannot be null") Integer userId,
 			@NotNull(message = "Product ID cannot be null") Integer productId,

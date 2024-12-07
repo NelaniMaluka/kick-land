@@ -44,8 +44,6 @@ public class Products {
     @NotNull
     private String priceUrl;
 
-    public Products() {}
-
     // Parameterized constructor
     public Products(Integer productId, String productName, BigDecimal productPrice, String productCategory, List<ProductStock> stock, String image1, String image2, String image3, String image4, String priceUrl) {
         this.productId = productId;

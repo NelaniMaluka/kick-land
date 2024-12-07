@@ -26,7 +26,7 @@ public class ContactUsServiceImpl implements ContactUsService {
 
     @Override
     @Transactional
-    public String sendInfo(ContactUs contactUs) throws Exception {
+    public String sendInfo(ContactUs contactUs) {
         // Trim and validate fields
         String name = trimAndValidate(contactUs.getName(), "Name");
         String email = trimAndValidate(contactUs.getEmail(), "Email");
