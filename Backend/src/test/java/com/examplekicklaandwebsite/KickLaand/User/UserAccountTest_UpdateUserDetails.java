@@ -3,7 +3,6 @@ package com.examplekicklaandwebsite.KickLaand.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
 import com.examplekicklaandwebsite.KickLaand.controller.UserController;
@@ -15,6 +14,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 public class UserAccountTest_UpdateUserDetails {
 
@@ -25,7 +25,7 @@ public class UserAccountTest_UpdateUserDetails {
     private UserServiceImpl userService; // Mocked service layer
 
     public UserAccountTest_UpdateUserDetails() {
-        MockitoAnnotations.openMocks(this);
+        openMocks(this);
     }
 
     @SuppressWarnings("null")
@@ -53,6 +53,7 @@ public class UserAccountTest_UpdateUserDetails {
         // Assert
         assertEquals(200, response.getStatusCode().value());
         UserResponseDTO responseBody = (UserResponseDTO) response.getBody();
+        assert responseBody != null;
         assertEquals("NewName", responseBody.getFirstname());
         assertEquals("NewSurname", responseBody.getLastname());
         assertEquals("newemail@example.com", responseBody.getEmail()); // Ensure email matches
