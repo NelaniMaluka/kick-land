@@ -36,7 +36,7 @@ public class UserAccount {
 
     @Valid
     @Column(unique = true)
-    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Please provide a valid email address")
+    @Pattern(regexp = "^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Please provide a valid email address")
     public String email;
 
     @Valid
