@@ -47,6 +47,9 @@ public class UserAccount {
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     public List<UserOrders> orders;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    public List<CompletedOrders> completedOrders;
     
     @OneToOne(mappedBy= "user")
     private ForgotPassword forgotPassword;

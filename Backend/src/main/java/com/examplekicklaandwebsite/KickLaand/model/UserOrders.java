@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -29,29 +30,30 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserOrders {
 
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private Integer orderId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer orderId;
 
-		@ManyToOne
-		@JoinColumn(name = "userId")
-		private UserAccount userId;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private UserAccount userId;
 
-		@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-		@JoinColumn(name= "orderId")
-		List <UserCarts> products;
-		
-		@Valid
-		@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
-		private String userEmail;
-		
-		@NotNull
-		private String userAddress;
-		
-		@Pattern(
-		        regexp = "^\\+?[0-9\\-\\s]*$", 
-		        message = "Please provide a valid phone number"
-		    )
-		private String userPhoneNumber;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "orderId")
+	List<UserCarts> products;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "orderId")
+	List<CompletedOrders> completedOrders;
+
+	@Valid
+	@Email(message = "Invalid email format")
+	private String userEmail;
+
+	@NotNull
+	private String userAddress;
+
+	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
+	private String userPhoneNumber;
 
 }
