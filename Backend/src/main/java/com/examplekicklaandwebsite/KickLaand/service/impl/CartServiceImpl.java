@@ -12,7 +12,7 @@ import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
 import com.examplekicklaandwebsite.KickLaand.repository.CartRepository;
 import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
 import com.examplekicklaandwebsite.KickLaand.service.CartService;
-import com.examplekicklaandwebsite.KickLaand.util.FilterCartList;
+import com.examplekicklaandwebsite.KickLaand.util.FilterLists;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -42,7 +42,7 @@ public class CartServiceImpl implements CartService {
                 if (userCart.isEmpty()) {
                     return ResponseEntity.ok(null);
                 } else {
-                    Object filteredCartList = FilterCartList.getFilteredCartList(userCart);
+                    Object filteredCartList = FilterLists.getFilteredCartList(userCart);
                     return ResponseEntity.ok(filteredCartList);
                 }
             }
@@ -76,7 +76,7 @@ public class CartServiceImpl implements CartService {
 
             cartRepository.save(cartItem);
 
-            Object filteredCartList = FilterCartList.getFilteredCartList(user.getUserCart());
+            Object filteredCartList = FilterLists.getFilteredCartList(user.getUserCart());
             return ResponseEntity.ok(filteredCartList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -105,7 +105,7 @@ public class CartServiceImpl implements CartService {
 
                 cartRepository.save(cartItemToUpdate);
 
-                Object filteredCartList = FilterCartList.getFilteredCartList(user.getUserCart());
+                Object filteredCartList = FilterLists.getFilteredCartList(user.getUserCart());
                 return ResponseEntity.ok(filteredCartList);
             }
         } catch (Exception e) {
@@ -122,7 +122,7 @@ public class CartServiceImpl implements CartService {
             cartRepository.deleteByProductIdAndUserId(productId, user);
 
             List<UserCarts> userCartItems = user.getUserCart();
-            Object filteredCartList = FilterCartList.getFilteredCartList(userCartItems);
+            Object filteredCartList = FilterLists.getFilteredCartList(userCartItems);
             return ResponseEntity.ok(filteredCartList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
