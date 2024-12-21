@@ -1,4 +1,4 @@
-package com.examplekicklaandwebsite.KickLaand.dto;
+package com.examplekicklaandwebsite.KickLaand.response;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ProductResponseDTO {
+public class ProductResponse {
 
     private Integer productId;
 
@@ -28,7 +28,7 @@ public class ProductResponseDTO {
     private String image3;
     private String image4;
     
-	public ProductResponseDTO(Integer productId,  String name,
+	public ProductResponse(Integer productId,  String name,
 			 BigDecimal price,
 			String category, List<ProductStock> sizes,
 			 String image1, String image2, String image3,

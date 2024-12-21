@@ -1,11 +1,11 @@
-package com.examplekicklaandwebsite.KickLaand.dto;
+package com.examplekicklaandwebsite.KickLaand.response;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class UserResponseDTO {
+public class UserResponse {
 	private Integer id;
     private String firstname;
     private String lastname;
@@ -13,7 +13,7 @@ public class UserResponseDTO {
     private String phoneNumber;
     private String address;
     
-    public UserResponseDTO(Integer id, String firstname, String lastname, String email, String phoneNumber, String address) {
+    public UserResponse(Integer id, String firstname, String lastname, String email, String phoneNumber, String address) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;

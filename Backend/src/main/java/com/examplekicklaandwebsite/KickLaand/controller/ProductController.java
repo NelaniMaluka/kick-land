@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.examplekicklaandwebsite.KickLaand.dto.ProductResponseDTO;
+import com.examplekicklaandwebsite.KickLaand.response.ProductResponse;
 import com.examplekicklaandwebsite.KickLaand.model.Products;
 import com.examplekicklaandwebsite.KickLaand.service.ProductService;
 
@@ -32,7 +32,7 @@ public class ProductController {
                 return ResponseEntity.noContent().build(); // Handle empty list
             } else {
             	
-            	List<ProductResponseDTO> responseDTOlist = productList.stream()
+            	List<ProductResponse> responseDTOlist = productList.stream()
             			.map(this::getProductsWithoutPriceUrl)
             			.toList();
                 return ResponseEntity.ok(responseDTOlist);
@@ -42,8 +42,8 @@ public class ProductController {
         }
     }
     
-    private ProductResponseDTO getProductsWithoutPriceUrl(Products product){
-    	return new ProductResponseDTO(
+    private ProductResponse getProductsWithoutPriceUrl(Products product){
+    	return new ProductResponse(
     				product.getProductId(),
     				product.getProductName(),
     				product.getProductPrice(),

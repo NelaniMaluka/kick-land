@@ -6,7 +6,7 @@ import org.mockito.Mock;
 import org.springframework.http.ResponseEntity;
 
 import com.examplekicklaandwebsite.KickLaand.controller.UserController;
-import com.examplekicklaandwebsite.KickLaand.dto.UserResponseDTO;
+import com.examplekicklaandwebsite.KickLaand.response.UserResponse;
 import com.examplekicklaandwebsite.KickLaand.service.impl.UserServiceImpl;
 
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class UserAccountTest_UpdateUserDetails {
         updates.put("address", "New Address");
 
         // Mock the updated user response after updates
-        UserResponseDTO userResponseDTO = new UserResponseDTO(
+        UserResponse userResponseDTO = new UserResponse(
                 userId, "NewName", "NewSurname", "newemail@example.com", "1234567890", "New Address");
 
         // Ensure the service method returns the mocked response
@@ -52,7 +52,7 @@ public class UserAccountTest_UpdateUserDetails {
 
         // Assert
         assertEquals(200, response.getStatusCode().value());
-        UserResponseDTO responseBody = (UserResponseDTO) response.getBody();
+        UserResponse responseBody = (UserResponse) response.getBody();
         assert responseBody != null;
         assertEquals("NewName", responseBody.getFirstname());
         assertEquals("NewSurname", responseBody.getLastname());
