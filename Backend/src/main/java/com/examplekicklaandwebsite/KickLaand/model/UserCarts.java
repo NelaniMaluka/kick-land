@@ -39,8 +39,11 @@ public class UserCarts {
 	@NotNull(message = "Product quantity cannot be null")
 	private Integer quantity;
 
+	@NotNull
+	private Integer price;
+
 	@ManyToOne
-	@JoinColumn(name = "orderId", insertable = false, updatable = false)
+	@JoinColumn(name = "orderId")
 	private UserOrders order;
 
 }

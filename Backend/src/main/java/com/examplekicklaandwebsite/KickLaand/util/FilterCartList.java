@@ -19,6 +19,7 @@ public class FilterCartList {
                     filteredCartItem.put("productId", cart.getProductId());
                     filteredCartItem.put("quantity", cart.getQuantity());
                     filteredCartItem.put("size", cart.getProductSize());
+                    filteredCartItem.put("price", cart.getPrice());
                     return filteredCartItem;
                 })
                 .collect(Collectors.toList());

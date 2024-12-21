@@ -71,6 +71,7 @@ public class CartServiceImpl implements CartService {
                     .quantity(request.getQuantity())
                     .productSize(request.getSize())
                     .userId(user)
+                    .price(request.getPrice())
                     .build();
 
             cartRepository.save(cartItem);
