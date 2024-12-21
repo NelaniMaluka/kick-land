@@ -30,7 +30,7 @@ public class CartControllerTests {
 
     @BeforeEach
     public void setUp() {
-        validCartDTO = new UserCartDTO(1, 1, 2, "M"); // Setting up a mock DTO before each test
+        validCartDTO = UserCartDTO.builder().userId(1).size("4").quantity(1).productId(1).price(2000).build(); // Setting up a mock DTO before each test
     }
 
     @Test
