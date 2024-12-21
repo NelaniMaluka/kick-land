@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.examplekicklaandwebsite.KickLaand.model.CompletedOrders;
 import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
+import com.examplekicklaandwebsite.KickLaand.model.UserOrders;
 
-public class FilterCartList {
+public class FilterLists {
 	
-	private FilterCartList () {}
+	private FilterLists() {}
 	
     public static List<Map<String, Object>> getFilteredCartList(List<UserCarts> userCart) {
         return userCart.stream()
@@ -21,6 +23,20 @@ public class FilterCartList {
                     filteredCartItem.put("size", cart.getProductSize());
                     filteredCartItem.put("price", cart.getPrice());
                     return filteredCartItem;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<Map<String, Object>> getFilteredOrderList(List<CompletedOrders> userOrder) {
+        return userOrder.stream()
+                .map(cart -> {
+                    Map<String, Object> filteredOrderItem = new HashMap<>();
+                    filteredOrderItem.put("completedOrderId", cart.getComplatedOrderId());
+                    filteredOrderItem .put("productId", cart.getProductId());
+                    filteredOrderItem .put("quantity", cart.getQuantity());
+                    filteredOrderItem .put("size", cart.getProductSize());
+                    filteredOrderItem .put("price", cart.getPrice());
+                    return filteredOrderItem ;
                 })
                 .collect(Collectors.toList());
     }
