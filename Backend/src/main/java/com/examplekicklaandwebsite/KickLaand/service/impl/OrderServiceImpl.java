@@ -9,7 +9,9 @@ import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
 import com.examplekicklaandwebsite.KickLaand.response.PaymentResponse;
 import com.examplekicklaandwebsite.KickLaand.service.OrderService;
 import com.examplekicklaandwebsite.KickLaand.service.PaymentService;
+import com.examplekicklaandwebsite.KickLaand.util.FilterLists;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,28 @@ public class OrderServiceImpl implements OrderService {
         this.paymentService = paymentService;
     }
 
+    public ResponseEntity<?> getOrder(Integer userId) {
+        try {
+            UserAccount user = userAccountRepository.findById(userId)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+                List<CompletedOrders> userOrders = user.getCompletedOrders();
+                if (userOrders.isEmpty()) {
+                    return ResponseEntity.ok(null);
+                } else {
+                    Object filteredCartList = FilterLists.getFilteredOrderList(userOrders);
+                    return ResponseEntity.ok(filteredCartList);
+                }
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     public ResponseEntity<?> createOrder(OrderRequest req) throws Exception {
         try {
             UserAccount user = userAccountRepository.findById(req.userId())
@@ -34,36 +58,41 @@ public class OrderServiceImpl implements OrderService {
 
             List<UserCarts> userCartItems = user.getUserCart();
 
-            // Creating the payment link via the service
-            PaymentResponse response = paymentService.createPaymentLink(userCartItems);
+            if (userCartItems.isEmpty()){
+                return ResponseEntity.ok(null);
+            } else {
 
-            // Create the UserOrders entity
-            UserOrders userOrders = UserOrders.builder()
-                    .userId(user)
-                    .userAddress(req.userAddress())
-                    .userEmail(req.userEmail())
-                    .userPhoneNumber(req.userPhoneNumber())
-                    .products(userCartItems)
-                    .build();
+                // Creating the payment link via the service
+                PaymentResponse response = paymentService.createPaymentLink(userCartItems);
 
-            List<CompletedOrders> userOrderItems = userCartItems.stream()
-                    .map(cartItem -> CompletedOrders.builder()
-                            .userId(user)
-                            .productId(cartItem.getProductId())
-                            .productSize(cartItem.getProductSize())
-                            .quantity(cartItem.getQuantity())
-                            .order(userOrders)
-                            .price(cartItem.getPrice())
-                            .build())
-                    .toList();
+                // Create the UserOrders entity
+                UserOrders userOrders = UserOrders.builder()
+                        .userId(user)
+                        .userAddress(req.userAddress())
+                        .userEmail(req.userEmail())
+                        .userPhoneNumber(req.userPhoneNumber())
+                        .products(userCartItems)
+                        .build();
 
-            user.getCompletedOrders().addAll(userOrderItems);
-            user.getOrders().add(userOrders);
-            user.userCart.clear();
-            // Save the UserOrders entity
-            userAccountRepository.save(user);
+                List<CompletedOrders> userOrderItems = userCartItems.stream()
+                        .map(cartItem -> CompletedOrders.builder()
+                                .userId(user)
+                                .productId(cartItem.getProductId())
+                                .productSize(cartItem.getProductSize())
+                                .quantity(cartItem.getQuantity())
+                                .order(userOrders)
+                                .price(cartItem.getPrice())
+                                .build())
+                        .toList();
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
+                user.getCompletedOrders().addAll(userOrderItems);
+                user.getOrders().add(userOrders);
+                user.userCart.clear();
+                // Save the UserOrders entity
+                userAccountRepository.save(user);
+
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
         }
         catch (Exception ex){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
