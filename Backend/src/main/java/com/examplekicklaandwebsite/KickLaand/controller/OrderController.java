@@ -12,17 +12,22 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api")
 @Validated
-public class UserOrderController {
+public class OrderController {
 
     private final OrderService orderService;
 
-    public UserOrderController(OrderService orderService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
     @PostMapping("/order")
     public ResponseEntity<?> CreateOrder(@Valid @RequestBody OrderRequest req) throws Exception {
         return orderService.createOrder(req);
+    }
+
+    @GetMapping("/order")
+    public ResponseEntity<?> GetOrder(@Valid @RequestParam Integer userId) {
+        return orderService.getOrder(userId);
     }
 
 }
