@@ -2,20 +2,20 @@ package com.examplekicklaandwebsite.KickLaand.service.impl;
 
 import java.util.Map;
 
+import com.examplekicklaandwebsite.KickLaand.util.createUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.examplekicklaandwebsite.KickLaand.dto.UserResponseDTO;
+import com.examplekicklaandwebsite.KickLaand.response.UserResponse;
 import com.examplekicklaandwebsite.KickLaand.model.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.repository.NewsletterRepository;
 import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
 import com.examplekicklaandwebsite.KickLaand.service.UserService;
 import com.examplekicklaandwebsite.KickLaand.util.FormValidation;
-import com.examplekicklaandwebsite.KickLaand.util.UserResponse;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
             if (user != null) {
                 // Check if the provided password matches the stored encoded password
                 if (passwordEncoder.matches(userAccount.getPassword(), user.getPassword())) {
-                    UserResponseDTO userResponseDTO = UserResponse.createUserResponseDTO(user);
+                    UserResponse userResponseDTO = createUserResponse.createResponse(user);
                     return ResponseEntity.ok(userResponseDTO);
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
                 return ResponseEntity.badRequest().body("Invalid email format");
             }
             if (!FormValidation.isValidPassword(userAccount.getPassword())) {
-                return ResponseEntity.badRequest().body("Password must be at least 8 characters long");
+                return ResponseEntity.badRequest().body("Password must contain at least 8 characters, including a number, an uppercase and lowercase letter, and a special character");
             }
 
             // Check if user already exists by email
@@ -97,8 +97,8 @@ public class UserServiceImpl implements UserService {
             userAccountRepository.save(userAccount);
 
             // Create and return the response DTO
-            UserResponseDTO userResponseDTO = UserResponse.createUserResponseDTO(userAccount);
-            return ResponseEntity.ok(userResponseDTO);
+            UserResponse userResponse = createUserResponse.createResponse(userAccount);
+            return ResponseEntity.ok(userResponse);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create account: " + e.getMessage());
@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
                 userAccountRepository.save(user);
 
                 // Return a full response with all the fields
-                UserResponseDTO userResponseDTO = new UserResponseDTO(
+                UserResponse userResponseDTO = new UserResponse(
                         user.getId(),
                         user.getFirstname(),
                         user.getLastname(),

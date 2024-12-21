@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.examplekicklaandwebsite.KickLaand.controller.ProductController;
-import com.examplekicklaandwebsite.KickLaand.dto.ProductResponseDTO;
+import com.examplekicklaandwebsite.KickLaand.response.ProductResponse;
 import com.examplekicklaandwebsite.KickLaand.model.Products;
 import com.examplekicklaandwebsite.KickLaand.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,9 +50,9 @@ class ProductsControllerTest {
         ResponseEntity<?> responseEntity = productsController.retrieveProducts();
 
         // Expected DTO List
-        List<ProductResponseDTO> expectedResponse = List.of(
-            new ProductResponseDTO(1, "Product 1", new BigDecimal("100.00"), "Category1", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg"),
-            new ProductResponseDTO(2, "Product 2", new BigDecimal("150.00"), "Category2", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg")
+        List<ProductResponse> expectedResponse = List.of(
+            new ProductResponse(1, "Product 1", new BigDecimal("100.00"), "Category1", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg"),
+            new ProductResponse(2, "Product 2", new BigDecimal("150.00"), "Category2", null, "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg")
         );
 
         // Serialize the actual response body and expected response to JSON
