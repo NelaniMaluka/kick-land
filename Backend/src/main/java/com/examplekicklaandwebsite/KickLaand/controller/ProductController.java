@@ -38,7 +38,7 @@ public class ProductController {
                 return ResponseEntity.ok(responseDTOlist);
             }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(e);
         }
     }
     
@@ -53,7 +53,6 @@ public class ProductController {
     				product.getImage2(),
     				product.getImage3(),
     				product.getImage4()
-    				
     			);
     			
     }
