@@ -48,12 +48,24 @@ public class UserOrders {
 
 	@Valid
 	@Email(message = "Invalid email format")
-	private String userEmail;
+	private String email;
 
 	@NotNull
-	private String userAddress;
+	private String address;
+
+	@NotNull
+	private String province;
+
+	@NotNull
+	private String firstname;
+
+	@NotNull
+	private String lastname;
+
+	@NotNull
+	private String ZIPCode;
 
 	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
-	private String userPhoneNumber;
+	private String phoneNumber;
 
 }

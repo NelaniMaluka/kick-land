@@ -5,6 +5,7 @@ import com.examplekicklaandwebsite.KickLaand.model.CompletedOrders;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
 import com.examplekicklaandwebsite.KickLaand.model.UserOrders;
+import com.examplekicklaandwebsite.KickLaand.repository.CartRepository;
 import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
 import com.examplekicklaandwebsite.KickLaand.response.PaymentResponse;
 import com.examplekicklaandwebsite.KickLaand.service.OrderService;
@@ -22,10 +23,12 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final UserAccountRepository userAccountRepository;
+    private final CartRepository cartRepository;
     private final PaymentService paymentService;
 
-    public OrderServiceImpl(UserAccountRepository userAccountRepository, PaymentService paymentService) {
+    public OrderServiceImpl(UserAccountRepository userAccountRepository, CartRepository cartRepository, PaymentService paymentService) {
         this.userAccountRepository = userAccountRepository;
+        this.cartRepository = cartRepository;
         this.paymentService = paymentService;
     }
 
@@ -68,9 +71,13 @@ public class OrderServiceImpl implements OrderService {
                 // Create the UserOrders entity
                 UserOrders userOrders = UserOrders.builder()
                         .userId(user)
-                        .userAddress(req.userAddress())
-                        .userEmail(req.userEmail())
-                        .userPhoneNumber(req.userPhoneNumber())
+                        .firstname(req.firstname())
+                        .lastname(req.lastname())
+                        .ZIPCode(req.ZIPCode())
+                        .province(req.province())
+                        .address(req.address())
+                        .email(req.email())
+                        .phoneNumber(req.phoneNumber())
                         .products(userCartItems)
                         .build();
 
@@ -87,9 +94,12 @@ public class OrderServiceImpl implements OrderService {
 
                 user.getCompletedOrders().addAll(userOrderItems);
                 user.getOrders().add(userOrders);
-                user.userCart.clear();
+                user.getUserCart().clear(); // Clear the cart list in memory
+
                 // Save the UserOrders entity
                 userAccountRepository.save(user);
+
+                cartRepository.deleteByUserId(user);
 
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }

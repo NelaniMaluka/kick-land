@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 import com.examplekicklaandwebsite.KickLaand.model.CompletedOrders;
 import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
-import com.examplekicklaandwebsite.KickLaand.model.UserOrders;
 
 public class FilterLists {
-	
-	private FilterLists() {}
-	
+
+    private FilterLists() {
+    }
+
     public static List<Map<String, Object>> getFilteredCartList(List<UserCarts> userCart) {
         return userCart.stream()
                 .map(cart -> {
@@ -32,11 +32,11 @@ public class FilterLists {
                 .map(cart -> {
                     Map<String, Object> filteredOrderItem = new HashMap<>();
                     filteredOrderItem.put("completedOrderId", cart.getComplatedOrderId());
-                    filteredOrderItem .put("productId", cart.getProductId());
-                    filteredOrderItem .put("quantity", cart.getQuantity());
-                    filteredOrderItem .put("size", cart.getProductSize());
-                    filteredOrderItem .put("price", cart.getPrice());
-                    return filteredOrderItem ;
+                    filteredOrderItem.put("productId", cart.getProductId());
+                    filteredOrderItem.put("quantity", cart.getQuantity());
+                    filteredOrderItem.put("size", cart.getProductSize());
+                    filteredOrderItem.put("price", cart.getPrice());
+                    return filteredOrderItem;
                 })
                 .collect(Collectors.toList());
     }
