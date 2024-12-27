@@ -200,9 +200,10 @@ function AuthProvider({ children }) {
   }
 
   //User Orders API methods
-  async function getUserOrders(email) {
+  //User Orders API methods
+  async function getUserOrders() {
     try {
-      const response = await GetUserOrders(email);
+      const response = await GetUserOrders(isUser.id);
       if (response.status === 200) {
         setUserOrders(response.data);
       } else {
@@ -212,19 +213,33 @@ function AuthProvider({ children }) {
       setUserOrders(null);
     }
   }
-  async function addToOrders(orders) {
-    console.log(orders);
+  async function addToOrders(
+    firstname,
+    lastname,
+    email,
+    phoneNumber,
+    province,
+    ZIPCode,
+    address
+  ) {
     try {
-      const response = await AddToOrders(orders);
+      const response = await AddToOrders(
+        isUser.id,
+        firstname,
+        lastname,
+        email,
+        phoneNumber,
+        province,
+        ZIPCode,
+        address
+      );
       if (response.status === 200) {
-        setUserOrders(response.data);
-        return true;
+        return { success: true, response: response };
       } else {
-        setUserOrders([]);
-        return false;
+        return { success: false, response: response };
       }
     } catch (e) {
-      setUserOrders([]);
+      return { success: false, e };
     }
   }
 

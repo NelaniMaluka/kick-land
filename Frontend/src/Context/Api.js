@@ -82,11 +82,29 @@ export function RetrieveProducts() {
 }
 
 //User Orders API calls
-export function GetUserOrders(email) {
-  return apiClient.get(`/api/orders?email=${email}`);
+export function GetUserOrders(userId) {
+  return apiClient.get(`/api/order?userId=${userId}`);
 }
-export function AddToOrders(productWithUserId) {
-  return apiClient.post("/api/orders", productWithUserId);
+export function AddToOrders(
+  userId,
+  firstname,
+  lastname,
+  email,
+  phoneNumber,
+  province,
+  ZIPCode,
+  address
+) {
+  return apiClient.post("/api/order", {
+    userId,
+    firstname,
+    lastname,
+    email,
+    phoneNumber,
+    province,
+    ZIPCode,
+    address,
+  });
 }
 
 //Forgot Password API calls

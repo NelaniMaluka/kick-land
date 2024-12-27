@@ -1,5 +1,6 @@
 import { Navigate, Route } from "react-router-dom";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import Order from "../Pages/Dashboard/Order/Order";
 import { useAuth } from "../Context/AuthContext";
 import ErrorMessageAlert from "../Components/Alerts/ErrorMessageAlert";
 
@@ -34,6 +35,14 @@ const DashboardRoutes = () => [
     element={
       <AuthenticatedRoute>
         <Dashboard />
+      </AuthenticatedRoute>
+    }
+  />,
+  <Route
+    path="/Order"
+    element={
+      <AuthenticatedRoute>
+        <Order />
       </AuthenticatedRoute>
     }
   />,
