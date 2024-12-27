@@ -7,9 +7,12 @@ import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
 
 public interface CartRepository extends JpaRepository<UserCarts, Integer> {
-	
+
 	@Transactional
 	void deleteByProductIdAndUserId(Integer productId, UserAccount user);
+
+	@Transactional
+	void deleteByUserId( UserAccount userId);
 
 }
 
