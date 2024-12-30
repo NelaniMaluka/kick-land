@@ -13,10 +13,12 @@ import com.examplekicklaandwebsite.KickLaand.service.PaymentService;
 import com.examplekicklaandwebsite.KickLaand.util.FilterLists;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
             UserAccount user = userAccountRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-                List<CompletedOrders> userOrders = user.getCompletedOrders();
+                List<UserOrders> userOrders = user.getOrders();
                 if (userOrders.isEmpty()) {
                     return ResponseEntity.ok(null);
                 } else {
@@ -68,6 +70,8 @@ public class OrderServiceImpl implements OrderService {
                 // Creating the payment link via the service
                 PaymentResponse response = paymentService.createPaymentLink(userCartItems);
 
+                LocalDateTime dateTime = LocalDateTime.now();
+
                 // Create the UserOrders entity
                 UserOrders userOrders = UserOrders.builder()
                         .userId(user)
@@ -79,6 +83,8 @@ public class OrderServiceImpl implements OrderService {
                         .email(req.email())
                         .phoneNumber(req.phoneNumber())
                         .products(userCartItems)
+                        .orderDate(dateTime)
+                        .deliveryDate(dateTime.plusDays(7))
                         .build();
 
                 List<CompletedOrders> userOrderItems = userCartItems.stream()

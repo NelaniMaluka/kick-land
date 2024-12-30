@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @NoArgsConstructor
@@ -64,6 +66,12 @@ public class UserOrders {
 
 	@NotNull
 	private String ZIPCode;
+
+	@NotNull
+	private LocalDateTime orderDate;
+
+	@NotNull
+	private LocalDateTime deliveryDate;
 
 	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
 	private String phoneNumber;
