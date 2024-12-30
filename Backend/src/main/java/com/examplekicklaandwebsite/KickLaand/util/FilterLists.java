@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.examplekicklaandwebsite.KickLaand.model.CompletedOrders;
 import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
+import com.examplekicklaandwebsite.KickLaand.model.UserOrders;
 
 public class FilterLists {
 
@@ -27,7 +28,27 @@ public class FilterLists {
                 .collect(Collectors.toList());
     }
 
-    public static List<Map<String, Object>> getFilteredOrderList(List<CompletedOrders> userOrder) {
+    public static List<Map<String, Object>> getFilteredOrderList(List<UserOrders> userOrder) {
+        return userOrder.stream()
+                .map(order -> {
+                    Map<String, Object> filteredOrderItem = new HashMap<>();
+                    filteredOrderItem.put("orderId", order.getOrderId());
+                    filteredOrderItem.put("email", order.getEmail());
+                    filteredOrderItem.put("address", order.getAddress());
+                    filteredOrderItem.put("province", order.getProvince());
+                    filteredOrderItem.put("firstname", order.getFirstname());
+                    filteredOrderItem.put("lastname", order.getLastname());
+                    filteredOrderItem.put("ZIPCode", order.getZIPCode());
+                    filteredOrderItem.put("phoneNumber", order.getPhoneNumber());
+                    filteredOrderItem.put("orders", getFilteredCompletedOrderList(order.getCompletedOrders()));
+                    filteredOrderItem.put("orderDate", order.getOrderDate());
+                    filteredOrderItem.put("deliveryDate", order.getDeliveryDate());
+                    return filteredOrderItem;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<Map<String, Object>> getFilteredCompletedOrderList(List<CompletedOrders> userOrder) {
         return userOrder.stream()
                 .map(cart -> {
                     Map<String, Object> filteredOrderItem = new HashMap<>();
