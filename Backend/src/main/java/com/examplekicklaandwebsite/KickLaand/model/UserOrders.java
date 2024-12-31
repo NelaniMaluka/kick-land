@@ -5,15 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +23,7 @@ public class UserOrders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer orderId;
 
+	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private UserAccount userId;
@@ -43,31 +36,40 @@ public class UserOrders {
 	@JoinColumn(name = "orderId")
 	List<CompletedOrders> completedOrders;
 
+	@Column(nullable = false)
 	@Valid
 	@Email(message = "Invalid email format")
 	private String email;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "Address cannot be null")
 	private String address;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "Province cannot be null")
 	private String province;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "Firstname cannot be null")
 	private String firstname;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "Lastname cannot be null")
 	private String lastname;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "ZIP Code cannot be null")
 	private String ZIPCode;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "Order Date cannot be null")
 	private LocalDateTime orderDate;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "Delivery Date cannot be null")
 	private LocalDateTime deliveryDate;
 
+	@Column(nullable = false)
 	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
 	private String phoneNumber;
 

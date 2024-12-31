@@ -2,12 +2,7 @@ package com.examplekicklaandwebsite.KickLaand.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -22,22 +17,28 @@ public class UserCarts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userCartId;
 
+	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private UserAccount userId;
 
+	@Column(nullable = false)
 	@NotNull(message = "Product ID cannot be null")
 	private Integer productId;
 
+	@Column(nullable = false)
 	@NotNull(message = "Product size cannot be null")
 	private String productSize;
 
+	@Column(nullable = false)
 	@NotNull(message = "Product quantity cannot be null")
 	private Integer quantity;
 
-	@NotNull
+	@Column(nullable = false)
+	@NotNull(message = "Price cannot be null")
 	private Integer price;
 
+	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "orderId")
 	private UserOrders order;

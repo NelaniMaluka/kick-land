@@ -1,9 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -25,14 +22,17 @@ public class ContactUs {
 
     private String name;
 
+    @Column(nullable = false)
     @NotNull(message = "Email is required")
     @Email(message = "Please provide a valid email address")
     private String email;
 
+    @Column(nullable = false)
     @NotNull(message = "Phone number is required")
     @Pattern(regexp = "(\\+27|0)[0-9]{9}", message = "Please provide a valid South African phone number")
     private String phoneNumber;
 
+    @Column(nullable = false)
     @NotNull(message = "Message is required")
     private String message;
 

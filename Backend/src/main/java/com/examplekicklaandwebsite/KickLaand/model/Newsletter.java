@@ -19,7 +19,7 @@ public class Newsletter {
 
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email cannot be blank")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
 }

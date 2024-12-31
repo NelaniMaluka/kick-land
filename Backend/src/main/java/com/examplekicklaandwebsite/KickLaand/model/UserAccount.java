@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
@@ -30,12 +31,12 @@ public class UserAccount {
 
     public String lastname;
 
-    @Valid
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     @Pattern(regexp = "^[\\w.-]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Please provide a valid email address")
     public String email;
 
-    @Valid
+    @Column(nullable = false)
+    @NotNull(message = "Password cannot be null")
     public String password;
 
     private USER_ROLE role;

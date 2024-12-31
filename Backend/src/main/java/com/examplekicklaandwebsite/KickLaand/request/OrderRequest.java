@@ -6,10 +6,10 @@ import jakarta.validation.constraints.Pattern;
 
 public record OrderRequest(
         @Email(message = "Please provide a valid email address") String email,
-        @NotNull String address,
-        @NotNull String province,
-        @NotNull String ZIPCode,
-        @NotNull String firstname,
-        @NotNull String lastname,
+        @NotNull(message = "Address cannot be null") String address,
+        @NotNull(message = "Province cannot be null") String province,
+        @NotNull(message = "ZIP Code cannot be null") String ZIPCode,
+        @NotNull(message = "Firstname cannot be null") String firstname,
+        @NotNull(message = "Lastname cannot be null") String lastname,
         @Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number") String phoneNumber) {
 }
