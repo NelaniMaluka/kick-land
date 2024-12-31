@@ -1,4 +1,4 @@
-package com.examplekicklaandwebsite.KickLaand.dto;
+package com.examplekicklaandwebsite.KickLaand.request;
 
 import lombok.Builder;
 

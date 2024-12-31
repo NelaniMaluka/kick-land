@@ -1,6 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
-import com.examplekicklaandwebsite.KickLaand.dto.OrderRequest;
+import com.examplekicklaandwebsite.KickLaand.request.OrderRequest;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.service.OrderService;
 

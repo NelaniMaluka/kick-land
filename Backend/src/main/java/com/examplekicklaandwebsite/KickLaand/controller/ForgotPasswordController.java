@@ -1,7 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
-import com.examplekicklaandwebsite.KickLaand.dto.OtpRequest;
-import com.examplekicklaandwebsite.KickLaand.dto.ChangePassword;
+import com.examplekicklaandwebsite.KickLaand.request.ChangePasswordRequest;
+import com.examplekicklaandwebsite.KickLaand.request.OtpRequest;
 import com.examplekicklaandwebsite.KickLaand.service.ForgotPasswordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +33,7 @@ public class ForgotPasswordController {
 	}
 
 	@PostMapping("/change-password")
-	public ResponseEntity<?> changePasswordHandler(@Valid @RequestBody ChangePassword changePassword){
+	public ResponseEntity<?> changePasswordHandler(@Valid @RequestBody ChangePasswordRequest changePassword){
 		return forgotPasswordService.changePassword(changePassword);
 	}
 

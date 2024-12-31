@@ -1,8 +1,8 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
-import com.examplekicklaandwebsite.KickLaand.dto.ChangePassword;
 import com.examplekicklaandwebsite.KickLaand.dto.MailBody;
-import com.examplekicklaandwebsite.KickLaand.dto.OtpRequest;
+import com.examplekicklaandwebsite.KickLaand.request.ChangePasswordRequest;
+import com.examplekicklaandwebsite.KickLaand.request.OtpRequest;
 import com.examplekicklaandwebsite.KickLaand.model.ForgotPassword;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.repository.ForgotPasswordRepository;
@@ -93,7 +93,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     }
 
     @Override
-    public ResponseEntity<?> changePassword(ChangePassword changePassword) {
+    public ResponseEntity<?> changePassword(ChangePasswordRequest changePassword) {
         try {
             if (!Objects.equals(changePassword.password(), changePassword.repeatPassword())) {
                 return new ResponseEntity<>("Please enter the password again!", HttpStatus.EXPECTATION_FAILED);

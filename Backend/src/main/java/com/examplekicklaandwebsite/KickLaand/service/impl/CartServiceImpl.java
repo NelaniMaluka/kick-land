@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
+import com.examplekicklaandwebsite.KickLaand.request.CartRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -78,7 +79,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> updateCart(UserAccount user, Integer productId, Integer productQuantity) {
+    public ResponseEntity<?> updateCart(UserAccount user, CartRequest req) {
         try {
             List<UserCarts> userCartItems = user.getUserCart();
 
@@ -86,12 +87,12 @@ public class CartServiceImpl implements CartService {
                 return ResponseEntity.notFound().build();
             } else {
                 UserCarts cartItemToUpdate = userCartItems.stream()
-                        .filter(cart -> cart.getProductId().equals(productId))
+                        .filter(cart -> cart.getProductId().equals(req.productId()))
                         .findFirst()
                         .orElseThrow(() -> new EntityNotFoundException("Cart item not found"));
 
                 cartItemToUpdate = cartItemToUpdate.toBuilder()
-                        .quantity(productQuantity)
+                        .quantity(req.quantity())
                         .build();
 
                 cartRepository.save(cartItemToUpdate);
@@ -105,9 +106,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> deleteCartItem(UserAccount user, Integer productId) {
+    public ResponseEntity<?> deleteCartItem(UserAccount user, CartRequest req) {
         try {
-            cartRepository.deleteByProductIdAndUserId(productId, user);
+            cartRepository.deleteByProductIdAndUserId(req.productId(), user);
 
             List<UserCarts> userCartItems = user.getUserCart();
             Object filteredCartList = FilterLists.getFilteredCartList(userCartItems);

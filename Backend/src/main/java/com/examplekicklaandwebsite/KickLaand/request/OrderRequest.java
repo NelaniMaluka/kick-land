@@ -1,4 +1,4 @@
-package com.examplekicklaandwebsite.KickLaand.dto;
+package com.examplekicklaandwebsite.KickLaand.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;

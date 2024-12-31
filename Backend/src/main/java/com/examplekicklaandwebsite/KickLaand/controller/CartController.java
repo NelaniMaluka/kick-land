@@ -1,6 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
+import com.examplekicklaandwebsite.KickLaand.request.CartRequest;
 import com.examplekicklaandwebsite.KickLaand.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,26 +30,21 @@ public class CartController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addToCart(@RequestHeader("Authorization") String jwt, @RequestBody UserCartDTO request)
+    public ResponseEntity<?> addToCart(@RequestHeader("Authorization") String jwt, @RequestBody UserCartDTO req)
             throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
-        return cartService.addToCart(request, user);
+        return cartService.addToCart(req, user);
     }
 
     @PutMapping()
-    public ResponseEntity<?> updateCart(
-            @RequestHeader("Authorization") String jwt,
-            @RequestParam("productId") Integer productId,
-            @RequestParam("productQuantity") Integer productQuantity) throws Exception {
+    public ResponseEntity<?> updateCart(@RequestHeader("Authorization") String jwt, @RequestBody CartRequest req) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
-        return cartService.updateCart(user, productId, productQuantity);
+        return cartService.updateCart(user, req);
     }
 
     @DeleteMapping()
-    public ResponseEntity<?> deleteCartItem(
-            @RequestHeader("Authorization") String jwt,
-            @RequestParam("productId") Integer productId) throws Exception {
+    public ResponseEntity<?> deleteCartItem(@RequestHeader("Authorization") String jwt, @RequestBody CartRequest req) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
-        return cartService.deleteCartItem(user, productId);
+        return cartService.deleteCartItem(user, req);
     }
 }
