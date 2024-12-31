@@ -54,11 +54,10 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
                     .subject("OTP for forgot Password request")
                     .build();
 
-            ForgotPassword fp = ForgotPassword.builder()
-                    .otp(otp)
-                    .expirationTime(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
-                    .user(user)
-                    .build();
+            ForgotPassword fp = new ForgotPassword();
+            fp.setOtp(otp);
+            fp.setExpirationTime(new Date(System.currentTimeMillis() + 5 * 60 * 1000));
+            fp.setUser(user);
 
             emailService.sendSimpleMessage(mailBody);
             forgotPasswordRepository.save(fp);
@@ -106,9 +105,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
             String newPassword = passwordEncoder.encode(changePassword.password());
 
-            user = user.toBuilder()
-                    .password(newPassword)
-                    .build();
+            user.setPassword(newPassword);
 
             userRepository.save(user);
 

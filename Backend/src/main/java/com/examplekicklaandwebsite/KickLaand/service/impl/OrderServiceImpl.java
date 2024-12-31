@@ -27,7 +27,8 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepository cartRepository;
     private final PaymentService paymentService;
 
-    public OrderServiceImpl(UserAccountRepository userAccountRepository, CartRepository cartRepository, PaymentService paymentService) {
+    public OrderServiceImpl(UserAccountRepository userAccountRepository, CartRepository cartRepository,
+            PaymentService paymentService) {
         this.userAccountRepository = userAccountRepository;
         this.cartRepository = cartRepository;
         this.paymentService = paymentService;
@@ -36,13 +37,13 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<?> getOrder(UserAccount user) {
         try {
 
-                List<UserOrders> userOrders = user.getOrders();
-                if (userOrders.isEmpty()) {
-                    return ResponseEntity.ok(null);
-                } else {
-                    Object filteredCartList = FilterLists.getFilteredOrderList(userOrders);
-                    return ResponseEntity.ok(filteredCartList);
-                }
+            List<UserOrders> userOrders = user.getOrders();
+            if (userOrders.isEmpty()) {
+                return ResponseEntity.ok(null);
+            } else {
+                Object filteredCartList = FilterLists.getFilteredOrderList(userOrders);
+                return ResponseEntity.ok(filteredCartList);
+            }
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
@@ -58,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
 
             List<UserCarts> userCartItems = user.getUserCart();
 
-            if (userCartItems.isEmpty()){
+            if (userCartItems.isEmpty()) {
                 return ResponseEntity.ok(null);
             } else {
 
@@ -68,29 +69,30 @@ public class OrderServiceImpl implements OrderService {
                 LocalDateTime dateTime = LocalDateTime.now();
 
                 // Create the UserOrders entity
-                UserOrders userOrders = UserOrders.builder()
-                        .userId(user)
-                        .firstname(req.firstname())
-                        .lastname(req.lastname())
-                        .ZIPCode(req.ZIPCode())
-                        .province(req.province())
-                        .address(req.address())
-                        .email(req.email())
-                        .phoneNumber(req.phoneNumber())
-                        .products(userCartItems)
-                        .orderDate(dateTime)
-                        .deliveryDate(dateTime.plusDays(7))
-                        .build();
+                UserOrders userOrders = new UserOrders();
+                userOrders.setUserId(user);
+                userOrders.setFirstname(req.firstname());
+                userOrders.setLastname(req.lastname());
+                userOrders.setZIPCode(req.ZIPCode());
+                userOrders.setProvince(req.province());
+                userOrders.setAddress(req.address());
+                userOrders.setEmail(req.email());
+                userOrders.setPhoneNumber(req.phoneNumber());
+                userOrders.setProducts(userCartItems);
+                userOrders.setOrderDate(dateTime);
+                userOrders.setDeliveryDate(dateTime.plusDays(7));
 
                 List<CompletedOrders> userOrderItems = userCartItems.stream()
-                        .map(cartItem -> CompletedOrders.builder()
-                                .userId(user)
-                                .productId(cartItem.getProductId())
-                                .productSize(cartItem.getProductSize())
-                                .quantity(cartItem.getQuantity())
-                                .order(userOrders)
-                                .price(cartItem.getPrice())
-                                .build())
+                        .map(cartItem -> {
+                            CompletedOrders order = new CompletedOrders();
+                            order.setUserId(user);
+                            order.setProductId(cartItem.getProductId());
+                            order.setProductSize(cartItem.getProductSize());
+                            order.setQuantity(cartItem.getQuantity());
+                            order.setOrder(userOrders);
+                            order.setPrice(cartItem.getPrice());
+                            return order;
+                        })
                         .toList();
 
                 user.getCompletedOrders().addAll(userOrderItems);
@@ -104,8 +106,7 @@ public class OrderServiceImpl implements OrderService {
 
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
         }
     }

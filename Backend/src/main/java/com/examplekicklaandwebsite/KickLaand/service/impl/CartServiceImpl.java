@@ -55,19 +55,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> addToCart(UserCartDTO request, UserAccount user) {
-        if (request.getProductId() == null || request.getQuantity() <= 0) {
+    public ResponseEntity<?> addToCart(UserCartDTO req, UserAccount user) {
+        if (req.getProductId() == null || req.getQuantity() <= 0) {
             return ResponseEntity.badRequest().body("Invalid product or quantity");
         }
 
         try {
-            UserCarts cartItem = UserCarts.builder()
-                    .productId(request.getProductId())
-                    .quantity(request.getQuantity())
-                    .productSize(request.getSize())
-                    .userId(user)
-                    .price(request.getPrice())
-                    .build();
+            UserCarts cartItem = new UserCarts();
+            cartItem.setProductId(req.getProductId());
+            cartItem.setQuantity(req.getQuantity());
+            cartItem.setProductSize(req.getSize());
+            cartItem.setUserId(user);
+            cartItem.setPrice(req.getPrice());
 
             cartRepository.save(cartItem);
 
@@ -91,9 +90,7 @@ public class CartServiceImpl implements CartService {
                         .findFirst()
                         .orElseThrow(() -> new EntityNotFoundException("Cart item not found"));
 
-                cartItemToUpdate = cartItemToUpdate.toBuilder()
-                        .quantity(req.quantity())
-                        .build();
+                cartItemToUpdate.setQuantity(req.quantity());
 
                 cartRepository.save(cartItemToUpdate);
 

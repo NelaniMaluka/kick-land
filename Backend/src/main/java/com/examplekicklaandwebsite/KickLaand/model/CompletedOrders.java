@@ -3,16 +3,12 @@ package com.examplekicklaandwebsite.KickLaand.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Builder(toBuilder = true)
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompletedOrders {
 

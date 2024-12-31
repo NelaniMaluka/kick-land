@@ -112,17 +112,14 @@ public class UserServiceImpl implements UserService {
             Newsletter existingNewsletter = newsletterRepository.findByEmail(userAccount.getEmail());
             if (existingNewsletter == null) {
                 // Create a new Newsletter entry if it doesn't exist
-                Newsletter newsletter = Newsletter.builder()
-                        .email(userAccount.getEmail())
-                        .build();
+                Newsletter newsletter = new Newsletter();
+                newsletter.setEmail(userAccount.getEmail());
 
                 newsletterRepository.save(newsletter);
             }
 
             // Encode the password securely
-            userAccount = userAccount.toBuilder()
-                    .password(passwordEncoder.encode(userAccount.getPassword()))
-                    .build();
+            userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
 
             // Save new user account
             userAccountRepository.save(userAccount);
@@ -162,25 +159,25 @@ public class UserServiceImpl implements UserService {
                             if (value == null || value.trim().isEmpty()) {
                                 return ResponseEntity.badRequest().body("Firstname cannot be empty");
                             }
-                            user = user.toBuilder().firstname(value).build();
+                            user.setFirstname(value);
                             break;
                         case "email":
                             if (!FormValidation.isValidEmail(value)) {
                                 return ResponseEntity.badRequest().body("Invalid email format");
                             }
-                            user = user.toBuilder().email(value).build();
+                            user.setEmail(value);
                             break;
                         case "lastname":
                             if (value == null || value.trim().isEmpty()) {
                                 return ResponseEntity.badRequest().body("Lastname cannot be empty");
                             }
-                            user = user.toBuilder().lastname(value).build();
+                            user.setLastname(value);
                             break;
                         case "phonenumber":
-                            user = user.toBuilder().phonenumber(value).build();
+                            user.setPhonenumber(value);
                             break;
                         case "address":
-                            user = user.toBuilder().address(value).build();
+                            user.setAddress(value);
                             break;
                         default:
                             return ResponseEntity.badRequest().body("Invalid field specified");

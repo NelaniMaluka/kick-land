@@ -4,34 +4,30 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.examplekicklaandwebsite.KickLaand.model.ProductStock;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-@Builder
+@Data
 public class ProductResponse {
 
-    private Integer productId;
+	private Integer productId;
 
-    private String name;
+	private String name;
 
+	private BigDecimal price;
 
-    private BigDecimal price;
+	private String category;
 
+	public List<ProductStock> sizes;
 
-    private String category;
+	private String image1;
+	private String image2;
+	private String image3;
+	private String image4;
 
-    public List<ProductStock> sizes;
-
-    private String image1;
-    private String image2;
-    private String image3;
-    private String image4;
-    
-	public ProductResponse(Integer productId,  String name,
-			 BigDecimal price,
+	public ProductResponse(Integer productId, String name,
+			BigDecimal price,
 			String category, List<ProductStock> sizes,
-			 String image1, String image2, String image3,
+			String image1, String image2, String image3,
 			String image4) {
 		super();
 		this.productId = productId;
@@ -47,9 +43,10 @@ public class ProductResponse {
 
 	@Override
 	public String toString() {
-		return "ProductsResponseDTO [productId=" + productId + ", name=" + name + ", price=" + price + ", category=" + category
+		return "ProductsResponseDTO [productId=" + productId + ", name=" + name + ", price=" + price + ", category="
+				+ category
 				+ ", sizes=" + sizes + ", image1=" + image1 + ", image2=" + image2 + ", image3=" + image3 + ", image4="
 				+ image4 + "]";
 	}
-    
+
 }

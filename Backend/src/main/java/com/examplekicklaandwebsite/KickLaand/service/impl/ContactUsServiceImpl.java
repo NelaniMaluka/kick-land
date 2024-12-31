@@ -47,18 +47,16 @@ public class ContactUsServiceImpl implements ContactUsService {
         Newsletter existingNewsletter = newsletterRepository.findByEmail(email);
         if (existingNewsletter == null) {
             // Create a new newsletter entry
-            Newsletter newsletter = Newsletter.builder()
-                    .email(email).build();
+            Newsletter newsletter = new Newsletter();
+            newsletter.setEmail(email);
 
             newsletterRepository.save(newsletter);
         }
 
-        contactUs = contactUs.toBuilder()
-                .name(name)
-                .email(email)
-                .phoneNumber(phoneNumber)
-                .message(message)
-                .build();
+        contactUs.setName(name);
+        contactUs.setEmail(email);
+        contactUs.setPhoneNumber(phoneNumber);
+        contactUs.setMessage(message);
 
         // Save the contact message
         contactUsRepository.save(contactUs);
