@@ -12,7 +12,7 @@ import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/forgot-password")
+@RequestMapping("/forgot-password")
 public class ForgotPasswordController {
 	
 	private final ForgotPasswordService forgotPasswordService;

@@ -10,7 +10,7 @@ import com.examplekicklaandwebsite.KickLaand.model.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.service.NewsletterService;
 
 @RestController
-@RequestMapping("/api/newsletter")
+@RequestMapping("/newsletter")
 public class NewsletterController {
 
     private final NewsletterService newsletterService;

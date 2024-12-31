@@ -12,7 +12,7 @@ import com.examplekicklaandwebsite.KickLaand.model.ContactUs;
 import com.examplekicklaandwebsite.KickLaand.service.ContactUsService;
 
 @RestController
-@RequestMapping("/api/contact-us")
+@RequestMapping("/contact-us")
 public class ContactUsController {
 
     private final ContactUsService contactUsService;
