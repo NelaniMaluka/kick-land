@@ -42,6 +42,8 @@ public class UserAccount {
     @Valid
     public String password;
 
+    private USER_ROLE role;
+
     @OneToMany(mappedBy = "userId")
     public List<UserCarts> userCart;
 
