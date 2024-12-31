@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
 public record OrderRequest(
-        @NotNull Integer userId,
         @Email(message = "Please provide a valid email address") String email,
         @NotNull String address,
         @NotNull String province,

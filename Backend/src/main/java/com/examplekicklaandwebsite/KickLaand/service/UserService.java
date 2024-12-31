@@ -9,6 +9,10 @@ import java.util.Map;
 public interface UserService {
     ResponseEntity<?> login(UserAccount userAccount);
     ResponseEntity<?> createAccount(UserAccount userAccount);
-    ResponseEntity<?> updateUserFields(Integer userId, Map<String, String> updates);
+    ResponseEntity<?> updateUserFields(UserAccount user, Map<String, String> updates);
+
+    public UserAccount findUserByJwtToken(String jwt) throws Exception;
+
+    public UserAccount findUserByEmail(String email) throws Exception;
 }
 

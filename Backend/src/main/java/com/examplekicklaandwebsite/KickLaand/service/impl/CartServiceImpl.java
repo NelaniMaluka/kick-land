@@ -31,16 +31,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> getUserCartItems(String email) {
+    public ResponseEntity<?> getUserCartItems(UserAccount user) {
         try {
-            UserAccount user = userAccountRepository.findByEmail(email);
-
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             } else {
                 List<UserCarts> userCart = user.getUserCart();
                 if (userCart.isEmpty()) {
-                    return ResponseEntity.ok(null);
+                    return ResponseEntity.ok("Cart is empty");
                 } else {
                     Object filteredCartList = FilterLists.getFilteredCartList(userCart);
                     return ResponseEntity.ok(filteredCartList);
@@ -56,16 +54,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> addToCart(UserCartDTO request) {
+    public ResponseEntity<?> addToCart(UserCartDTO request, UserAccount user) {
         if (request.getProductId() == null || request.getQuantity() <= 0) {
             return ResponseEntity.badRequest().body("Invalid product or quantity");
         }
 
         try {
-            Integer userId = request.getUserId();
-            UserAccount user = userAccountRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-
             UserCarts cartItem = UserCarts.builder()
                     .productId(request.getProductId())
                     .quantity(request.getQuantity())
@@ -84,11 +78,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> updateCart(Integer userId, Integer productId, Integer productQuantity) {
+    public ResponseEntity<?> updateCart(UserAccount user, Integer productId, Integer productQuantity) {
         try {
-            UserAccount user = userAccountRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-
             List<UserCarts> userCartItems = user.getUserCart();
 
             if (userCartItems.isEmpty()) {
@@ -114,11 +105,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> deleteCartItem(Integer userId, Integer productId) {
+    public ResponseEntity<?> deleteCartItem(UserAccount user, Integer productId) {
         try {
-            UserAccount user = userAccountRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-
             cartRepository.deleteByProductIdAndUserId(productId, user);
 
             List<UserCarts> userCartItems = user.getUserCart();

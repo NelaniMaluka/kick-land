@@ -34,10 +34,8 @@ public class OrderServiceImpl implements OrderService {
         this.paymentService = paymentService;
     }
 
-    public ResponseEntity<?> getOrder(Integer userId) {
+    public ResponseEntity<?> getOrder(UserAccount user) {
         try {
-            UserAccount user = userAccountRepository.findById(userId)
-                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
                 List<UserOrders> userOrders = user.getOrders();
                 if (userOrders.isEmpty()) {
@@ -56,10 +54,8 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    public ResponseEntity<?> createOrder(OrderRequest req) throws Exception {
+    public ResponseEntity<?> createOrder(OrderRequest req, UserAccount user) throws Exception {
         try {
-            UserAccount user = userAccountRepository.findById(req.userId())
-                    .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + req.userId()));
 
             List<UserCarts> userCartItems = user.getUserCart();
 

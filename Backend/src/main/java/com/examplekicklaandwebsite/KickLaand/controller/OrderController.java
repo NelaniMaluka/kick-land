@@ -1,8 +1,10 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
 import com.examplekicklaandwebsite.KickLaand.dto.OrderRequest;
+import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.service.OrderService;
 
+import com.examplekicklaandwebsite.KickLaand.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +17,23 @@ import jakarta.validation.Valid;
 public class OrderController {
 
     private final OrderService orderService;
+    private final UserService userService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @PostMapping("/order")
-    public ResponseEntity<?> CreateOrder(@Valid @RequestBody OrderRequest req) throws Exception {
-        return orderService.createOrder(req);
+    public ResponseEntity<?> CreateOrder(@RequestHeader("Authorization") String jwt, @Valid @RequestBody OrderRequest req) throws Exception {
+        UserAccount user = userService.findUserByJwtToken(jwt);
+        return orderService.createOrder(req, user);
     }
 
     @GetMapping("/order")
-    public ResponseEntity<?> GetOrder(@Valid @RequestParam Integer userId) {
-        return orderService.getOrder(userId);
+    public ResponseEntity<?> GetOrder(@RequestHeader("Authorization") String jwt) throws Exception {
+        UserAccount user = userService.findUserByJwtToken(jwt);
+        return orderService.getOrder(user);
     }
 
 }

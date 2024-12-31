@@ -8,9 +8,6 @@ import lombok.Getter;
 @Builder
 public class UserCartDTO {
 
-	@NotNull(message = "UserId cannot be null")
-	private Integer userId;
-
 	@NotNull(message = "Product ID cannot be null")
 	private Integer productId;
 

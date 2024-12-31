@@ -1,15 +1,11 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
+import com.examplekicklaandwebsite.KickLaand.util.createUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.service.UserService;
@@ -20,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @Validated
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
@@ -30,20 +26,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
-        return userService.login(userAccount);
-    }
-
-    @PostMapping(path = "/create-account")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount) {
-        return userService.createAccount(userAccount);
+    @GetMapping("/userDetails")
+    public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String jwt) throws Exception {
+        UserAccount user = userService.findUserByJwtToken(jwt);
+        return ResponseEntity.ok(createUserResponse.createResponse(user));
     }
 
     @PutMapping("/update-user/{userId}")
-    public ResponseEntity<?> updateUserFields(@PathVariable @NonNull Integer userId,
-            @Valid @RequestBody Map<String, String> updates) {
-        return userService.updateUserFields(userId, updates);
+    public ResponseEntity<?> updateUserFields(@RequestHeader("Authorization") String jwt,
+            @Valid @RequestBody Map<String, String> updates) throws Exception {
+        UserAccount user = userService.findUserByJwtToken(jwt);
+        return userService.updateUserFields(user, updates);
     }
 
 }
