@@ -61,7 +61,7 @@ public class PaymentServiceImpl implements PaymentService {
             return res;
 
         } catch (StripeException ex) {
-            throw new IllegalStateException("Payment link creation failed: " + ex.getMessage(), ex);
+            throw new IllegalStateException("Payment link creation failed.");
         }
     }
 }

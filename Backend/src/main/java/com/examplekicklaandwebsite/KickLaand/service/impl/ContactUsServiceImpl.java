@@ -27,41 +27,44 @@ public class ContactUsServiceImpl implements ContactUsService {
     @Override
     @Transactional
     public String sendInfo(ContactUs contactUs) {
-        // Trim and validate fields
-        String name = trimAndValidate(contactUs.getName(), "Name");
-        String email = trimAndValidate(contactUs.getEmail(), "Email");
-        String phoneNumber = trimAndValidate(contactUs.getPhoneNumber(), "Phone Number");
-        String message = trimAndValidate(contactUs.getMessage(), "Message");
+        try {
+            // Trim and validate fields
+            String name = trimAndValidate(contactUs.getName(), "Name");
+            String email = trimAndValidate(contactUs.getEmail(), "Email");
+            String phoneNumber = trimAndValidate(contactUs.getPhoneNumber(), "Phone Number");
+            String message = trimAndValidate(contactUs.getMessage(), "Message");
 
-        // Validate email format
-        if (!FormValidation.isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid email format.");
+            // Validate email format
+            if (!FormValidation.isValidEmail(email)) {
+                throw new IllegalArgumentException("Invalid email format.");
+            }
+
+            // Validate phone number format
+            if (!FormValidation.isValidPhonenumber(phoneNumber)) {
+                throw new IllegalArgumentException("Invalid phone number format. It should contain 10 to 15 digits.");
+            }
+
+            // Check if the email exists in the newsletter repository
+            Newsletter existingNewsletter = newsletterRepository.findByEmail(email);
+            if (existingNewsletter == null) {
+                // Create a new newsletter entry
+                Newsletter newsletter = new Newsletter();
+                newsletter.setEmail(email);
+
+                newsletterRepository.save(newsletter);
+            }
+
+            contactUs.setName(name);
+            contactUs.setEmail(email);
+            contactUs.setPhoneNumber(phoneNumber);
+            contactUs.setMessage(message);
+
+            // Save the contact message
+            contactUsRepository.save(contactUs);
+            return "We received your message.";
+        } catch (Exception e) {
+            throw new RuntimeException("An unexpected error occurred");
         }
-
-        // Validate phone number format
-        if (!FormValidation.isValidPhonenumber(phoneNumber)) {
-            throw new IllegalArgumentException("Invalid phone number format. It should contain 10 to 15 digits.");
-        }
-
-        // Check if the email exists in the newsletter repository
-        Newsletter existingNewsletter = newsletterRepository.findByEmail(email);
-        if (existingNewsletter == null) {
-            // Create a new newsletter entry
-            Newsletter newsletter = new Newsletter();
-            newsletter.setEmail(email);
-
-            newsletterRepository.save(newsletter);
-        }
-
-        contactUs.setName(name);
-        contactUs.setEmail(email);
-        contactUs.setPhoneNumber(phoneNumber);
-        contactUs.setMessage(message);
-
-        // Save the contact message
-        contactUsRepository.save(contactUs);
-        logger.info("Contact message successfully saved for: {}", email);
-        return "We received your message.";
     }
 
     private String trimAndValidate(String field, String fieldName) {

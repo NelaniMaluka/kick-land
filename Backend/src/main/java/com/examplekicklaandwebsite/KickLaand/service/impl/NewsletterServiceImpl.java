@@ -20,22 +20,26 @@ public class NewsletterServiceImpl implements NewsletterService {
     @Override
     @Transactional
     public String addNewsletter(Newsletter newsletter) {
-        String email = (newsletter.getEmail() != null) ? newsletter.getEmail().trim() : null;
+        try {
+            String email = (newsletter.getEmail() != null) ? newsletter.getEmail().trim() : null;
 
-        if (email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Please Enter a Valid Email");
+            if (email == null || email.isEmpty()) {
+                throw new IllegalArgumentException("Please Enter a Valid Email");
+            }
+
+            if (!FormValidation.isValidEmail(email)) {
+                throw new IllegalArgumentException("Invalid Email Format");
+            }
+
+            if (newsletterRepository.findByEmail(email) != null) {
+                throw new IllegalStateException("Email Already Subscribed");
+            }
+
+            newsletterRepository.save(newsletter);
+
+            return "We Received Your Email";
+        } catch (Exception e) {
+            throw new RuntimeException("An unexpected error occurred");
         }
-
-        if (!FormValidation.isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid Email Format");
-        }
-
-        if (newsletterRepository.findByEmail(email) != null) {
-            throw new IllegalStateException("Email Already Subscribed");
-        }
-
-        newsletterRepository.save(newsletter);
-
-        return "We Received Your Email";
     }
 }

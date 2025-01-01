@@ -64,7 +64,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
             return ResponseEntity.ok("Email sent for verification");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
     }
 
@@ -87,7 +87,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
             return ResponseEntity.ok("OTP Verified");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
     }
 
@@ -113,7 +113,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
             return ResponseEntity.ok("Password Successfully updated");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
     }
 

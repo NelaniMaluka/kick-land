@@ -11,7 +11,6 @@ import com.examplekicklaandwebsite.KickLaand.dto.UserCartDTO;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
 import com.examplekicklaandwebsite.KickLaand.repository.CartRepository;
-import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
 import com.examplekicklaandwebsite.KickLaand.service.CartService;
 import com.examplekicklaandwebsite.KickLaand.util.FilterLists;
 
@@ -23,43 +22,27 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
-    private final UserAccountRepository userAccountRepository;
 
     @Autowired
-    public CartServiceImpl(CartRepository cartRepository, UserAccountRepository userAccountRepository) {
+    public CartServiceImpl(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-        this.userAccountRepository = userAccountRepository;
     }
 
     @Override
     public ResponseEntity<?> getUserCartItems(UserAccount user) {
-        try {
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-            } else {
-                List<UserCarts> userCart = user.getUserCart();
-                if (userCart.isEmpty()) {
-                    return ResponseEntity.ok("Cart is empty");
-                } else {
-                    Object filteredCartList = FilterLists.getFilteredCartList(userCart);
-                    return ResponseEntity.ok(filteredCartList);
-                }
-            }
-        } catch (EntityNotFoundException e) {
+        if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+        List<UserCarts> userCart = user.getUserCart();
+        if (userCart.isEmpty()) {
+            return ResponseEntity.ok("Cart is empty");
+        }
+        return ResponseEntity.ok(FilterLists.getFilteredCartList(userCart));
     }
+
 
     @Override
     public ResponseEntity<?> addToCart(UserCartDTO req, UserAccount user) {
-        if (req.getProductId() == null || req.getQuantity() <= 0) {
-            return ResponseEntity.badRequest().body("Invalid product or quantity");
-        }
-
         try {
             UserCarts cartItem = new UserCarts();
             cartItem.setProductId(req.getProductId());
@@ -72,8 +55,10 @@ public class CartServiceImpl implements CartService {
 
             Object filteredCartList = FilterLists.getFilteredCartList(user.getUserCart());
             return ResponseEntity.ok(filteredCartList);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
     }
 
@@ -98,7 +83,7 @@ public class CartServiceImpl implements CartService {
                 return ResponseEntity.ok(filteredCartList);
             }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("An unexpected error occurred");
         }
     }
 
@@ -111,7 +96,7 @@ public class CartServiceImpl implements CartService {
             Object filteredCartList = FilterLists.getFilteredCartList(userCartItems);
             return ResponseEntity.ok(filteredCartList);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("An unexpected error occurred");
         }
     }
 

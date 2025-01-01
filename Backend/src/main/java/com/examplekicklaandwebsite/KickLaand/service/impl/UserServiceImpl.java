@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create account: " + e.getMessage());
+            return ResponseEntity.badRequest().body("Failed to create account.");
         }
     }
 
