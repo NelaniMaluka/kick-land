@@ -26,13 +26,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/userDetails")
+    @GetMapping("/user-details")
     public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String jwt) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
         return ResponseEntity.ok(createUserResponse.createResponse(user));
     }
 
-    @PutMapping("/update-user/{userId}")
+    @PutMapping("/update-user")
     public ResponseEntity<?> updateUserFields(@RequestHeader("Authorization") String jwt,
             @Valid @RequestBody Map<String, String> updates) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
