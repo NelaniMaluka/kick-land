@@ -88,9 +88,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseEntity<?> deleteCartItem(UserAccount user, CartRequest req) {
+    public ResponseEntity<?> deleteCartItem(UserAccount user, Integer productId) {
         try {
-            cartRepository.deleteByProductIdAndUserId(req.productId(), user);
+            cartRepository.deleteByProductIdAndUserId(productId, user);
 
             List<UserCarts> userCartItems = user.getUserCart();
             Object filteredCartList = FilterLists.getFilteredCartList(userCartItems);

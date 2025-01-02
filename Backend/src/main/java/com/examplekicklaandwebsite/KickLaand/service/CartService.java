@@ -10,6 +10,6 @@ public interface CartService {
     ResponseEntity<?> getUserCartItems(UserAccount user);
     ResponseEntity<?> addToCart(UserCartDTO request, UserAccount user);
     ResponseEntity<?> updateCart(UserAccount user, CartRequest req);
-    ResponseEntity<?> deleteCartItem(UserAccount user, CartRequest req);
+    ResponseEntity<?> deleteCartItem(UserAccount user, Integer productId);
 }
 
