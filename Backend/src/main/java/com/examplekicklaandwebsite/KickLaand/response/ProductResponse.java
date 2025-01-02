@@ -8,17 +8,11 @@ import lombok.Data;
 
 @Data
 public class ProductResponse {
-
 	private Integer productId;
-
 	private String name;
-
 	private BigDecimal price;
-
 	private String category;
-
 	public List<ProductStock> sizes;
-
 	private String image1;
 	private String image2;
 	private String image3;

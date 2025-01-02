@@ -5,9 +5,6 @@ import jakarta.validation.constraints.NotNull;
 public record CartRequest (
     @NotNull(message = "Product Id cannot be null")
     Integer productId,
-
-    Integer quantity
-){
-
-};
+    Integer quantity){
+}
 

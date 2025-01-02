@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface ForgotPasswordService {
     ResponseEntity<?> verifyEmail(EmailRequest req);
-
     ResponseEntity<?> verifyOtp(OtpRequest otpRequest);
-
     ResponseEntity<?> changePassword(ChangePasswordRequest changePassword);
 }
