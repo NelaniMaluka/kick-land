@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.examplekicklaandwebsite.KickLaand.model.ContactUs;
 
-public interface ContactUsRepository extends JpaRepository<ContactUs, Long>{
+public interface ContactUsRepository extends JpaRepository<ContactUs, Integer> {
 
 }
