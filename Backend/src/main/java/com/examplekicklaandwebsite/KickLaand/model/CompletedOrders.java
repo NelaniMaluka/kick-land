@@ -16,7 +16,6 @@ public class CompletedOrders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer complatedOrderId;
 
-    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserAccount userId;

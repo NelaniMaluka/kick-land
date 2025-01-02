@@ -30,7 +30,6 @@ public class Products {
     @NotNull(message = "Product category cannot be null")
     private String productCategory;
 
-    @Column(nullable = false)
     @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
     @NotNull(message = "Stock List cannot be null")
     public List<ProductStock> stock;

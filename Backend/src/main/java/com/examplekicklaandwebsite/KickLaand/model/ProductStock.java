@@ -18,7 +18,6 @@ public class ProductStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer stockId;
 
-    @Column(nullable = false)
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_id")

@@ -17,7 +17,6 @@ public class UserCarts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userCartId;
 
-	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private UserAccount userId;
@@ -38,7 +37,6 @@ public class UserCarts {
 	@NotNull(message = "Price cannot be null")
 	private Integer price;
 
-	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "orderId")
 	private UserOrders order;

@@ -23,7 +23,6 @@ public class UserOrders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer orderId;
 
-	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private UserAccount userId;

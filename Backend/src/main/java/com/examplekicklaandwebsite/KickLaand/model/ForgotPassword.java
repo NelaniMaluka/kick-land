@@ -29,7 +29,6 @@ public class ForgotPassword {
 	@NotNull(message = "Expiration Date cannot be null")
 	private Date expirationTime;
 
-	@Column(nullable = false)
 	@OneToOne
 	@NotNull(message = "User cannot be null")
 	private UserAccount user;
