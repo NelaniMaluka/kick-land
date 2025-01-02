@@ -54,7 +54,7 @@ public class CartServiceImpl implements CartService {
             cartRepository.save(cartItem);
 
             Object filteredCartList = FilterLists.getFilteredCartList(user.getUserCart());
-            return ResponseEntity.ok(filteredCartList);
+            return new ResponseEntity<>(filteredCartList, HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
         } catch (Exception e) {

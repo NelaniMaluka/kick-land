@@ -104,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
 
                 cartRepository.deleteByUserId(user);
 
-                return new ResponseEntity<>(response, HttpStatus.OK);
+                return new ResponseEntity<>(response, HttpStatus.CREATED);
             }
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
