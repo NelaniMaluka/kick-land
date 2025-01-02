@@ -1,9 +1,10 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
-import com.examplekicklaandwebsite.KickLaand.service.UserService;
+import com.examplekicklaandwebsite.KickLaand.service.AuthService;
+
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,20 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
-    @Autowired
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserAccount userAccount) {
-        return userService.login(userAccount);
+        return authService.login(userAccount);
     }
 
     @PostMapping(path = "/create-account")
     public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount) {
-        return userService.createAccount(userAccount);
+        return authService.createAccount(userAccount);
     }
 }
