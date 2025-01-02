@@ -2,6 +2,7 @@ package com.examplekicklaandwebsite.KickLaand.service.impl;
 
 import com.examplekicklaandwebsite.KickLaand.dto.MailBody;
 import com.examplekicklaandwebsite.KickLaand.request.ChangePasswordRequest;
+import com.examplekicklaandwebsite.KickLaand.request.EmailRequest;
 import com.examplekicklaandwebsite.KickLaand.request.OtpRequest;
 import com.examplekicklaandwebsite.KickLaand.model.ForgotPassword;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
@@ -39,9 +40,9 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     }
 
     @Override
-    public ResponseEntity<?> verifyEmail(UserAccount userAccount) {
+    public ResponseEntity<?> verifyEmail(EmailRequest req) {
         try {
-            UserAccount user = userRepository.findByEmail(userAccount.getEmail());
+            UserAccount user = userRepository.findByEmail(req.email());
             if (user == null) {
                 throw new UsernameNotFoundException("Please provide a valid email!");
             }
@@ -49,7 +50,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             int otp = OtpGenerator.generatorOtp();
 
             MailBody mailBody = MailBody.builder()
-                    .to(userAccount.getEmail())
+                    .to(req.email())
                     .text("This is the otp for your forgot password request: " + otp)
                     .subject("OTP for forgot Password request")
                     .build();

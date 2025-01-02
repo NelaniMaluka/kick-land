@@ -1,6 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
 import com.examplekicklaandwebsite.KickLaand.request.ChangePasswordRequest;
+import com.examplekicklaandwebsite.KickLaand.request.EmailRequest;
 import com.examplekicklaandwebsite.KickLaand.request.OtpRequest;
 import com.examplekicklaandwebsite.KickLaand.service.ForgotPasswordService;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class ForgotPasswordController {
 	}
 
 	@PostMapping("/verify-mail")
-	public ResponseEntity<?> verifyEmail(@Valid @RequestBody UserAccount userAccount){
-		return forgotPasswordService.verifyEmail(userAccount);
+	public ResponseEntity<?> verifyEmail(@Valid @RequestBody EmailRequest req){
+		return forgotPasswordService.verifyEmail(req);
 
 	}
 
