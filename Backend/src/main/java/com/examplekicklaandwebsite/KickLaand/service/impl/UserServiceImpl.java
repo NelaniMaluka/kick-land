@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
 
                 // Return a full response with all the fields
                 UserResponse userResponseDTO = new UserResponse(
-                        user.getId(),
                         user.getFirstname(),
                         user.getLastname(),
                         user.getEmail(),

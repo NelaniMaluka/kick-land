@@ -12,7 +12,6 @@ public class createUserResponse {
     // Static factory method to create a UserResponseDto
     public static UserResponse createResponse(UserAccount user) {
         return new UserResponse(
-                user.getId(),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getEmail(),
