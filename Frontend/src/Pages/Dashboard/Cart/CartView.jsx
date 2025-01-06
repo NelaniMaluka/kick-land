@@ -28,8 +28,7 @@ function CartView() {
       };
       const result = dispatch(updateCart(updateData, jwt));
 
-      if (result) {
-      } else {
+      if (!result) {
         ErrorMessageAlert("Could not update product");
       }
     } catch (error) {
@@ -40,9 +39,8 @@ function CartView() {
   // Function to handle delete button click
   async function handleDeleteClick(productId) {
     try {
-      const result = dispatch(removeCart(productId, jwt));
-      if (result) {
-      } else {
+      const result = await dispatch(removeCart(productId, jwt));
+      if (!result) {
         ErrorMessageAlert("Could not remove product");
       }
     } catch (error) {

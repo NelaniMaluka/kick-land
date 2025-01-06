@@ -65,6 +65,7 @@ export const authReducer = (state = initialState, action) => {
         user: null,
         success: null,
         authenticated: false,
+        jwt: null,
       };
 
     default:

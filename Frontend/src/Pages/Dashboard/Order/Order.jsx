@@ -109,8 +109,8 @@ function Order() {
         return;
       }
 
-      const result = dispatch(addOrder(orderData, jwt));
-      if (result) {
+      const result = await dispatch(addOrder(orderData, jwt));
+      if (result.result) {
         setFirstname("");
         setLastname("");
         setEmail("");
@@ -118,10 +118,9 @@ function Order() {
         setProvinceError("");
         setZIPCodeError("");
         setAddressError("");
-        window.location.href = result.response.data.payment_url;
+        window.location.href = result.response.payment_url;
       } else {
         // API call failed, handle the error
-        console.log(result.data);
         ErrorMessageAlert({ message: "Invalid Credentials" });
       }
       //ErrorMessageAlert({ message: "Invalid Credentials" });

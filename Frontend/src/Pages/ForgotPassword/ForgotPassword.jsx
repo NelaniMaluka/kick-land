@@ -30,7 +30,6 @@ function ForgotPassword() {
     }
 
     const result = await useContext.forgotPassword(email);
-    console.log(result);
     try {
       if (result.success) {
         showSuccessMessage("Success!", result.response.data);

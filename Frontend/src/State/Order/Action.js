@@ -1,4 +1,5 @@
 import { apiClient } from "../../Context/Api";
+import { getCart } from "../Cart/Action";
 import {
   ADD_ORDER_FAILURE,
   ADD_ORDER_REQUEST,
@@ -17,10 +18,11 @@ export const addOrder = (reqData, jwt) => async (dispatch) => {
       },
     });
     dispatch({ type: ADD_ORDER_SUCCESS, payload: data });
-    console.log(data);
+    await dispatch(getCart(jwt));
+    return { result: true, response: data };
   } catch (e) {
     dispatch({ type: ADD_ORDER_FAILURE, payload: e });
-    console.log(e);
+    return { result: false };
   }
 };
 
@@ -33,7 +35,6 @@ export const getOrder = (jwt) => async (dispatch) => {
       },
     });
     dispatch({ type: GET_ORDER_SUCCESS, payload: data });
-    console.log(data);
   } catch (e) {
     dispatch({ type: GET_ORDER_FAILURE, payload: e });
   }

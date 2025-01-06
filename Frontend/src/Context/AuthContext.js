@@ -37,15 +37,14 @@ function AuthProvider({ children }) {
   async function forgotPassword(email) {
     try {
       const response = await ForgotPassword(email);
-      console.log(response);
       if (response.status === 200) {
         setForgotPasswordEmail(email);
         return { success: true, response };
       } else {
-        return { success: false, response };
+        return { success: false };
       }
     } catch (e) {
-      return { success: false, e };
+      return { success: false };
     }
   }
   async function verifyOtp(otp) {
@@ -54,10 +53,10 @@ function AuthProvider({ children }) {
       if (response.status === 200) {
         return { success: true, response };
       } else {
-        return { success: false, response };
+        return { success: false };
       }
     } catch (e) {
-      return { success: false, e };
+      return { success: false };
     }
   }
   async function changePassword(password, repeatPassword) {
@@ -67,14 +66,13 @@ function AuthProvider({ children }) {
         repeatPassword,
         isForgotPasswordEmail
       );
-      console.log(response);
       if (response.status === 200) {
         return { success: true, response };
       } else {
-        return { success: false, response };
+        return { success: false };
       }
     } catch (e) {
-      return { success: false, e };
+      return { success: false };
     }
   }
 

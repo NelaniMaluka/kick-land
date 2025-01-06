@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import LocationSearchInput from "../../../Services/LocationSearchInput.jsx";
 import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert.jsx";
 import showSuccessMessage from "../../../Components/Alerts/SuccessMessageAlert.jsx";
 
@@ -10,8 +9,6 @@ import { updateUserData } from "../../../State/Authentication/Action.js";
 import { useDispatch, useSelector } from "react-redux";
 
 function UserProfile() {
-  const [selectedAddress, setSelectedAddress] = useState("");
-
   const { auth } = useSelector((store) => store);
   const dispatch = useDispatch();
   const user = auth.user;
@@ -35,10 +32,9 @@ function UserProfile() {
         lastname: values.lastname,
         email: values.email,
         phoneNumber: values.phoneNumber,
-        address: selectedAddress, // Use the selected address
       };
 
-      const result = dispatch(updateUserData(updateData));
+      const result = await dispatch(updateUserData(updateData));
       if (result) {
         showSuccessMessage("Success!", "Successfully updated your profile");
       } else {
@@ -128,16 +124,6 @@ function UserProfile() {
                 name="email"
                 component="div"
                 className="error-message"
-              />
-            </div>
-
-            <div>
-              <h2>Address Information:</h2>
-            </div>
-            <div className="field-1">
-              <LocationSearchInput
-                initialAddress={values.address}
-                onAddressSelect={(address) => setSelectedAddress(address)}
               />
             </div>
 

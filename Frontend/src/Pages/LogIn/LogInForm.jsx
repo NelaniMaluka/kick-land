@@ -59,7 +59,7 @@ function LoginForm() {
         return;
       }
 
-      const result = dispatch(loginUser(loginData, navigate));
+      const result = await dispatch(loginUser(loginData));
 
       if (result) {
         showSuccessMessage("Weclome Back");

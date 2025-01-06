@@ -81,7 +81,7 @@ function CreateAccount() {
         return;
       }
 
-      const result = dispatch(registerUser(registerData, navigate));
+      const result = await dispatch(registerUser(registerData));
       if (result) {
         showSuccessMessage("Welcome: " + firstname);
         navigate("/");

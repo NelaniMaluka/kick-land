@@ -64,7 +64,6 @@ function ContactUs() {
       }
 
       const result = await contactUs(name, email, phoneNumber, message);
-      console.log(result);
       if (result.status === 200) {
         // API call was successful, handle the success
         showSuccessMessage("Sent", "we recieved your message");
