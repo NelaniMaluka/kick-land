@@ -38,7 +38,7 @@ function App() {
       dispatch(getOrder(auth.jwt || jwt));
       dispatch(getCart(auth.jwt || jwt));
     }
-  }, [auth.jwt]);
+  }, [dispatch, jwt, auth.jwt]);
 
   return (
     <div className="App">
