@@ -1,6 +1,5 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examplekicklaandwebsite.KickLaand.model.Products;
@@ -14,7 +13,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductsRepository productsRepository;
 
-    @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository) {
         this.productsRepository = productsRepository;
     }

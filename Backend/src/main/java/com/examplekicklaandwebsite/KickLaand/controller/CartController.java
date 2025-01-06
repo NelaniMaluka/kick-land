@@ -3,7 +3,6 @@ package com.examplekicklaandwebsite.KickLaand.controller;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.request.CartRequest;
 import com.examplekicklaandwebsite.KickLaand.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +16,6 @@ public class CartController {
     private final CartService cartService;
     private final UserService userService;
 
-    @Autowired
     public CartController(CartService cartService, UserService userService) {
         this.cartService = cartService;
         this.userService = userService;
@@ -37,7 +35,8 @@ public class CartController {
     }
 
     @PutMapping()
-    public ResponseEntity<?> updateCart(@RequestHeader("Authorization") String jwt, @RequestBody CartRequest req) throws Exception {
+    public ResponseEntity<?> updateCart(@RequestHeader("Authorization") String jwt, @RequestBody CartRequest req)
+            throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
         return cartService.updateCart(user, req);
     }

@@ -1,7 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
 import com.examplekicklaandwebsite.KickLaand.util.createUserResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }

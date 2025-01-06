@@ -36,7 +36,7 @@ public class AppConfig {
     private CorsConfigurationSource corsCofigurationSource() {
         return new CorsConfigurationSource() {
             @Override
-            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+            public CorsConfiguration getCorsConfiguration(@SuppressWarnings("null") HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
 
                 cfg.setAllowedOrigins(Arrays.asList(

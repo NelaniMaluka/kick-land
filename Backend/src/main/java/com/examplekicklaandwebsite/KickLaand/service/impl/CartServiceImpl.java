@@ -1,7 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
 import com.examplekicklaandwebsite.KickLaand.request.CartRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
 
-    @Autowired
     public CartServiceImpl(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }
@@ -39,7 +37,6 @@ public class CartServiceImpl implements CartService {
         }
         return ResponseEntity.ok(FilterLists.getFilteredCartList(userCart));
     }
-
 
     @Override
     public ResponseEntity<?> addToCart(UserCartDTO req, UserAccount user) {
