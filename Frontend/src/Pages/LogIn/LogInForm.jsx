@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Context/AuthContext";
 import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import isValidEmail from "../../Utils/EmailValidation";
@@ -8,15 +7,22 @@ import isValidPassword from "../../Utils/PasswordValidation";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 
 import "../../Components/Styling/Form.css";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../State/Authentication/Action";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const useContext = useAuth();
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const loginData = {
+    email,
+    password,
+  };
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -52,8 +58,10 @@ function LoginForm() {
         );
         return;
       }
-      const result = await useContext.login(email, password);
-      if (result.success) {
+
+      const result = dispatch(loginUser(loginData, navigate));
+
+      if (result) {
         showSuccessMessage("Weclome Back");
         navigate("/");
       } else {

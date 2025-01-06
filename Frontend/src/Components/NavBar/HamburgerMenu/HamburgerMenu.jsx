@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../Context/AuthContext";
 
 import "../Layers/NavBarMainBanner.css";
 import "./HamburgerMenu.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../../State/Authentication/Action";
 
 function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
-  const authContext = useAuth();
-  const isAuthenticated = authContext.isAuthenticated;
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   function handleLogout() {
-    authContext.logout();
+    dispatch(logoutUser());
   }
 
   function handleCloseMenu() {
@@ -59,14 +60,14 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
           <hr />
           <div className="details">
             <ul>
-              {!isAuthenticated && (
+              {!auth.authenticated && (
                 <li>
                   <Link to="/Login" onClick={handleCloseMenu}>
                     Log In
                   </Link>
                 </li>
               )}
-              {isAuthenticated && (
+              {auth.authenticated && (
                 <li>
                   <Link onClick={handleLogout}>Log Out</Link>
                 </li>

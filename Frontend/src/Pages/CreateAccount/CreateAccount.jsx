@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Context/AuthContext";
 import { Link } from "react-router-dom";
-import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import isValidEmail from "../../Utils/EmailValidation";
 import isValidPassword from "../../Utils/PasswordValidation";
 
 import "../../Components/Styling/Form.css";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../State/Authentication/Action";
+import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 
 function CreateAccount() {
   const [firstname, setFirstname] = useState("");
@@ -18,8 +19,16 @@ function CreateAccount() {
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const useContext = useAuth();
+
+  const registerData = {
+    firstname,
+    password,
+    email,
+    lastname,
+    role: "ROLE_CUSTOMER",
+  };
 
   function handleFirstnameChange(event) {
     setFirstname(event.target.value);
@@ -72,13 +81,8 @@ function CreateAccount() {
         return;
       }
 
-      const result = await useContext.createAccount(
-        firstname,
-        lastname,
-        email,
-        password
-      );
-      if (result.success) {
+      const result = dispatch(registerUser(registerData, navigate));
+      if (result) {
         showSuccessMessage("Welcome: " + firstname);
         navigate("/");
       } else {

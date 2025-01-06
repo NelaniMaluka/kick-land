@@ -1,12 +1,12 @@
 import { Navigate, Route } from "react-router-dom";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import Order from "../Pages/Dashboard/Order/Order";
-import { useAuth } from "../Context/AuthContext";
 import ErrorMessageAlert from "../Components/Alerts/ErrorMessageAlert";
+import { useSelector } from "react-redux";
 
 function AuthenticatedRoute({ children }) {
-  const authContext = useAuth();
-  if (authContext.isAuthenticated) {
+  const { auth } = useSelector((store) => store);
+  if (auth.authenticated) {
     return children;
   }
   ErrorMessageAlert({ message: "LogIn First" });

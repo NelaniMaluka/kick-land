@@ -3,19 +3,20 @@ import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useAuth } from "../../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../../State/Authentication/Action";
 
 export default function ProfileIcon() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const authContext = useAuth();
-  const isAuthenticated = authContext.isAuthenticated;
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   function handleLogout() {
-    authContext.logout();
+    dispatch(logoutUser());
     navigate("/");
   }
 
@@ -66,7 +67,7 @@ export default function ProfileIcon() {
           </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          {!isAuthenticated && (
+          {!auth.authenticated && (
             <li>
               <Link to="/Login" style={{ fontFamily: "arial" }}>
                 <span
@@ -79,7 +80,7 @@ export default function ProfileIcon() {
               </Link>
             </li>
           )}
-          {isAuthenticated && (
+          {auth.authenticated && (
             <li>
               <Link onClick={handleLogout} style={{ fontFamily: "arial" }}>
                 <span

@@ -1,13 +1,15 @@
 import { IconButton, Badge as StyledBadge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-import { useAuth } from "../../../Context/AuthContext";
+import { useSelector } from "react-redux";
 
 function CartIcon() {
-  const authContext = useAuth();
-  const numberOfCartItems = authContext.isCartItems
-    ? authContext.isCartItems.length
-    : 0;
+  let numberOfCartItems = 0;
+  const { cart } = useSelector((store) => store);
+
+  if (cart?.success && Array.isArray(cart.cart) && cart.cart.length > 0) {
+    numberOfCartItems = cart.cart[0]?.id ? cart.cart.length : 0;
+  }
 
   return (
     <IconButton aria-label="cart">

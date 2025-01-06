@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { useAuth } from "../../../Context/AuthContext";
 import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert";
 import isValidPhoneNumber from "../../../Utils/PhonenumberValidation";
 import isValidEmail from "../../../Utils/EmailValidation";
 
 import "../../../Components/Styling/Form.css";
+import { useDispatch } from "react-redux";
+import { addOrder } from "../../../State/Order/Action";
 
 function Order() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [province, setProvince] = useState("");
@@ -20,14 +21,25 @@ function Order() {
   const [ZIPCodeError, setZIPCodeError] = useState("");
   const [addressError, setAddressError] = useState("");
 
-  const authContext = useAuth();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+
+  const orderData = {
+    firstname,
+    lastname,
+    phoneNumber,
+    email,
+    province,
+    ZIPCode,
+    address,
+  };
 
   function handleFirstNameChange(event) {
-    setFirstName(event.target.value);
+    setFirstname(event.target.value);
   }
 
   function handleLastNameChange(event) {
-    setLastName(event.target.value);
+    setLastname(event.target.value);
   }
 
   function handleEmailChange(event) {
@@ -97,33 +109,23 @@ function Order() {
         return;
       }
 
-      const result = await authContext.addToOrders(
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        province,
-        ZIPCode,
-        address
-      );
-      if (result.success) {
-        setFirstName("");
-        setLastName("");
+      const result = dispatch(addOrder(orderData, jwt));
+      if (result) {
+        setFirstname("");
+        setLastname("");
         setEmail("");
         setPhoneNumber("");
         setProvinceError("");
         setZIPCodeError("");
         setAddressError("");
-        console.log(result.response.data);
         window.location.href = result.response.data.payment_url;
       } else {
         // API call failed, handle the error
         console.log(result.data);
         ErrorMessageAlert({ message: "Invalid Credentials" });
       }
+      //ErrorMessageAlert({ message: "Invalid Credentials" });
     } catch (error) {
-      // Handle other unexpected errors
-      console.log(error);
       ErrorMessageAlert({ message: "Unexpected error please ContactUs" });
     }
   }
@@ -140,7 +142,7 @@ function Order() {
             placeholder="First Name"
             type="text"
             name="firstName"
-            value={firstName}
+            value={firstname}
             autoComplete="given-name"
             onChange={handleFirstNameChange}
           />
@@ -150,7 +152,7 @@ function Order() {
             placeholder="Last Name"
             type="text"
             name="lastName"
-            value={lastName}
+            value={lastname}
             autoComplete="lastName"
             onChange={handleLastNameChange}
           />

@@ -12,6 +12,10 @@ import ShopRoutes from "./Routes/ShopRoutes";
 import InfoRoutes from "./Routes/InfoRoutes";
 import DashboardRoutes from "./Routes/DashboardRoutes";
 import "./App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./State/Authentication/Action";
+import { getOrder } from "./State/Order/Action";
+import { getCart } from "./State/Cart/Action";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -24,6 +28,18 @@ function ScrollToTop() {
 }
 
 function App() {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { auth } = useSelector((store) => store);
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(auth.jwt || jwt));
+      dispatch(getOrder(auth.jwt || jwt));
+      dispatch(getCart(auth.jwt || jwt));
+    }
+  }, [auth.jwt]);
+
   return (
     <div className="App">
       <PrimeReactProvider>
@@ -34,7 +50,6 @@ function App() {
             <div className="content">
               <Routes>
                 <Route path="/" element={<HomePage />} />
-                {/* Spread individual routes */}
                 {AuthRoutes()}
                 {ForgotPasswordRoutes()}
                 {ShopRoutes()}

@@ -6,31 +6,36 @@ import TransitionsSnackbar from "../Alerts/TransitionSnackBar";
 import ProductImageCouresel from "../Couresels/ProductImageCarousel";
 import "./ProductDetails.css";
 import AssuranceBanner from "../Banners/AssuranceBanner";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart } from "../../State/Cart/Action";
 
 function ProductDetails() {
   const { category, productName } = useParams();
-  const { isProducts, addToCart, isAuthenticated, isUser } = useAuth();
+  const { isProducts } = useAuth();
+  const { auth } = useSelector((store) => store);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("size3"); // Initialize selectedSize to null
   const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+
+  const size = selectedSize;
 
   const selectedProduct = isProducts.find(
     (product) => product.category === category && product.name === productName
   );
 
   const handleAddToCart = () => {
-    if (isAuthenticated) {
+    const cartData = {
+      quantity,
+      size,
+      productId: selectedProduct.productId, // Include productId directly
+      price: selectedProduct.price,
+    };
+    if (auth.authenticated) {
       if (!selectedProduct.sizes[0][selectedSize] <= 0) {
-        const userId = isUser.id;
-        const size = selectedSize;
-        const cartProduct = {
-          quantity,
-          userId,
-          size,
-          productId: selectedProduct.productId, // Include productId directly
-          price: selectedProduct.price,
-        };
-        addToCart(cartProduct)
+        dispatch(addCart(cartData, jwt))
           .then((result) => {
             if (result) {
               setShowSnackbar(true);

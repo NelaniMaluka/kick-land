@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { formatCurrency } from "../../../Utils/formatCurrency.js";
 import "./Checkout.css";
+import { useSelector } from "react-redux";
 
 function Checkout() {
   const authContext = useAuth();
-  const cartItems = authContext.isCartItems || [];
+  const { cart } = useSelector((store) => store);
+  const cartItems = cart.cart || [];
   const isProducts = authContext.isProducts || [];
   const navigate = useNavigate();
 

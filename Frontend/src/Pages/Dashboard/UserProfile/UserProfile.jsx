@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useAuth } from "../../../Context/AuthContext.js";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import LocationSearchInput from "../../../Services/LocationSearchInput.jsx";
@@ -7,13 +6,15 @@ import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert.jsx"
 import showSuccessMessage from "../../../Components/Alerts/SuccessMessageAlert.jsx";
 
 import "./UserProfile.css";
+import { updateUserData } from "../../../State/Authentication/Action.js";
+import { useDispatch, useSelector } from "react-redux";
 
 function UserProfile() {
   const [selectedAddress, setSelectedAddress] = useState("");
 
-  const AuthContext = useAuth();
-  const user = AuthContext.isUser;
-  console.log(user);
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const user = auth.user;
 
   // Validation schema
   const validationSchema = Yup.object().shape({
@@ -29,15 +30,16 @@ function UserProfile() {
   // Handle form submission
   async function handleSubmit(values) {
     try {
-      const result = await AuthContext.updateUserDetails(
-        user.id,
-        values.firstname,
-        values.lastname,
-        values.email,
-        values.phoneNumber,
-        selectedAddress // Use the selected address
-      );
-      if (result.success) {
+      const updateData = {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+        address: selectedAddress, // Use the selected address
+      };
+
+      const result = dispatch(updateUserData(updateData));
+      if (result) {
         showSuccessMessage("Success!", "Successfully updated your profile");
       } else {
         ErrorMessageAlert({

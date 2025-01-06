@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth } from "../../../Context/AuthContext";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,22 +7,28 @@ import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert.jsx"
 import { formatCurrency } from "../../../Utils/formatCurrency.js";
 
 import "./CartView.css";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCart, updateCart } from "../../../State/Cart/Action.js";
 
 function CartView() {
   const authContext = useAuth();
-  const [cartItems, setCartItems] = useState(authContext.isCartItems || []);
+  const { cart } = useSelector((store) => store);
+  const cartItems = Array.isArray(cart.cart) ? cart.cart : [];
   const isProducts = authContext.isProducts;
 
+  const jwt = localStorage.getItem("jwt");
+  const dispatch = useDispatch();
+
   // Function to handle quantity changes
-  async function handleQuantityChange(productId, updatedQuantity) {
+  async function handleQuantityChange(productId, quantity) {
     try {
-      const result = await authContext.updateCartItem(
-        authContext.isUser.id,
+      const updateData = {
         productId,
-        updatedQuantity
-      );
-      if (result.success) {
-        setCartItems(result.response.data);
+        quantity,
+      };
+      const result = dispatch(updateCart(updateData, jwt));
+
+      if (result) {
       } else {
         ErrorMessageAlert("Could not update product");
       }
@@ -34,12 +40,8 @@ function CartView() {
   // Function to handle delete button click
   async function handleDeleteClick(productId) {
     try {
-      const result = await authContext.deleteCartItem(
-        authContext.isUser.id,
-        productId
-      );
-      if (result.success) {
-        setCartItems(result.response.data);
+      const result = dispatch(removeCart(productId, jwt));
+      if (result) {
       } else {
         ErrorMessageAlert("Could not remove product");
       }

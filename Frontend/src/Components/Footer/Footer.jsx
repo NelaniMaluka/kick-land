@@ -1,15 +1,13 @@
 import "./Footer.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../../Context/AuthContext";
 import showSuccessMessage from "../Alerts/SuccessMessageAlert";
 import ErrorMessageAlert from "../Alerts/ErrorMessageAlert";
+import { SignForNewsletter } from "../../Context/Api";
 
 function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-
-  const authContext = useAuth();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -30,11 +28,11 @@ function Footer() {
     }
 
     try {
-      const result = await authContext.signUpForNewsletter(email);
-      if (result.success) {
-        showSuccessMessage("Success!", result.response.data);
+      const result = await SignForNewsletter(email);
+      if (result.status === 200) {
+        showSuccessMessage("Success!", result.data);
       } else {
-        ErrorMessageAlert(result.response.data);
+        ErrorMessageAlert(result.data);
       }
     } catch (error) {
       ErrorMessageAlert("Could not sign up for newsletter");

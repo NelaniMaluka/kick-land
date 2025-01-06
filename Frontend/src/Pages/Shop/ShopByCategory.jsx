@@ -27,7 +27,6 @@ function ShopByCategory() {
   }, [authContext, isProducts.length]);
 
   useEffect(() => {
-    // Move setFilteredProducts inside the useEffect block
     setFilteredProducts(
       isProducts.filter((product) => product.category === category.item)
     );

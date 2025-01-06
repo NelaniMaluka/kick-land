@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../Context/AuthContext";
 
 import "./NavBarTopBanner.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../../State/Authentication/Action";
 
 function NavBarTopBanner() {
-  const authContext = useAuth();
-  const isAuthenticated = authContext.isAuthenticated;
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   function handleLogout() {
-    authContext.logout();
+    dispatch(logoutUser());
   }
 
   return (
@@ -21,12 +22,12 @@ function NavBarTopBanner() {
           <li>
             <Link to="/Info/About-Us">About Us</Link>
           </li>
-          {!isAuthenticated && (
+          {!auth.authenticated && (
             <li>
               <Link to="/Login">Log In</Link>
             </li>
           )}
-          {isAuthenticated && (
+          {auth.authenticated && (
             <li>
               <Link onClick={handleLogout}>Log Out</Link>
             </li>

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useAuth } from "../../Context/AuthContext";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import isValidPhoneNumber from "../../Utils/PhonenumberValidation";
 import isValidEmail from "../../Utils/EmailValidation";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert";
 
 import "../../Components/Styling/Form.css";
+import { contactUs } from "../../Context/Api";
 
 function ContactUs() {
   const [name, setName] = useState("");
@@ -15,8 +15,6 @@ function ContactUs() {
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [messageError, setMessageError] = useState("");
-
-  const authContext = useAuth();
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -65,13 +63,9 @@ function ContactUs() {
         return;
       }
 
-      const result = await authContext.contactUs(
-        name,
-        email,
-        phoneNumber,
-        message
-      );
-      if (result.success) {
+      const result = await contactUs(name, email, phoneNumber, message);
+      console.log(result);
+      if (result.status === 200) {
         // API call was successful, handle the success
         showSuccessMessage("Sent", "we recieved your message");
         setName("");
