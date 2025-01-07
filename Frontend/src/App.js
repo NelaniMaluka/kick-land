@@ -1,6 +1,8 @@
 import "@stripe/stripe-js";
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import AuthProvider from "./Context/AuthContext";
@@ -11,11 +13,13 @@ import ForgotPasswordRoutes from "./Routes/ForgotPasswordRoutes";
 import ShopRoutes from "./Routes/ShopRoutes";
 import InfoRoutes from "./Routes/InfoRoutes";
 import DashboardRoutes from "./Routes/DashboardRoutes";
-import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./State/Authentication/Action";
 import { getOrder } from "./State/Order/Action";
 import { getCart } from "./State/Cart/Action";
+import "./App.css";
+
+const history = createBrowserHistory();
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,7 +34,7 @@ function ScrollToTop() {
 function App() {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (jwt) {
@@ -44,7 +48,10 @@ function App() {
     <div className="App">
       <PrimeReactProvider>
         <AuthProvider>
-          <BrowserRouter>
+          <HistoryRouter
+            history={history}
+            future={{ v7_relativeSplatPath: true }}
+          >
             <ScrollToTop />
             <NavBar className="navHeight" />
             <div className="content">
@@ -56,9 +63,9 @@ function App() {
                 {InfoRoutes()}
                 {DashboardRoutes()}
               </Routes>
-              <Footer />
             </div>
-          </BrowserRouter>
+            <Footer />
+          </HistoryRouter>
         </AuthProvider>
       </PrimeReactProvider>
     </div>
