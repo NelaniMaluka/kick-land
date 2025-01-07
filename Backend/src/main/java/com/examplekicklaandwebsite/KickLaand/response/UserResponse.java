@@ -8,15 +8,12 @@ public class UserResponse {
     private String lastname;
     private String email;
     private String phoneNumber;
-    private String address;
 
-    public UserResponse( String firstname, String lastname, String email, String phoneNumber,
-            String address) {
+    public UserResponse( String firstname, String lastname, String email, String phoneNumber) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.address = address;
     }
 
 }

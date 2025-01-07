@@ -55,6 +55,4 @@ public class UserAccount {
     @Pattern(regexp = "^\\+?[0-9]{1,15}$", message = "Please provide a valid phone number")
     public String phonenumber;
 
-    public String address;
-
 }

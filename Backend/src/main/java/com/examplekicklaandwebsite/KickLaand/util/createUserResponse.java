@@ -15,7 +15,6 @@ public class createUserResponse {
                 user.getFirstname(),
                 user.getLastname(),
                 user.getEmail(),
-                user.getPhonenumber() != null ? user.getPhonenumber() : "",
-                user.getAddress() != null ? user.getAddress() : "");
+                user.getPhonenumber() != null ? user.getPhonenumber() : "");
     }
 }
