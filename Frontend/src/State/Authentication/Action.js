@@ -5,7 +5,6 @@ import {
   LOGIN_SUCCESS,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
-  LOGOUT_REQUEST,
   REGISTER_FAILURE,
   LOGIN_FAILURE,
   GET_USER_FAILURE,
@@ -45,7 +44,7 @@ export const loginUser = (reqData, navigate) => async (dispatch) => {
 export const getUser = (jwt) => async (dispatch) => {
   dispatch({ type: GET_USER_REQUEST });
   try {
-    const { data } = await apiClient.get(`/api/user-details`, {
+    const { data } = await apiClient.get(`/api/user`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -59,7 +58,7 @@ export const getUser = (jwt) => async (dispatch) => {
 export const updateUserData = (reqData, jwt) => async (dispatch) => {
   dispatch({ type: UPDATE_USER_REQUEST });
   try {
-    const { data } = await apiClient.post("/api/user-details", reqData, {
+    const { data } = await apiClient.put("/api/user", reqData, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -74,7 +73,6 @@ export const updateUserData = (reqData, jwt) => async (dispatch) => {
 };
 
 export const logoutUser = () => async (dispatch) => {
-  dispatch({ type: LOGOUT_REQUEST });
+  dispatch({ type: "RESET_APP_STATE" });
   localStorage.clear();
-  dispatch({ type: LOGOUT_REQUEST });
 };
