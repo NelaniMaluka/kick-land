@@ -1,8 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
-import java.util.Map;
-
 import com.examplekicklaandwebsite.KickLaand.config.JwtProvider;
+import com.examplekicklaandwebsite.KickLaand.request.UserRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -26,63 +25,56 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> updateUserFields(UserAccount user, Map<String, String> updates) {
+    public ResponseEntity<?> updateUserFields(UserAccount user, UserRequest req) {
         try {
-            // Validate updates
-            if (updates.isEmpty()) {
-                return ResponseEntity.badRequest().body("No fields provided to update");
+            // Validate the UserRequest
+            if (req == null) {
+                return ResponseEntity.badRequest().body("No fields provided to update.");
             }
 
-            if (user != null) {
-                for (Map.Entry<String, String> entry : updates.entrySet()) {
-                    String field = entry.getKey();
-                    String value = entry.getValue();
-
-                    switch (field.toLowerCase()) {
-                        case "firstname":
-                            if (value == null || value.trim().isEmpty()) {
-                                return ResponseEntity.badRequest().body("Firstname cannot be empty");
-                            }
-                            user.setFirstname(value);
-                            break;
-                        case "email":
-                            if (!FormValidation.isValidEmail(value)) {
-                                return ResponseEntity.badRequest().body("Invalid email format");
-                            }
-                            user.setEmail(value);
-                            break;
-                        case "lastname":
-                            if (value == null || value.trim().isEmpty()) {
-                                return ResponseEntity.badRequest().body("Lastname cannot be empty");
-                            }
-                            user.setLastname(value);
-                            break;
-                        case "phonenumber":
-                            user.setPhonenumber(value);
-                            break;
-                        case "address":
-                            user.setAddress(value);
-                            break;
-                        default:
-                            return ResponseEntity.badRequest().body("Invalid field specified");
-                    }
-                }
-
-                userAccountRepository.save(user);
-
-                // Return a full response with all the fields
-                UserResponse userResponseDTO = new UserResponse(
-                        user.getFirstname(),
-                        user.getLastname(),
-                        user.getEmail(),
-                        user.getPhonenumber(),
-                        user.getAddress());
-                return ResponseEntity.ok(userResponseDTO);
-            } else {
+            // Check if the user exists
+            if (user == null) {
                 return ResponseEntity.notFound().build();
             }
+
+            // Update the fields from the request
+            if (req.firstname() != null && !req.firstname().trim().isEmpty()) {
+                user.setFirstname(req.firstname());
+            } else if (req.firstname() != null) {
+                return ResponseEntity.badRequest().body("Firstname cannot be empty.");
+            }
+
+            if (req.lastname() != null && !req.lastname().trim().isEmpty()) {
+                user.setLastname(req.lastname());
+            } else if (req.lastname() != null) {
+                return ResponseEntity.badRequest().body("Lastname cannot be empty.");
+            }
+
+            if (req.email() != null && FormValidation.isValidEmail(req.email())) {
+                user.setEmail(req.email());
+            } else if (req.email() != null) {
+                return ResponseEntity.badRequest().body("Invalid email format.");
+            }
+
+            if (req.phonenumber() != null) {
+                user.setPhonenumber(req.phonenumber());
+            }
+
+            // Save the updated user
+            userAccountRepository.save(user);
+
+            // Prepare response
+            UserResponse userResponseDTO = new UserResponse(
+                    user.getFirstname(),
+                    user.getLastname(),
+                    user.getEmail(),
+                    user.getPhonenumber()
+            );
+
+            return ResponseEntity.ok(userResponseDTO);
+
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to update user fields");
+            return ResponseEntity.badRequest().body("Failed to update user fields: " + e.getMessage());
         }
     }
 

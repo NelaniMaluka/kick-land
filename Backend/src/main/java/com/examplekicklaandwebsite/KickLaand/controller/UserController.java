@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
+import com.examplekicklaandwebsite.KickLaand.request.UserRequest;
 import com.examplekicklaandwebsite.KickLaand.util.createUserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -9,8 +10,6 @@ import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.service.UserService;
 
 import jakarta.validation.Valid;
-
-import java.util.Map;
 
 @RestController
 @Validated
@@ -23,17 +22,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user-details")
+    @GetMapping("/user")
     public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String jwt) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
         return ResponseEntity.ok(createUserResponse.createResponse(user));
     }
 
-    @PutMapping("/update-user")
+    @PutMapping("/user")
     public ResponseEntity<?> updateUserFields(@RequestHeader("Authorization") String jwt,
-            @Valid @RequestBody Map<String, String> updates) throws Exception {
+            @Valid @RequestBody UserRequest req) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
-        return userService.updateUserFields(user, updates);
+        return userService.updateUserFields(user, req);
     }
 
 }
