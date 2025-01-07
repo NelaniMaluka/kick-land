@@ -56,6 +56,9 @@ export const cartReducer = (state = initialState, action) => {
         isLoading: false,
       };
 
+    case "RESET_APP_STATE":
+      return initialState;
+
     default:
       return state;
   }
