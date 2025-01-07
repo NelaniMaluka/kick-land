@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 function Checkout() {
   const authContext = useAuth();
-  const { cart } = useSelector((store) => store);
+  const cart = useSelector((state) => state.cart);
   const cartItems = cart.cart || [];
   const isProducts = authContext.isProducts || [];
   const navigate = useNavigate();

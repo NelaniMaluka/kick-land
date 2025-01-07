@@ -3,11 +3,19 @@ import LoginForm from "../Pages/LogIn/LogInForm";
 import CreateAccount from "../Pages/CreateAccount/CreateAccount";
 import ForgotPassword from "../Pages/ForgotPassword/ForgotPassword";
 
-// Return Route components directly
+// Return Route components directly with keys
 const AuthRoutes = () => [
-  <Route path="/Login" element={<LoginForm />} />,
-  <Route path="/Create-Account" element={<CreateAccount />} />,
-  <Route path="/Forgot-Password" element={<ForgotPassword />} />,
+  <Route key="login" path="/Login" element={<LoginForm />} />,
+  <Route
+    key="create-account"
+    path="/Create-Account"
+    element={<CreateAccount />}
+  />,
+  <Route
+    key="forgot-password"
+    path="/Forgot-Password"
+    element={<ForgotPassword />}
+  />,
 ];
 
 export default AuthRoutes;

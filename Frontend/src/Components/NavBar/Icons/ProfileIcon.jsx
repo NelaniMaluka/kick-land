@@ -10,9 +10,8 @@ import { logoutUser } from "../../../State/Authentication/Action";
 
 export default function ProfileIcon() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -56,7 +55,10 @@ export default function ProfileIcon() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>
-          <Link to="/Dashboard" style={{ fontFamily: "arial" }}>
+          <Link
+            to="/Dashboard"
+            style={{ fontFamily: "arial", textDecoration: "none" }}
+          >
             <span
               style={{ float: "left", marginRight: "5px" }}
               className="material-symbols-outlined"
@@ -66,34 +68,32 @@ export default function ProfileIcon() {
             Profile
           </Link>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          {!auth.authenticated && (
-            <li>
-              <Link to="/Login" style={{ fontFamily: "arial" }}>
-                <span
-                  style={{ float: "left", marginRight: "5px" }}
-                  className="material-symbols-outlined"
-                >
-                  login
-                </span>
-                Log In
-              </Link>
-            </li>
-          )}
-          {auth.authenticated && (
-            <li>
-              <Link onClick={handleLogout} style={{ fontFamily: "arial" }}>
-                <span
-                  style={{ float: "left", marginRight: "5px" }}
-                  className="material-symbols-outlined"
-                >
-                  logout
-                </span>
-                Log Out
-              </Link>
-            </li>
-          )}
-        </MenuItem>
+        {!auth.authenticated ? (
+          <MenuItem onClick={handleClose}>
+            <Link
+              to="/Login"
+              style={{ fontFamily: "arial", textDecoration: "none" }}
+            >
+              <span
+                style={{ float: "left", marginRight: "5px" }}
+                className="material-symbols-outlined"
+              >
+                login
+              </span>
+              Log In
+            </Link>
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={handleLogout}>
+            <span
+              style={{ float: "left", marginRight: "5px" }}
+              className="material-symbols-outlined"
+            >
+              logout
+            </span>
+            Log Out
+          </MenuItem>
+        )}
       </Menu>
     </div>
   );

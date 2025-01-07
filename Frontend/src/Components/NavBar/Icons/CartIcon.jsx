@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 function CartIcon() {
   let numberOfCartItems = 0;
-  const { cart } = useSelector((store) => store);
+  const cart = useSelector((state) => state.cart);
 
   if (cart?.success && Array.isArray(cart.cart) && cart.cart.length > 0) {
     numberOfCartItems = cart.cart[0]?.id ? cart.cart.length : 0;

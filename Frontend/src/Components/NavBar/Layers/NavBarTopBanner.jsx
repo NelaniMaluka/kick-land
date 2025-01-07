@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../../State/Authentication/Action";
 
 function NavBarTopBanner() {
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   function handleLogout() {

@@ -12,7 +12,7 @@ import { addCart } from "../../State/Cart/Action";
 function ProductDetails() {
   const { category, productName } = useParams();
   const { isProducts } = useAuth();
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("size3"); // Initialize selectedSize to null
   const [showSnackbar, setShowSnackbar] = useState(false);

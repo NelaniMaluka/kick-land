@@ -9,9 +9,10 @@ import { updateUserData } from "../../../State/Authentication/Action.js";
 import { useDispatch, useSelector } from "react-redux";
 
 function UserProfile() {
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const user = auth.user;
+  const jwt = localStorage.getItem("jwt");
 
   // Validation schema
   const validationSchema = Yup.object().shape({
@@ -34,7 +35,7 @@ function UserProfile() {
         phoneNumber: values.phoneNumber,
       };
 
-      const result = await dispatch(updateUserData(updateData));
+      const result = await dispatch(updateUserData(updateData, jwt));
       if (result) {
         showSuccessMessage("Success!", "Successfully updated your profile");
       } else {

@@ -12,7 +12,7 @@ import { removeCart, updateCart } from "../../../State/Cart/Action.js";
 
 function CartView() {
   const authContext = useAuth();
-  const { cart } = useSelector((store) => store);
+  const cart = useSelector((state) => state.cart);
   const cartItems = Array.isArray(cart.cart) ? cart.cart : [];
   const isProducts = authContext.isProducts;
 

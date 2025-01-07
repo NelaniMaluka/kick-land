@@ -7,19 +7,16 @@ function ShopProductsCard({ products }) {
   const navigate = useNavigate();
 
   function handleOnClick(product) {
-    // Delay navigation to ensure state is updated
-    setTimeout(() => {
-      navigate(`/Shop/${product.category}/${product.name}`);
-    }, 0);
+    navigate(`/Shop/${product.category}/${product.name}`);
   }
 
   return (
     <div className="container2">
       <div className="product">
-        {products.map((product) => (
+        {products.map((product, index) => (
           <div
             className="products-card"
-            key={product.id}
+            key={product.id || index}
             onClick={() => handleOnClick(product)}
           >
             <img src={product.image1} alt="Product" />

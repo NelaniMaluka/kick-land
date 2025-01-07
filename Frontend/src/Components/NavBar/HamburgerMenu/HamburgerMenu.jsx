@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../../State/Authentication/Action";
 
 function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   function handleLogout() {

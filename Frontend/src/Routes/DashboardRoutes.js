@@ -3,18 +3,29 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Order from "../Pages/Dashboard/Order/Order";
 import ErrorMessageAlert from "../Components/Alerts/ErrorMessageAlert";
 import { useSelector } from "react-redux";
+import { useEffect } from "react"; // Import useEffect
 
 function AuthenticatedRoute({ children }) {
-  const { auth } = useSelector((store) => store);
+  const auth = useSelector((state) => state.auth);
+
+  // Trigger the alert only when not authenticated
+  useEffect(() => {
+    if (!auth.authenticated) {
+      ErrorMessageAlert({ message: "LogIn First" });
+    }
+  }, [auth.authenticated]);
+
   if (auth.authenticated) {
     return children;
   }
-  ErrorMessageAlert({ message: "LogIn First" });
+
+  // Redirect user if not authenticated
   return <Navigate to="/Login" />;
 }
 
 const DashboardRoutes = () => [
   <Route
+    key="dashboard"
     path="/Dashboard"
     element={
       <AuthenticatedRoute>
@@ -23,7 +34,8 @@ const DashboardRoutes = () => [
     }
   />,
   <Route
-    path="/Dashboard/success"
+    key="payment-success"
+    path="/payment/success"
     element={
       <AuthenticatedRoute>
         <Dashboard />
@@ -31,7 +43,8 @@ const DashboardRoutes = () => [
     }
   />,
   <Route
-    path="/Dashboard/cancel"
+    key="payment-failure"
+    path="/payment/failure"
     element={
       <AuthenticatedRoute>
         <Dashboard />
@@ -39,6 +52,7 @@ const DashboardRoutes = () => [
     }
   />,
   <Route
+    key="order"
     path="/Order"
     element={
       <AuthenticatedRoute>
@@ -47,4 +61,5 @@ const DashboardRoutes = () => [
     }
   />,
 ];
+
 export default DashboardRoutes;
