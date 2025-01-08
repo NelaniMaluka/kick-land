@@ -41,8 +41,8 @@ public class AppConfig {
 
                 cfg.setAllowedOrigins(Arrays.asList(
                         "http://localhost:3000/",
-                        "https://kick-land.web.app",
-                        "https://kick-land.firebaseapp.com"));
+                        "https://kick-land.web.app/",
+                        "https://kick-land.firebaseapp.com/"));
 
                 cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 cfg.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
