@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.examplekicklaandwebsite.KickLaand.service.ProductService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {

@@ -5,7 +5,6 @@ import com.examplekicklaandwebsite.KickLaand.dto.ProductsDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.examplekicklaandwebsite.KickLaand.model.Products;
 import com.examplekicklaandwebsite.KickLaand.repository.ProductsRepository;
 import com.examplekicklaandwebsite.KickLaand.service.ProductService;
 
@@ -34,14 +33,12 @@ public class ProductServiceImpl implements ProductService {
                                             stock.getSize3(), stock.getSize4(), stock.getSize5(),
                                             stock.getSize6(), stock.getSize7(), stock.getSize8(),
                                             stock.getSize9(), stock.getSize10(), stock.getSize11(),
-                                            stock.getSize12()
-                                    ))
+                                            stock.getSize12()))
                                     .toList(),
                             product.getImage1(),
                             product.getImage2(),
                             product.getImage3(),
-                            product.getImage4()
-                    ))
+                            product.getImage4()))
                     .toList();
 
             if (productList.isEmpty()) {
