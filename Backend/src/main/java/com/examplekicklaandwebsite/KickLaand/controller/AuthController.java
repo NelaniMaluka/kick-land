@@ -1,6 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
+import com.examplekicklaandwebsite.KickLaand.request.CreateAccountRequest;
 import com.examplekicklaandwebsite.KickLaand.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping(path = "/create-account")
-    public ResponseEntity<?> createAccount(@Valid @RequestBody UserAccount userAccount) {
-        return authService.createAccount(userAccount);
+    public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest req) {
+        return authService.createAccount(req);
     }
 }
