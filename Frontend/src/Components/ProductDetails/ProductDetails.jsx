@@ -34,7 +34,7 @@ function ProductDetails() {
       price: selectedProduct.price,
     };
     if (auth.authenticated) {
-      if (!selectedProduct.sizes[0][selectedSize] <= 0) {
+      if (!selectedProduct.stock[0][selectedSize] <= 0) {
         dispatch(addCart(cartData, jwt))
           .then((result) => {
             if (result) {
@@ -71,7 +71,7 @@ function ProductDetails() {
         <div className="info">
           <h2 className="sneakerName">{selectedProduct.name}</h2>
           <span>
-            {Object.keys(selectedProduct.sizes[0])
+            {Object.keys(selectedProduct.stock[0])
               .filter((key) => key !== "id")
               .sort(
                 (a, b) =>
@@ -79,7 +79,7 @@ function ProductDetails() {
                   parseInt(b.replace("size", ""))
               )
               .map((key) => {
-                const sizeCount = selectedProduct.sizes[0][key];
+                const sizeCount = selectedProduct.stock[0][key];
                 const buttonClass = `sizeButton${
                   selectedSize === key ? " selectedSize" : ""
                 } ${sizeCount <= 0 ? "disabledSize" : ""}`;
@@ -105,7 +105,7 @@ function ProductDetails() {
             >
               {[
                 ...Array(
-                  Math.min(5, selectedProduct.sizes[0][selectedSize])
+                  Math.min(5, selectedProduct.stock[0][selectedSize])
                 ).keys(),
               ].map((number) => (
                 <option key={number + 1} value={number + 1}>
@@ -115,7 +115,7 @@ function ProductDetails() {
             </select>
           </span>
           <span>
-            {selectedProduct.sizes[0][selectedSize] > 0 ? (
+            {selectedProduct.stock[0][selectedSize] > 0 ? (
               <p className="inStock">Availability: In Stock</p>
             ) : (
               <p className="outStock">Availability: Out of Stock</p>

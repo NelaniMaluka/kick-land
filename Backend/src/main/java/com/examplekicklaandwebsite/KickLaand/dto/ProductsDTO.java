@@ -11,9 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductsDTO {
-    private String productName;
-    private BigDecimal productPrice;
-    private String productCategory;
+    private Integer id;
+    private String name;
+    private BigDecimal price;
+    private String category;
     private List<ProductStockDTO> stock;
     private String image1;
     private String image2;

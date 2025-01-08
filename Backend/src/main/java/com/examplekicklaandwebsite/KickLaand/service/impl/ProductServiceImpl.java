@@ -25,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             List<ProductsDTO> productList = productsRepository.findAll().stream()
                     .map(product -> new ProductsDTO(
+                            product.getProductId(),
                             product.getProductName(),
                             product.getProductPrice(),
                             product.getProductCategory(),
