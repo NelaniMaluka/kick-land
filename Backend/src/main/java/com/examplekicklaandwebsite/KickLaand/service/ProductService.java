@@ -1,10 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.service;
 
-import java.util.List;
-
-import com.examplekicklaandwebsite.KickLaand.model.Products;
+import org.springframework.http.ResponseEntity;
 
 public interface ProductService {
-    List<Products> getAllProducts();
+    ResponseEntity<?> getAllProducts();
 }
-
