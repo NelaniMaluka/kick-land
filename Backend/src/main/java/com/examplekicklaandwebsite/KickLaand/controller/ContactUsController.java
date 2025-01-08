@@ -21,10 +21,9 @@ public class ContactUsController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> sendContactUsMessage(@RequestBody ContactUs contactUs) {
+    public ResponseEntity<?> sendContactUsMessage(@RequestBody ContactUs contactUs) {
         try {
-            String response = contactUsService.sendInfo(contactUs);
-            return ResponseEntity.ok(response);
+            return contactUsService.sendInfo(contactUs);
         } catch (IllegalArgumentException e) { // Catch validation exceptions
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {

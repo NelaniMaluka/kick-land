@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class ContactUsServiceImpl implements ContactUsService {
 
     @Override
     @Transactional
-    public String sendInfo(ContactUs contactUs) {
+    public ResponseEntity<?> sendInfo(ContactUs contactUs) {
         try {
             // Trim and validate fields
             String name = trimAndValidate(contactUs.getName(), "Name");
@@ -58,7 +59,7 @@ public class ContactUsServiceImpl implements ContactUsService {
 
             // Save the contact message
             contactUsRepository.save(contactUs);
-            return "We received your message.";
+            return ResponseEntity.ok("We received your message.");
         } catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred");
         }

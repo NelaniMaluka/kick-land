@@ -44,7 +44,7 @@ public class CartController {
     @DeleteMapping()
     public ResponseEntity<?> deleteCartItem(
             @RequestHeader("Authorization") String jwt,
-            @RequestParam("productId") Integer productId) throws Exception {
+            @RequestParam Integer productId) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
         return cartService.deleteCartItem(user, productId);
     }

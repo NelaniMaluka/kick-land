@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor

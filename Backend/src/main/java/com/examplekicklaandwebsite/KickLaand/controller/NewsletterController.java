@@ -22,8 +22,7 @@ public class NewsletterController {
     @PostMapping()
     public ResponseEntity<String> addNewsletter(@RequestBody Newsletter newsletter) {
         try {
-            String response = newsletterService.addNewsletter(newsletter);
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok( newsletterService.addNewsletter(newsletter));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

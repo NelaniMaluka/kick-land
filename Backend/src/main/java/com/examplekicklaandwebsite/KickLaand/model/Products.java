@@ -5,7 +5,9 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -49,8 +51,5 @@ public class Products {
     @Column(nullable = false)
     @NotNull(message = "Product image4 cannot be null")
     private String image4;
-
-    @NotNull
-    private String priceUrl;
 
 }
