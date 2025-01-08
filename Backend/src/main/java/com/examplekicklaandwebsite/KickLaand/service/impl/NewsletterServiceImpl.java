@@ -1,5 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,27 +21,32 @@ public class NewsletterServiceImpl implements NewsletterService {
 
     @Override
     @Transactional
-    public String addNewsletter(Newsletter newsletter) {
+    public ResponseEntity<String> addNewsletter(Newsletter newsletter) {
         try {
             String email = (newsletter.getEmail() != null) ? newsletter.getEmail().trim() : null;
 
+            // Validate Email
             if (email == null || email.isEmpty()) {
-                throw new IllegalArgumentException("Please Enter a Valid Email");
+                return new ResponseEntity<>("Please Enter a Valid Email", HttpStatus.BAD_REQUEST); // 400 Bad Request
             }
 
+            // Validate Email
             if (!FormValidation.isValidEmail(email)) {
-                throw new IllegalArgumentException("Invalid Email Format");
+                return new ResponseEntity<>("Invalid Email Format", HttpStatus.BAD_REQUEST); // 400 Bad Request
             }
 
+            // Check if email is already subscribed
             if (newsletterRepository.findByEmail(email) != null) {
-                throw new IllegalStateException("Email Already Subscribed");
+                return new ResponseEntity<>("Email Already Subscribed", HttpStatus.CONFLICT); // 409 Conflict
             }
 
+            // Save Newsletter
             newsletterRepository.save(newsletter);
 
-            return "We Received Your Email";
+            return new ResponseEntity<>("We Received Your Email", HttpStatus.OK); // 200 OK
         } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred");
+            // General server error
+            return new ResponseEntity<>("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
         }
     }
 }
