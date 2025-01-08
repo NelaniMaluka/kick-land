@@ -20,8 +20,6 @@ function ProductDetails() {
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
 
-  const size = selectedSize;
-
   const selectedProduct = isProducts.find(
     (product) => product.category === category && product.name === productName
   );
@@ -29,8 +27,8 @@ function ProductDetails() {
   const handleAddToCart = () => {
     const cartData = {
       quantity,
-      size,
-      productId: selectedProduct.productId, // Include productId directly
+      size: selectedSize,
+      productId: selectedProduct.id,
       price: selectedProduct.price,
     };
     if (auth.authenticated) {
