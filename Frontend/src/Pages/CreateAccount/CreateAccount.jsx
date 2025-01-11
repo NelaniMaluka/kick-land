@@ -82,19 +82,66 @@ function CreateAccount() {
       }
 
       const result = await dispatch(registerUser(registerData));
-      if (result) {
+
+      if (result && result.status >= 200 && result.status < 300) {
+        // Successful registration
         showSuccessMessage("Welcome: " + firstname);
         navigate("/");
-      } else {
+      } else if (result?.status === 409) {
+        // Conflict - email already exists
         ErrorMessageAlert({
-          message: `user with this email ${email} already exists`,
+          message: `A user with the email ${email} already exists.`,
+        });
+      } else if (result?.status === 400) {
+        // Bad request - invalid input
+        ErrorMessageAlert({
+          message: "Invalid input. Please check your details and try again.",
+        });
+      } else if (result?.status === 500) {
+        // Internal server error
+        ErrorMessageAlert({
+          message: "Something went wrong on our end. Please try again later.",
+        });
+      } else {
+        // Fallback for unexpected statuses
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
         });
       }
     } catch (error) {
-      ErrorMessageAlert({
-        message:
-          "We are encountering some problems. Sorry for the inconvenience",
-      });
+      if (error.response) {
+        // Handle HTTP errors based on the response status
+        const { status } = error.response;
+
+        if (status === 409) {
+          ErrorMessageAlert({
+            message: `A user with the email ${email} already exists.`,
+          });
+        } else if (status === 400) {
+          ErrorMessageAlert({
+            message: "Invalid input. Please check your details and try again.",
+          });
+        } else if (status === 500) {
+          ErrorMessageAlert({
+            message: "Something went wrong on our end. Please try again later.",
+          });
+        } else {
+          ErrorMessageAlert({
+            message: `Unexpected error: ${status}. Please try again.`,
+          });
+        }
+      } else if (error.request) {
+        // Handle network issues or no server response
+        ErrorMessageAlert({
+          message: "Network error. Please check your connection and try again.",
+        });
+      } else {
+        // Handle unexpected errors in code logic
+        ErrorMessageAlert({
+          message:
+            "We are encountering some problems. Sorry for the inconvenience.",
+        });
+      }
     }
   }
 

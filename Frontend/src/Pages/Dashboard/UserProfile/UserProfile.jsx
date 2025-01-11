@@ -36,17 +36,77 @@ function UserProfile() {
       };
 
       const result = await dispatch(updateUserData(updateData, jwt));
-      if (result) {
+
+      if (result && result.status >= 200 && result.status < 300) {
+        // Successful update
         showSuccessMessage("Success!", "Successfully updated your profile");
-      } else {
+      } else if (result?.status === 400) {
+        // Bad request: Input validation error
         ErrorMessageAlert({
-          message: "Please fill out all the fields in the correct format",
+          message: "Please fill out all the fields in the correct format.",
+        });
+      } else if (result?.status === 403) {
+        // Forbidden: Unauthorized action
+        ErrorMessageAlert({
+          message:
+            "You do not have permission to perform this update. Please log in and try again.",
+        });
+      } else if (result?.status === 404) {
+        // Resource not found
+        ErrorMessageAlert({
+          message: "The requested user profile was not found.",
+        });
+      } else if (result?.status >= 500) {
+        // Internal server error
+        ErrorMessageAlert({
+          message:
+            "An unexpected server error occurred. Please try again later.",
+        });
+      } else {
+        // Fallback for unexpected responses
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
         });
       }
     } catch (error) {
-      ErrorMessageAlert({
-        message: "Unexpected error, please contact support.",
-      });
+      if (error.response) {
+        // Handle HTTP response errors based on status
+        const { status } = error.response;
+
+        if (status === 400) {
+          ErrorMessageAlert({
+            message: "Please fill out all the fields in the correct format.",
+          });
+        } else if (status === 403) {
+          ErrorMessageAlert({
+            message:
+              "You do not have permission to perform this update. Please log in and try again.",
+          });
+        } else if (status === 404) {
+          ErrorMessageAlert({
+            message: "The requested user profile was not found.",
+          });
+        } else if (status >= 500) {
+          ErrorMessageAlert({
+            message:
+              "An unexpected server error occurred. Please try again later.",
+          });
+        } else {
+          ErrorMessageAlert({
+            message: `Unexpected error: ${status}. Please try again.`,
+          });
+        }
+      } else if (error.request) {
+        // Handle network issues or no server response
+        ErrorMessageAlert({
+          message: "Network error. Please check your connection and try again.",
+        });
+      } else {
+        // Handle unexpected errors in code logic
+        ErrorMessageAlert({
+          message: "Unexpected error, please contact support.",
+        });
+      }
     }
   }
 

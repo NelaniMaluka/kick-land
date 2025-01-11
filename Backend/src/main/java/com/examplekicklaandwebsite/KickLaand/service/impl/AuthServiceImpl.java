@@ -77,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
                     authResponse.setMessage("Register Success");
                     authResponse.setRole(USER_ROLE.valueOf(role));
 
-                    return new ResponseEntity<>(authResponse, HttpStatus.OK);
+                    return ResponseEntity.ok(authResponse);
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .body(new ErrorResponse("Invalid password", "Password you entered is incorrect."));

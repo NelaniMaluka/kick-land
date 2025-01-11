@@ -29,13 +29,35 @@ function Footer() {
 
     try {
       const result = await SignForNewsletter(email);
+
       if (result.status === 200) {
-        showSuccessMessage("Success!", result.data);
+        showSuccessMessage("Success!", result.data); // Email successfully subscribed
+      } else if (result.status === 400) {
+        ErrorMessageAlert({
+          message:
+            "Invalid email format or missing data. Please check your input.",
+        });
+      } else if (result.status === 401) {
+        ErrorMessageAlert({
+          message: "You are not authorized to sign up for the newsletter.",
+        });
+      } else if (result.status === 404) {
+        ErrorMessageAlert({
+          message: "The newsletter service could not be found.",
+        });
+      } else if (result.status === 409) {
+        ErrorMessageAlert({
+          message: "Email already subscribed to the newsletter.",
+        });
+      } else if (result.status === 500) {
+        ErrorMessageAlert({
+          message: "Something went wrong on our side. Please try again later.",
+        });
       } else {
-        ErrorMessageAlert(result.data);
+        ErrorMessageAlert({ message: "An unexpected error occurred." });
       }
     } catch (error) {
-      ErrorMessageAlert("Could not sign up for newsletter");
+      ErrorMessageAlert({ message: "Could not sign up for newsletter" });
     }
 
     setEmail("");

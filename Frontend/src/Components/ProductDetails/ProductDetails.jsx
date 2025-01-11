@@ -24,31 +24,99 @@ function ProductDetails() {
     (product) => product.category === category && product.name === productName
   );
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const cartData = {
       quantity,
       size: selectedSize,
       productId: selectedProduct.id,
       price: selectedProduct.price,
     };
+
     if (auth.authenticated) {
-      if (!selectedProduct.stock[0][selectedSize] <= 0) {
-        dispatch(addCart(cartData, jwt))
-          .then((result) => {
-            if (result) {
-              setShowSnackbar(true);
+      // Check stock for the selected size
+      if (selectedProduct.stock[0][selectedSize] > 0) {
+        try {
+          const result = await dispatch(addCart(cartData, jwt));
+
+          if (result && result.status >= 200 && result.status < 300) {
+            // Successfully added to the cart
+            setShowSnackbar(true);
+          } else if (result?.status === 400) {
+            // Bad request: invalid data or parameters
+            ErrorMessageAlert({
+              message: "Invalid data provided. Please try again.",
+            });
+          } else if (result?.status === 401) {
+            // Unauthorized: Authentication required
+            ErrorMessageAlert({
+              message: "Authentication failed. Please log in again.",
+            });
+          } else if (result?.status === 403) {
+            // Forbidden: Insufficient permissions
+            ErrorMessageAlert({
+              message: "You are not allowed to perform this action.",
+            });
+          } else if (result?.status === 404) {
+            // Product or resource not found
+            ErrorMessageAlert({
+              message: "Product not found. Please check again.",
+            });
+          } else if (result?.status >= 500) {
+            // Internal server error
+            ErrorMessageAlert({
+              message:
+                "An unexpected server error occurred. Please try again later.",
+            });
+          } else {
+            // Fallback for unexpected status codes
+            ErrorMessageAlert({
+              message: "An unexpected error occurred. Please try again.",
+            });
+          }
+        } catch (error) {
+          if (error.response) {
+            const { status } = error.response;
+
+            if (status === 400) {
+              ErrorMessageAlert({
+                message: "Invalid data provided. Please check and try again.",
+              });
+            } else if (status === 401) {
+              ErrorMessageAlert({
+                message: "Authentication failed. Please log in again.",
+              });
+            } else if (status >= 500) {
+              ErrorMessageAlert({
+                message:
+                  "An unexpected server error occurred. Please try again later.",
+              });
             } else {
-              ErrorMessageAlert({ message: "Couldn't add item to cart" });
+              ErrorMessageAlert({
+                message: `Unexpected error: ${status}. Please try again.`,
+              });
             }
-          })
-          .catch((err) => {
-            ErrorMessageAlert({ message: "Internal Server Error" });
-          });
+          } else if (error.request) {
+            // Handle network or no response errors
+            ErrorMessageAlert({
+              message:
+                "Network error. Please check your connection and try again.",
+            });
+          } else {
+            // Fallback for other errors
+            ErrorMessageAlert({
+              message: "An unexpected error occurred. Please try again.",
+            });
+          }
+        }
       } else {
+        // Stock unavailable
         ErrorMessageAlert({ message: "Out of Stock" });
       }
     } else {
-      ErrorMessageAlert({ message: "LogIn First" });
+      // User not authenticated
+      ErrorMessageAlert({
+        message: "Please log in first to add items to your cart.",
+      });
     }
   };
 

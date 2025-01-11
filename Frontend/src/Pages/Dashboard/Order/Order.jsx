@@ -110,7 +110,9 @@ function Order() {
       }
 
       const result = await dispatch(addOrder(orderData, jwt));
-      if (result.result) {
+
+      if (result?.status >= 200 && result?.status < 300) {
+        // Successfully placed the order
         setFirstname("");
         setLastname("");
         setEmail("");
@@ -118,14 +120,70 @@ function Order() {
         setProvinceError("");
         setZIPCodeError("");
         setAddressError("");
-        window.location.href = result.response.payment_url;
+        window.location.href = result.data.payment_url; // Redirect to payment page
+      } else if (result?.status === 400) {
+        // Bad request: Input validation error
+        ErrorMessageAlert({
+          message: "Invalid input. Please check your details and try again.",
+        });
+      } else if (result?.status === 401) {
+        // Unauthorized: Authentication required
+        ErrorMessageAlert({
+          message: "Authentication failed. Please log in and try again.",
+        });
+      } else if (result?.status === 403) {
+        // Forbidden: Action not allowed
+        ErrorMessageAlert({
+          message: "You are not authorized to perform this action.",
+        });
+      } else if (result?.status === 404) {
+        // Resource not found
+        ErrorMessageAlert({
+          message: "Order service not available. Please try again later.",
+        });
+      } else if (result?.status >= 500) {
+        // Server error
+        ErrorMessageAlert({
+          message: "A server error occurred. Please try again later.",
+        });
       } else {
-        // API call failed, handle the error
-        ErrorMessageAlert({ message: "Invalid Credentials" });
+        // Fallback for unexpected response
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
       }
-      //ErrorMessageAlert({ message: "Invalid Credentials" });
     } catch (error) {
-      ErrorMessageAlert({ message: "Unexpected error please ContactUs" });
+      if (error.response) {
+        const { status } = error.response;
+
+        if (status === 400) {
+          ErrorMessageAlert({
+            message: "Invalid input. Please review your order details.",
+          });
+        } else if (status === 401) {
+          ErrorMessageAlert({
+            message: "Authentication error. Please log in and try again.",
+          });
+        } else if (status >= 500) {
+          ErrorMessageAlert({
+            message: "A server error occurred. Please try again later.",
+          });
+        } else {
+          ErrorMessageAlert({
+            message: `Unexpected error: ${status}. Please try again.`,
+          });
+        }
+      } else if (error.request) {
+        // Network or no response error
+        ErrorMessageAlert({
+          message: "Network error. Please check your connection and try again.",
+        });
+      } else {
+        // Fallback for other unexpected errors
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
+      }
     }
   }
 
