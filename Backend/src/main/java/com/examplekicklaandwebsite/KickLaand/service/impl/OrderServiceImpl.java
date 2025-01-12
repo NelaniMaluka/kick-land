@@ -92,6 +92,7 @@ public class OrderServiceImpl implements OrderService {
                 userOrders.setProducts(userCartItems);
                 userOrders.setOrderDate(dateTime);
                 userOrders.setDeliveryDate(dateTime.plusDays(7));
+                userOrders.setTotal(userOrders.calculateTotal(userCartItems));
 
                 List<CompletedOrders> userOrderItems = userCartItems.stream()
                         .map(cartItem -> {

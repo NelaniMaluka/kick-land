@@ -43,6 +43,7 @@ public class FilterLists {
                     filteredOrderItem.put("orders", getFilteredCompletedOrderList(order.getCompletedOrders()));
                     filteredOrderItem.put("orderDate", order.getOrderDate());
                     filteredOrderItem.put("deliveryDate", order.getDeliveryDate());
+                    filteredOrderItem.put("total", order.getTotal());
                     return filteredOrderItem;
                 })
                 .collect(Collectors.toList());
