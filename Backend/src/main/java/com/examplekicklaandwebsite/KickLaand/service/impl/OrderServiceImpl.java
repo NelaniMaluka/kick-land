@@ -7,6 +7,7 @@ import com.examplekicklaandwebsite.KickLaand.model.UserCarts;
 import com.examplekicklaandwebsite.KickLaand.model.UserOrders;
 import com.examplekicklaandwebsite.KickLaand.repository.CartRepository;
 import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
+import com.examplekicklaandwebsite.KickLaand.response.ErrorResponse;
 import com.examplekicklaandwebsite.KickLaand.response.PaymentResponse;
 import com.examplekicklaandwebsite.KickLaand.service.OrderService;
 import com.examplekicklaandwebsite.KickLaand.service.PaymentService;
@@ -34,25 +35,35 @@ public class OrderServiceImpl implements OrderService {
         this.paymentService = paymentService;
     }
 
+    @Override
     public ResponseEntity<?> getOrder(UserAccount user) {
         try {
-
+            // Retrieve user's orders
             List<UserOrders> userOrders = user.getOrders();
+
+            // If no orders exist, respond with 200 OK and null (or an empty response as needed)
             if (userOrders.isEmpty()) {
-                return ResponseEntity.ok(null);
+                return ResponseEntity.ok(new ErrorResponse("No Orders Found", "The user has no orders associated with their account."));
             } else {
-                Object filteredCartList = FilterLists.getFilteredOrderList(userOrders);
-                return ResponseEntity.ok(filteredCartList);
+                Object filteredOrderList = FilterLists.getFilteredOrderList(userOrders);
+                return ResponseEntity.ok(filteredOrderList);
             }
 
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            // This could indicate that the user wasn't found, or no orders could be retrieved.
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("User Not Found", "No user found with the provided information. Please check the user details and try again."));
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
+            // Data integrity issues occurred while retrieving orders (conflicting data).
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Data Integrity Violation", "There was an issue with retrieving the orders due to a data conflict. Please try again."));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+            // A generic fallback error message for unexpected exceptions
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error", "An unexpected error occurred while fetching your orders. Please try again later."));
         }
     }
+
 
     public ResponseEntity<?> createOrder(OrderRequest req, UserAccount user) throws Exception {
         try {
@@ -81,6 +92,7 @@ public class OrderServiceImpl implements OrderService {
                 userOrders.setProducts(userCartItems);
                 userOrders.setOrderDate(dateTime);
                 userOrders.setDeliveryDate(dateTime.plusDays(7));
+                userOrders.setTotal(userOrders.calculateTotal(userCartItems));
 
                 List<CompletedOrders> userOrderItems = userCartItems.stream()
                         .map(cartItem -> {

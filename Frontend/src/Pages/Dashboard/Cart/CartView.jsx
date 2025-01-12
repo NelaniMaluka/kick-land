@@ -10,7 +10,7 @@ import "./CartView.css";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart, updateCart } from "../../../State/Cart/Action.js";
 
-function CartView() {
+export default function CartView() {
   const authContext = useAuth();
   const cart = useSelector((state) => state.cart);
   const cartItems = Array.isArray(cart.cart) ? cart.cart : [];
@@ -20,31 +20,156 @@ function CartView() {
   const dispatch = useDispatch();
 
   // Function to handle quantity changes
-  async function handleQuantityChange(productId, quantity) {
+  const handleQuantityChange = async (productId, quantity) => {
     try {
       const updateData = {
         productId,
         quantity,
       };
-      const result = dispatch(updateCart(updateData, jwt));
 
-      if (!result) {
-        ErrorMessageAlert("Could not update product");
+      const result = await dispatch(updateCart(updateData, jwt));
+
+      if (result && result.status >= 200 && result.status < 300) {
+        // Successfully updated the cart
+      } else if (result?.status === 400) {
+        // Bad request: invalid data or parameters
+        ErrorMessageAlert({
+          message: "Invalid quantity or product ID. Please try again.",
+        });
+      } else if (result?.status === 401) {
+        // Unauthorized: Authentication required
+        ErrorMessageAlert({
+          message: "Authentication failed. Please log in again.",
+        });
+      } else if (result?.status === 403) {
+        // Forbidden: Insufficient permissions
+        ErrorMessageAlert({
+          message: "You are not allowed to update this cart item.",
+        });
+      } else if (result?.status === 404) {
+        // Product or cart item not found
+        ErrorMessageAlert({
+          message: "Product not found in cart. Please refresh the page.",
+        });
+      } else if (result?.status >= 500) {
+        // Server error
+        ErrorMessageAlert({
+          message:
+            "An unexpected server error occurred while updating the cart. Please try again later.",
+        });
+      } else {
+        // Fallback for unexpected status codes
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
       }
     } catch (error) {
-      ErrorMessageAlert("Internal Server Error");
+      if (error.response) {
+        const { status } = error.response;
+
+        if (status === 400) {
+          ErrorMessageAlert({
+            message: "Invalid quantity or product ID. Please try again.",
+          });
+        } else if (status === 401) {
+          ErrorMessageAlert({
+            message: "Authentication failed. Please log in again.",
+          });
+        } else if (status >= 500) {
+          ErrorMessageAlert({
+            message:
+              "An unexpected server error occurred while updating the cart. Please try again later.",
+          });
+        } else {
+          ErrorMessageAlert({
+            message: `Unexpected error: ${status}. Please try again.`,
+          });
+        }
+      } else if (error.request) {
+        // Network or no response error
+        ErrorMessageAlert({
+          message: "Network error. Please check your connection and try again.",
+        });
+      } else {
+        // Fallback for other errors
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
+      }
     }
-  }
+  };
 
   // Function to handle delete button click
   async function handleDeleteClick(productId) {
     try {
       const result = await dispatch(removeCart(productId, jwt));
-      if (!result) {
-        ErrorMessageAlert("Could not remove product");
+
+      if (result && result.status >= 200 && result.status < 300) {
+        // Successfully removed the product from the cart
+      } else if (result?.status === 400) {
+        // Bad request: Invalid product ID or parameters
+        ErrorMessageAlert({
+          message: "Invalid request. Please try again.",
+        });
+      } else if (result?.status === 401) {
+        // Unauthorized: Authentication required
+        ErrorMessageAlert({
+          message: "Authentication failed. Please log in again.",
+        });
+      } else if (result?.status === 403) {
+        // Forbidden: Insufficient permissions
+        ErrorMessageAlert({
+          message: "You are not authorized to perform this action.",
+        });
+      } else if (result?.status === 404) {
+        // Product or cart item not found
+        ErrorMessageAlert({
+          message: "Product not found in your cart. Please refresh the page.",
+        });
+      } else if (result?.status >= 500) {
+        // Server error
+        ErrorMessageAlert({
+          message:
+            "An unexpected server error occurred. Please try again later.",
+        });
+      } else {
+        // Fallback for unexpected status codes
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
       }
     } catch (error) {
-      ErrorMessageAlert("Internal Server Error");
+      if (error.response) {
+        const { status } = error.response;
+
+        if (status === 400) {
+          ErrorMessageAlert({
+            message: "Invalid request. Please check and try again.",
+          });
+        } else if (status === 401) {
+          ErrorMessageAlert({
+            message: "Authentication required. Please log in again.",
+          });
+        } else if (status >= 500) {
+          ErrorMessageAlert({
+            message: "A server error occurred. Please try again later.",
+          });
+        } else {
+          ErrorMessageAlert({
+            message: `Unexpected error: ${status}. Please try again.`,
+          });
+        }
+      } else if (error.request) {
+        // Network or no response error
+        ErrorMessageAlert({
+          message: "Network error. Please check your connection and try again.",
+        });
+      } else {
+        // Fallback for other unexpected errors
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
+      }
     }
   }
 
@@ -64,16 +189,14 @@ function CartView() {
       <div className="cart-container">
         {cartItems.map((cartItem) => {
           // Find the corresponding product in isProducts array
-          const product = isProducts.find(
-            (p) => p.productId === cartItem.productId
-          );
+          const product = isProducts.find((p) => p.id === cartItem.productId);
 
           if (!product) {
             return <span> Could not find product details.</span>;
           }
 
           return (
-            <div className="cart-card" key={cartItem.userCartId}>
+            <div className="cart-card" key={cartItem.productId}>
               <div className="cart-img">
                 <img src={product.image1} alt="Product" />
               </div>
@@ -119,5 +242,3 @@ function CartView() {
     </div>
   );
 }
-
-export default CartView;

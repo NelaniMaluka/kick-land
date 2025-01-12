@@ -1,6 +1,6 @@
 import { Carousel } from "primereact/carousel";
 
-function ProductImageCarousel({ product }) {
+export default function ProductImageCarousel({ product }) {
   const productImages = [
     { image: product.image1 },
     { image: product.image2 },
@@ -40,5 +40,3 @@ function ProductImageCarousel({ product }) {
     </div>
   );
 }
-
-export default ProductImageCarousel;

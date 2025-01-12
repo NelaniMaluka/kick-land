@@ -2,11 +2,12 @@ package com.examplekicklaandwebsite.KickLaand.service.impl;
 
 import com.examplekicklaandwebsite.KickLaand.dto.ProductStockDTO;
 import com.examplekicklaandwebsite.KickLaand.dto.ProductsDTO;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
+import com.examplekicklaandwebsite.KickLaand.response.ErrorResponse;
 import com.examplekicklaandwebsite.KickLaand.repository.ProductsRepository;
 import com.examplekicklaandwebsite.KickLaand.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<?> getAllProducts() {
-
         try {
             List<ProductsDTO> productList = productsRepository.findAll().stream()
                     .map(product -> new ProductsDTO(
@@ -43,13 +43,17 @@ public class ProductServiceImpl implements ProductService {
                     .toList();
 
             if (productList.isEmpty()) {
-                return ResponseEntity.noContent().build(); // Handle empty list
+                return ResponseEntity.noContent().build(); // Handle empty list case
             }
 
-            return ResponseEntity.ok(productList);
-
+            return ResponseEntity.ok(productList);  // Return successful response with product list
+        } catch (NullPointerException npe) {
+            // Handling null values, specific exception type
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Null Value Error", "A null value was encountered while processing your request."));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e);
+            // Handle any other unexpected error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error", "An unexpected error occurred while retrieving the product list. Please try again later."));
         }
     }
 }

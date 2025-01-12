@@ -6,10 +6,13 @@ import com.examplekicklaandwebsite.KickLaand.model.USER_ROLE;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.repository.NewsletterRepository;
 import com.examplekicklaandwebsite.KickLaand.repository.UserAccountRepository;
+import com.examplekicklaandwebsite.KickLaand.request.CreateAccountRequest;
 import com.examplekicklaandwebsite.KickLaand.response.AuthResponse;
+import com.examplekicklaandwebsite.KickLaand.response.ErrorResponse;
 import com.examplekicklaandwebsite.KickLaand.service.AuthService;
 import com.examplekicklaandwebsite.KickLaand.service.CustomUserDetailsService;
 import com.examplekicklaandwebsite.KickLaand.util.FormValidation;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -45,10 +48,12 @@ public class AuthServiceImpl implements AuthService {
         try {
             // Validate input
             if (!FormValidation.isValidEmail(userAccount.getEmail())) {
-                return ResponseEntity.badRequest().body("Invalid email format");
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("Invalid email format", "Please enter a valid email address."));
             }
             if (!FormValidation.isValidPassword(userAccount.getPassword())) {
-                return ResponseEntity.badRequest().body("Invalid password format");
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("Invalid password format", "Password must contain at least 8 characters, including a number, an uppercase and lowercase letter, and a special character."));
             }
 
             // Find user by email
@@ -72,42 +77,52 @@ public class AuthServiceImpl implements AuthService {
                     authResponse.setMessage("Register Success");
                     authResponse.setRole(USER_ROLE.valueOf(role));
 
-                    return new ResponseEntity<>(authResponse, HttpStatus.OK);
+                    return ResponseEntity.ok(authResponse);
                 } else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                            .body(new ErrorResponse("Invalid password", "Password you entered is incorrect."));
                 }
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new ErrorResponse("User Not Found", "No user exists with the provided email address."));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error","An error occurred during login, please try again later."));
         }
     }
 
     @Override
-    public ResponseEntity<?> createAccount(UserAccount userAccount) {
+    public ResponseEntity<?> createAccount(CreateAccountRequest req) {
         try {
+            UserAccount userAccount = req.userAccount();
+            Boolean signUpForNewsletter = req.signUpForNewsletter();
+
             // Validate input
             if (!FormValidation.isValidEmail(userAccount.getEmail())) {
-                return ResponseEntity.badRequest().body("Invalid email format");
+                return ResponseEntity.badRequest().body(new ErrorResponse("Invalid email format", "Please provide a valid email address."));
             }
             if (!FormValidation.isValidPassword(userAccount.getPassword())) {
-                return ResponseEntity.badRequest().body("Password must contain at least 8 characters, including a number, an uppercase and lowercase letter, and a special character");
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("Invalid password format", "Password must contain at least 8 characters, including a number, an uppercase and lowercase letter, and a special character."));
             }
 
             // Check if user already exists by email
             if (userAccountRepository.findByEmail(userAccount.getEmail()) != null) {
-                return ResponseEntity.badRequest().body("User with this email already exists");
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("User Found","User with this email already exists"));
             }
 
             // Handle Newsletter subscription
-            Newsletter existingNewsletter = newsletterRepository.findByEmail(userAccount.getEmail());
-            if (existingNewsletter == null) {
-                // Create a new Newsletter entry if it doesn't exist
-                Newsletter newsletter = new Newsletter();
-                newsletter.setEmail(userAccount.getEmail());
+            if (signUpForNewsletter) {
+                Newsletter existingNewsletter = newsletterRepository.findByEmail(userAccount.getEmail());
+                if (existingNewsletter == null) {
+                    // Create a new Newsletter entry if it doesn't exist
+                    Newsletter newsletter = new Newsletter();
+                    newsletter.setEmail(userAccount.getEmail());
 
-                newsletterRepository.save(newsletter);
+                    newsletterRepository.save(newsletter);
+                }
             }
 
             // Encode the password securely
@@ -128,8 +143,12 @@ public class AuthServiceImpl implements AuthService {
 
             return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
 
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create account.");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Database Error", "Failed to interact with the database."));
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error","An error occurred during creating your account, please try again later."));
         }
     }
 

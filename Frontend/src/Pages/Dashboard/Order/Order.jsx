@@ -1,13 +1,13 @@
 import { useState } from "react";
 import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert";
-import isValidPhoneNumber from "../../../Utils/PhonenumberValidation";
-import isValidEmail from "../../../Utils/EmailValidation";
+import { isValidPhoneNumber } from "../../../Utils/FormValidations";
+import { isValidEmail } from "../../../Utils/FormValidations";
 
 import "../../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../../../State/Order/Action";
 
-function Order() {
+export default function Order() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -34,43 +34,39 @@ function Order() {
     address,
   };
 
-  function handleFirstNameChange(event) {
-    setFirstname(event.target.value);
-  }
+  const handleFirstNameChange = (event) => setFirstname(event.target.value);
 
-  function handleLastNameChange(event) {
-    setLastname(event.target.value);
-  }
+  const handleLastNameChange = (event) => setLastname(event.target.value);
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
-  function handleProvinceChange(event) {
+  const handleProvinceChange = (event) => {
     setProvince(event.target.value);
     // Reset email error message
     setProvinceError("");
-  }
+  };
 
-  function handleZIPCodeChange(event) {
+  const handleZIPCodeChange = (event) => {
     setZIPCode(event.target.value);
     // Reset email error message
     setZIPCodeError("");
-  }
+  };
 
-  function handleAddressChange(event) {
+  const handleAddressChange = (event) => {
     setAddress(event.target.value);
     // Reset email error message
     setAddressError("");
-  }
+  };
 
-  function handlePhoneNumberChange(event) {
+  const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value);
     // Reset phone number error message
     setPhoneNumberError("");
-  }
+  };
 
   async function handleSubmit() {
     try {
@@ -110,7 +106,9 @@ function Order() {
       }
 
       const result = await dispatch(addOrder(orderData, jwt));
-      if (result.result) {
+
+      if (result?.status >= 200 && result?.status < 300) {
+        // Successfully placed the order
         setFirstname("");
         setLastname("");
         setEmail("");
@@ -118,14 +116,70 @@ function Order() {
         setProvinceError("");
         setZIPCodeError("");
         setAddressError("");
-        window.location.href = result.response.payment_url;
+        window.location.href = result.data.payment_url; // Redirect to payment page
+      } else if (result?.status === 400) {
+        // Bad request: Input validation error
+        ErrorMessageAlert({
+          message: "Invalid input. Please check your details and try again.",
+        });
+      } else if (result?.status === 401) {
+        // Unauthorized: Authentication required
+        ErrorMessageAlert({
+          message: "Authentication failed. Please log in and try again.",
+        });
+      } else if (result?.status === 403) {
+        // Forbidden: Action not allowed
+        ErrorMessageAlert({
+          message: "You are not authorized to perform this action.",
+        });
+      } else if (result?.status === 404) {
+        // Resource not found
+        ErrorMessageAlert({
+          message: "Order service not available. Please try again later.",
+        });
+      } else if (result?.status >= 500) {
+        // Server error
+        ErrorMessageAlert({
+          message: "A server error occurred. Please try again later.",
+        });
       } else {
-        // API call failed, handle the error
-        ErrorMessageAlert({ message: "Invalid Credentials" });
+        // Fallback for unexpected response
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
       }
-      //ErrorMessageAlert({ message: "Invalid Credentials" });
     } catch (error) {
-      ErrorMessageAlert({ message: "Unexpected error please ContactUs" });
+      if (error.response) {
+        const { status } = error.response;
+
+        if (status === 400) {
+          ErrorMessageAlert({
+            message: "Invalid input. Please review your order details.",
+          });
+        } else if (status === 401) {
+          ErrorMessageAlert({
+            message: "Authentication error. Please log in and try again.",
+          });
+        } else if (status >= 500) {
+          ErrorMessageAlert({
+            message: "A server error occurred. Please try again later.",
+          });
+        } else {
+          ErrorMessageAlert({
+            message: `Unexpected error: ${status}. Please try again.`,
+          });
+        }
+      } else if (error.request) {
+        // Network or no response error
+        ErrorMessageAlert({
+          message: "Network error. Please check your connection and try again.",
+        });
+      } else {
+        // Fallback for other unexpected errors
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
+      }
     }
   }
 
@@ -224,5 +278,3 @@ function Order() {
     </form>
   );
 }
-
-export default Order;

@@ -5,7 +5,7 @@ import { formatCurrency } from "../../../Utils/formatCurrency.js";
 import "./Checkout.css";
 import { useSelector } from "react-redux";
 
-function Checkout() {
+export default function Checkout() {
   const authContext = useAuth();
   const cart = useSelector((state) => state.cart);
   const cartItems = cart.cart || [];
@@ -13,7 +13,7 @@ function Checkout() {
   const navigate = useNavigate();
 
   // Function to calculate the total price of the cart
-  function calculateTotal() {
+  const calculateTotal = () => {
     let total = 0;
     for (let i = 0; i < cartItems.length; i++) {
       const product = isProducts.find((p) => p.id === cartItems[i].productId);
@@ -22,7 +22,7 @@ function Checkout() {
       }
     }
     return total;
-  }
+  };
 
   // Function to handle Stripe checkout redirection
   const redirectToCheckout = async () => {
@@ -65,9 +65,7 @@ function Checkout() {
         </thead>
         <tbody>
           {cartItems.map((cartItem) => {
-            const product = isProducts.find(
-              (p) => p.productId === cartItem.productId
-            );
+            const product = isProducts.find((p) => p.id === cartItem.productId);
             if (!product) return null; // Skip if product is not found
             return (
               <tr key={product.productId}>
@@ -85,16 +83,16 @@ function Checkout() {
       </table>
       <hr />
       <table>
-        <tr>
-          <td className="product-name">Total:</td>
-          <td>
-            <span className="price">{formatCurrency(calculateTotal())}</span>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td className="product-name">Total:</td>
+            <td>
+              <span className="price">{formatCurrency(calculateTotal())}</span>
+            </td>
+          </tr>
+        </tbody>
       </table>
       <button onClick={redirectToCheckout}>Checkout</button>
     </div>
   );
 }
-
-export default Checkout;

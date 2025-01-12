@@ -1,7 +1,7 @@
 import React from "react";
 import "../../Components/Styling/Form.css";
 
-function AboutUs() {
+export default function AboutUs() {
   return (
     <div className="container2">
       <div className="info-container">
@@ -35,5 +35,3 @@ function AboutUs() {
     </div>
   );
 }
-
-export default AboutUs;

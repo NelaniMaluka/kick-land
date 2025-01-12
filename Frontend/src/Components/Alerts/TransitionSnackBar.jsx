@@ -3,11 +3,11 @@ import Snackbar from "@mui/material/Snackbar";
 import Fade from "@mui/material/Fade";
 import Slide from "@mui/material/Slide";
 
-function SlideTransition(props) {
+const SlideTransition = (props) => {
   return <Slide {...props} direction="up" />;
-}
+};
 
-function TransitionsSnackbar() {
+const TransitionsSnackbar = () => {
   const [state, setState] = React.useState({
     open: false,
     Transition: Fade,
@@ -42,6 +42,6 @@ function TransitionsSnackbar() {
       autoHideDuration={1200}
     />
   );
-}
+};
 
 export default TransitionsSnackbar;

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
-import isValidPhoneNumber from "../../Utils/PhonenumberValidation";
-import isValidEmail from "../../Utils/EmailValidation";
+import { isValidPhoneNumber } from "../../Utils/FormValidations";
+import { isValidEmail } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert";
 
 import "../../Components/Styling/Form.css";
 import { contactUs } from "../../Context/Api";
 
-function ContactUs() {
+export default function ContactUs() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -16,27 +16,27 @@ function ContactUs() {
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [messageError, setMessageError] = useState("");
 
-  function handleNameChange(event) {
+  const handleNameChange = (event) => {
     setName(event.target.value);
-  }
+  };
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
-  function handlePhoneNumberChange(event) {
+  const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value);
     // Reset phone number error message
     setPhoneNumberError("");
-  }
+  };
 
-  function handleMessageChange(event) {
+  const handleMessageChange = (event) => {
     setMessage(event.target.value);
     // Reset message error message
     setMessageError("");
-  }
+  };
 
   async function handleSubmit() {
     try {
@@ -64,20 +64,49 @@ function ContactUs() {
       }
 
       const result = await contactUs(name, email, phoneNumber, message);
-      if (result.status === 200) {
-        // API call was successful, handle the success
-        showSuccessMessage("Sent", "we recieved your message");
+      if (result.status === 200 || result.status === 201) {
+        // Success: Resource processed or created successfully
+        showSuccessMessage("Sent", "We received your message.");
         setName("");
         setEmail("");
         setPhoneNumber("");
         setMessage("");
+        setEmailError("");
+        setPhoneNumberError("");
+        setMessageError("");
+      } else if (result.status === 400) {
+        // Bad request: Input validation error
+        ErrorMessageAlert({
+          message: "Invalid input. Please check your details and try again.",
+        });
+      } else if (result.status === 403) {
+        // Forbidden: Insufficient permissions
+        ErrorMessageAlert({
+          message:
+            "Access denied. You do not have permission to perform this action.",
+        });
+      } else if (result.status === 404) {
+        // Resource not found
+        ErrorMessageAlert({
+          message: "The requested service or resource was not found.",
+        });
+      } else if (result.status >= 500) {
+        // Server errors (5xx)
+        ErrorMessageAlert({
+          message:
+            "An unexpected server error occurred. Please try again later.",
+        });
       } else {
-        // API call failed, handle the error
-        ErrorMessageAlert({ message: "Invalid Credentials" });
+        // Fallback for unexpected status codes
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
       }
     } catch (error) {
-      // Handle other unexpected errors
-      ErrorMessageAlert({ message: "Unexpected error please ContactUs" });
+      // Handle network or unexpected errors (e.g., timeout, DNS errors)
+      ErrorMessageAlert({
+        message: "Network error. Please check your connection and try again.",
+      });
     }
   }
 
@@ -141,5 +170,3 @@ function ContactUs() {
     </form>
   );
 }
-
-export default ContactUs;

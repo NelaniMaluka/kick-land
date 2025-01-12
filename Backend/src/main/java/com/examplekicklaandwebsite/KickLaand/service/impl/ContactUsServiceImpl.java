@@ -1,13 +1,13 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
+import com.examplekicklaandwebsite.KickLaand.response.ErrorResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.examplekicklaandwebsite.KickLaand.model.ContactUs;
-import com.examplekicklaandwebsite.KickLaand.model.Newsletter;
 import com.examplekicklaandwebsite.KickLaand.repository.ContactUsRepository;
-import com.examplekicklaandwebsite.KickLaand.repository.NewsletterRepository;
 import com.examplekicklaandwebsite.KickLaand.service.ContactUsService;
 import com.examplekicklaandwebsite.KickLaand.util.FormValidation;
 
@@ -15,11 +15,9 @@ import com.examplekicklaandwebsite.KickLaand.util.FormValidation;
 public class ContactUsServiceImpl implements ContactUsService {
 
     private final ContactUsRepository contactUsRepository;
-    private final NewsletterRepository newsletterRepository;
 
-    public ContactUsServiceImpl(ContactUsRepository contactUsRepository, NewsletterRepository newsletterRepository) {
+    public ContactUsServiceImpl(ContactUsRepository contactUsRepository) {
         this.contactUsRepository = contactUsRepository;
-        this.newsletterRepository = newsletterRepository;
     }
 
     @Override
@@ -32,25 +30,16 @@ public class ContactUsServiceImpl implements ContactUsService {
             String phoneNumber = trimAndValidate(contactUs.getPhoneNumber(), "Phone Number");
             String message = trimAndValidate(contactUs.getMessage(), "Message");
 
-            // Validate email format
             if (!FormValidation.isValidEmail(email)) {
-                throw new IllegalArgumentException("Invalid email format.");
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("Invalid email format", "The provided email address is not valid. Please provide a valid email address."));
             }
 
-            // Validate phone number format
             if (!FormValidation.isValidPhonenumber(phoneNumber)) {
-                throw new IllegalArgumentException("Invalid phone number format. It should contain 10 to 15 digits.");
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("Invalid phone number format", "The provided phone number is not valid. Please provide a phone number containing 10 to 15 digits."));
             }
 
-            // Check if the email exists in the newsletter repository
-            Newsletter existingNewsletter = newsletterRepository.findByEmail(email);
-            if (existingNewsletter == null) {
-                // Create a new newsletter entry
-                Newsletter newsletter = new Newsletter();
-                newsletter.setEmail(email);
-
-                newsletterRepository.save(newsletter);
-            }
 
             contactUs.setName(name);
             contactUs.setEmail(email);
@@ -59,11 +48,12 @@ public class ContactUsServiceImpl implements ContactUsService {
 
             // Save the contact message
             contactUsRepository.save(contactUs);
-            return ResponseEntity.ok("We received your message.");
+            return ResponseEntity.ok("We received your message. Thank you for reaching out.");
         } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ErrorResponse("Internal Server Error", "An unexpected error occurred while saving your message. Please try again later."));
+            }
         }
-    }
 
     private String trimAndValidate(String field, String fieldName) {
         if (field == null || field.trim().isEmpty()) {

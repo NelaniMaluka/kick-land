@@ -99,15 +99,20 @@
     margin: auto;
   }
   .checkout-container {
-    width: 90%;
+    width: 100%;
     display: block;
     position: relative;
     min-height: max-content;
-    margin-left: 10px;
+    max-width: 350px;
+    margin: auto;
   }
   .cart-card {
     flex-direction: column;
     width: max-content;
+    width: 100%;
+    max-width: 300px;
+    display: inline-block;
+    margin: 10px;
   }
   .divider {
     border-left: none;
@@ -116,19 +121,22 @@
   }
   .cart-img {
     width: 100%;
-    max-width: 400px;
+    max-width: 160px;
+    margin: auto;
   }
   .cart-text {
     width: 100%;
   }
   .category {
     margin: 0 0 10px 0;
+    font-size: 18px;
   }
   .price {
-    font-size: 20px;
-    margin-bottom: 10px;
+    font-size: 18px;
+    margin-bottom: 6px;
   }
   .cart-footer span input {
     width: 40px;
+    font-size: 18px;
   }
 }

@@ -4,13 +4,13 @@ import "./NavBarTopBanner.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../../State/Authentication/Action";
 
-function NavBarTopBanner() {
+export default function NavBarTopBanner() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  function handleLogout() {
+  const handleLogout = () => {
     dispatch(logoutUser());
-  }
+  };
 
   return (
     <div className="options">
@@ -37,5 +37,3 @@ function NavBarTopBanner() {
     </div>
   );
 }
-
-export default NavBarTopBanner;

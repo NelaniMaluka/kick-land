@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext.js";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert.jsx";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert.jsx";
-import isValidOtp from "../../Utils/OtpValidation.js";
+import { isValidOtp } from "../../Utils/FormValidations.js";
 
 import "../../Components/Styling/Form.css";
 
-function VerifyOtp() {
+export default function VerifyOtp() {
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState(false);
 
   const useContext = useAuth();
   const navigate = useNavigate();
 
-  function handleOtpChange(event) {
+  const handleOtpChange = (event) => {
     setOtp(event.target.value);
-  }
+  };
 
   async function handleSubmit(event) {
     // Email validation
@@ -69,4 +69,3 @@ function VerifyOtp() {
     </form>
   );
 }
-export default VerifyOtp;

@@ -74,4 +74,18 @@ public class UserOrders {
 	@Pattern(regexp = "^\\+?[0-9\\-\\s]*$", message = "Please provide a valid phone number")
 	private String phoneNumber;
 
+	@Column(nullable = false)
+	@NotNull(message = "Total cannot be null")
+	private Integer total;
+
+	public Integer calculateTotal(List <UserCarts> orders){
+		if (orders == null || orders.isEmpty()){
+			return 0;
+		}
+
+		return orders.stream()
+				.mapToInt(order -> order.getPrice() * order.getQuantity())
+				.sum();
+	}
+
 }

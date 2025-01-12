@@ -1,6 +1,6 @@
 import "./AssuranceBanner.css";
 
-function AssuranceBanner() {
+export default function AssuranceBanner() {
   return (
     <div className="footer-banner">
       <div className="container2">
@@ -35,5 +35,3 @@ function AssuranceBanner() {
     </div>
   );
 }
-
-export default AssuranceBanner;

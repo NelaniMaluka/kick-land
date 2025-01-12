@@ -9,23 +9,62 @@ export const apiClient = axios.create({
   },
 });
 
-// Newsletter API call
-export function SignForNewsletter(email) {
-  return apiClient.post("/newsletter", { email });
+// Newsletter API call// Api.js
+export async function SignForNewsletter(email) {
+  try {
+    // Send POST request using apiClient
+    const response = await apiClient.post("/newsletter", { email });
+
+    // If request is successful (status code 2xx)
+    if (response.status >= 200 && response.status < 300) {
+      return {
+        status: response.status,
+        data: response.data,
+      };
+    }
+
+    // Handle case when the response status isn't successful
+    throw new Error(response.data || "Something went wrong");
+  } catch (error) {
+    // Handle both fetch errors and backend error response
+    return {
+      status: error.response?.status || 500, // Use status from error if it exists
+      message: error.message || "An unexpected error occurred while signing up",
+    };
+  }
 }
 
 //Contact Us API call
-export function contactUs(name, email, phoneNumber, message) {
-  return apiClient.post("/contact-us", {
-    name,
-    email,
-    phoneNumber,
-    message,
-  });
+export async function contactUs(name, email, phoneNumber, message) {
+  try {
+    const response = await apiClient.post("/contact-us", {
+      name,
+      email,
+      phoneNumber,
+      message,
+    });
+
+    // If request is successful (status code 2xx)
+    if (response.status >= 200 && response.status < 300) {
+      return {
+        status: response.status,
+        data: response.data,
+      };
+    }
+
+    // Handle case when the response status isn't successful
+    throw new Error(response.data || "Something went wrong");
+  } catch (error) {
+    // Handle both fetch errors and backend error response
+    return {
+      status: error.response?.status || 500, // Use status from error if it exists
+      message: error.message || "An unexpected error occurred while signing up",
+    };
+  }
 }
 
 //Products API Call
-export function RetrieveProducts() {
+export async function RetrieveProducts() {
   return apiClient.get("/products");
 }
 

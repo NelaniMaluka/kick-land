@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import UserProfile from "./UserProfile/UserProfile";
 import CartView from "./Cart/CartView";
+import OrdersView from "./Order/OrdersView";
 
 function TabPanel(props) {
   const { children, value, index, tabsVisible, ...other } = props;
@@ -38,7 +39,7 @@ function TabPanel(props) {
   );
 }
 
-function Dashboard() {
+export default function Dashboard() {
   const [value, setValue] = useState(0);
   const [tabsVisible, setTabsVisible] = useState(true);
 
@@ -112,11 +113,9 @@ function Dashboard() {
           <CartView />
         </TabPanel>
         <TabPanel value={value} index={2} tabsVisible={tabsVisible}>
-          Item Three
+          <OrdersView />
         </TabPanel>
       </Box>
     </div>
   );
 }
-
-export default Dashboard;

@@ -4,20 +4,20 @@ import { useAuth } from "../../Context/AuthContext";
 import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert.jsx";
-import isValidEmail from "../../Utils/EmailValidation.js";
+import { isValidEmail } from "../../Utils/FormValidations.js";
 
 import "../../Components/Styling/Form.css";
 
-function ForgotPassword() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [EmailError, setEmailError] = useState(false);
 
   const useContext = useAuth();
   const navigate = useNavigate();
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
-  }
+  };
 
   async function handleSubmit(event) {
     // Email validation
@@ -79,4 +79,3 @@ function ForgotPassword() {
     </form>
   );
 }
-export default ForgotPassword;

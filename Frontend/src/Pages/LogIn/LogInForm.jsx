@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
-import isValidEmail from "../../Utils/EmailValidation";
-import isValidPassword from "../../Utils/PasswordValidation";
+import { isValidEmail } from "../../Utils/FormValidations";
+import { isValidPassword } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 
 import "../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../State/Authentication/Action";
 
-function LoginForm() {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -24,17 +24,17 @@ function LoginForm() {
     password,
   };
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
-  function handlePasswordChange(event) {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     // Reset password error message
     setPasswordError("");
-  }
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -61,16 +61,69 @@ function LoginForm() {
 
       const result = await dispatch(loginUser(loginData));
 
-      if (result) {
-        showSuccessMessage("Weclome Back");
+      if (result && result.status >= 200 && result.status < 300) {
+        // Successful login
+        showSuccessMessage("Welcome Back");
         navigate("/");
+      } else if (result?.status === 401) {
+        // Unauthorized: Invalid credentials
+        ErrorMessageAlert({
+          message: "Invalid credentials. Please check your email and password.",
+        });
+      } else if (result?.status === 400) {
+        // Bad request: Missing or invalid input
+        ErrorMessageAlert({
+          message:
+            "Invalid input. Please provide all required fields correctly.",
+        });
+      } else if (result?.status >= 500) {
+        // Internal server error
+        ErrorMessageAlert({
+          message:
+            "An unexpected server error occurred. Please try again later.",
+        });
       } else {
-        ErrorMessageAlert({ message: "Invalid Credentials" });
+        // Fallback for unexpected responses
+        ErrorMessageAlert({
+          message: "An unexpected error occurred. Please try again.",
+        });
       }
     } catch (error) {
-      ErrorMessageAlert({
-        message: "We are encountering problems. Sorry for the inconvenience.",
-      });
+      if (error.response) {
+        // Handle HTTP errors
+        const { status } = error.response;
+
+        if (status === 401) {
+          ErrorMessageAlert({
+            message:
+              "Invalid credentials. Please check your email and password.",
+          });
+        } else if (status === 400) {
+          ErrorMessageAlert({
+            message:
+              "Invalid input. Please provide all required fields correctly.",
+          });
+        } else if (status >= 500) {
+          ErrorMessageAlert({
+            message:
+              "An unexpected server error occurred. Please try again later.",
+          });
+        } else {
+          ErrorMessageAlert({
+            message: `Unexpected error: ${status}. Please try again.`,
+          });
+        }
+      } else if (error.request) {
+        // Handle network errors or no response
+        ErrorMessageAlert({
+          message: "Network error. Please check your connection and try again.",
+        });
+      } else {
+        // Handle unexpected errors in code logic
+        ErrorMessageAlert({
+          message: "We are encountering problems. Sorry for the inconvenience.",
+        });
+      }
     }
   }
 
@@ -121,5 +174,3 @@ function LoginForm() {
     </form>
   );
 }
-
-export default LoginForm;

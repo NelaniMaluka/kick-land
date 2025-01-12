@@ -1,7 +1,7 @@
 import "./HeroSection.css";
 import { Link } from "react-router-dom";
 
-function HeroSection() {
+export default function HeroSection() {
   return (
     <section>
       <div className="section">
@@ -22,5 +22,3 @@ function HeroSection() {
     </section>
   );
 }
-
-export default HeroSection;

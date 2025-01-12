@@ -1,6 +1,7 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
 import com.examplekicklaandwebsite.KickLaand.request.CartRequest;
+import com.examplekicklaandwebsite.KickLaand.response.ErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +29,23 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public ResponseEntity<?> getUserCartItems(UserAccount user) {
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        try {
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ErrorResponse("User Not Found", "No user exists with the provided email address."));
+            }
+            List<UserCarts> userCart = user.getUserCart();
+            if (userCart.isEmpty()) {
+                return ResponseEntity.ok("User doesn't have anything in their cart");
+
+            }
+            return ResponseEntity.ok(FilterLists.getFilteredCartList(userCart));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error", "An error occurred while retrieving your cart. Please try again later."));
         }
-        List<UserCarts> userCart = user.getUserCart();
-        if (userCart.isEmpty()) {
-            return ResponseEntity.ok("Cart is empty");
-        }
-        return ResponseEntity.ok(FilterLists.getFilteredCartList(userCart));
     }
+
 
     @Override
     public ResponseEntity<?> addToCart(UserCartDTO req, UserAccount user) {
@@ -53,9 +62,11 @@ public class CartServiceImpl implements CartService {
             Object filteredCartList = FilterLists.getFilteredCartList(user.getUserCart());
             return new ResponseEntity<>(filteredCartList, HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Data integrity violation","One or more fields contain invalid data or violate data constraints. Please check the input values."));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error", "An error occurred while adding to your cart. Please try again later."));
         }
     }
 
@@ -64,23 +75,32 @@ public class CartServiceImpl implements CartService {
         try {
             List<UserCarts> userCartItems = user.getUserCart();
 
+            // Cart is empty check
             if (userCartItems.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            } else {
-                UserCarts cartItemToUpdate = userCartItems.stream()
-                        .filter(cart -> cart.getProductId().equals(req.productId()))
-                        .findFirst()
-                        .orElseThrow(() -> new EntityNotFoundException("Cart item not found"));
-
-                cartItemToUpdate.setQuantity(req.quantity());
-
-                cartRepository.save(cartItemToUpdate);
-
-                Object filteredCartList = FilterLists.getFilteredCartList(user.getUserCart());
-                return ResponseEntity.ok(filteredCartList);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ErrorResponse("Cart is empty", "No items found in the user's cart."));
             }
+
+            // Updating the cart item
+            UserCarts cartItemToUpdate = userCartItems.stream()
+                    .filter(cart -> cart.getProductId().equals(req.productId()))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("Cart item not found"));
+
+            // Updating cart quantity
+            cartItemToUpdate.setQuantity(req.quantity());
+            cartRepository.save(cartItemToUpdate);
+
+            // Returning filtered cart list
+            Object filteredCartList = FilterLists.getFilteredCartList(user.getUserCart());
+            return ResponseEntity.ok(filteredCartList);
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("Item not found", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("An unexpected error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error", "An error occurred while updating your cart. Please try again later."));
         }
     }
 
@@ -93,7 +113,8 @@ public class CartServiceImpl implements CartService {
             Object filteredCartList = FilterLists.getFilteredCartList(userCartItems);
             return ResponseEntity.ok(filteredCartList);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("An unexpected error occurred");
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Internal Server Error", "An error occurred while deleting your cart item. Please try again later."));
         }
     }
 
