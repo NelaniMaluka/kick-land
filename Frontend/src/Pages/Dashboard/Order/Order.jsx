@@ -7,7 +7,7 @@ import "../../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../../../State/Order/Action";
 
-function Order() {
+const Order = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -34,43 +34,39 @@ function Order() {
     address,
   };
 
-  function handleFirstNameChange(event) {
-    setFirstname(event.target.value);
-  }
+  const handleFirstNameChange = (event) => setFirstname(event.target.value);
 
-  function handleLastNameChange(event) {
-    setLastname(event.target.value);
-  }
+  const handleLastNameChange = (event) => setLastname(event.target.value);
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
-  function handleProvinceChange(event) {
+  const handleProvinceChange = (event) => {
     setProvince(event.target.value);
     // Reset email error message
     setProvinceError("");
-  }
+  };
 
-  function handleZIPCodeChange(event) {
+  const handleZIPCodeChange = (event) => {
     setZIPCode(event.target.value);
     // Reset email error message
     setZIPCodeError("");
-  }
+  };
 
-  function handleAddressChange(event) {
+  const handleAddressChange = (event) => {
     setAddress(event.target.value);
     // Reset email error message
     setAddressError("");
-  }
+  };
 
-  function handlePhoneNumberChange(event) {
+  const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value);
     // Reset phone number error message
     setPhoneNumberError("");
-  }
+  };
 
   async function handleSubmit() {
     try {
@@ -281,6 +277,6 @@ function Order() {
       </div>
     </form>
   );
-}
+};
 
 export default Order;

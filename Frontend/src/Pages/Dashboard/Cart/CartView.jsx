@@ -20,7 +20,7 @@ function CartView() {
   const dispatch = useDispatch();
 
   // Function to handle quantity changes
-  async function handleQuantityChange(productId, quantity) {
+  const handleQuantityChange = async (productId, quantity) => {
     try {
       const updateData = {
         productId,
@@ -97,7 +97,7 @@ function CartView() {
         });
       }
     }
-  }
+  };
 
   // Function to handle delete button click
   async function handleDeleteClick(productId) {
@@ -196,7 +196,7 @@ function CartView() {
           }
 
           return (
-            <div className="cart-card" key={cartItem.userCartId}>
+            <div className="cart-card" key={cartItem.productId}>
               <div className="cart-img">
                 <img src={product.image1} alt="Product" />
               </div>
