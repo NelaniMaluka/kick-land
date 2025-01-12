@@ -9,7 +9,7 @@ import AssuranceBanner from "../Banners/AssuranceBanner";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../State/Cart/Action";
 
-function ProductDetails() {
+export default function ProductDetails() {
   const { category, productName } = useParams();
   const { isProducts } = useAuth();
   const auth = useSelector((state) => state.auth);
@@ -203,5 +203,3 @@ function ProductDetails() {
     </div>
   );
 }
-
-export default ProductDetails;

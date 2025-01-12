@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
-import isValidEmail from "../../Utils/EmailValidation";
-import isValidPassword from "../../Utils/PasswordValidation";
+import { isValidEmail } from "../../Utils/FormValidations";
+import { isValidPassword } from "../../Utils/FormValidations";
 
 import "../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../State/Authentication/Action";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 
-function CreateAccount() {
+export default function CreateAccount() {
   const [firstname, setFirstname] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -210,5 +210,3 @@ function CreateAccount() {
     </form>
   );
 }
-
-export default CreateAccount;

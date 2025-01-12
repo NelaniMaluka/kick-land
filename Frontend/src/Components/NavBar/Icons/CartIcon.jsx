@@ -3,7 +3,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { useSelector } from "react-redux";
 
-function CartIcon() {
+export default function CartIcon() {
   let numberOfCartItems = 0;
   const cart = useSelector((state) => state.cart);
 
@@ -19,5 +19,3 @@ function CartIcon() {
     </IconButton>
   );
 }
-
-export default CartIcon;

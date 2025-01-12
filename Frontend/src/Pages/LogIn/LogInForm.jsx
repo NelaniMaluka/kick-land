@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
-import isValidEmail from "../../Utils/EmailValidation";
-import isValidPassword from "../../Utils/PasswordValidation";
+import { isValidEmail } from "../../Utils/FormValidations";
+import { isValidPassword } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 
 import "../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../State/Authentication/Action";
 
-function LoginForm() {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -24,17 +24,17 @@ function LoginForm() {
     password,
   };
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
-  function handlePasswordChange(event) {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     // Reset password error message
     setPasswordError("");
-  }
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -174,5 +174,3 @@ function LoginForm() {
     </form>
   );
 }
-
-export default LoginForm;

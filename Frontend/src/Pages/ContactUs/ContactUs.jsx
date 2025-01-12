@@ -1,13 +1,13 @@
 import { useState } from "react";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
-import isValidPhoneNumber from "../../Utils/PhonenumberValidation";
-import isValidEmail from "../../Utils/EmailValidation";
+import { isValidPhoneNumber } from "../../Utils/FormValidations";
+import { isValidEmail } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert";
 
 import "../../Components/Styling/Form.css";
 import { contactUs } from "../../Context/Api";
 
-function ContactUs() {
+export default function ContactUs() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -16,27 +16,27 @@ function ContactUs() {
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [messageError, setMessageError] = useState("");
 
-  function handleNameChange(event) {
+  const handleNameChange = (event) => {
     setName(event.target.value);
-  }
+  };
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
-  function handlePhoneNumberChange(event) {
+  const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value);
     // Reset phone number error message
     setPhoneNumberError("");
-  }
+  };
 
-  function handleMessageChange(event) {
+  const handleMessageChange = (event) => {
     setMessage(event.target.value);
     // Reset message error message
     setMessageError("");
-  }
+  };
 
   async function handleSubmit() {
     try {
@@ -170,5 +170,3 @@ function ContactUs() {
     </form>
   );
 }
-
-export default ContactUs;

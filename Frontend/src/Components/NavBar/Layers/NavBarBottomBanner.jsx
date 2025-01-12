@@ -1,7 +1,7 @@
 import "./NavBarBottomBanner.css";
 import { Link } from "react-router-dom";
 
-function NavBarBottomBanner() {
+export default function NavBarBottomBanner() {
   return (
     <div className="banner">
       <p>
@@ -10,5 +10,3 @@ function NavBarBottomBanner() {
     </div>
   );
 }
-
-export default NavBarBottomBanner;

@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
-import isValidPassword from "../../Utils/PasswordValidation";
+import { isValidPassword } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 
 import "../../Components/Styling/Form.css";
 
-function ChangePassword() {
+export default function ChangePassword() {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPasswordError, setRepeatPasswordError] = useState("");
@@ -16,17 +16,17 @@ function ChangePassword() {
 
   const navigate = useNavigate();
 
-  function handleRepeatPasswordChange(event) {
+  const handleRepeatPasswordChange = (event) => {
     setRepeatPassword(event.target.value);
     // Reset error message
     setRepeatPasswordError("");
-  }
+  };
 
-  function handlePasswordChange(event) {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     // Reset password error message
     setPasswordError("");
-  }
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -114,5 +114,3 @@ function ChangePassword() {
     </form>
   );
 }
-
-export default ChangePassword;

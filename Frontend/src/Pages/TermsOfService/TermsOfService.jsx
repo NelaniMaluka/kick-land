@@ -1,7 +1,7 @@
 import React from "react";
 import "../../Components/Styling/Info.css";
 
-function TermsOfService() {
+export default function TermsOfService() {
   return (
     <div className="container2">
       <div className="info-container">
@@ -77,5 +77,3 @@ function TermsOfService() {
     </div>
   );
 }
-
-export default TermsOfService;

@@ -23,7 +23,7 @@ const Item = ({ imageUrl, children }) => {
   );
 };
 
-function ImmageCattegoryBanner() {
+export default function ImmageCattegoryBanner() {
   return (
     <div className="container2">
       <Grid container spacing={2}>
@@ -51,5 +51,3 @@ function ImmageCattegoryBanner() {
     </div>
   );
 }
-
-export default ImmageCattegoryBanner;

@@ -39,7 +39,7 @@ function TabPanel(props) {
   );
 }
 
-function Dashboard() {
+export default function Dashboard() {
   const [value, setValue] = useState(0);
   const [tabsVisible, setTabsVisible] = useState(true);
 
@@ -119,5 +119,3 @@ function Dashboard() {
     </div>
   );
 }
-
-export default Dashboard;

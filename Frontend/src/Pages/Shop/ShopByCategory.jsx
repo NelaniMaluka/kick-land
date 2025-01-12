@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AssuranceBanner from "../../Components/Banners/AssuranceBanner";
 
-function ShopByCategory() {
+export default function ShopByCategory() {
   const authContext = useAuth();
   const [isProducts, setProducts] = useState(authContext.isProducts || []);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -43,5 +43,3 @@ function ShopByCategory() {
     </>
   );
 }
-
-export default ShopByCategory;

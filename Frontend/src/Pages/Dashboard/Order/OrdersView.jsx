@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-const OrdersView = () => {
+export default function OrdersView() {
   const orders = useSelector((state) => state.order.order);
   console.log(orders);
 
@@ -34,6 +34,4 @@ const OrdersView = () => {
       </div>
     </div>
   );
-};
-
-export default OrdersView;
+}

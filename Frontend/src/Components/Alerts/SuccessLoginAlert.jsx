@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export default function showSuccessMessage(title) {
+const showSuccessMessage = (title) => {
   Swal.fire({
     position: "top-end",
     icon: "success",
@@ -8,4 +8,6 @@ export default function showSuccessMessage(title) {
     showConfirmButton: false,
     timer: 1500,
   });
-}
+};
+
+export default showSuccessMessage;

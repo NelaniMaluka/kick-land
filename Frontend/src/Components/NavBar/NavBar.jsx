@@ -4,7 +4,7 @@ import NavBarMainBanner from "./Layers/NavBarMainBanner";
 import NavBarBottomBanner from "./Layers/NavBarBottomBanner";
 import "./NavBar.css"; // Import the CSS for transitions
 
-function NavBar() {
+export default function NavBar() {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -38,5 +38,3 @@ function NavBar() {
     </div>
   );
 }
-
-export default NavBar;

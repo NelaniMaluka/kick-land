@@ -4,7 +4,7 @@ import { Carousel } from "primereact/carousel";
 import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function ProductCategoryCarousel({ category }) {
+export default function ProductCategoryCarousel({ category }) {
   const { isProducts } = useAuth();
   const navigate = useNavigate();
 
@@ -59,11 +59,10 @@ function ProductCategoryCarousel({ category }) {
     );
   };
 
-  function handleOnClick(product) {
+  const handleOnClick = (product) =>
     setTimeout(() => {
       navigate(`/Shop/${product.category}/${product.name}`);
     }, 0);
-  }
 
   return (
     <div className="container2">
@@ -77,5 +76,3 @@ function ProductCategoryCarousel({ category }) {
     </div>
   );
 }
-
-export default ProductCategoryCarousel;

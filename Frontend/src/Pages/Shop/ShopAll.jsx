@@ -4,7 +4,7 @@ import ShopProductsCard from "../../Components/Cards/ShopProductsCard";
 import { useState, useEffect } from "react";
 import AssuranceBanner from "../../Components/Banners/AssuranceBanner";
 
-function ShopAll() {
+export default function ShopAll() {
   const authContext = useAuth();
   const [isProducts, setProducts] = useState(authContext.isProducts || []);
 
@@ -34,5 +34,3 @@ function ShopAll() {
     </>
   );
 }
-
-export default ShopAll;

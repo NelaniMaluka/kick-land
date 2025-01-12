@@ -5,7 +5,7 @@ import ErrorMessageAlert from "../Components/Alerts/ErrorMessageAlert";
 import { useSelector } from "react-redux";
 import { useEffect } from "react"; // Import useEffect
 
-function AuthenticatedRoute({ children }) {
+const AuthenticatedRoute = ({ children }) => {
   const auth = useSelector((state) => state.auth);
 
   // Trigger the alert only when not authenticated
@@ -21,7 +21,7 @@ function AuthenticatedRoute({ children }) {
 
   // Redirect user if not authenticated
   return <Navigate to="/Login" />;
-}
+};
 
 const DashboardRoutes = () => [
   <Route

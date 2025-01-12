@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./ShopProductsCard.css";
 import { formatCurrency } from "../../Utils/formatCurrency.js";
 
-function ShopProductsCard({ products }) {
+export default function ShopProductsCard({ products }) {
   const navigate = useNavigate();
 
-  function handleOnClick(product) {
+  const handleOnClick = (product) =>
     navigate(`/Shop/${product.category}/${product.name}`);
-  }
 
   return (
     <div className="container2">
@@ -32,5 +31,3 @@ function ShopProductsCard({ products }) {
     </div>
   );
 }
-
-export default ShopProductsCard;

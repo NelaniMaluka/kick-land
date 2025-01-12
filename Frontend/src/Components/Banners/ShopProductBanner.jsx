@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import "./ShopProductBanner.css";
 
-function ShopProductBanner({ products, setFilteredProducts }) {
+export default function ShopProductBanner({ products, setFilteredProducts }) {
   const [shoeCount, setShoeCount] = useState(null);
 
   const getShoeCount = useCallback(() => {
@@ -18,7 +18,7 @@ function ShopProductBanner({ products, setFilteredProducts }) {
     getShoeCount();
   }, [getShoeCount]);
 
-  function sortProducts(value) {
+  const sortProducts = (value) => {
     let sortedProducts;
 
     switch (value) {
@@ -40,7 +40,7 @@ function ShopProductBanner({ products, setFilteredProducts }) {
     }
 
     setFilteredProducts([...sortedProducts]); // Update state with the new sorted list
-  }
+  };
 
   return (
     <>
@@ -88,5 +88,3 @@ function ShopProductBanner({ products, setFilteredProducts }) {
     </>
   );
 }
-
-export default ShopProductBanner;

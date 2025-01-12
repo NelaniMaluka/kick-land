@@ -5,15 +5,15 @@ import showSuccessMessage from "../Alerts/SuccessMessageAlert";
 import ErrorMessageAlert from "../Alerts/ErrorMessageAlert";
 import { SignForNewsletter } from "../../Context/Api";
 
-function Footer() {
+export default function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
   async function handleSubmit(event) {
     event.preventDefault(); // Prevent form submission
@@ -151,5 +151,3 @@ function Footer() {
     </div>
   );
 }
-
-export default Footer;

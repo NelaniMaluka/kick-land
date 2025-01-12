@@ -10,7 +10,7 @@ import "./CartView.css";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart, updateCart } from "../../../State/Cart/Action.js";
 
-function CartView() {
+export default function CartView() {
   const authContext = useAuth();
   const cart = useSelector((state) => state.cart);
   const cartItems = Array.isArray(cart.cart) ? cart.cart : [];
@@ -242,5 +242,3 @@ function CartView() {
     </div>
   );
 }
-
-export default CartView;

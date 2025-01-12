@@ -1,13 +1,13 @@
 import { useState } from "react";
 import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert";
-import isValidPhoneNumber from "../../../Utils/PhonenumberValidation";
-import isValidEmail from "../../../Utils/EmailValidation";
+import { isValidPhoneNumber } from "../../../Utils/FormValidations";
+import { isValidEmail } from "../../../Utils/FormValidations";
 
 import "../../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../../../State/Order/Action";
 
-const Order = () => {
+export default function Order() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -277,6 +277,4 @@ const Order = () => {
       </div>
     </form>
   );
-};
-
-export default Order;
+}

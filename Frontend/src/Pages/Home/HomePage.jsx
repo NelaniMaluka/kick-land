@@ -4,7 +4,7 @@ import { useAuth } from "../../Context/AuthContext";
 import ProductCategoryCarousel from "../../Components/Couresels/ProductCategoryCarousel";
 import ImmageCattegoryBanner from "../../Components/Banners/ImmageCattegoryBanner";
 
-function HomePage() {
+export default function HomePage() {
   const useContext = useAuth();
   const products = useContext.isProducts;
 
@@ -18,5 +18,3 @@ function HomePage() {
     </div>
   );
 }
-
-export default HomePage;

@@ -21,7 +21,7 @@ import "./App.css";
 
 const history = createBrowserHistory();
 
-function ScrollToTop() {
+const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -29,9 +29,9 @@ function ScrollToTop() {
   }, [pathname]);
 
   return null;
-}
+};
 
-function App() {
+export default function App() {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const auth = useSelector((state) => state.auth);
@@ -71,5 +71,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

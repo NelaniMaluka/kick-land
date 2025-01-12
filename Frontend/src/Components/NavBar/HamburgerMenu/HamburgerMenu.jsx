@@ -5,19 +5,19 @@ import "./HamburgerMenu.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../../State/Authentication/Action";
 
-function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
+export default function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  function handleLogout() {
+  const handleLogout = () => {
     dispatch(logoutUser());
-  }
+  };
 
-  function handleCloseMenu() {
+  const handleCloseMenu = () => {
     if (isHamburgerOpen) {
       toggleHamburger();
     }
-  }
+  };
 
   return (
     <>
@@ -99,5 +99,3 @@ function HamburgerMenu({ isHamburgerOpen, toggleHamburger }) {
     </>
   );
 }
-
-export default HamburgerMenu;

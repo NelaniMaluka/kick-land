@@ -6,7 +6,7 @@ import Profile from "../Icons/ProfileIcon";
 
 import "./NavBarMainBanner.css";
 
-function NavBarMainBanner() {
+export default function NavBarMainBanner() {
   const [isHamburgerOpen, setHamburgerOpen] = useState(false);
 
   const toggleHamburger = () => {
@@ -56,5 +56,3 @@ function NavBarMainBanner() {
     </nav>
   );
 }
-
-export default NavBarMainBanner;

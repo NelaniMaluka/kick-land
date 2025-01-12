@@ -1,7 +1,7 @@
 import React from "react";
 import "../../Components/Styling/Info.css";
 
-function RefundPolicy() {
+export default function RefundPolicy() {
   return (
     <div className="container2">
       <div className="info-container">
@@ -52,5 +52,3 @@ function RefundPolicy() {
     </div>
   );
 }
-
-export default RefundPolicy;

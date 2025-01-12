@@ -8,7 +8,7 @@ import "./UserProfile.css";
 import { updateUserData } from "../../../State/Authentication/Action.js";
 import { useDispatch, useSelector } from "react-redux";
 
-function UserProfile() {
+export default function UserProfile() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const user = auth.user;
@@ -199,5 +199,3 @@ function UserProfile() {
     </div>
   );
 }
-
-export default UserProfile;
