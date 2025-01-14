@@ -64,22 +64,34 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
-    public ResponseEntity<?> createOrder(OrderRequest req, UserAccount user) throws Exception {
+    public ResponseEntity<?> generatePaymentLink(OrderRequest req, UserAccount user) {
         try {
-
             List<UserCarts> userCartItems = user.getUserCart();
 
             if (userCartItems.isEmpty()) {
-                return ResponseEntity.ok(null);
-            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cart is empty");
+            }
 
-                // Creating the payment link via the service
-                PaymentResponse response = paymentService.createPaymentLink(userCartItems);
+            // Call payment service to generate the payment link
+            PaymentResponse response = paymentService.createPaymentLink(userCartItems);
 
+            // Return the payment link to the user
+            return ResponseEntity.ok(response); // Include paymentId and paymentUrl
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to generate payment link: " + ex.getMessage());
+        }
+    }
+
+    public ResponseEntity<?> confirmAndCreateOrder(String sessionId, OrderRequest req, UserAccount user) {
+        try {
+            // Verify the payment using the sessionId from Stripe
+            boolean isPaymentSuccessful = paymentService.verifyPayment(sessionId);  // Use the new verifyPayment method
+
+            if (isPaymentSuccessful) {
+                List<UserCarts> userCartItems = user.getUserCart();
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                // Create the UserOrders entity
+                // Create UserOrders entity
                 UserOrders userOrders = new UserOrders();
                 userOrders.setUserId(user);
                 userOrders.setFirstname(req.firstname());
@@ -94,6 +106,7 @@ public class OrderServiceImpl implements OrderService {
                 userOrders.setDeliveryDate(dateTime.plusDays(7));
                 userOrders.setTotal(userOrders.calculateTotal(userCartItems));
 
+                // Map user carts to completed orders
                 List<CompletedOrders> userOrderItems = userCartItems.stream()
                         .map(cartItem -> {
                             CompletedOrders order = new CompletedOrders();
@@ -109,17 +122,20 @@ public class OrderServiceImpl implements OrderService {
 
                 user.getCompletedOrders().addAll(userOrderItems);
                 user.getOrders().add(userOrders);
-                user.getUserCart().clear(); // Clear the cart list in memory
+                user.getUserCart().clear(); // Clear the cart after order is created
 
-                // Save the UserOrders entity
+                // Save to database
                 userAccountRepository.save(user);
-
                 cartRepository.deleteByUserId(user);
 
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
+                return ResponseEntity.status(HttpStatus.CREATED).body("Order created successfully!");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment verification failed.");
             }
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create order: " + ex.getMessage());
         }
     }
+
+
 }

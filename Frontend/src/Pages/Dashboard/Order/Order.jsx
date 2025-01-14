@@ -5,7 +5,8 @@ import { isValidEmail } from "../../../Utils/FormValidations";
 
 import "../../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
-import { addOrder } from "../../../State/Order/Action";
+import { generatePaymentLink } from "../../../State/Order/Action";
+import { useAuth } from "../../../Context/AuthContext";
 
 export default function Order() {
   const [firstname, setFirstname] = useState("");
@@ -23,6 +24,7 @@ export default function Order() {
 
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
+  const authContext = useAuth();
 
   const orderData = {
     firstname,
@@ -105,7 +107,8 @@ export default function Order() {
         return;
       }
 
-      const result = await dispatch(addOrder(orderData, jwt));
+      const result = await dispatch(generatePaymentLink(orderData, jwt));
+      authContext.setOrderData(orderData);
 
       if (result?.status >= 200 && result?.status < 300) {
         // Successfully placed the order

@@ -58,10 +58,27 @@ public class PaymentServiceImpl implements PaymentService {
             // Build and return the payment response
             PaymentResponse res = new PaymentResponse();
             res.setPayment_url(session.getUrl());
+            res.setSession_id(session.getId());
             return res;
 
         } catch (StripeException ex) {
             throw new IllegalStateException("Payment link creation failed.");
         }
     }
+
+    public boolean verifyPayment(String sessionId) throws StripeException {
+        try {
+            Stripe.apiKey = stripeSecretKey;
+
+            // Retrieve the session details from Stripe using sessionId
+            Session session = Session.retrieve(sessionId);
+
+            // Check the payment status from the session's payment_status attribute
+            return session.getPaymentStatus().equals("paid");  // Returns true if the payment is successful
+        } catch (StripeException ex) {
+            throw new RuntimeException("Error verifying the payment: " + ex.getMessage(), ex);
+        
+        }
+    }
+
 }

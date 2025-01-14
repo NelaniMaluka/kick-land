@@ -25,9 +25,15 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<?> CreateOrder(@RequestHeader("Authorization") String jwt, @Valid @RequestBody OrderRequest req) throws Exception {
+    public ResponseEntity<?> CreatePaymentLink(@RequestHeader("Authorization") String jwt, @Valid @RequestBody OrderRequest req) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
-        return orderService.createOrder(req, user);
+        return orderService.generatePaymentLink(req, user);
+    }
+
+    @PostMapping("/order/confirmation")
+    public ResponseEntity<?> CreateOrder(@RequestHeader("Authorization") String jwt, @Valid @RequestBody String paymentId, OrderRequest req) throws Exception {
+        UserAccount user = userService.findUserByJwtToken(jwt);
+        return orderService.confirmAndCreateOrder(paymentId,req, user);
     }
 
     @GetMapping("/order")
