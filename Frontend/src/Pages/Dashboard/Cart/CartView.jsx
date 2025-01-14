@@ -177,8 +177,8 @@ export default function CartView() {
     return (
       <div className="no-cart-items">
         <span>
-          <span class="material-symbols-outlined">playlist_add</span> No cart
-          items available.
+          <span className="material-symbols-outlined">playlist_add</span> No
+          cart items available.
         </span>
       </div>
     );

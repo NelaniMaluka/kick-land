@@ -111,7 +111,7 @@ export default function UserProfile() {
   }
 
   return (
-    <div>
+    <div className="profile-container">
       <Formik
         initialValues={{
           firstname: user.firstname || "",
