@@ -9,14 +9,46 @@ import {
   GET_ORDER_SUCCESS,
 } from "./ActionType";
 
-export const addOrder = (reqData, jwt) => async (dispatch) => {
-  dispatch({ type: ADD_ORDER_REQUEST });
+export const generatePaymentLink = (reqData, jwt) => async (dispatch) => {
   try {
     const { data, status } = await apiClient.post(`/api/order`, reqData, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
     });
+    console.log(data, status);
+
+    // If request is successful (status code 2xx)
+    if (status >= 200 && status < 300) {
+      return {
+        status: status,
+        data: data,
+      };
+    }
+
+    // Handle case when the response status isn't successful
+    throw new Error(data.data || "Something went wrong");
+  } catch (error) {
+    return {
+      status: error.response?.status || 500, // Use status from error if it exists
+      message: error.message || "An unexpected error occurred while signing up",
+    };
+  }
+};
+
+export const addOrder = (paymentId, reqData, jwt) => async (dispatch) => {
+  dispatch({ type: ADD_ORDER_REQUEST });
+  try {
+    const { data, status } = await apiClient.post(
+      `/api/order/confirmation`,
+      paymentId,
+      reqData,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
     dispatch({ type: ADD_ORDER_SUCCESS, payload: data });
     await dispatch(getCart(jwt));
 

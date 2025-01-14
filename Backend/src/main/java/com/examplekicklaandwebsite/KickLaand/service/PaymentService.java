@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PaymentService {
     PaymentResponse createPaymentLink(List <UserCarts> userCarts) throws StripeException;
+    boolean verifyPayment(String sessionId) throws StripeException;
 }

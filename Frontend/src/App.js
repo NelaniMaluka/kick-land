@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./State/Authentication/Action";
 import { getOrder } from "./State/Order/Action";
 import { getCart } from "./State/Cart/Action";
+import PaymentSuccess from "./Pages/Dashboard/Order/PaymentSuccess";
 import "./App.css";
 
 const history = createBrowserHistory();
@@ -57,6 +58,8 @@ export default function App() {
             <div className="content">
               <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/payment/success" element={<PaymentSuccess />} />
+                <Route path="/payment/failure" element={<HomePage />} />
                 {AuthRoutes()}
                 {ForgotPasswordRoutes()}
                 {ShopRoutes()}
