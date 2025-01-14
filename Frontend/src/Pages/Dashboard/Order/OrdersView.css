@@ -1,0 +1,101 @@
+/* Parent container styling */
+.parent-container {
+  display: flex;
+  justify-content: center; /* Center the order container */
+  align-items: center; /* Optional: Vertical centering */
+  padding: 20px; /* Add some spacing around the parent container */
+  background-color: #f4f4f4; /* Optional: Background color for the parent */
+  min-height: 500px;
+}
+
+/* Order container styling */
+.order-container {
+  min-height: 480px;
+  width: 100%; /* Make the container responsive */
+  max-width: 970px; /* Restrict the width */
+  background-color: #ffffff; /* Optional: Background color */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow for emphasis */
+  border-radius: 20px;
+}
+
+/* Order card styling */
+.order-card {
+  display: flex; /* Flexbox for consistent layout */
+  flex-wrap: wrap; /* Optional: Wrap contents on smaller screens */
+  max-width: 970px;
+  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.164),
+    0 0 20px 10px rgba(0, 0, 0, 0.116);
+  margin-bottom: 20px; /* Space between cards */
+  border-radius: 20px;
+}
+
+/* Table container styling */
+.order-card .table-container {
+  flex: 65%; /* Take 65% of the parent width */
+  padding: 10px; /* Add padding around the table */
+}
+
+.order-card .table-container table {
+  width: 100%; /* Ensure the table spans the container */
+  border-spacing: 0; /* Remove spacing between table cells */
+}
+
+.order-card .table-container th,
+.order-card .table-container td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ccc; /* Add a subtle border for separation */
+}
+
+.order-card .table-container th {
+  font-weight: bold;
+}
+
+/* Details container styling */
+.order-card .details-container {
+  background-color: #f0f8ff; /* Light header background */
+  flex: 35%; /* Take 35% of the parent width */
+  text-align: left; /* Align text to the left */
+  padding: 20px; /* Add padding for spacing */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  border-radius: 0 20px 20px 0;
+}
+
+.order-card .details-container span {
+  margin-bottom: 18px; /* Add space between spans */
+  font-size: 14px; /* Adjust font size for readability */
+  color: #333; /* Text color */
+}
+
+/**********************
+*** Mobile - Tablet ***
+**********************/
+@media screen and (max-width: 881px) {
+  .parent-container {
+    padding: 0px;
+    width: 100%;
+    min-width: none;
+  }
+  .order-container {
+    width: 100%;
+    min-width: none;
+  }
+  .order-card {
+    display: block;
+    flex-wrap: nowrap;
+    width: 100%;
+    min-width: none;
+  }
+  .order-card .table-container {
+    display: block;
+    width: 100%;
+    min-width: none;
+  }
+  .order-card .details-container {
+    display: block;
+    width: 100%;
+    border-radius: 0 0 20px 20px;
+    min-width: none;
+  }
+}

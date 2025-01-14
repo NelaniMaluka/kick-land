@@ -19,6 +19,7 @@ export const addOrder = (reqData, jwt) => async (dispatch) => {
     });
     dispatch({ type: ADD_ORDER_SUCCESS, payload: data });
     await dispatch(getCart(jwt));
+
     // If request is successful (status code 2xx)
     if (status >= 201 && status < 300) {
       return {
@@ -46,6 +47,7 @@ export const getOrder = (jwt) => async (dispatch) => {
         Authorization: `Bearer ${jwt}`,
       },
     });
+
     dispatch({ type: GET_ORDER_SUCCESS, payload: data });
   } catch (e) {
     dispatch({ type: GET_ORDER_FAILURE, payload: e });
