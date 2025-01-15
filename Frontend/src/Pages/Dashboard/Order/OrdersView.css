@@ -1,5 +1,5 @@
 /* Parent container styling */
-.parent-container {
+.parent-container-1 {
   display: flex;
   justify-content: center; /* Center the order container */
   align-items: center; /* Optional: Vertical centering */
