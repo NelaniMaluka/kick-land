@@ -70,14 +70,23 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             Stripe.apiKey = stripeSecretKey;
 
-            // Retrieve the session details from Stripe using sessionId
-            Session session = Session.retrieve(sessionId);
+            // Trim and validate that the sessionId is appropriate for test mode
+            if (sessionId == null || !sessionId.trim().startsWith("cs_test_")) {
+                throw new IllegalArgumentException("Invalid test session ID." + sessionId);
+            }
+
+            // Clean up sessionId to avoid accidental issues with leading/trailing spaces
+            String cleanedSessionId = sessionId.trim();
+
+            // Retrieve the session details from Stripe using the cleaned sessionId
+            Session session = Session.retrieve(cleanedSessionId);
 
             // Check the payment status from the session's payment_status attribute
-            return session.getPaymentStatus().equals("paid");  // Returns true if the payment is successful
+            return "paid".equals(session.getPaymentStatus());  // Returns true if the payment is successful
+        } catch (IllegalArgumentException ex) {
+            throw new RuntimeException("Validation error: " + ex.getMessage(), ex);
         } catch (StripeException ex) {
-            throw new RuntimeException("Error verifying the payment: " + ex.getMessage(), ex);
-        
+            throw new RuntimeException("Error verifying the payment: " + ex.getMessage() + sessionId, ex);
         }
     }
 

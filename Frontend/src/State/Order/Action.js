@@ -16,7 +16,6 @@ export const generatePaymentLink = (reqData, jwt) => async (dispatch) => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    console.log(data, status);
 
     // If request is successful (status code 2xx)
     if (status >= 200 && status < 300) {
@@ -36,24 +35,25 @@ export const generatePaymentLink = (reqData, jwt) => async (dispatch) => {
   }
 };
 
-export const addOrder = (paymentId, reqData, jwt) => async (dispatch) => {
+export const addOrder = (reqData, jwt) => async (dispatch) => {
   dispatch({ type: ADD_ORDER_REQUEST });
   try {
     const { data, status } = await apiClient.post(
       `/api/order/confirmation`,
-      paymentId,
       reqData,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${jwt}`, // Include Authorization header
         },
       }
     );
+
     dispatch({ type: ADD_ORDER_SUCCESS, payload: data });
     await dispatch(getCart(jwt));
 
     // If request is successful (status code 2xx)
-    if (status >= 201 && status < 300) {
+    if (status >= 200 && status < 300) {
+      dispatch(getOrder(jwt));
       return {
         status: status,
         data: data,

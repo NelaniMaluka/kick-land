@@ -6,7 +6,6 @@ import { isValidEmail } from "../../../Utils/FormValidations";
 import "../../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { generatePaymentLink } from "../../../State/Order/Action";
-import { useAuth } from "../../../Context/AuthContext";
 
 export default function Order() {
   const [firstname, setFirstname] = useState("");
@@ -24,7 +23,6 @@ export default function Order() {
 
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const authContext = useAuth();
 
   const orderData = {
     firstname,
@@ -108,9 +106,11 @@ export default function Order() {
       }
 
       const result = await dispatch(generatePaymentLink(orderData, jwt));
-      authContext.setOrderData(orderData);
 
       if (result?.status >= 200 && result?.status < 300) {
+        localStorage.setItem("order_data", JSON.stringify(orderData));
+        localStorage.setItem("session_Id", result.data.session_id);
+
         // Successfully placed the order
         setFirstname("");
         setLastname("");

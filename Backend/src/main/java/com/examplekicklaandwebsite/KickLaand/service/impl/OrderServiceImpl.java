@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.service.impl;
 
+import com.examplekicklaandwebsite.KickLaand.request.OrderReq;
 import com.examplekicklaandwebsite.KickLaand.request.OrderRequest;
 import com.examplekicklaandwebsite.KickLaand.model.CompletedOrders;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
@@ -82,10 +83,10 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    public ResponseEntity<?> confirmAndCreateOrder(String sessionId, OrderRequest req, UserAccount user) {
+    public ResponseEntity<?> confirmAndCreateOrder(OrderReq req, UserAccount user) {
         try {
             // Verify the payment using the sessionId from Stripe
-            boolean isPaymentSuccessful = paymentService.verifyPayment(sessionId);  // Use the new verifyPayment method
+            boolean isPaymentSuccessful = paymentService.verifyPayment(req.sessionId());  // Use the new verifyPayment method
 
             if (isPaymentSuccessful) {
                 List<UserCarts> userCartItems = user.getUserCart();
@@ -94,13 +95,13 @@ public class OrderServiceImpl implements OrderService {
                 // Create UserOrders entity
                 UserOrders userOrders = new UserOrders();
                 userOrders.setUserId(user);
-                userOrders.setFirstname(req.firstname());
-                userOrders.setLastname(req.lastname());
-                userOrders.setZIPCode(req.ZIPCode());
-                userOrders.setProvince(req.province());
-                userOrders.setAddress(req.address());
-                userOrders.setEmail(req.email());
-                userOrders.setPhoneNumber(req.phoneNumber());
+                userOrders.setFirstname(req.orderRequest().firstname());
+                userOrders.setLastname(req.orderRequest().lastname());
+                userOrders.setZIPCode(req.orderRequest().ZIPCode());
+                userOrders.setProvince(req.orderRequest().province());
+                userOrders.setAddress(req.orderRequest().address());
+                userOrders.setEmail(req.orderRequest().email());
+                userOrders.setPhoneNumber(req.orderRequest().phoneNumber());
                 userOrders.setProducts(userCartItems);
                 userOrders.setOrderDate(dateTime);
                 userOrders.setDeliveryDate(dateTime.plusDays(7));
