@@ -1,5 +1,6 @@
 package com.examplekicklaandwebsite.KickLaand.controller;
 
+import com.examplekicklaandwebsite.KickLaand.request.OrderReq;
 import com.examplekicklaandwebsite.KickLaand.request.OrderRequest;
 import com.examplekicklaandwebsite.KickLaand.model.UserAccount;
 import com.examplekicklaandwebsite.KickLaand.service.OrderService;
@@ -31,9 +32,9 @@ public class OrderController {
     }
 
     @PostMapping("/order/confirmation")
-    public ResponseEntity<?> CreateOrder(@RequestHeader("Authorization") String jwt, @Valid @RequestBody String paymentId, OrderRequest req) throws Exception {
+    public ResponseEntity<?> CreateOrder(@RequestHeader("Authorization") String jwt, @Valid @RequestBody OrderReq req) throws Exception {
         UserAccount user = userService.findUserByJwtToken(jwt);
-        return orderService.confirmAndCreateOrder(paymentId,req, user);
+        return orderService.confirmAndCreateOrder(req, user);
     }
 
     @GetMapping("/order")

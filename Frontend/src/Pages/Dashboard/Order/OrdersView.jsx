@@ -22,7 +22,7 @@ export default function OrdersView() {
   const formatDate = (date) => moment(date).format("MMMM D, YYYY");
 
   return (
-    <div className="parent-container">
+    <div className="parent-container-1">
       <div className="order-container">
         {orders.map((orderItem) => {
           return (
