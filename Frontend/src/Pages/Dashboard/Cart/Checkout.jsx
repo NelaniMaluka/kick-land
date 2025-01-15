@@ -68,7 +68,7 @@ export default function Checkout() {
             const product = isProducts.find((p) => p.id === cartItem.productId);
             if (!product) return null; // Skip if product is not found
             return (
-              <tr key={product.productId}>
+              <tr key={cartItem.productId}>
                 <td className="product-name">{product.name}</td>
                 <td>x{cartItem.quantity}</td>
                 <td>
