@@ -18,6 +18,7 @@ export default function CreateAccount() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
+  const [signUpForNewsletter, setSignUpForNewslette] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,6 +53,10 @@ export default function CreateAccount() {
     setLastname(event.target.value);
   }
 
+  function handleSignUpForNewsletter() {
+    setSignUpForNewslette(!signUpForNewsletter);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     try {
@@ -81,7 +86,9 @@ export default function CreateAccount() {
         return;
       }
 
-      const result = await dispatch(registerUser(registerData));
+      const result = await dispatch(
+        registerUser(registerData, signUpForNewsletter)
+      );
 
       if (result && result.status >= 200 && result.status < 300) {
         // Successful registration
@@ -196,6 +203,44 @@ export default function CreateAccount() {
             <div className="error-message">{passwordError}</div>
           )}
         </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center", // Centers horizontally
+            alignItems: "center", // Centers everything vertically
+          }}
+        >
+          <label
+            htmlFor="newsletter"
+            style={{
+              display: "flex",
+              alignItems: "center", // Keeps checkbox and text in one line
+              fontSize: "16px",
+              cursor: "pointer",
+              textAlign: "center",
+            }}
+          >
+            <input
+              type="checkbox"
+              id="newsletter"
+              name="newsletter"
+              value="yes"
+              checked={signUpForNewsletter}
+              onChange={handleSignUpForNewsletter}
+              style={{
+                width: "20px",
+                height: "20px",
+                marginRight: "10px", // Adds spacing between checkbox and text
+                cursor: "pointer",
+                accentColor: "#4CAF50",
+              }}
+            />
+            <span style={{ position: "relative", top: "-7px" }}>
+              Subscribe to our newsletter
+            </span>
+          </label>
+        </div>
+
         <div>
           <button type="submit" name="login">
             Create

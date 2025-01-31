@@ -15,34 +15,36 @@ import {
 import { apiClient, url } from "../../Context/Api";
 import axios from "axios";
 
-export const registerUser = (reqData) => async (dispatch) => {
-  dispatch({ type: REGISTER_REQUEST });
-  try {
-    const { data, status } = await axios.post(
-      `${url}/auth/create-account`,
-      reqData
-    );
-    if (data.jwt) localStorage.setItem("jwt", data.jwt);
-    dispatch({ type: REGISTER_SUCCESS, payload: data.jwt });
+export const registerUser =
+  (reqData, signUpForNewsletter) => async (dispatch) => {
+    dispatch({ type: REGISTER_REQUEST });
+    try {
+      const { data, status } = await axios.post(`${url}/auth/create-account`, {
+        userAccount: reqData,
+        signUpForNewsletter,
+      });
+      if (data.jwt) localStorage.setItem("jwt", data.jwt);
+      dispatch({ type: REGISTER_SUCCESS, payload: data.jwt });
 
-    // If request is successful (status code 2xx)
-    if (status >= 200 && status < 300) {
+      // If request is successful (status code 2xx)
+      if (status >= 200 && status < 300) {
+        return {
+          status: status,
+          data: data.data,
+        };
+      }
+
+      // Handle case when the response status isn't successful
+      throw new Error(data.data || "Something went wrong");
+    } catch (error) {
+      dispatch({ type: REGISTER_FAILURE, payload: error });
       return {
-        status: status,
-        data: data.data,
+        status: error.response?.status || 500, // Use status from error if it exists
+        message:
+          error.message || "An unexpected error occurred while signing up",
       };
     }
-
-    // Handle case when the response status isn't successful
-    throw new Error(data.data || "Something went wrong");
-  } catch (error) {
-    dispatch({ type: REGISTER_FAILURE, payload: error });
-    return {
-      status: error.response?.status || 500, // Use status from error if it exists
-      message: error.message || "An unexpected error occurred while signing up",
-    };
-  }
-};
+  };
 
 export const loginUser = (reqData) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
