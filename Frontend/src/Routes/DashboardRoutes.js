@@ -2,20 +2,21 @@ import { Navigate, Route } from "react-router-dom";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import Order from "../Pages/Dashboard/Order/Order";
 import ErrorMessageAlert from "../Components/Alerts/ErrorMessageAlert";
-import { useSelector } from "react-redux";
 import { useEffect } from "react"; // Import useEffect
+import PaymentSuccess from "../Pages/Dashboard/Order/PaymentSuccess";
+import PaymentFailure from "../Pages/Dashboard/Order/PaymentFailure";
 
 const AuthenticatedRoute = ({ children }) => {
-  const auth = useSelector((state) => state.auth);
+  const jwt = localStorage.getItem("jwt");
 
   // Trigger the alert only when not authenticated
   useEffect(() => {
-    if (!auth.authenticated) {
+    if (!jwt) {
       ErrorMessageAlert({ message: "LogIn First" });
     }
-  }, [auth.authenticated]);
+  }, [jwt]);
 
-  if (auth.authenticated) {
+  if (jwt) {
     return children;
   }
 
@@ -38,7 +39,7 @@ const DashboardRoutes = () => [
     path="/payment/success"
     element={
       <AuthenticatedRoute>
-        <Dashboard />
+        <PaymentSuccess />
       </AuthenticatedRoute>
     }
   />,
@@ -47,7 +48,7 @@ const DashboardRoutes = () => [
     path="/payment/failure"
     element={
       <AuthenticatedRoute>
-        <Dashboard />
+        <PaymentFailure />
       </AuthenticatedRoute>
     }
   />,

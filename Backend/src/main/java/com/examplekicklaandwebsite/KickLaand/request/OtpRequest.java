@@ -5,6 +5,6 @@ import lombok.Builder;
 
 @Builder
 public record OtpRequest(
-        @NotNull(message = "OTP cannot be null")Integer otp,
-        @NotNull(message = "Email cannot be null")String email) {
+                @NotNull(message = "OTP cannot be null") Integer otp,
+                @NotNull(message = "Email cannot be null") String email) {
 }

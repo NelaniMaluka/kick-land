@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.examplekicklaandwebsite.KickLaand.model.ContactUs;
+import com.examplekicklaandwebsite.KickLaand.response.ErrorResponse;
 import com.examplekicklaandwebsite.KickLaand.service.ContactUsService;
 
 @RestController
@@ -20,14 +21,17 @@ public class ContactUsController {
         this.contactUsService = contactUsService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> sendContactUsMessage(@RequestBody ContactUs contactUs) {
         try {
             return contactUsService.sendInfo(contactUs);
         } catch (IllegalArgumentException e) { // Catch validation exceptions
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            ErrorResponse errorResponse = new ErrorResponse("Validation Error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+            ErrorResponse errorResponse = new ErrorResponse("Internal Server Error",
+                    "An unexpected error occurred while saving your message. Please try again later.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
