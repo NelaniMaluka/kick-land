@@ -8,6 +8,7 @@ import Footer from "./Components/Footer/Footer";
 import AuthProvider from "./Context/AuthContext";
 import { PrimeReactProvider } from "primereact/api";
 import HomePage from "./Pages/Home/HomePage";
+import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import AuthRoutes from "./Routes/AuthRoutes";
 import ForgotPasswordRoutes from "./Routes/ForgotPasswordRoutes";
 import ShopRoutes from "./Routes/ShopRoutes";
@@ -17,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./State/Authentication/Action";
 import { getOrder } from "./State/Order/Action";
 import { getCart } from "./State/Cart/Action";
-import PaymentSuccess from "./Pages/Dashboard/Order/PaymentSuccess";
 import "./App.css";
 
 const history = createBrowserHistory();
@@ -30,6 +30,22 @@ const ScrollToTop = () => {
   }, [pathname]);
 
   return null;
+};
+
+// Layout Component for pages with NavBar and Footer
+
+const Layout = ({ children, noLayout }) => {
+  if (noLayout) {
+    return children; // Only render the children (PageNotFound without NavBar and Footer)
+  }
+
+  return (
+    <>
+      <NavBar className="navHeight" />
+      <div className="content">{children}</div>
+      <Footer />
+    </>
+  );
 };
 
 export default function App() {
@@ -54,20 +70,34 @@ export default function App() {
             future={{ v7_relativeSplatPath: true }}
           >
             <ScrollToTop />
-            <NavBar className="navHeight" />
-            <div className="content">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/payment/success" element={<PaymentSuccess />} />
-                <Route path="/payment/failure" element={<HomePage />} />
-                {AuthRoutes()}
-                {ForgotPasswordRoutes()}
-                {ShopRoutes()}
-                {InfoRoutes()}
-                {DashboardRoutes()}
-              </Routes>
-            </div>
-            <Footer />
+            <Routes>
+              {/* Routes with Layout (NavBar + Footer) */}
+              <Route
+                path="/*"
+                element={
+                  <Layout noLayout={false}>
+                    <Routes>
+                      <Route path="/" element={<HomePage />} />
+                      {AuthRoutes()}
+                      {ForgotPasswordRoutes()}
+                      {ShopRoutes()}
+                      {InfoRoutes()}
+                      {DashboardRoutes()}
+                    </Routes>
+                  </Layout>
+                }
+              />
+
+              {/* PageNotFound (Without Layout) */}
+              <Route
+                path="*"
+                element={
+                  <Layout noLayout={true}>
+                    <PageNotFound />
+                  </Layout>
+                }
+              />
+            </Routes>
           </HistoryRouter>
         </AuthProvider>
       </PrimeReactProvider>
