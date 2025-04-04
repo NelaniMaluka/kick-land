@@ -1,0 +1,15 @@
+# Ignore build directories (for Java/Maven)
+target/
+bin/
+
+# Ignore IDE/editor files
+.idea/
+.vscode/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore local config or log files
+*.log
+*.tmp
