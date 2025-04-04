@@ -142,7 +142,6 @@
 
     </dependencies>
 
-    <!-- Build Plugins Section -->
     <build>
         <plugins>
             <!-- Spring Boot Maven Plugin -->
@@ -150,6 +149,25 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> <!-- Use the latest version if necessary -->
+                <configuration>
+                    <source>1.8</source> <!-- Adjust Java version as needed -->
+                    <target>1.8</target> <!-- Adjust Java version as needed -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.24</version> <!-- Adjust to the latest Lombok version -->
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
 </project>
