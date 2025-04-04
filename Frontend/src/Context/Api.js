@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const url = "http://localhost:8080";
+export const url = "https://kick-land.onrender.com";
 
 export const apiClient = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://kick-land.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
