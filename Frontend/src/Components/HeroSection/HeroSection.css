@@ -1,6 +1,7 @@
+/* Background Section */
 .banner-section {
   position: relative;
-  height: 600px;
+  height: 100vh;
   overflow: hidden;
 }
 .banner-section img {
@@ -9,6 +10,8 @@
   min-height: 600px;
   object-fit: cover;
 }
+
+/* Button Section */
 .button-div {
   position: absolute;
   top: 80%;
@@ -24,17 +27,19 @@
 }
 .section button:hover {
   border: 1px solid black;
-  width: 155px;
-  height: 55px;
+  background-color: #eeeeee;
 }
 
 /**********************
 *** Tablet - Desktop **
 **********************/
 @media screen and (min-width: 661px) {
+  /* Background Image Section */
   .section {
     margin: 40px 0 0 0;
   }
+
+  /* Button Section */
   .section button {
     width: 150px;
     height: 50px;
@@ -46,6 +51,7 @@
 *** Mobile - Tablet ***
 **********************/
 @media (max-width: 661px) {
+  /* Background Image Section */
   .section {
     margin: 20px 0;
   }
@@ -55,14 +61,16 @@
   section img {
     height: 200px;
   }
+
+  /* Button Section */
+  .button-div {
+    left: 75px;
+  }
   .section button {
     display: block;
     margin: 20px auto;
     width: 120px;
     height: 40px;
     font-size: 16px;
-  }
-  .button-div {
-    left: 75px;
   }
 }
