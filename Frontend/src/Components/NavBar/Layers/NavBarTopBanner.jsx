@@ -8,6 +8,7 @@ export default function NavBarTopBanner() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  // Log-out Function
   const handleLogout = () => {
     dispatch(logoutUser());
   };
@@ -22,6 +23,8 @@ export default function NavBarTopBanner() {
           <li>
             <Link to="/Info/About-Us">About Us</Link>
           </li>
+
+          {/* Checks is user is authenticated */}
           {!auth.authenticated && (
             <li>
               <Link to="/Login">Log In</Link>

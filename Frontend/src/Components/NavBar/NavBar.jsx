@@ -8,6 +8,7 @@ export default function NavBar() {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  // Scroll functionality
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
 

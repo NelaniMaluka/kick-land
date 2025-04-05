@@ -4,9 +4,10 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../../State/Authentication/Action";
+import ErrorMessageAlert from "../../Alerts/ErrorMessageAlert";
+import { Link } from "react-router-dom";
 
 export default function ProfileIcon() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -14,17 +15,32 @@ export default function ProfileIcon() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleMenu = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  // Log-out function
   const handleLogout = () => {
     dispatch(logoutUser());
+    handleClose();
     navigate("/");
   };
 
-  const handleMenu = (event) => setAnchorEl(event.currentTarget);
+  // Profile function
+  const handleProfileClick = () => {
+    handleClose();
 
-  const handleClose = () => setAnchorEl(null);
+    if (auth.authenticated) {
+      navigate("/Dashboard");
+    } else {
+      ErrorMessageAlert({
+        message: "Please log in first to access your profile.",
+      });
+    }
+  };
 
   return (
     <div>
+      {/* Icon container */}
       <IconButton
         size="large"
         aria-label="account of current user"
@@ -50,20 +66,18 @@ export default function ProfileIcon() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
-          <Link
-            to="/Dashboard"
-            style={{ fontFamily: "arial", textDecoration: "none" }}
+        {/* Profile Icon */}
+        <MenuItem onClick={handleProfileClick}>
+          <span
+            style={{ float: "left", marginRight: "5px" }}
+            className="material-symbols-outlined"
           >
-            <span
-              style={{ float: "left", marginRight: "5px" }}
-              className="material-symbols-outlined"
-            >
-              manage_accounts
-            </span>
-            Profile
-          </Link>
+            manage_accounts
+          </span>
+          <span style={{ fontFamily: "arial" }}>Profile</span>
         </MenuItem>
+
+        {/* Cart Icon */}
         {!auth.authenticated ? (
           <MenuItem onClick={handleClose}>
             <Link

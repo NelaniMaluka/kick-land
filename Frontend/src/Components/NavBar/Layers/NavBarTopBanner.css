@@ -1,9 +1,9 @@
+/* top nav links */
 .options {
   background-color: RGB(245, 245, 245);
   text-align: right;
   width: 100%;
   height: 28px;
-  margin-bottom: 10px;
   margin-top: -10px;
 }
 .options li {
@@ -11,12 +11,13 @@
   border-right: medium solid black;
   line-height: 10px;
   list-style: none;
-  padding: 0 15px 0 15px;
+  padding: 0 15px;
   display: inline-block;
   font-size: 15px;
 }
 .options li:last-child {
   border: none;
+  padding-right: 0;
 }
 .options li a:hover {
   color: rgb(105, 105, 105);
@@ -25,7 +26,7 @@
 /**********************
 *** Mobile - Tablet ***
 **********************/
-@media screen and (max-width: 661px) {
+@media screen and (max-width: 730px) {
   .options {
     display: none;
   }

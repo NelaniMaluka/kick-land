@@ -1,28 +1,48 @@
+/* Hanburger Menu Section */
 .hamburger {
   display: none;
 }
 .hamburger-menu {
-  display: none;
   position: fixed;
   top: 0;
   right: 0;
-  width: 90%;
+  width: 100%;
+  max-width: 400px;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.95);
   background-color: white;
-  backdrop-filter: blur(8px);
   z-index: 9999;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
 }
 .hamburger-menu.open {
-  display: block;
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
-.hamburger-menu:not(.open) {
-  backdrop-filter: none;
+
+/* Hanburger Header Section */
+.hamburger-header {
+  background-color: RGB(245, 245, 245);
+  height: 50px;
+  padding-top: 5px;
 }
+.hamburger-header h1 {
+  margin: 0 0 0 20px;
+  font-size: 30px;
+  display: inline-block;
+}
+.hamburger-header img {
+  float: right;
+  margin: 10px 20px 0 0;
+  width: 20px;
+}
+
+/* Global List styling for the hamburger section */
 .hamburger-menu li {
   list-style: none;
-  width: 90%;
-  margin: auto;
+  width: 100%;
 }
 .hamburger-menu li:first-child {
   margin-top: 0px;
@@ -30,54 +50,36 @@
 .hamburger-menu li:last-child {
   margin-bottom: 0px;
 }
-.hamburger-menu img {
-  float: right;
-  margin: 13px 20px 0 0;
-  width: 20px;
-}
+
+/* Shopping Links Section */
 .hamburger-menu .shop li {
-  padding: 20px;
+  padding: 20px 0;
   border-bottom: 1px solid lightgrey;
-}
-.hamburger-menu .details li {
-  padding: 10px;
-}
-.hamburger-menu .details a {
-  color: rgb(103, 103, 103);
+  text-align: left;
 }
 .hamburger-menu .shop a {
   font-size: 25px;
 }
-.hamburger-menu a:hover {
-  color: black;
-}
-.hamburger-header {
-  background-color: RGB(245, 245, 245);
-  height: 50px;
-}
-.hamburger-header h1 {
-  margin: 0 0 0 20px;
-  font-size: 30px;
-  display: inline-block;
-}
-hr {
-  border: 1px solid black;
-  width: 90%;
-  margin: auto;
+
+/* Details Section */
+.hamburger-menu .details li {
   padding: 10px;
+  text-align: center;
+}
+.hamburger-menu .details a {
+  color: rgb(103, 103, 103);
+}
+.hamburger-menu .details a:hover {
+  color: black;
 }
 
 /**********************
 *** Mobile - Tablet ***
 **********************/
-@media screen and (max-width: 661px) {
+@media screen and (max-width: 730px) {
+  /* Hamburger Menu Section */
   .hamburger {
     display: inline-block;
-  }
-  .hamburger-menu {
-    display: none;
-  }
-  .hamburger-menu.open {
-    display: block;
+    margin-left: 15px;
   }
 }
