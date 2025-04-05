@@ -13,27 +13,32 @@ export default function NavBarMainBanner() {
     setHamburgerOpen(!isHamburgerOpen);
   };
 
+  // Sneaker link object array
+  const sneakerLinks = [
+    { name: "Dunks", path: "/Shop/Dunk" },
+    { name: "Air Force", path: "/Shop/AirForce" },
+    { name: "Jordan", path: "/Shop/Jordan" },
+    { name: "Air Max", path: "/Shop/AirMax" },
+  ];
+
   return (
-    <nav>
-      <div className="navC container2">
-        <Link to="/" className="name  ">
+    <div className="main-nav">
+      <nav className=" container2">
+        {/* Logo Section */}
+        <Link to="/" className="logo">
           Kick Land
         </Link>
+
+        {/* Sneaker Links Section */}
         <ul className="sneakers">
-          <li>
-            <Link to="/Shop/Dunk ">Dunks</Link>
-          </li>
-          <li>
-            <Link to="/Shop/AirForce">Air Force</Link>
-          </li>
-          <li>
-            <Link to="/Shop/Jordan">Jordan</Link>
-          </li>
-          <li>
-            <Link to="/Shop/AirMax">Air Max</Link>
-          </li>
+          {sneakerLinks.map((sneaker, index) => (
+            <li key={index}>
+              <Link to={sneaker.path}>{sneaker.name}</Link>
+            </li>
+          ))}
         </ul>
 
+        {/* Cart Section */}
         <div className="cart">
           <Profile />
           <Link to="/Dashboard" title="Cart">
@@ -46,13 +51,14 @@ export default function NavBarMainBanner() {
             className="hamburger"
             onClick={toggleHamburger}
             alt="Menu Icon"
-          ></img>
+          />
         </div>
-      </div>
+      </nav>
+
       <HamburgerMenu
         isHamburgerOpen={isHamburgerOpen}
         toggleHamburger={toggleHamburger}
       />
-    </nav>
+    </div>
   );
 }

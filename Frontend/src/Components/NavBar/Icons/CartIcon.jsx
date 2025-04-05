@@ -7,6 +7,7 @@ export default function CartIcon() {
   let numberOfCartItems = 0;
   const cart = useSelector((state) => state.cart);
 
+  // Calculates cart item count to display
   if (cart?.success && Array.isArray(cart.cart) && cart.cart.length > 0) {
     numberOfCartItems = cart.cart[0]?.id ? cart.cart.length : 0;
   }
