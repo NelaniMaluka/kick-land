@@ -59,6 +59,13 @@ nav {
 *** Mobile - Tablet ***
 **********************/
 @media screen and (max-width: 730px) {
+  /* Logo Section */
+  .logo {
+    font-size: 25px;
+    width: max-content;
+  }
+
+  /* Sneaker Links Section */
   .sneakers {
     display: none;
   }
