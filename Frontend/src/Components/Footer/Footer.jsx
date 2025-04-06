@@ -66,6 +66,7 @@ export default function Footer() {
       ErrorMessageAlert({ message: "Could not sign up for newsletter" });
     }
 
+    setLoading(false);
     setEmail("");
   }
 
