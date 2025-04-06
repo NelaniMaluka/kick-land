@@ -4,10 +4,12 @@ import { useState } from "react";
 import showSuccessMessage from "../Alerts/SuccessMessageAlert";
 import ErrorMessageAlert from "../Alerts/ErrorMessageAlert";
 import { SignForNewsletter } from "../../Context/Api";
+import CircularIndeterminate from "../../Utils/LoadingSpinner";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Updates the email value
   const handleEmailChange = (event) => {
@@ -28,6 +30,8 @@ export default function Footer() {
       setEmailError("Invalid email format.");
       return;
     }
+
+    setLoading(true);
 
     try {
       const result = await SignForNewsletter(email);
@@ -146,6 +150,13 @@ export default function Footer() {
               {emailError && <div className="error-message">{emailError}</div>}
             </form>
           </li>
+
+          {/* Show loading spinner if loading is true */}
+          {loading && (
+            <div className="loading-spinner">
+              <CircularIndeterminate />
+            </div>
+          )}
 
           {/* Social Links */}
           <li>
