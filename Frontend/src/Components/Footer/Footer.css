@@ -1,23 +1,15 @@
+/* Global List styling */
 li {
   list-style: none;
 }
+
+/* Footer Section */
 .footer {
   background-color: black;
   text-align: center;
 }
-.footer li {
-  color: white;
-}
-.footer li a {
-  color: white;
-}
-.footer li a:hover {
-  color: darkgray;
-}
-.footer h2 {
-  margin-bottom: 20px;
-  width: fit-content;
-}
+
+/* Footer List Styling */
 .footer div ul {
   display: inline-block;
   width: 30%;
@@ -34,6 +26,23 @@ li {
   height: 30px;
   margin: 20px 15px 30px 0;
 }
+.footer li {
+  color: white;
+}
+.footer li a {
+  color: white;
+}
+.footer li a:hover {
+  color: darkgray;
+}
+
+/* Heading section */
+.footer h2 {
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+/* Newsletter section */
 .footer div ul li input {
   width: 70%;
   min-width: 30px;
@@ -49,6 +58,8 @@ li {
   height: 40px;
   border-radius: 0 8px 8px 0;
 }
+
+/* Copywright section */
 .copywright {
   color: white;
   text-align: left;
@@ -58,7 +69,8 @@ li {
 /**********************
 *** Mobile - Tablet ***
 **********************/
-@media screen and (max-width: 661px) {
+@media screen and (max-width: 730px) {
+  /* Footer List Styling */
   .footer div ul {
     display: block;
     width: 100%;
@@ -70,6 +82,8 @@ li {
   .footer div ul h4 {
     font-size: 19px;
   }
+
+  /* Copywright section */
   .copywright {
     font-size: 12px;
   }

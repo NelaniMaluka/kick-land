@@ -1,29 +1,37 @@
+/* Banner Section */
 .footer-banner {
   background-color: RGB(245, 245, 245);
   height: fit-content;
   text-align: center;
 }
-.footer-banner div div {
-  display: inline-block;
-  vertical-align: top;
+.footer-banner .container2 {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 25px;
+}
+
+/* Text Section */
+.authenticity-heading {
+  margin: auto;
 }
 .footer-banner div div p {
   color: rgb(105, 105, 105);
   padding-bottom: 30px;
 }
-.authenticity-heading {
-  margin: auto;
-}
 
 /**********************
 *** Tablet - Desktop **
 **********************/
-@media screen and (min-width: 661px) {
+@media screen and (min-width: 730px) {
+  /* Banner Section */
   .footer-banner div div {
     width: 30%;
     max-width: 420px;
     padding-left: 10px;
   }
+
+  /* Text Section */
   .footer-banner div div img {
     width: 35px;
     padding: 25px 0 15px 0;
@@ -38,11 +46,21 @@
 /**********************
 *** Mobile - Tablet ***
 **********************/
-@media screen and (max-width: 661px) {
-  .footer-banner div div {
-    width: 100%;
+@media screen and (max-width: 730px) {
+  /* Banner Section */
+  .footer-banner .container2 {
     display: block;
     margin: auto;
+  }
+  .footer-banner .container2 div {
+    max-width: 400px;
+    margin: auto;
+  }
+
+  /* Text Section */
+  .authenticity-heading {
+    font-size: 20px;
+    width: 200px;
   }
   .footer-banner div div img {
     width: 30px;
@@ -54,9 +72,5 @@
   .footer-banner div div p {
     padding-top: 10px;
     font-size: 14px;
-  }
-  .authenticity-heading {
-    font-size: 20px;
-    width: 200px;
   }
 }

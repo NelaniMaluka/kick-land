@@ -4,17 +4,21 @@ import { useState } from "react";
 import showSuccessMessage from "../Alerts/SuccessMessageAlert";
 import ErrorMessageAlert from "../Alerts/ErrorMessageAlert";
 import { SignForNewsletter } from "../../Context/Api";
+import CircularIndeterminate from "../../Utils/LoadingSpinner";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // Updates the email value
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
   };
 
+  // Newsletter Subscription Function
   async function handleSubmit(event) {
     event.preventDefault(); // Prevent form submission
 
@@ -26,6 +30,8 @@ export default function Footer() {
       setEmailError("Invalid email format.");
       return;
     }
+
+    setLoading(true);
 
     try {
       const result = await SignForNewsletter(email);
@@ -63,12 +69,33 @@ export default function Footer() {
     setEmail("");
   }
 
-  function isValidEmail(email) {
+  // Validates the email format
+  const isValidEmail = (email) => {
     // Basic email format validation
     const emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email);
-  }
+  };
 
+  // Social Links
+  const socialLinks = {
+    instagram: {
+      title: "Instagram",
+      href: "https://www.instagram.com/",
+      imgSrc: "/Images/FooterImages/instagram.png",
+    },
+    facebook: {
+      title: "Facebook",
+      href: "https://www.facebook.com/?_rdr",
+      imgSrc: "/Images/FooterImages/facebook.png",
+    },
+    youtube: {
+      title: "Youtube",
+      href: "https://www.youtube.com/",
+      imgSrc: "/Images/FooterImages/youtube.png",
+    },
+  };
+
+  // Gets the current year
   let getYear = () => {
     const currentYear = new Date().getFullYear();
     return currentYear;
@@ -77,6 +104,7 @@ export default function Footer() {
   return (
     <div className="footer">
       <div className="container2">
+        {/* Text Section */}
         <ul>
           <li>
             <h2>Contact Us</h2>
@@ -102,6 +130,8 @@ export default function Footer() {
             <Link to="/Info/Refund-Policy">Refund policy</Link>
           </li>
         </ul>
+
+        {/* Newsletter Section */}
         <ul>
           <li>
             <h2>Subscribe To Our Newsletter</h2>
@@ -120,31 +150,33 @@ export default function Footer() {
               {emailError && <div className="error-message">{emailError}</div>}
             </form>
           </li>
+
+          {/* Show loading spinner if loading is true */}
+          {loading && (
+            <div className="loading-spinner">
+              <CircularIndeterminate />
+            </div>
+          )}
+
+          {/* Social Links */}
           <li>
-            <a href="https://www.instagram.com/">
-              <img
-                alt="Instagram"
-                title="Instagram"
-                src="/Images/FooterImages/instagram.png"
-              />
-            </a>
-            <a href="https://www.facebook.com/?_rdr">
-              <img
-                alt="Facebook"
-                title="Facebook"
-                src="/Images/FooterImages/facebook.png"
-              />
-            </a>
-            <a href="https://www.youtube.com/">
-              <img
-                alt="Youtube"
-                title="Youtube"
-                src="/Images/FooterImages/youtube.png"
-              />
-            </a>
+            {Object.entries(socialLinks).map(
+              ([key, { href, imgSrc, title }]) => (
+                <a
+                  key={key}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img alt={title} title={title} src={imgSrc} />
+                </a>
+              )
+            )}
           </li>
         </ul>
       </div>
+
+      {/* Copywright section */}
       <div className="copywright container2">
         Copyright &copy; {getYear()} Kick Land
       </div>
