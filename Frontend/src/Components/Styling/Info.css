@@ -1,18 +1,24 @@
+/* Container styling */
 .info-container {
   padding: 50px 5px 70px 5px;
-  width: 530px;
+  width: 100%;
+  max-width: 700px;
   margin: auto;
 }
+
+/* Text styling */
 .info-container h2 {
-  text-align: center;
+  text-align: left;
   font-size: 35px;
   margin-bottom: 40px;
 }
+.info-container h3 {
+  color: rgb(93, 93, 93);
+  text-align: left;
+}
 .info-container p {
   color: gray;
-}
-.info-container h3 {
-  color: gray;
+  text-align: left;
 }
 
 /**********************
@@ -32,13 +38,15 @@
 *** Mobile - Tablet ***
 **********************/
 @media screen and (max-width: 661px) {
+  /* Container styling */
+  .info-container {
+    padding-bottom: 50px;
+  }
+
+  /* Text styling */
   .info-container h2 {
     font-size: 30px;
     margin-bottom: 35px;
-  }
-  .info-container {
-    width: 100%;
-    padding-bottom: 50px;
   }
   .info-container p {
     margin: 0 0 25px 0;
