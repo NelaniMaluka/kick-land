@@ -1,22 +1,28 @@
+/* Section styling */
 .shopAll {
   height: max-content;
-}
-.shopAll nav {
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
 }
-.shopAll div {
-  display: inline-block;
+
+/* button styling */
+.shopAll button {
+  border: none;
+  color: black;
+  width: max-content;
 }
 
 /**********************
 *** Tablet - Desktop **
 **********************/
 @media screen and (min-width: 661px) {
+  /* Section styling */
   .shopAll {
     padding: 5px;
   }
+
+  /* shoe count styling */
   .shopAll p {
     font-size: 25px;
   }
@@ -26,9 +32,12 @@
 *** Mobile - Tablet ***
 **********************/
 @media screen and (max-width: 661px) {
+  /* Section styling */
   .shopAll {
     padding: 3px;
   }
+
+  /* shoe count styling */
   .shopAll p {
     font-size: 20px;
   }

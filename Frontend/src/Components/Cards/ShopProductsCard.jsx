@@ -6,6 +6,7 @@ import { formatCurrency } from "../../Utils/formatCurrency.js";
 export default function ShopProductsCard({ products }) {
   const navigate = useNavigate();
 
+  // Handles redirect to product details page
   const handleOnClick = (product) =>
     navigate(`/Shop/${product.category}/${product.name}`);
 

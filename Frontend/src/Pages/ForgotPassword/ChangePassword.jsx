@@ -4,14 +4,17 @@ import { useAuth } from "../../Context/AuthContext";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import { isValidPassword } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
+import CircularIndeterminate from "../../Utils/LoadingSpinner";
 
 import "../../Components/Styling/Form.css";
 
+// Handles Password Change
 export default function ChangePassword() {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPasswordError, setRepeatPasswordError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
   const useContext = useAuth();
 
   const navigate = useNavigate();
@@ -30,6 +33,8 @@ export default function ChangePassword() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
+
     try {
       // Email validation
       if (!repeatPassword) {
@@ -70,6 +75,8 @@ export default function ChangePassword() {
         message: "We are encountering problems. Sorry for the inconvenience.",
       });
     }
+
+    setLoading(false);
   }
 
   return (
@@ -111,6 +118,13 @@ export default function ChangePassword() {
           </button>
         </div>
       </div>
+
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </form>
   );
 }

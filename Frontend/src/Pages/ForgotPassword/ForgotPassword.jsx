@@ -5,13 +5,15 @@ import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert.jsx";
 import { isValidEmail } from "../../Utils/FormValidations.js";
+import CircularIndeterminate from "../../Utils/LoadingSpinner.jsx";
 
 import "../../Components/Styling/Form.css";
 
+// Handles Email Verification
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [EmailError, setEmailError] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const useContext = useAuth();
   const navigate = useNavigate();
 
@@ -30,6 +32,8 @@ export default function ForgotPassword() {
     }
 
     const result = await useContext.forgotPassword(email);
+    setLoading(true);
+
     try {
       if (result.success) {
         showSuccessMessage("Success!", result.response.data);
@@ -42,6 +46,8 @@ export default function ForgotPassword() {
         message: "We are encountering problems. Sorry for the inconvenience.",
       });
     }
+
+    setLoading(false);
   }
 
   return (
@@ -76,6 +82,13 @@ export default function ForgotPassword() {
           </li>
         </ul>
       </div>
+
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </form>
   );
 }

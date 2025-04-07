@@ -1,90 +1,68 @@
-import { useState, useEffect, useCallback } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-
+import React, { useState } from "react";
+import { Button, Menu, MenuItem } from "@mui/material";
 import "./ShopProductBanner.css";
 
-export default function ShopProductBanner({ products, setFilteredProducts }) {
-  const [shoeCount, setShoeCount] = useState(null);
+export default function SortDropdown({ products, setFilteredProducts }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  const getShoeCount = useCallback(() => {
-    let count = 0;
-    for (let i = 0; i < products.length; i++) {
-      count++;
-    }
-    setShoeCount("(" + count + ")");
-  }, [products]);
+  // Handles open function for the sort button
+  const handleOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  useEffect(() => {
-    getShoeCount();
-  }, [getShoeCount]);
+  // Handles close function for the sort button
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  const sortProducts = (value) => {
-    let sortedProducts;
+  // Handles sort functionality
+  const handleSort = (type) => {
+    let sorted = [...products];
 
-    switch (value) {
-      case "ascending":
-        sortedProducts = products.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case "descending":
-        sortedProducts = products.sort((a, b) => b.name.localeCompare(a.name));
-        break;
+    switch (type) {
       case "high-price":
-        sortedProducts = products.sort((a, b) => b.price - a.price);
+        sorted.sort((a, b) => b.price - a.price);
         break;
       case "low-price":
-        sortedProducts = products.sort((a, b) => a.price - b.price);
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+      case "ascending":
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "descending":
+        sorted.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
-        // Handle other cases or set a default sorting logic
-        sortedProducts = products;
+        break;
     }
 
-    setFilteredProducts([...sortedProducts]); // Update state with the new sorted list
+    setFilteredProducts(sorted);
+    handleClose(); // close dropdown
   };
 
   return (
-    <>
-      <div className="container2 shopAll">
-        <nav>
-          <div>
-            <p>All Trainers & Shoes {shoeCount}</p>
-          </div>
-          <div>
-            <Dropdown>
-              <Dropdown.Toggle variant="basic" id="dropdown-basic">
-                Sort By
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  href="#/action-1"
-                  onClick={() => sortProducts("high-price")}
-                >
-                  Price: High-Low
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href="#/action-2"
-                  onClick={() => sortProducts("low-price")}
-                >
-                  Price: Low-High
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href="#/action-2"
-                  onClick={() => sortProducts("ascending")}
-                >
-                  Alphabetically: A-Z
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href="#/action-2"
-                  onClick={() => sortProducts("descending")}
-                >
-                  Alphabetically: Z-A
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        </nav>
+    <div className="container2 shopAll">
+      {/* Show sneaker count */}
+      <div>
+        <p> All Trainers & Shoes ({products.length})</p>
       </div>
-    </>
+
+      {/* Filter Fuction */}
+      <div>
+        <Button onClick={handleOpen}>Sort By</Button>
+
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <MenuItem onClick={() => handleSort("high-price")}>
+            Price: High-Low
+          </MenuItem>
+          <MenuItem onClick={() => handleSort("low-price")}>
+            Price: Low-High
+          </MenuItem>
+          <MenuItem onClick={() => handleSort("ascending")}>A-Z</MenuItem>
+          <MenuItem onClick={() => handleSort("descending")}>Z-A</MenuItem>
+        </Menu>
+      </div>
+    </div>
   );
 }

@@ -1,34 +1,24 @@
+/* Product Container */
 .product {
   height: max-content;
   display: flex;
   flex-wrap: wrap;
   margin: 5px;
   padding: 0;
+  min-height: 100vh;
 }
+
+/* Product Card */
 .products-card {
   height: max-content;
   text-align: left;
 }
+
+/* Image styling */
 .products-card img {
   width: 100%;
   height: auto;
 }
-.products-card h5 {
-  margin: 8px 0 8px 0;
-  font-weight: 600;
-}
-.products-card span {
-  display: block;
-  margin: 8px 0 8px 0;
-}
-.category {
-  color: rgb(105, 105, 105);
-}
-.out-of-stock {
-  color: "red";
-  font-size: "14px";
-}
-
 .products-card-couresel {
   height: max-content;
   text-align: left;
@@ -45,6 +35,23 @@
   display: block;
   margin: 8px 0 8px 0;
 }
+
+/* Text Styling */
+.products-card h5 {
+  margin: 8px 0 8px 0;
+  font-weight: 600;
+}
+.products-card span {
+  display: block;
+  margin: 8px 0 8px 0;
+}
+.category {
+  color: rgb(105, 105, 105);
+}
+.out-of-stock {
+  color: "red";
+  font-size: "14px";
+}
 .products-card-couresel .category {
   color: rgb(105, 105, 105);
 }
@@ -52,15 +59,19 @@
   color: "red";
   font-size: "14px";
 }
+
 /**********************
 *** Tablet - Desktop **
 **********************/
 @media screen and (min-width: 661px) {
+  /* Product Container */
   .products-card {
     width: 31%;
     margin: 10px;
     padding-bottom: 20px;
   }
+
+  /* Image styling */
   .couresel {
     width: 95%;
   }
@@ -75,6 +86,7 @@
 *** Mobile - Tablet ***
 **********************/
 @media screen and (max-width: 661px) {
+  /* Product Container */
   .product {
     width: 100%;
   }
@@ -83,17 +95,10 @@
     margin: 3px;
     padding-bottom: 10px;
   }
+
+  /* Image styling */
   .products-card-couresel {
     width: 100%;
-  }
-  .products-card h5 {
-    font-size: 17px;
-  }
-  .products-card span {
-    font-size: 15px;
-  }
-  .category {
-    font-size: 10px;
   }
   .products-card-couresel h5 {
     font-size: 17px;
@@ -102,6 +107,17 @@
     font-size: 15px;
   }
   .products-card-couresel .category {
+    font-size: 10px;
+  }
+
+  /* Text styling */
+  .products-card h5 {
+    font-size: 17px;
+  }
+  .products-card span {
+    font-size: 15px;
+  }
+  .category {
     font-size: 10px;
   }
 }

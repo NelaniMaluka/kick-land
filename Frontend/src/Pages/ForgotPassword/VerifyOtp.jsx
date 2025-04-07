@@ -4,13 +4,15 @@ import { useAuth } from "../../Context/AuthContext.js";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert.jsx";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert.jsx";
 import { isValidOtp } from "../../Utils/FormValidations.js";
+import CircularIndeterminate from "../../Utils/LoadingSpinner.jsx";
 
 import "../../Components/Styling/Form.css";
 
+// Handles OTP Verification
 export default function VerifyOtp() {
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const useContext = useAuth();
   const navigate = useNavigate();
 
@@ -29,6 +31,8 @@ export default function VerifyOtp() {
     }
 
     const result = await useContext.verifyOtp(otp);
+    setLoading(true);
+
     try {
       if (result.success) {
         showSuccessMessage("Success!", result.response.data);
@@ -41,6 +45,8 @@ export default function VerifyOtp() {
         message: "We are encountering problems. Sorry for the inconvenience.",
       });
     }
+
+    setLoading(false);
   }
 
   return (
@@ -66,6 +72,13 @@ export default function VerifyOtp() {
           </button>
         </div>
       </div>
+
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </form>
   );
 }

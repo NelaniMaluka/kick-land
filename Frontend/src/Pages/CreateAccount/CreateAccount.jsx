@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import { isValidEmail } from "../../Utils/FormValidations";
 import { isValidPassword } from "../../Utils/FormValidations";
-
-import "../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../State/Authentication/Action";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
+import CircularIndeterminate from "../../Utils/LoadingSpinner";
+import "../../Components/Styling/Form.css";
 
 export default function CreateAccount() {
   const [firstname, setFirstname] = useState("");
@@ -19,6 +19,7 @@ export default function CreateAccount() {
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
   const [signUpForNewsletter, setSignUpForNewslette] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,34 +32,38 @@ export default function CreateAccount() {
     role: "ROLE_CUSTOMER",
   };
 
-  function handleFirstnameChange(event) {
+  const handleFirstnameChange = (event) => {
     setFirstname(event.target.value);
     // Reset name error message
     setNameError("");
-  }
+  };
 
-  function handlePasswordChange(event) {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     // Reset password error message
     setPasswordError("");
-  }
+  };
 
-  function handleEmailChange(event) {
+  const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
-  }
+  };
 
-  function handleLastnameChange(event) {
+  const handleLastnameChange = (event) => {
     setLastname(event.target.value);
-  }
+  };
 
-  function handleSignUpForNewsletter() {
+  // Handles newsletter signup
+  const handleSignUpForNewsletter = (event) => {
     setSignUpForNewslette(!signUpForNewsletter);
-  }
+  };
 
+  // Handles user creation
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
+
     try {
       // Name validation
       if (!firstname) {
@@ -150,6 +155,8 @@ export default function CreateAccount() {
         });
       }
     }
+
+    setLoading(false);
   }
 
   return (
@@ -252,6 +259,13 @@ export default function CreateAccount() {
           </li>
         </ul>
       </div>
+
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </form>
   );
 }
