@@ -5,6 +5,7 @@ import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import { isValidEmail } from "../../Utils/FormValidations";
 import { isValidPassword } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
+import CircularIndeterminate from "../../Utils/LoadingSpinner";
 
 import "../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
@@ -16,28 +17,35 @@ export default function LoginForm() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  // Object to hold login data
   const loginData = {
     email,
     password,
   };
 
+  // Handle Email change
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     // Reset email error message
     setEmailError("");
   };
 
+  // Handle Password change
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     // Reset password error message
     setPasswordError("");
   };
 
+  // Handle Login
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
+
     try {
       // Email validation
       if (!email) {
@@ -125,6 +133,8 @@ export default function LoginForm() {
         });
       }
     }
+
+    setLoading(false);
   }
 
   return (
@@ -171,6 +181,13 @@ export default function LoginForm() {
           </li>
         </ul>
       </div>
+
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </form>
   );
 }
