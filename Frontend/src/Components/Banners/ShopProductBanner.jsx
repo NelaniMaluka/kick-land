@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Menu, MenuItem } from "@mui/material";
 import "./ShopProductBanner.css";
 
 export default function SortDropdown({ products, setFilteredProducts }) {
