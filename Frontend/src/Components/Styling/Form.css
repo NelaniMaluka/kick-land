@@ -1,3 +1,4 @@
+/* Form Section */
 .form {
   width: 100%;
   height: fit-content;
@@ -10,16 +11,17 @@
   margin: auto;
   border-radius: 10px;
   padding: 10px;
+  margin: auto;
 }
+
+/* Form Heading */
 .form-container h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 40px;
 }
-.form-container button {
-  text-align: center;
-  margin: auto;
-}
+
+/* Form Imputs */
 .field {
   margin: 10px 0 10px 0;
 }
@@ -32,7 +34,6 @@
   padding: 25px;
   margin-bottom: 15px;
 }
-
 .form-container textarea {
   font-size: 15px;
   background-color: RGB(245, 245, 245);
@@ -42,7 +43,29 @@
   margin-bottom: 15px;
   height: 200px;
 }
+.error {
+  color: red;
+  margin-top: -25px;
+}
+.form .checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.5;
+  height: 24px;
+}
+.form .checkbox {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin-top: 14px;
+  accent-color: black;
+}
+
+/* Form Button */
 .form-container button {
+  text-align: center;
+  margin: auto;
   width: 200px;
   height: 38px;
   margin: 22px 0 10px 0;
@@ -54,16 +77,20 @@
 .form-container button:hover {
   background-color: rgb(75, 74, 74);
 }
-.error {
-  color: red;
-  margin-top: -25px;
+
+/* Form Links*/
+.form-container ul {
+  padding: 0;
 }
 .form-container li {
-  margin: 10px;
+  margin: 10px 0;
+  width: 100%;
 }
 .form-containerr a:hover {
   color: rgb(75, 74, 74);
 }
+
+/* Contact Us Inputs*/
 .message {
   width: 60%;
   max-width: 1100px;
@@ -71,7 +98,6 @@
 .messagebox {
   vertical-align: text-top;
 }
-
 .message .messageField {
   width: 39%;
   margin: 0 10px 0 10px;
@@ -79,26 +105,17 @@
 .messageField {
   display: inline-block;
 }
-.form .checkbox-container {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  line-height: 1.5;
-  height: 24px;
-}
-
-.form .checkbox {
-  width: 20px;
-  height: 20px;
-  position: relative;
-  margin-top: 14px;
-  accent-color: black;
-}
 
 /**********************
 *** Tablet - Desktop **
 **********************/
 @media screen and (max-width: 1061px) {
+  /* Form Section */
+  .form .checkbox-container {
+    width: 80%;
+  }
+
+  /* Contact Us Inputs*/
   .message .messageField {
     width: 80%;
     margin: auto;
@@ -107,18 +124,18 @@
   .messageField {
     display: block;
   }
-  .form .checkbox-container {
-    width: 80%;
-  }
 }
 
 /**********************
 *** Mobile - Tablet ***
 **********************/
 @media screen and (max-width: 661px) {
+  /* Form Section */
   .form-container {
     width: 100%;
   }
+
+  /* Form Imputs */
   .form-container h2 {
     font-size: 30px;
   }
