@@ -15,6 +15,10 @@
 }
 
 /* Image styling */
+.products-card img {
+  width: 100%;
+  height: auto;
+}
 .products-card-couresel {
   height: max-content;
   text-align: left;
