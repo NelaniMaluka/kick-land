@@ -3,6 +3,7 @@ import ErrorMessageAlert from "../../Components/Alerts/ErrorMessageAlert";
 import { isValidPhoneNumber } from "../../Utils/FormValidations";
 import { isValidEmail } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessMessageAlert";
+import CircularIndeterminate from "../../Utils/LoadingSpinner";
 
 import "../../Components/Styling/Form.css";
 import { contactUs } from "../../Context/Api";
@@ -15,6 +16,7 @@ export default function ContactUs() {
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [messageError, setMessageError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -39,6 +41,8 @@ export default function ContactUs() {
   };
 
   async function handleSubmit() {
+    setLoading(true);
+
     try {
       // Email validation
       if (!email) {
@@ -108,6 +112,8 @@ export default function ContactUs() {
         message: "Network error. Please check your connection and try again.",
       });
     }
+
+    setLoading(false);
   }
 
   return (
@@ -167,6 +173,13 @@ export default function ContactUs() {
           </button>
         </div>
       </div>
+
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </form>
   );
 }
