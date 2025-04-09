@@ -6,6 +6,7 @@ import { isValidEmail } from "../../Utils/FormValidations";
 import { isValidPassword } from "../../Utils/FormValidations";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 import CircularIndeterminate from "../../Utils/LoadingSpinner";
+import { useAuth } from "../../Context/AuthContext";
 
 import "../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
@@ -18,6 +19,8 @@ export default function LoginForm() {
   const [passwordError, setPasswordError] = useState("");
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  const { cartC, setCart } = useAuth();
 
   const navigate = useNavigate();
 
@@ -44,7 +47,6 @@ export default function LoginForm() {
   // Handle Login
   async function handleSubmit(event) {
     event.preventDefault();
-    setLoading(true);
 
     try {
       // Email validation
@@ -67,7 +69,8 @@ export default function LoginForm() {
         return;
       }
 
-      const result = await dispatch(loginUser(loginData));
+      setLoading(true);
+      const result = await dispatch(loginUser(loginData, cartC, setCart));
 
       if (result && result.status >= 200 && result.status < 300) {
         // Successful login

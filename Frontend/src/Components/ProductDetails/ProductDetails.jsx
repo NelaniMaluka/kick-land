@@ -8,14 +8,16 @@ import "./ProductDetails.css";
 import AssuranceBanner from "../Banners/AssuranceBanner";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart } from "../../State/Cart/Action";
+import CircularIndeterminate from "../../Utils/LoadingSpinner";
 
 export default function ProductDetails() {
   const { category, productName } = useParams();
-  const { isProducts } = useAuth();
+  const { isProducts, setCart } = useAuth();
   const auth = useSelector((state) => state.auth);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("size3"); // Initialize selectedSize to null
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const jwt = localStorage.getItem("jwt");
   const dispatch = useDispatch();
@@ -35,6 +37,8 @@ export default function ProductDetails() {
     if (auth.authenticated) {
       // Check stock for the selected size
       if (selectedProduct.stock[0][selectedSize] > 0) {
+        setLoading(true);
+
         try {
           const result = await dispatch(addCart(cartData, jwt));
 
@@ -113,11 +117,41 @@ export default function ProductDetails() {
         ErrorMessageAlert({ message: "Out of Stock" });
       }
     } else {
-      // User not authenticated
-      ErrorMessageAlert({
-        message: "Please log in first to add items to your cart.",
-      });
+      // Stock check for unauthenticated users too
+      if (selectedProduct.stock[0][selectedSize] > 0) {
+        const cartItem = {
+          quantity,
+          size: selectedSize,
+          productId: selectedProduct.id,
+          price: selectedProduct.price,
+          product: selectedProduct, // you can store full product info if needed
+        };
+
+        setCart((prevCart) => {
+          const existingItemIndex = prevCart.findIndex(
+            (item) =>
+              item.productId === cartItem.productId &&
+              item.size === cartItem.size
+          );
+
+          if (existingItemIndex !== -1) {
+            // If the item is already in the cart, update the quantity
+            const updatedCart = [...prevCart];
+            updatedCart[existingItemIndex].quantity += cartItem.quantity;
+            return updatedCart;
+          } else {
+            // Otherwise, add it as a new item
+            return [...prevCart, cartItem];
+          }
+        });
+
+        setShowSnackbar(true); // show success message
+      } else {
+        ErrorMessageAlert({ message: "Out of Stock" });
+      }
     }
+
+    setLoading(false);
   };
 
   if (!selectedProduct) {
@@ -200,6 +234,13 @@ export default function ProductDetails() {
         {showSnackbar && <TransitionsSnackbar />}
       </div>
       <AssuranceBanner />
+
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </div>
   );
 }

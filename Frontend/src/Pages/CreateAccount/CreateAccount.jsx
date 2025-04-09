@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../State/Authentication/Action";
 import showSuccessMessage from "../../Components/Alerts/SuccessLoginAlert";
 import CircularIndeterminate from "../../Utils/LoadingSpinner";
+import { useAuth } from "../../Context/AuthContext";
 import "../../Components/Styling/Form.css";
 
 export default function CreateAccount() {
@@ -20,6 +21,7 @@ export default function CreateAccount() {
   const [nameError, setNameError] = useState("");
   const [signUpForNewsletter, setSignUpForNewslette] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { cartC, setCart } = useAuth();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,7 +64,6 @@ export default function CreateAccount() {
   // Handles user creation
   async function handleSubmit(event) {
     event.preventDefault();
-    setLoading(true);
 
     try {
       // Name validation
@@ -91,8 +92,10 @@ export default function CreateAccount() {
         return;
       }
 
+      setLoading(true);
+
       const result = await dispatch(
-        registerUser(registerData, signUpForNewsletter)
+        registerUser(registerData, signUpForNewsletter, cartC, setCart)
       );
 
       if (result && result.status >= 200 && result.status < 300) {
