@@ -13,10 +13,11 @@ import {
   UPDATE_USER_REQUEST,
 } from "./ActionType";
 import { apiClient, url } from "../../Context/Api";
+import { syncGuestCartToUser } from "../../Utils/SyncCart";
 import axios from "axios";
 
 export const registerUser =
-  (reqData, signUpForNewsletter) => async (dispatch) => {
+  (reqData, signUpForNewsletter, cartC, setCart) => async (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
     try {
       const { data, status } = await axios.post(`${url}/auth/create-account`, {
@@ -26,48 +27,40 @@ export const registerUser =
       if (data.jwt) localStorage.setItem("jwt", data.jwt);
       dispatch({ type: REGISTER_SUCCESS, payload: data.jwt });
 
-      // If request is successful (status code 2xx)
-      if (status >= 200 && status < 300) {
-        return {
-          status: status,
-          data: data.data,
-        };
+      if (status >= 200 && status < 300 && cartC?.length > 0) {
+        await syncGuestCartToUser(cartC, data.jwt, dispatch, setCart);
+        return { status, data: data.data };
       }
 
-      // Handle case when the response status isn't successful
       throw new Error(data.data || "Something went wrong");
     } catch (error) {
       dispatch({ type: REGISTER_FAILURE, payload: error });
       return {
-        status: error.response?.status || 500, // Use status from error if it exists
+        status: error.response?.status || 500,
         message:
           error.message || "An unexpected error occurred while signing up",
       };
     }
   };
 
-export const loginUser = (reqData) => async (dispatch) => {
+export const loginUser = (reqData, cartC, setCart) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   try {
     const { data, status } = await axios.post(`${url}/auth/login`, reqData);
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
     dispatch({ type: LOGIN_SUCCESS, payload: data.jwt });
 
-    // If request is successful (status code 2xx)
-    if (status >= 200 && status < 300) {
-      return {
-        status: status,
-        data: data.data,
-      };
+    if (status >= 200 && status < 300 && cartC?.length > 0) {
+      await syncGuestCartToUser(cartC, data.jwt, dispatch, setCart);
+      return { status, data: data.data };
     }
 
-    // Handle case when the response status isn't successful
     throw new Error(data.data || "Something went wrong");
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, payload: error });
     return {
-      status: error.response?.status || 500, // Use status from error if it exists
-      message: error.message || "An unexpected error occurred while signing up",
+      status: error.response?.status || 500,
+      message: error.message || "An unexpected error occurred while logging in",
     };
   }
 };

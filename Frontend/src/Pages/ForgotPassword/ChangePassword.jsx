@@ -33,7 +33,6 @@ export default function ChangePassword() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setLoading(true);
 
     try {
       // Email validation
@@ -63,6 +62,7 @@ export default function ChangePassword() {
         return;
       }
 
+      setLoading(true);
       const result = await useContext.changePassword(password, repeatPassword);
       if (result.success) {
         showSuccessMessage("Password updated successfully");

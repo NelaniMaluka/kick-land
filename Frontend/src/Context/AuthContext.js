@@ -14,6 +14,7 @@ export const useAuth = () => useContext(AuthContext);
 function AuthProvider({ children }) {
   const [isProducts, setProducts] = useState([]);
   const [isForgotPasswordEmail, setForgotPasswordEmail] = useState([]);
+  const [cartC, setCart] = useState([]);
 
   useEffect(() => {
     // Fetch products only when the component mounts
@@ -84,6 +85,8 @@ function AuthProvider({ children }) {
         forgotPassword,
         verifyOtp,
         changePassword,
+        cartC,
+        setCart,
       }}
     >
       {children}
