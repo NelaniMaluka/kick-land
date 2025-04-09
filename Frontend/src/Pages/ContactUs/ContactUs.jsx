@@ -41,8 +41,6 @@ export default function ContactUs() {
   };
 
   async function handleSubmit() {
-    setLoading(true);
-
     try {
       // Email validation
       if (!email) {
@@ -67,6 +65,7 @@ export default function ContactUs() {
         return;
       }
 
+      setLoading(true);
       const result = await contactUs(name, email, phoneNumber, message);
       if (result.status === 200 || result.status === 201) {
         // Success: Resource processed or created successfully
