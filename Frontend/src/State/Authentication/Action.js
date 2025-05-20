@@ -29,10 +29,8 @@ export const registerUser =
 
       if (status >= 200 && status < 300 && cartC?.length > 0) {
         await syncGuestCartToUser(cartC, data.jwt, dispatch, setCart);
-        return { status, data: data.data };
       }
-
-      throw new Error(data.data || "Something went wrong");
+      return { status: status };
     } catch (error) {
       dispatch({ type: REGISTER_FAILURE, payload: error });
       return {
@@ -52,10 +50,8 @@ export const loginUser = (reqData, cartC, setCart) => async (dispatch) => {
 
     if (status >= 200 && status < 300 && cartC?.length > 0) {
       await syncGuestCartToUser(cartC, data.jwt, dispatch, setCart);
-      return { status, data: data.data };
     }
-
-    throw new Error(data.data || "Something went wrong");
+    return { status: status };
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, payload: error });
     return {
