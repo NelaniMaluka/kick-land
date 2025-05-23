@@ -10,7 +10,7 @@ import CartView from "./Cart/CartView";
 import OrdersView from "./Order/OrdersView";
 
 function TabPanel(props) {
-  const { children, value, index, tabsVisible, ...other } = props;
+  const { children, value, index, ...other } = props;
 
   return (
     <div
@@ -41,19 +41,23 @@ function TabPanel(props) {
 
 export default function Dashboard() {
   const [value, setValue] = useState(0);
-  const [tabsVisible, setTabsVisible] = useState(true);
+  const [tabsVisible, setTabsVisible] = useState(false);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    if (window.innerWidth <= 881) {
+      setTabsVisible(false); // Optional: auto-hide on mobile
+    }
+  };
 
   const toggleTabsVisibility = () => {
     setTabsVisible(!tabsVisible);
   };
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      {/* Toggle Button */}
+      <div style={{ display: "flex", alignItems: "center", padding: "10px" }}>
         {tabsVisible ? (
           <RemoveIcon
             onClick={toggleTabsVisibility}
@@ -65,27 +69,58 @@ export default function Dashboard() {
             style={{ cursor: "pointer" }}
           />
         )}
-        <Typography>{tabsVisible ? "Hide Tabs" : "Show Tabs"}</Typography>
+        <Typography sx={{ ml: 1 }}>
+          {tabsVisible ? "Hide Tabs" : "Show Tabs"}
+        </Typography>
       </div>
 
+      {/* Content and Sidebar */}
       <Box
         sx={{
           flexGrow: 1,
           bgcolor: "background.paper",
           display: "flex",
-          height: "maxContent",
-          minHeight: "unset",
+          position: "relative",
           width: "100%",
         }}
       >
-        {tabsVisible && (
+        {/* Sidebar Tabs */}
+        <Box
+          sx={{
+            display: {
+              xs: tabsVisible ? "flex" : "none",
+              sm: tabsVisible ? "flex" : "none",
+              md: "flex",
+            },
+            "@media (max-width:881px)": {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              height: "100vh",
+              zIndex: 10,
+              backgroundColor: "white",
+              boxShadow: 3,
+              width: "200px",
+            },
+            "@media (min-width:882px)": {
+              position: "relative",
+              width: "150px",
+              boxShadow: "none",
+            },
+            borderRight: { md: 1 },
+            borderColor: "divider",
+            flexDirection: "column",
+          }}
+        >
           <Tabs
             orientation="vertical"
             variant="scrollable"
             value={value}
             onChange={handleChange}
-            aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: "divider", width: "150px" }}
+            aria-label="Vertical tabs"
+            sx={{
+              width: "100%",
+            }}
           >
             <Tab
               label="Profile"
@@ -104,17 +139,20 @@ export default function Dashboard() {
               }
             />
           </Tabs>
-        )}
+        </Box>
 
-        <TabPanel value={value} index={0} tabsVisible={tabsVisible}>
-          <UserProfile />
-        </TabPanel>
-        <TabPanel value={value} index={1} tabsVisible={tabsVisible}>
-          <CartView />
-        </TabPanel>
-        <TabPanel value={value} index={2} tabsVisible={tabsVisible}>
-          <OrdersView />
-        </TabPanel>
+        {/* Main Content */}
+        <Box sx={{ flexGrow: 1 }}>
+          <TabPanel value={value} index={0}>
+            <UserProfile />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <CartView />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <OrdersView />
+          </TabPanel>
+        </Box>
       </Box>
     </div>
   );

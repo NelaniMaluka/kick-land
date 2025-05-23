@@ -1,9 +1,10 @@
 import React from "react";
+import { useState } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert.jsx";
 import showSuccessMessage from "../../../Components/Alerts/SuccessMessageAlert.jsx";
-
+import CircularIndeterminate from "../../../Utils/LoadingSpinner.jsx";
 import "./UserProfile.css";
 import { updateUserData } from "../../../State/Authentication/Action.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +14,7 @@ export default function UserProfile() {
   const dispatch = useDispatch();
   const user = auth.user;
   const jwt = localStorage.getItem("jwt");
+  const [loading, setLoading] = useState(false);
 
   // Validation schema
   const validationSchema = Yup.object().shape({
@@ -35,6 +37,7 @@ export default function UserProfile() {
         phoneNumber: values.phoneNumber,
       };
 
+      setLoading(true);
       const result = await dispatch(updateUserData(updateData, jwt));
 
       if (result && result.status >= 200 && result.status < 300) {
@@ -68,6 +71,7 @@ export default function UserProfile() {
           message: "An unexpected error occurred. Please try again.",
         });
       }
+      setLoading(false);
     } catch (error) {
       if (error.response) {
         // Handle HTTP response errors based on status
@@ -107,7 +111,16 @@ export default function UserProfile() {
           message: "Unexpected error, please contact support.",
         });
       }
+      setLoading(false);
     }
+  }
+
+  if (!user) {
+    return (
+      <div className="loading-spinner">
+        <CircularIndeterminate />
+      </div>
+    );
   }
 
   return (
@@ -196,6 +209,12 @@ export default function UserProfile() {
           </form>
         )}
       </Formik>
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </div>
   );
 }
