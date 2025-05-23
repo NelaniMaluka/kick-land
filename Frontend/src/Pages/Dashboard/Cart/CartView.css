@@ -1,14 +1,30 @@
+/* cart-view container */
 .parent-container {
-  height: max-content;
-  max-width: 1800px;
+  display: flex;
 }
 .cart-container {
-  display: inline-block;
-  height: max-content;
+  flex: 1;
+  overflow-y: auto;
 }
+
+/* checkout container */
 .checkout-container {
-  height: 100%;
+  position: fixed;
+  top: 15px;
+  right: 0;
+  height: max-content; /* Make it full screen height */
+  width: 30%; /* Take up 30% of the screen */
+  background-color: rgba(244, 253, 255, 0.338); /* Optional: for visibility */
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.173);
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 999; /* Keep it on top if needed */
 }
+
+/* cart-card styling */
 .cart-card {
   border: 1px solid black;
   margin: 15px 0 15px 0;
@@ -60,6 +76,7 @@
 *** Tablet - Desktop **
 **********************/
 @media screen and (min-width: 881px) {
+  /* cart-view container */
   .cart-container {
     width: 70%;
   }
@@ -67,7 +84,10 @@
     width: 30%;
     display: inline-block;
     min-height: 400px;
+    position: relative;
   }
+
+  /* cart-card styling */
   .cart-card {
     width: 98%;
   }
@@ -91,21 +111,44 @@
 }
 
 /**********************
+*** Space - In-betweens ***
+**********************/
+@media screen and (max-width: 1181px) {
+  /* cart-view container */
+  .parent-container {
+    display: block;
+  }
+  .cart-container {
+    width: 90%;
+  }
+  .checkout-container {
+    width: 70%; /* Take up 30% of the screen */
+  }
+}
+
+/**********************
 *** Mobile - Tablet ***
 **********************/
 @media screen and (max-width: 881px) {
+  /* cart-view container */
+  .parent-container {
+    display: block;
+  }
   .cart-container {
     width: 100%;
     margin: auto;
+    height: max-content;
   }
   .checkout-container {
-    width: 100%;
+    width: 92%;
     display: block;
     position: relative;
     min-height: max-content;
     max-width: 350px;
     margin: auto;
   }
+
+  /* cart-card styling */
   .cart-card {
     flex-direction: column;
     width: max-content;

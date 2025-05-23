@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Checkout from "./Checkout";
 import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert.jsx";
 import { formatCurrency } from "../../../Utils/formatCurrency.js";
+import CircularIndeterminate from "../../../Utils/LoadingSpinner.jsx";
 
 import "./CartView.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -171,6 +172,18 @@ export default function CartView() {
         });
       }
     }
+  }
+
+  if (
+    !authContext ||
+    !Array.isArray(isProducts) ||
+    (isProducts.length === 0) & (cartItems.length === 0)
+  ) {
+    return (
+      <div className="loading-spinner">
+        <CircularIndeterminate />
+      </div>
+    );
   }
 
   if (cartItems.length === 0) {
