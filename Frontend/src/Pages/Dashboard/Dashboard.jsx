@@ -41,7 +41,7 @@ function TabPanel(props) {
 
 export default function Dashboard() {
   const [value, setValue] = useState(0);
-  const [tabsVisible, setTabsVisible] = useState(false);
+  const [tabsVisible, setTabsVisible] = useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -87,11 +87,7 @@ export default function Dashboard() {
         {/* Sidebar Tabs */}
         <Box
           sx={{
-            display: {
-              xs: tabsVisible ? "flex" : "none",
-              sm: tabsVisible ? "flex" : "none",
-              md: "flex",
-            },
+            display: tabsVisible ? "flex" : "none",
             "@media (max-width:881px)": {
               position: "absolute",
               top: 0,
