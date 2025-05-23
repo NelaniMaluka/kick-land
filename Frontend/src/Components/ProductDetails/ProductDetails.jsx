@@ -154,13 +154,17 @@ export default function ProductDetails() {
     setLoading(false);
   };
 
-  if (!selectedProduct) {
-    return <div>Loading...</div>;
-  }
-
   const selectSize = (key) => {
     setSelectedSize(key);
   };
+
+  if (!Array.isArray(isProducts) || isProducts.length === 0) {
+    return (
+      <div className="loading-spinner">
+        <CircularIndeterminate />
+      </div>
+    );
+  }
 
   return (
     <div>
