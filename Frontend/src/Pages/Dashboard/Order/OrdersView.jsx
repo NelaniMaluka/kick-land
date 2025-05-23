@@ -1,24 +1,37 @@
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useAuth } from "../../../Context/AuthContext";
+import CircularIndeterminate from "../../../Utils/LoadingSpinner";
 import "./OrdersView.css";
 
 export default function OrdersView() {
-  const orders = useSelector((state) => state.order.order);
+  const orders = useSelector((state) => state.order.order) || [];
   const authContext = useAuth();
   const isProducts = authContext.isProducts;
+  const isLoading = !isProducts || isProducts.length === 0;
 
-  if (orders.length === 0) {
+  // Return loading screen
+  if (isLoading) {
+    return (
+      <div className="loading-spinner">
+        <CircularIndeterminate />
+      </div>
+    );
+  }
+
+  // If there are no orders return
+  if (!Array.isArray(orders) || orders.length === 0) {
     return (
       <div className="no-cart-items">
         <span>
-          <span class="material-symbols-outlined">playlist_add</span> No cart
-          items available.
+          <span className="material-symbols-outlined">receipt_long</span>
+          You have no past orders yet.
         </span>
       </div>
     );
   }
 
+  // Date formatter
   const formatDate = (date) => moment(date).format("MMMM D, YYYY");
 
   return (
@@ -46,10 +59,10 @@ export default function OrdersView() {
                         <tr
                           key={`${orderItem.orderId}-${orderProoduct.productId}-${index}`}
                         >
-                          <td>{product.name}</td>
+                          <td>{product?.name || "Unknown Product"}</td>
                           <td>{orderProoduct.size}</td>
                           <td>{orderProoduct.quantity}</td>
-                          <td>{product.price}</td>
+                          <td>{product?.price ?? "-"}</td>
                         </tr>
                       );
                     })}
