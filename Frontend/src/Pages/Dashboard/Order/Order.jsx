@@ -2,7 +2,7 @@ import { useState } from "react";
 import ErrorMessageAlert from "../../../Components/Alerts/ErrorMessageAlert";
 import { isValidPhoneNumber } from "../../../Utils/FormValidations";
 import { isValidEmail } from "../../../Utils/FormValidations";
-
+import CircularIndeterminate from "../../../Utils/LoadingSpinner";
 import "../../../Components/Styling/Form.css";
 import { useDispatch } from "react-redux";
 import { generatePaymentLink } from "../../../State/Order/Action";
@@ -20,6 +20,7 @@ export default function Order() {
   const [provinceError, setProvinceError] = useState("");
   const [ZIPCodeError, setZIPCodeError] = useState("");
   const [addressError, setAddressError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
@@ -69,6 +70,7 @@ export default function Order() {
   };
 
   async function handleSubmit() {
+    setLoading(true);
     try {
       // Email validation
       if (!email) {
@@ -184,6 +186,7 @@ export default function Order() {
         });
       }
     }
+    setLoading(false);
   }
 
   return (
@@ -278,6 +281,12 @@ export default function Order() {
           </button>
         </div>
       </div>
+      {/* Show loading spinner if loading is true */}
+      {loading && (
+        <div className="loading-spinner">
+          <CircularIndeterminate />
+        </div>
+      )}
     </form>
   );
 }
