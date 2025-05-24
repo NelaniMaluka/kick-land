@@ -132,11 +132,13 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             String newPassword = passwordEncoder.encode(changePassword.password());
             user.setPassword(newPassword);
 
-            // Save the updated user
+            // Set forgotPassword to null before saving
+            user.setForgotPassword(null);
             userRepository.save(user);
 
-            // Delete the corresponding forgotPassword entry, if any
+            // Then delete the ForgotPassword record (optional if orphanRemoval is used)
             forgotPasswordRepository.deleteByUser(user);
+
 
             return ResponseEntity.ok("Password successfully updated.");
 
