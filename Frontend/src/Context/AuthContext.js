@@ -37,29 +37,52 @@ function AuthProvider({ children }) {
   //Forgot Password API methods
   async function forgotPassword(email) {
     try {
-      const response = await ForgotPassword(email);
+      const response = await ForgotPassword(email); // API call
+
       if (response.status === 200) {
         setForgotPasswordEmail(email);
         return { success: true, response };
       } else {
-        return { success: false };
+        return {
+          success: false,
+          status: response.status,
+          message: response.data?.message || "Unexpected error occurred",
+        };
       }
     } catch (e) {
-      return { success: false };
+      return {
+        success: false,
+        status: e.response?.status || 500,
+        message:
+          e.response?.data?.message ||
+          "Internal Server Error. Please try again later.",
+      };
     }
   }
+
   async function verifyOtp(otp) {
     try {
-      const response = await VerifyOtp(otp, isForgotPasswordEmail);
+      const response = await VerifyOtp(otp, isForgotPasswordEmail); // API call
       if (response.status === 200) {
         return { success: true, response };
       } else {
-        return { success: false };
+        return {
+          success: false,
+          status: response.status,
+          message: response.data?.message || "Unexpected error occurred",
+        };
       }
     } catch (e) {
-      return { success: false };
+      return {
+        success: false,
+        status: e.response?.status || 500,
+        message:
+          e.response?.data?.message ||
+          "Internal Server Error. Please try again later.",
+      };
     }
   }
+
   async function changePassword(password, repeatPassword) {
     try {
       const response = await ChangePassword(
@@ -67,13 +90,24 @@ function AuthProvider({ children }) {
         repeatPassword,
         isForgotPasswordEmail
       );
+
       if (response.status === 200) {
         return { success: true, response };
       } else {
-        return { success: false };
+        return {
+          success: false,
+          status: response.status,
+          message: response.data?.message || "Unexpected error occurred",
+        };
       }
     } catch (e) {
-      return { success: false };
+      return {
+        success: false,
+        status: e.response?.status || 500,
+        message:
+          e.response?.data?.message ||
+          "Internal Server Error. Please try again later.",
+      };
     }
   }
 

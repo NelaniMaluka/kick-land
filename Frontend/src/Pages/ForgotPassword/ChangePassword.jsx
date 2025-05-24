@@ -33,6 +33,7 @@ export default function ChangePassword() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
 
     try {
       // Email validation
@@ -62,13 +63,37 @@ export default function ChangePassword() {
         return;
       }
 
-      setLoading(true);
       const result = await useContext.changePassword(password, repeatPassword);
       if (result.success) {
         showSuccessMessage("Password updated successfully");
         navigate("/");
       } else {
-        ErrorMessageAlert({ message: "Invalid Credentials" });
+        switch (result.status) {
+          case 400:
+            ErrorMessageAlert({
+              message: "Bad Request. Please check the input fields.",
+            });
+            break;
+          case 401:
+            ErrorMessageAlert({
+              message: "Unauthorized. Email or session invalid.",
+            });
+            break;
+          case 422:
+            ErrorMessageAlert({
+              message:
+                "Unprocessable Entity. Passwords do not match or do not meet requirements.",
+            });
+            break;
+          case 500:
+          default:
+            ErrorMessageAlert({
+              message:
+                result.message ||
+                "We are encountering problems. Sorry for the inconvenience.",
+            });
+            break;
+        }
       }
     } catch (error) {
       ErrorMessageAlert({
