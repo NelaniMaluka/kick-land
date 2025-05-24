@@ -21,6 +21,8 @@ export default function VerifyOtp() {
   };
 
   async function handleSubmit(event) {
+    setLoading(true);
+
     // Email validation
     if (!otp) {
       setOtpError("otp is required.");
@@ -31,18 +33,41 @@ export default function VerifyOtp() {
     }
 
     const result = await useContext.verifyOtp(otp);
-    setLoading(true);
 
     try {
       if (result.success) {
         showSuccessMessage("Success!", result.response.data);
         navigate("/Change-Password");
       } else {
-        ErrorMessageAlert({ message: "Invalid Credentials" });
+        switch (result.status) {
+          case 400:
+            ErrorMessageAlert({
+              message: "Bad Request. Please enter a valid OTP.",
+            });
+            break;
+          case 401:
+            ErrorMessageAlert({
+              message: "Unauthorized. Invalid or expired OTP.",
+            });
+            break;
+          case 404:
+            ErrorMessageAlert({
+              message: "OTP not found or email does not match.",
+            });
+            break;
+          case 500:
+          default:
+            ErrorMessageAlert({
+              message:
+                result.message ||
+                "We are encountering problems. Sorry for the inconvenience.",
+            });
+            break;
+        }
       }
     } catch (error) {
       ErrorMessageAlert({
-        message: "We are encountering problems. Sorry for the inconvenience.",
+        message: "Unexpected error occurred. Please try again later.",
       });
     }
 

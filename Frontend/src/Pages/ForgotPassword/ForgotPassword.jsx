@@ -22,6 +22,8 @@ export default function ForgotPassword() {
   };
 
   async function handleSubmit(event) {
+    setLoading(true);
+
     // Email validation
     if (!email) {
       setEmailError("Email is required.");
@@ -32,18 +34,41 @@ export default function ForgotPassword() {
     }
 
     const result = await useContext.forgotPassword(email);
-    setLoading(true);
 
     try {
       if (result.success) {
         showSuccessMessage("Success!", result.response.data);
         navigate("/Verify-Otp");
       } else {
-        ErrorMessageAlert({ message: "Invalid Credentials" });
+        switch (result.status) {
+          case 400:
+            ErrorMessageAlert({
+              message: "Bad Request. Please check your input.",
+            });
+            break;
+          case 401:
+            ErrorMessageAlert({
+              message: "Unauthorized. Invalid credentials.",
+            });
+            break;
+          case 404:
+            ErrorMessageAlert({
+              message: "Email not found. Please try again.",
+            });
+            break;
+          case 500:
+          default:
+            ErrorMessageAlert({
+              message:
+                result.message ||
+                "We are encountering problems. Sorry for the inconvenience.",
+            });
+            break;
+        }
       }
     } catch (error) {
       ErrorMessageAlert({
-        message: "We are encountering problems. Sorry for the inconvenience.",
+        message: "Unexpected error occurred. Please try again later.",
       });
     }
 
