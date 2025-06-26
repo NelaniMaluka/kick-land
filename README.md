@@ -5,6 +5,7 @@ Kick Land is a full-stack web application that provides a platform for selling s
 ## Features
 
 - **Frontend**:
+
   - **Home Page**: Showcase of featured products and promotions.
   - **Login Page**: User authentication and login functionality.
   - **About Us Page**: Information about the company and its mission.
@@ -15,17 +16,24 @@ Kick Land is a full-stack web application that provides a platform for selling s
   - **Shop Products Page**: Display of all available products with filtering options for price or alphabetical order.
   - **Profile Page**: User profile management with details such as name, surname, email, phone number, and order history.
   - **Cart Page**: Display of all items in the shopping cart with total prices.
+  - **Orders Page**: Overview of all past orders with basic status updates.
+  - **Order Details Page**: In-depth information about a specific order, including product list, total price, and tracking.
+  - **Stripe Payment UI Page**: Interface for processing secure payments via Stripe.
 
 - **Backend**:
   - Built with Java using Spring Boot framework.
   - Uses Spring Data JPA for data access layer (no database included in this version).
   - RESTful API endpoints for various functionalities:
     - User authentication (login, register).
+    - Forgot password processing (generate token/OTP and handle reset logic).
+    - OTP email sending (send verification code via email for password reset).
     - Newsletter subscription.
     - Contact Us form submissions.
     - Update profile details.
     - Update cart details.
-   
+    - Order processing (place orders).
+    - Stripe payment processing (handle secure payment intents and confirmations).
+
 ## Payment Processing
 
 Kick Land uses Stripe to process payments securely. Customers can checkout and pay for their orders using credit or debit cards.
@@ -37,8 +45,10 @@ For location details within South Africa, Kick Land utilizes Google Maps API. Th
 ## Technologies Used
 
 - **Frontend**:
+
   - React.js
   - React Router
+  - Redux
   - Axios (for API calls)
   - HTML/CSS/JavaScript
 
@@ -51,11 +61,13 @@ For location details within South Africa, Kick Land utilizes Google Maps API. Th
 ## Getting Started
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/your-username/kick-land.git
 ```
 
 2.Install dependencies for both frontend and backend:
+
 ```bash
 cd kick-land/frontend
 npm install
@@ -65,6 +77,7 @@ cd ../backend
 ```
 
 3.Configure backend API endpoint in the frontend:
+
 ```bash
 // frontend/src/api/config.js
 const API_BASE_URL = 'http://localhost:8080/api'; // Update with your backend API URL
@@ -72,6 +85,7 @@ export default API_BASE_URL;
 ```
 
 4.Start the frontend and backend servers:
+
 ```bash
 # Start frontend server
 cd ../frontend
@@ -97,30 +111,41 @@ cd ../backend
 ### Integrating These Libraries into Your React Application:
 
 1. **Formik:** To use Formik, you can install it using npm:
+
    ```bash
    npm install formik
 
+   ```
+
 2. **SweetAlert2:** Install SweetAlert2 via npm:
+
    ```bash
    npm install sweetalert2
 
+   ```
+
 3. **Material-UI:** Material-UI can be installed with npm:
+
    ```bash
    npm install @mui/material @emotion/react @emotion/styled
 
+   ```
+
 4. **Bootstrap:** If you want to use Bootstrap alongside Material-UI, you can install it:
-  ```bash
-   npm install bootstrap
-  ```
+
+```bash
+ npm install bootstrap
+```
 
 5. **PrimeReact:** PrimeReact components can be installed via npm:
-  ```bash
-   npm install primereact primeicons
-  ```
+
+```bash
+ npm install primereact primeicons
+```
 
 ## Access the Application
 
-- **Frontend:** [http://localhost:3000](http://localhost:3000)
+- **Frontend:** [https://kick-land.web.app/](https://kick-land.web.app/)
 - **Backend (API):** [http://localhost:8080](http://localhost:8080)
 
 ## API Endpoints
@@ -131,6 +156,12 @@ The backend exposes the following API endpoints (example URLs):
 
 - `POST /api/user/login`: User login.
 - `POST /api/user/create-account`: User registration.
+
+### Forgot Password:
+
+`POST /forgot-password/verify-mail`: Email verification.
+`POST /forgot-password/verify-otp`: Otp validation.
+`POST /forgot-password/change-password`: New password.
 
 ### Profile Management:
 
@@ -143,13 +174,19 @@ The backend exposes the following API endpoints (example URLs):
 - `PUT /api/user/cart/:UserId/:ProductId/:productQuantity`: Update item quantity in cart.
 - `DELETE /api/user/cart/:UserId/:ProductId`: Remove item from cart.
 
+### Order Management:
+
+- `GET /api/order`: Get order items.
+- `POST /api/order`: generate payment link.
+- `POST /api/order/confirmation`: Add order.
+
 ### Product Catalog:
 
 - `GET /api/public/products`: Get all products.
 
 ### Contact Us:
 
-- `POST /api/public/contactUs`: Submit contact form.
+- `POST /api/public/contact-us`: Submit contact form.
 
 ### Newsletter:
 
@@ -157,15 +194,16 @@ The backend exposes the following API endpoints (example URLs):
 
 ## Screenshots
 
-![Home Page](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(338).png)
-![Home Page](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(339).png)
-![Footer](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(340).png)
-![Shop All](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(341).png)
-![Help](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(342).png)
-![About Us](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(343).png)
-![Log In](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(344).png)
-![Create Account](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(345).png)
-![Shop Product](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(346).png)
-![Profile Dashboard](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(347).png)
-![Cart Dashboard](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(349).png)
-![Stripe Checkout](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(350).png)
+![ERD Diagram](https://github.com/NelaniMaluka/kick-land/blob/Feature-Branch/README%20images/ERD.png)
+![Home Page](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(338).png>)
+![Home Page](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(339).png>)
+![Footer](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(340).png>)
+![Shop All](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(341).png>)
+![Help](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(342).png>)
+![About Us](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(343).png>)
+![Log In](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(344).png>)
+![Create Account](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(345).png>)
+![Shop Product](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(346).png>)
+![Profile Dashboard](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(347).png>)
+![Cart Dashboard](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(349).png>)
+![Stripe Checkout](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(350).png>)
