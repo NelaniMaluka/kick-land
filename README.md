@@ -194,7 +194,7 @@ The backend exposes the following API endpoints (example URLs):
 
 ## Screenshots
 
-![ERD Diagram](https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/ERD.png)
+![ERD Diagram](https://github.com/NelaniMaluka/kick-land/blob/Feature-Branch/README%20images/ERD.png)
 ![Home Page](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(338).png>)
 ![Home Page](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(339).png>)
 ![Footer](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(340).png>)
