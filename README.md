@@ -1,209 +1,118 @@
-# Kick Land - Sneaker E-commerce Platform
+# Manar Facility Solutions – React + Vite Website
 
-Kick Land is a full-stack web application that provides a platform for selling sneakers. It is built using React.js for the frontend and Java with Spring Boot for the backend. The application includes features such as user authentication, product browsing, shopping cart management, and profile management.
+A responsive, modern business website built using **React**, **Vite**, and **React Router**. This application showcases services, company information, and allows users to get in touch or book a service online.
 
-## Features
+[![Live Site](https://img.shields.io/badge/Live_Demo-Visit-brightgreen)](https://www.manarfacilitysolutions.com)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-- **Frontend**:
+---
 
-  - **Home Page**: Showcase of featured products and promotions.
-  - **Login Page**: User authentication and login functionality.
-  - **About Us Page**: Information about the company and its mission.
-  - **Help Page**: FAQs and support information.
-  - **Terms of Service Page**: Legal terms and conditions.
-  - **Refund Policy Page**: Details about the refund policy.
-  - **Shop Product Page**: Detailed view of a single product with options to select size and quantity.
-  - **Shop Products Page**: Display of all available products with filtering options for price or alphabetical order.
-  - **Profile Page**: User profile management with details such as name, surname, email, phone number, and order history.
-  - **Cart Page**: Display of all items in the shopping cart with total prices.
-  - **Orders Page**: Overview of all past orders with basic status updates.
-  - **Order Details Page**: In-depth information about a specific order, including product list, total price, and tracking.
-  - **Stripe Payment UI Page**: Interface for processing secure payments via Stripe.
+## 📁 Folder Structure
 
-- **Backend**:
-  - Built with Java using Spring Boot framework.
-  - Uses Spring Data JPA for data access layer (no database included in this version).
-  - RESTful API endpoints for various functionalities:
-    - User authentication (login, register).
-    - Forgot password processing (generate token/OTP and handle reset logic).
-    - OTP email sending (send verification code via email for password reset).
-    - Newsletter subscription.
-    - Contact Us form submissions.
-    - Update profile details.
-    - Update cart details.
-    - Order processing (place orders).
-    - Stripe payment processing (handle secure payment intents and confirmations).
-
-## Payment Processing
-
-Kick Land uses Stripe to process payments securely. Customers can checkout and pay for their orders using credit or debit cards.
-
-## Location Services
-
-For location details within South Africa, Kick Land utilizes Google Maps API. This enables accurate address lookup and location-based services tailored for South African users.
-
-## Technologies Used
-
-- **Frontend**:
-
-  - React.js
-  - React Router
-  - Redux
-  - Axios (for API calls)
-  - HTML/CSS/JavaScript
-
-- **Backend**:
-  - Java
-  - Spring Boot
-  - Spring Data JPA
-  - RESTful APIs
-
-## Getting Started
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/your-username/kick-land.git
+```txt
+manar-facility/
+├── public/
+│   ├── Images/                # Static assets like logos, icons, backgrounds
+│   └── favicon.ico            # Site icon
+├── src/
+│   ├── Components/            # All reusable UI components
+│   │   ├── GlobalSection/        # Global elements 
+│   │   ├── HomePageSections/     # Home Page elements
+│   │   ├── AboutPageSections/    # About Page elements
+│   │   └── ServicesPageSections/ # Services Page elements
+│   ├── Pages/                 # Top-level pages (HomePage, AboutPage, ServicesPage)
+│   ├── App.jsx                # App layout and route setup
+│   └── main.jsx               # React/Vite entry point
+├── index.html                 # HTML template
+├── package.json               # Project dependencies and scripts
+├── vite.config.js             # Vite configuration
+└── README.md                  # Project documentation
 ```
 
-2.Install dependencies for both frontend and backend:
+## 🎨 Figma Design
 
-```bash
-cd kick-land/frontend
-npm install
+The website was first designed in Figma before development. You can view the wireframes and design system below:
 
-cd ../backend
-# Setup your Java environment and dependencies (e.g., Maven)
-```
+[![Figma](https://img.shields.io/badge/View%20on-Figma-blue?logo=figma)](https://www.figma.com/design/aEWDoevHS1s6cMK9Tdl6zz/Manar-Facility-Solutions---Designs?node-id=530-887&t=yfV2ZlNORORvevKH-0)
 
-3.Configure backend API endpoint in the frontend:
+> This design guided layout decisions for responsiveness, branding, and user experience across pages.
 
-```bash
-// frontend/src/api/config.js
-const API_BASE_URL = 'http://localhost:8080/api'; // Update with your backend API URL
-export default API_BASE_URL;
-```
+## 🚀 Getting Started Locally
 
-4.Start the frontend and backend servers:
+### Prerequisites
 
-```bash
-# Start frontend server
-cd ../frontend
-npm start
+Ensure you have the following installed:
 
-# Start backend server (make sure your Java environment is set up)
-cd ../backend
-# Use your preferred method to start Spring Boot application (e.g., mvn spring-boot:run)
-```
+- [Node.js](https://nodejs.org/en/) (v16 or higher)
+- [Git](https://git-scm.com/)
 
-### Libraries Used in a React Project:
+### Installation
 
-1. **Formik:** Formik is a popular form library for React that helps with form handling, form validation, and form submission. It simplifies the process of managing form state and handling user inputs.
+1. **Clone the repository**
 
-2. **SweetAlert2:** SweetAlert2 is a beautiful, responsive, and customizable replacement for JavaScript's native alert, confirm, and prompt dialogs. It provides a more modern and user-friendly way to display alerts and notifications.
+   git clone https://github.com/your-username/manar-facility.git
+   cd manar-facility
 
-3. **Material-UI:** Material-UI is a popular React UI framework that provides pre-designed components following Google's Material Design guidelines. It includes components like buttons, inputs, dialogs, and more, all styled according to Material Design principles.
+2. **Install dependencies**
 
-4. **Bootstrap:** Bootstrap is a widely-used CSS framework that provides a set of styles and components for building responsive web applications. It includes a grid system, typography, forms, buttons, and other UI elements.
+   npm install
 
-5. **PrimeReact:** PrimeReact is a rich set of UI components for React, offering a variety of customizable and feature-rich components such as data tables, calendars, charts, and more.
+3. **Start development server**
 
-### Integrating These Libraries into Your React Application:
+   npm run dev
 
-1. **Formik:** To use Formik, you can install it using npm:
+4. **Open in your browser**
 
-   ```bash
-   npm install formik
+   http://localhost:5173
 
-   ```
+## 🛠️ Technologies Used
 
-2. **SweetAlert2:** Install SweetAlert2 via npm:
+- **React** – Component-based UI
+- **Vite** – Fast build tool
+- **React Router** – Routing & navigation
+- **JSX** – Declarative UI
+- **CSS Modules** – Scoped component styling
+- **Helmet Async** – SEO & meta tags
+- **Material UI Icons** – For navbar mobile icons
 
-   ```bash
-   npm install sweetalert2
+## 🌐 SEO & Performance
 
-   ```
+- Responsive design (desktop, tablet, mobile)
+- Meta tags via `react-helmet-async`
+- Image preloading for hero backgrounds
+- Schema markup (JSON-LD) for LocalBusiness
 
-3. **Material-UI:** Material-UI can be installed with npm:
+## 📦 Build for Production
 
-   ```bash
-   npm install @mui/material @emotion/react @emotion/styled
+1. Build the project:
 
-   ```
+   npm run build
 
-4. **Bootstrap:** If you want to use Bootstrap alongside Material-UI, you can install it:
+2. Preview the production build locally:
 
-```bash
- npm install bootstrap
-```
+   npm run preview
 
-5. **PrimeReact:** PrimeReact components can be installed via npm:
+3. Deploy using a service like:
 
-```bash
- npm install primereact primeicons
-```
+   - [Namecheap](https://www.namecheap.com/)
 
-## Access the Application
 
-- **Frontend:** [https://kick-land.web.app/](https://kick-land.web.app/)
-- **Backend (API):** [http://localhost:8080](http://localhost:8080)
+## 🙌 Contributing
 
-## API Endpoints
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-The backend exposes the following API endpoints (example URLs):
+## 📄 License
 
-### Authentication:
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
-- `POST /api/user/login`: User login.
-- `POST /api/user/create-account`: User registration.
+## ✨ Credits
 
-### Forgot Password:
+| Role      | Name                       | GitHub / LinkedIn                                  |
+|-----------|----------------------------|-----------------------------------------------------|
+| Designer  | Marina Au                  | [LinkedIn](https://www.linkedin.com/in/aumarina/)  |
+| Developer | Nelani Maluka              | [GitHub](https://github.com/NelaniMaluka)          |
+| Developer | Godfred                    | [GitHub](https://github.com/lux-mundi)             |
+| Developer | Sairam Soundararajan       | [GitHub](https://github.com/ssoundarararajan)      |
+| Developer | Divine Omale               | [GitHub](https://github.com/DivineOmale)           |
 
-`POST /forgot-password/verify-mail`: Email verification.
-`POST /forgot-password/verify-otp`: Otp validation.
-`POST /forgot-password/change-password`: New password.
-
-### Profile Management:
-
-- `PUT /api/user/update-user/:userId`: Update user profile.
-
-### Cart Management:
-
-- `GET /api/user/cart/:email`: Get cart items.
-- `POST /api/user/cart`: Add item to cart.
-- `PUT /api/user/cart/:UserId/:ProductId/:productQuantity`: Update item quantity in cart.
-- `DELETE /api/user/cart/:UserId/:ProductId`: Remove item from cart.
-
-### Order Management:
-
-- `GET /api/order`: Get order items.
-- `POST /api/order`: generate payment link.
-- `POST /api/order/confirmation`: Add order.
-
-### Product Catalog:
-
-- `GET /api/public/products`: Get all products.
-
-### Contact Us:
-
-- `POST /api/public/contact-us`: Submit contact form.
-
-### Newsletter:
-
-- `POST /api/public/newsletter`: Submit email form.
-
-## Screenshots
-
-![ERD Diagram](https://github.com/NelaniMaluka/kick-land/blob/Feature-Branch/README%20images/ERD.png)
-![Home Page](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(338).png>)
-![Home Page](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(339).png>)
-![Footer](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(340).png>)
-![Shop All](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(341).png>)
-![Help](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(342).png>)
-![About Us](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(343).png>)
-![Log In](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(344).png>)
-![Create Account](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(345).png>)
-![Shop Product](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(346).png>)
-![Profile Dashboard](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(347).png>)
-![Cart Dashboard](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(349).png>)
-![Stripe Checkout](<https://github.com/NelaniMaluka/kick-land/blob/master/README%20images/Screenshot%20(350).png>)
+> Built for **Manar Facility Solutions** – Gainesville, Alachua County, FL
